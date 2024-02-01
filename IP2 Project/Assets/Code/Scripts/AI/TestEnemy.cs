@@ -13,7 +13,7 @@ public class TestEnemy : MonoBehaviour
 
     [Space(10)]
     [SerializeField] private Position _playerPosition;
-    private Vector2? _targetPosition
+    private Vector2? _currentTargetPosition
     {
         get
         {
@@ -56,7 +56,7 @@ public class TestEnemy : MonoBehaviour
         _rootFSM = new StateMachine();
 
         // State Initialisation.
-        //  How will we do this?
+        _chaseState.InitialiseValues(() => _currentTargetPosition.Value);
 
 
         #region Root FSM Setup

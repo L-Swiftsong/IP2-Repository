@@ -13,15 +13,19 @@ namespace States.Base
         public override string Name { get => "Chasing"; }
 
 
-        // Readonly Variables.
-        private readonly Func<Vector2> _target;
+        // These variable should never be edited outside of the 'InitialiseValues' function.
+        private Func<Vector2> _target;
 
 
         // Movement Params.
         [SerializeField] private float _chaseSpeed;
 
 
-        // Constructor.
-        public Chase(Func<Vector2> target) => _target = target;
+        // Initialise the Chase State's values.
+        //  These values would ordinarily be readonly and set via constructor, but due to the method of creating the states we are testing to allow for runtime editing of parameters, we cannot do that.
+        public void InitialiseValues(Func<Vector2> target)
+        {
+            this._target = target;
+        }
     }
 }
