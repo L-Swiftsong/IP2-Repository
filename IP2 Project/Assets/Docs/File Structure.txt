@@ -1,0 +1,2 @@
+I am currently following the Folder Structure recommendations found here: 'https://unity.com/how-to/organizing-your-project#folder-structure-example-1'. Feel free to deviate if you wish, this is just how I've done it for the start of this project.
+- Lexy
