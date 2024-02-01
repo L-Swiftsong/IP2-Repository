@@ -1,0 +1,4 @@
+Lexy:
+	I am following the C# Naming Conventions laid out by Microsoft on the documentation page located here: 'https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/identifier-names'
+	It is recommended that everyone in a project follows the same naming conventions so as to avoid needing to interpret their changes in differing scripts,
+		however it is up to you all whether we stick with this style of naming conventions or use another.
