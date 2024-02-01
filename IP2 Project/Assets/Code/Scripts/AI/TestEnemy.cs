@@ -56,6 +56,7 @@ public class TestEnemy : MonoBehaviour
         _rootFSM = new StateMachine();
 
         // State Initialisation.
+        _patrolState.InitialiseValues(this.transform);
         _chaseState.InitialiseValues(() => _currentTargetPosition.Value);
 
 
