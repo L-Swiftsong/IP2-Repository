@@ -251,6 +251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 244744709}
   - component: {fileID: 244744708}
+  - component: {fileID: 244744710}
   m_Layer: 0
   m_Name: A*Grid
   m_TagString: Untagged
@@ -270,7 +271,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ee9d2fdce106af489a368c79da3ee69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 841404699}
   _gridTopRight: {x: 10, y: 5}
   _gridBottomLeft: {x: -10, y: -5}
   _nodeRadius: 0.5
@@ -292,6 +292,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &244744710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244744707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee29962ed6378194cbfc33a047b0f223, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _seeker: {fileID: 841404699}
+  _target: {fileID: 1819066437}
 --- !u!1 &253965567
 GameObject:
   m_ObjectHideFlags: 0
