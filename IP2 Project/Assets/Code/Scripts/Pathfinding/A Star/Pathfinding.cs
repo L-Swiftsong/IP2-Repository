@@ -8,6 +8,9 @@ namespace Pathfinding.AStar
     public class Pathfinding : MonoBehaviour
     {
         private Grid _grid;
+        private Heap<Node> _openSet;
+        private HashSet<Node> _closedSet;
+
         [SerializeField] private Transform _seeker, _target;
 
         private const int HORIZONTAL_MOVEMENT_COST = 10;
@@ -16,8 +19,16 @@ namespace Pathfinding.AStar
 
         private void Awake()
         {
+            // Get a reference to the grid.
             _grid = GetComponent<Grid>();
         }
+        private void Start()
+        {
+            // Initialise the open & closed sets.
+            _openSet = new Heap<Node>(_grid.MaxSize);
+            _closedSet = new HashSet<Node>();
+        }
+
         private void Update() => FindPath(_seeker.position, _target.position);
 
 
@@ -28,29 +39,19 @@ namespace Pathfinding.AStar
             Node targetNode = _grid.NodeFromWorldPos(targetPos);
 
 
-            // Create the Open & Closed Sets.
-            List<Node> openSet = new List<Node>();
-            HashSet<Node> closedSet = new HashSet<Node>(); // A Hashset is [Fill here].
-            openSet.Add(startNode);
+            // Clear the Open & Closed Sets.
+            _openSet.Clear();
+            _closedSet.Clear();
+
+            // Add the starting node to the Open Set.
+            _openSet.Add(startNode);
 
             // Loop through the nodes in the open set until there are none left.
-            while(openSet.Count > 0)
+            while(_openSet.Count > 0)
             {
-                // Loop through all nodes in the openSet and find the one with the lowest FCost.
-                Node currentNode = openSet[0];
-                for (int i = 1; i < openSet.Count; i++)
-                {
-                    // If this node has a lower FCost, then set it as the current node.
-                    if (openSet[i].FCost < currentNode.FCost)
-                        currentNode = openSet[i];
-                    // If the FCosts are equal, choose the node with the lower HCost.
-                    else if (openSet[i].FCost == currentNode.FCost && openSet[i].HCost < currentNode.HCost)
-                        currentNode = openSet[i];
-                }
-
-                // Mark the current node as evaluated.
-                openSet.Remove(currentNode);
-                closedSet.Add(currentNode);
+                // Get the first node in the openSet Heap (It will have the lowest FCost in the Heap due to how it is structured).
+                Node currentNode = _openSet.RemoveFirst();
+                _closedSet.Add(currentNode);
 
                 // If the current node is the target, we have found the target.
                 if (currentNode == targetNode)
@@ -64,13 +65,13 @@ namespace Pathfinding.AStar
                 foreach (Node neighbour in _grid.GetNodeNeighbours(currentNode))
                 {
                     // Ignore non-walkable neighbours or neighbours that have already been evaluated.
-                    if (!neighbour.IsWalkable || closedSet.Contains(neighbour))
+                    if (!neighbour.IsWalkable || _closedSet.Contains(neighbour))
                         continue;
 
                     // Calculate the cost to move to the neighbour from this node.
                     int newCostToNeightbour = currentNode.GCost + GetDistance(currentNode, neighbour);
 
-                    if (newCostToNeightbour < currentNode.GCost || !openSet.Contains(neighbour))
+                    if (newCostToNeightbour < currentNode.GCost || !_openSet.Contains(neighbour))
                     {
                         // Update the G & H Costs of the neighbour.
                         neighbour.GCost = newCostToNeightbour;
@@ -78,8 +79,8 @@ namespace Pathfinding.AStar
 
                         // Set the neighbour's parent to this node, as this is the shortest discovered distance to the node.
                         neighbour.ParentNode = currentNode;
-                        if (!openSet.Contains(neighbour))
-                            openSet.Add(neighbour);
+                        if (!_openSet.Contains(neighbour))
+                            _openSet.Add(neighbour);
                     }
                 }
             }
@@ -114,17 +115,9 @@ namespace Pathfinding.AStar
             // Calculate the distance on each axis.
             int xDistance = Mathf.Abs(a.GridX - b.GridX);
             int yDistance = Mathf.Abs(a.GridY - b.GridY);
-
-            // If the distance on the X is greater than that on the Y, then the distance on the Y is the number of diagonal moves we must take.
-            if (xDistance >= yDistance)
-            {
-                return DIAGONAL_MOVEMENT_COST * yDistance + HORIZONTAL_MOVEMENT_COST * (xDistance - yDistance);
-            }
-            // If the distance on the Y is greater than that on the X, then the distance on the X is the number of diagonal moves we must take.
-            else
-            {
-                return DIAGONAL_MOVEMENT_COST * xDistance + HORIZONTAL_MOVEMENT_COST * (yDistance - xDistance);
-            }
+            
+            // Calculate the number of steps required to reach the target node, subtracting steps for diagonals (The number of which are equal to the min between xDist and yDist).
+            return HORIZONTAL_MOVEMENT_COST * (xDistance + yDistance) + ((DIAGONAL_MOVEMENT_COST - 2 * HORIZONTAL_MOVEMENT_COST) * Mathf.Min(xDistance, yDistance));
         }
     }
 }

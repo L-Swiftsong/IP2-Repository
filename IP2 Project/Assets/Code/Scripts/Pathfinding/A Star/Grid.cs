@@ -15,6 +15,8 @@ namespace Pathfinding.AStar
         private Vector2 _gridCentre { get => (_gridTopRight + _gridBottomLeft) / 2f; }
         private Vector2 _gridExtents { get => _gridTopRight - _gridBottomLeft; }
 
+        public int MaxSize => _gridSizeX * _gridSizeY;
+
 
         [Header("Nodes")]
         [Tooltip("The radius that each node will occupy")][SerializeField] private float _nodeRadius;
@@ -27,7 +29,16 @@ namespace Pathfinding.AStar
         private Node[,] _grid;
 
 
-        private void Start()
+        [Header("Gizmos")]
+        [SerializeField] private bool _drawGizmos;
+        [SerializeField] private float _nodeGizmoSize;
+
+        [Space(5)]
+        [SerializeField] private bool _drawOnlyPaths;
+
+
+
+        private void Awake()
         {
             InitialiseGrid();
         }
@@ -113,19 +124,36 @@ namespace Pathfinding.AStar
 
         private void OnDrawGizmos()
         {
+            if (!_drawGizmos)
+                return;
+            
             // Draw the extents of the grid.
             Gizmos.DrawWireCube(_gridCentre, _gridExtents);
 
-            // Draw the points on the grid.
-            if (_grid != null)
+            if (_drawOnlyPaths)
             {
-                foreach (Node node in _grid)
+                if (Path != null)
                 {
-                    Gizmos.color = node.IsWalkable ? Color.green : Color.red;
-                    if (Path != null && Path.Contains(node))
-                        Gizmos.color = Color.yellow;
+                    Gizmos.color = Color.yellow;
+                    foreach (Node node in Path)
+                    {
+                        Gizmos.DrawCube(node.WorldPosition, Vector3.one * _nodeGizmoSize);
+                    }
+                }
+            }
+            else
+            {
+                // Draw the points on the grid.
+                if (_grid != null)
+                {
+                    foreach (Node node in _grid)
+                    {
+                        Gizmos.color = node.IsWalkable ? Color.green : Color.red;
+                        if (Path != null && Path.Contains(node))
+                            Gizmos.color = Color.yellow;
 
-                    Gizmos.DrawSphere(node.WorldPosition, _nodeRadius);
+                        Gizmos.DrawCube(node.WorldPosition, Vector3.one * _nodeGizmoSize);
+                    }
                 }
             }
         }
