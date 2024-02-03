@@ -5,11 +5,10 @@ using UnityEngine;
 
 namespace Pathfinding.AStar
 {
-    [RequireComponent(typeof(Grid), typeof(PathRequestManager))]
-    public class Pathfinding : MonoBehaviour
+    [RequireComponent(typeof(Grid))]
+    public class Pathfinding : MonoBehaviour, IPathfinder
     {
         private Grid _grid;
-        private PathRequestManager _requestManager;
 
         private Heap<Node> _openSet;
         private HashSet<Node> _closedSet;
@@ -20,19 +19,18 @@ namespace Pathfinding.AStar
 
         private void Awake()
         {
-            // Get a reference to the grid & request manager.
+            // Get a reference to the grid.
             _grid = GetComponent<Grid>();
-            _requestManager = GetComponent<PathRequestManager>();
         }
 
 
-        public void StartFindPath(Vector2 startPos, Vector2 targetPos)
+        public void StartFindPath(Vector2 startPos, Vector2 targetPos, Action<Path> callback)
         {
-            StartCoroutine(FindPath(startPos, targetPos));
+            StartCoroutine(FindPath(startPos, targetPos, callback));
         }
 
 
-        private IEnumerator FindPath(Vector2 startPos, Vector2 targetPos)
+        private IEnumerator FindPath(Vector2 startPos, Vector2 targetPos, Action<Path> callback)
         {
             // Get the start and target nodes.
             Node startNode = _grid.NodeFromWorldPos(startPos);
@@ -109,7 +107,7 @@ namespace Pathfinding.AStar
             if (wasPathSuccessful)
                 wayPoints = RetracePath(startNode, targetNode);
 
-            _requestManager.FinishedProcessingPath(wayPoints, wasPathSuccessful);
+            callback?.Invoke(new Path(wayPoints, wasPathSuccessful));
         }
         private Vector2[] RetracePath(Node startNode, Node endNode)
         {

@@ -10,7 +10,7 @@ public class TestUnit : MonoBehaviour
     [SerializeField] private float _moveSpeed = 5f;
 
     private Coroutine _followPathCoroutine;
-    private Vector2[] _path;
+    private Vector2[] _waypoints;
     private int _targetIndex;
 
 
@@ -20,20 +20,20 @@ public class TestUnit : MonoBehaviour
     }
 
 
-    private void OnPathFound(Vector2[] path, bool wasSuccessful)
+    private void OnPathFound(Path path)
     {
-        if (!wasSuccessful)
+        if (!path.IsValid)
             return;
 
         if (_followPathCoroutine != null)
             StopCoroutine(_followPathCoroutine);
 
-        _path = path;
+        _waypoints = path.Waypoints;
         _followPathCoroutine = StartCoroutine(FollowPath());
     }
     private IEnumerator FollowPath()
     {
-        Vector3 currentWaypoint = new Vector3(_path[0].x, _path[0].y, transform.position.z);
+        Vector3 currentWaypoint = new Vector3(_waypoints[0].x, _waypoints[0].y, transform.position.z);
 
         while (true)
         {
@@ -43,15 +43,15 @@ public class TestUnit : MonoBehaviour
                 _targetIndex++;
 
                 // If we have reached the end of our path, then stop looping.
-                if (_targetIndex >= _path.Length)
+                if (_targetIndex >= _waypoints.Length)
                 {
                     _targetIndex = 0;
-                    _path = new Vector2[0];
+                    _waypoints = new Vector2[0];
                     yield break;
                 }
 
                 // Update the current waypoint.
-                currentWaypoint = new Vector3(_path[_targetIndex].x, _path[_targetIndex].y, transform.position.z);
+                currentWaypoint = new Vector3(_waypoints[_targetIndex].x, _waypoints[_targetIndex].y, transform.position.z);
             }
 
             // Move towards the current waypoint.
@@ -64,15 +64,15 @@ public class TestUnit : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (_path != null && _path.Length > 0)
+        if (_waypoints != null && _waypoints.Length > 0)
         {
             Gizmos.color = Color.yellow;
-            for (int i = _targetIndex; i < _path.Length; i++)
+            for (int i = _targetIndex; i < _waypoints.Length; i++)
             {
                 if (i == _targetIndex)
-                    Gizmos.DrawLine(transform.position, _path[_targetIndex]);
+                    Gizmos.DrawLine(transform.position, _waypoints[_targetIndex]);
                 else
-                    Gizmos.DrawLine(_path[i - 1], _path[i]);
+                    Gizmos.DrawLine(_waypoints[i - 1], _waypoints[i]);
             }
         }
     }

@@ -7,13 +7,17 @@ namespace Pathfinding
 {
     public class PathRequestManager : MonoBehaviour
     {
+        private IPathfinder _pathfindingMethod;
+        private bool _isProcessingPath;
+        
+        
         private struct PathRequest
         {
             public Vector2 Start;
             public Vector2 End;
-            public Action<Vector2[], bool> Callback;
+            public Action<Path> Callback;
 
-            public PathRequest(Vector2 start, Vector2 end, Action<Vector2[], bool> callback)
+            public PathRequest(Vector2 start, Vector2 end, Action<Path> callback)
             {
                 this.Start = start;
                 this.End = end;
@@ -23,22 +27,19 @@ namespace Pathfinding
         private Queue<PathRequest> _pathRequestQueue = new Queue<PathRequest>();
         private PathRequest _currentPathRequest;
 
-        private AStar.Pathfinding _pathfindingMethod;
-        private bool _isProcessingPath;
 
         private static PathRequestManager Instance;
-
 
         private void Awake()
         {
             if (Instance == null)
                 Instance = this;
 
-            _pathfindingMethod = GetComponent<AStar.Pathfinding>();
+            _pathfindingMethod = GetComponent<IPathfinder>();
         }
 
 
-        public static void RequestPath(Vector2 start, Vector2 end, Action<Vector2[], bool> callback)
+        public static void RequestPath(Vector2 start, Vector2 end, Action<Path> callback)
         {
             PathRequest pathRequest = new PathRequest(start, end, callback);
 
@@ -58,11 +59,11 @@ namespace Pathfinding
             _isProcessingPath = true;
 
             // Process the current path request.
-            _pathfindingMethod.StartFindPath(_currentPathRequest.Start, _currentPathRequest.End);
+            _pathfindingMethod.StartFindPath(_currentPathRequest.Start, _currentPathRequest.End, FinishedProcessingPath);
         }
-        public void FinishedProcessingPath(Vector2[] path, bool success)
+        public void FinishedProcessingPath(Path path)
         {
-            _currentPathRequest.Callback(path, success);
+            _currentPathRequest.Callback?.Invoke(path);
         
             // Process the next path.
             _isProcessingPath = false;
