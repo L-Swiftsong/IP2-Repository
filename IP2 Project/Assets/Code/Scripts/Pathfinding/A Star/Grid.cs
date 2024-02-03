@@ -6,9 +6,6 @@ namespace Pathfinding.AStar
 {
     public class Grid : MonoBehaviour
     {
-        public List<Node> Path;
-
-
         [Header("Grid")]
         [SerializeField] private Vector2 _gridTopRight;
         [SerializeField] private Vector2 _gridBottomLeft;
@@ -32,9 +29,6 @@ namespace Pathfinding.AStar
         [Header("Gizmos")]
         [SerializeField] private bool _drawGizmos;
         [SerializeField] private float _nodeGizmoSize;
-
-        [Space(5)]
-        [SerializeField] private bool _drawOnlyPaths;
 
 
 
@@ -130,30 +124,14 @@ namespace Pathfinding.AStar
             // Draw the extents of the grid.
             Gizmos.DrawWireCube(_gridCentre, _gridExtents);
 
-            if (_drawOnlyPaths)
+            // Draw the points on the grid.
+            if (_grid != null)
             {
-                if (Path != null)
+                foreach (Node node in _grid)
                 {
-                    Gizmos.color = Color.yellow;
-                    foreach (Node node in Path)
-                    {
-                        Gizmos.DrawCube(node.WorldPosition, Vector3.one * _nodeGizmoSize);
-                    }
-                }
-            }
-            else
-            {
-                // Draw the points on the grid.
-                if (_grid != null)
-                {
-                    foreach (Node node in _grid)
-                    {
-                        Gizmos.color = node.IsWalkable ? Color.green : Color.red;
-                        if (Path != null && Path.Contains(node))
-                            Gizmos.color = Color.yellow;
+                    Gizmos.color = node.IsWalkable ? Color.green : Color.red;
 
-                        Gizmos.DrawCube(node.WorldPosition, Vector3.one * _nodeGizmoSize);
-                    }
+                    Gizmos.DrawCube(node.WorldPosition, Vector3.one * _nodeGizmoSize);
                 }
             }
         }
