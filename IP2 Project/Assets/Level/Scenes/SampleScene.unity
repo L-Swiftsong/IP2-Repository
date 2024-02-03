@@ -336,9 +336,9 @@ GameObject:
   - component: {fileID: 244744709}
   - component: {fileID: 244744708}
   - component: {fileID: 244744711}
-  - component: {fileID: 244744710}
+  - component: {fileID: 244744712}
   m_Layer: 0
-  m_Name: A*Grid
+  m_Name: Pathfinding Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -379,18 +379,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &244744710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244744707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee29962ed6378194cbfc33a047b0f223, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &244744711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -401,6 +389,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d7fe25a8b22e8446ab9fadd364da65d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &244744712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244744707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c663f328b4a85045b7b72078453a919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &253965567
@@ -998,7 +998,7 @@ Transform:
   m_GameObject: {fileID: 841404698}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.14, y: 3.47, z: 0}
+  m_LocalPosition: {x: -7.14, y: 3.97, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

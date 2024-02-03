@@ -20,10 +20,21 @@ namespace Pathfinding.AStar
         private float _nodeDiameter;
 
         [SerializeField] private LayerMask _obstacleMask;
+        public LayerMask ObstacleMask => _obstacleMask;
 
 
         private int _gridSizeX, _gridSizeY;
         private Node[,] _grid;
+        public Node this[int x, int y]
+        {
+            get
+            {
+                if (_grid == null)
+                    return null;
+
+                return _grid[x, y];
+            }
+        }
 
 
         [Header("Gizmos")]
