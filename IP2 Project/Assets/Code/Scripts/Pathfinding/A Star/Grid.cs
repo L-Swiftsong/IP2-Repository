@@ -99,7 +99,7 @@ namespace Pathfinding.AStar
                     int nodeY = node.GridY + y;
 
                     // Check if this node is within the grid's boundaries.
-                    if ((nodeX >= 0 && nodeX < _gridSizeX) && (nodeY >= 0 && nodeY < _gridSizeX))
+                    if ((nodeX >= 0 && nodeX < _gridSizeX) && (nodeY >= 0 && nodeY < _gridSizeY))
                     {
                         // If this is true, add this node to the list of neighbours.
                         neighbours.Add(_grid[nodeX, nodeY]);

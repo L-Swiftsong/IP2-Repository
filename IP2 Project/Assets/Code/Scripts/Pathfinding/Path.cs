@@ -7,7 +7,8 @@ namespace Pathfinding
     public struct Path
     {
         public Vector2[] Waypoints { get; set; }
-        public bool IsValid { get; }
+        public bool IsValid { get; set; }
+
 
         public Path(Vector2[] waypoints, bool isValid)
         {

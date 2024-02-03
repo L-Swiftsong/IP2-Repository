@@ -39,8 +39,7 @@ namespace Pathfinding.AStar.ThetaStar
 
 
             // Create the Path.
-            Vector2[] waypoints = new Vector2[0];
-            bool wasPathSuccessful = false;
+            Path path = new Path();
 
 
             // If the target node is not walkable, then we shouldn't attempt pathfinding (We can later have this find the closest point on the grid)
@@ -53,9 +52,7 @@ namespace Pathfinding.AStar.ThetaStar
             {
                 _openSet = new Heap<Node>(_grid.MaxSize);
                 _closedSet = new HashSet<Node>();
-            }
-            else
-            {
+            } else {
                 // Otherwise, just clear the sets.
                 _openSet.Clear();
                 _closedSet.Clear();
@@ -77,10 +74,10 @@ namespace Pathfinding.AStar.ThetaStar
                 // If the current node is our target, we have found the target.
                 if (currentNode == targetNode)
                 {
-                    Debug.Log("Path Found");
-                    wasPathSuccessful = true;
+                    path.IsValid = true;
                     break;
                 }
+
 
                 // Loop over each neighbour.
                 foreach (Node neighbour in _grid.GetNodeNeighbours(currentNode))
@@ -104,10 +101,11 @@ namespace Pathfinding.AStar.ThetaStar
         ReturnPath:
             yield return null;
 
-            if (wasPathSuccessful)
-                waypoints = RetracePath(startNode, targetNode);
+            // If a path has been found, then set the path's waypoints.
+            if (path.IsValid)
+                path.Waypoints = RetracePath(startNode, targetNode);
 
-            callback?.Invoke(new Path(waypoints, wasPathSuccessful));
+            callback?.Invoke(path);
         }
 
         private void UpdateNodeCost(Node currentNode, Node neighbourNode, Node targetNode)
@@ -116,7 +114,7 @@ namespace Pathfinding.AStar.ThetaStar
             int oldGCost = neighbourNode.GCost;
             ComputeCost(currentNode, neighbourNode);
 
-            // If the newCost is less than the old cost
+            // Check if the newCost is less than the old cost.
             if (neighbourNode.GCost < oldGCost)
             {
                 // Update the H Cost of the neighbour.
@@ -151,7 +149,7 @@ namespace Pathfinding.AStar.ThetaStar
                 // If the newCost is less than the current cost, then update the cost and parent node.
                 if (newCostToNeighbour < neighbour.GCost)
                 {
-                    // Update the G Cost of the neighbour.
+                    // Update the Parent & GCost of the neighbour.
                     neighbour.ParentNode = currentNode;
                     neighbour.GCost = newCostToNeighbour;
                 }
@@ -191,8 +189,6 @@ namespace Pathfinding.AStar.ThetaStar
         }
         private bool LineOfSight(Node startNode, Node targetNode)
         {
-            //return Physics2D.Linecast(a.WorldPosition, b.WorldPosition, _grid.ObstacleMask);
-
             // Cache values.
             int currentX = startNode.GridX; // Our current x position.
             int currentY = startNode.GridY; // Our current y position.
@@ -202,7 +198,7 @@ namespace Pathfinding.AStar.ThetaStar
             int xDiff = targetX - currentX; // Difference in X Positions between the current (Starting) & target X positions.
             int yDiff = targetY - currentY; // Difference in Y Positions between the current (Starting) & target Y positions.
 
-            int f = 0; 
+            int f = 0; // Still honestly unsure as to what f represents.
 
             int xMultiplier = 1; // A multiplier to control the sign of X (Pos vs Neg).
             int yMultiplier = 1; // A multiplier to control the sign of Y (Pos vs Neg).

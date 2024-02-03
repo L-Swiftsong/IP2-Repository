@@ -5,10 +5,15 @@ using UnityEngine;
 
 namespace Pathfinding.AStar
 {
+    /// <summary>
+    /// A* is a fairly flexible pathfinding solution.
+    ///     This version of A* is setup solely for 2D, and aims to find the shortest unobstructed path from a Starting Position to a Target Position.
+    /// </summary>
     [RequireComponent(typeof(Grid))]
     public class Pathfinding : MonoBehaviour, IPathfinder
     {
         private Grid _grid;
+        [SerializeField] private bool _useSmoothing = true;
 
         private Heap<Node> _openSet;
         private HashSet<Node> _closedSet;
@@ -24,11 +29,7 @@ namespace Pathfinding.AStar
         }
 
 
-        public void StartFindPath(Vector2 startPos, Vector2 targetPos, Action<Path> callback)
-        {
-            StartCoroutine(FindPath(startPos, targetPos, callback));
-        }
-
+        public void StartFindPath(Vector2 startPos, Vector2 targetPos, Action<Path> callback) => StartCoroutine(FindPath(startPos, targetPos, callback));
 
         private IEnumerator FindPath(Vector2 startPos, Vector2 targetPos, Action<Path> callback)
         {
@@ -38,8 +39,7 @@ namespace Pathfinding.AStar
 
 
             // Create the Path.
-            Vector2[] wayPoints = new Vector2[0];
-            bool wasPathSuccessful = false;
+            Path path = new Path();
 
 
             // If the target node is not walkable, then don't attempt pathfinding and immediately skip to returning the path.
@@ -58,6 +58,7 @@ namespace Pathfinding.AStar
                 _closedSet.Clear();
             }
 
+
             // Add the starting node to the Open Set.
             _openSet.Add(startNode);
 
@@ -72,7 +73,7 @@ namespace Pathfinding.AStar
                 // If the current node is the target, we have found the target.
                 if (currentNode == targetNode)
                 {
-                    wasPathSuccessful = true;
+                    path.IsValid = true;
                     break;
                 }
 
@@ -84,61 +85,70 @@ namespace Pathfinding.AStar
                     if (!neighbour.IsWalkable || _closedSet.Contains(neighbour))
                         continue;
 
-                    // Calculate the cost to move to the neighbour from this node.
-                    int newCostToNeightbour = currentNode.GCost + GetDistance(currentNode, neighbour);
-
-                    if (newCostToNeightbour < currentNode.GCost || !_openSet.Contains(neighbour))
-                    {
-                        // Update the G & H Costs of the neighbour.
-                        neighbour.GCost = newCostToNeightbour;
-                        neighbour.HCost = GetDistance(neighbour, targetNode);
-
-                        // Set the neighbour's parent to this node, as this is the shortest discovered distance to the node.
-                        neighbour.ParentNode = currentNode;
-                        if (!_openSet.Contains(neighbour))
-                            _openSet.Add(neighbour);
-                    }
+                    // Update the G & H costs of this neighbour.
+                    UpdateNodeCost(currentNode, neighbour, targetNode);
                 }
             }
 
-            ReturnPath:
+
+        ReturnPath:
             yield return null;
 
-            if (wasPathSuccessful)
-                wayPoints = RetracePath(startNode, targetNode);
+            // If a path has been found, then set the path's waypoints.
+            if (path.IsValid)
+                path.Waypoints = RetracePath(startNode, targetNode);
 
-            callback?.Invoke(new Path(wayPoints, wasPathSuccessful));
+            callback?.Invoke(path);
         }
+
+        private void UpdateNodeCost(Node currentNode, Node neighbourNode, Node targetNode)
+        {
+            // Calculate the cost to move to the neighbour from this node.
+            int newCostToNeightbour = currentNode.GCost + GetDistance(currentNode, neighbourNode);
+
+            if (newCostToNeightbour < currentNode.GCost || !_openSet.Contains(neighbourNode))
+            {
+                // Update the G & H Costs of the neighbour.
+                neighbourNode.GCost = newCostToNeightbour;
+                neighbourNode.HCost = GetDistance(neighbourNode, targetNode);
+
+                // Set the neighbour's parent to this node, as this is the shortest discovered distance to the node.
+                neighbourNode.ParentNode = currentNode;
+                if (!_openSet.Contains(neighbourNode))
+                    _openSet.Add(neighbourNode);
+            }
+        }
+
+
         private Vector2[] RetracePath(Node startNode, Node endNode)
         {
-            List<Node> path = new List<Node>();
-            
-            // Work backwards from the endNode.
-            Node currentNode = endNode;
+            List<Vector2> path = new List<Vector2>();
 
-            // Loop until we reach our start node.
+            // Work backwards from the endNode until we reach our startNode.
+            Node currentNode = endNode;
             while (currentNode != startNode)
             {
                 // Add the current node to the path.
-                path.Add(currentNode);
+                path.Add(currentNode.WorldPosition);
 
                 // Set the current node to this node's parent.
                 currentNode = currentNode.ParentNode;
             }
 
             // Smooth the path into waypoints.
-            Vector2[] waypoints = SmoothPath(path, startNode);
+            if (_useSmoothing)
+                path = SmoothPath(path, startNode);
 
             // Our path is currently in reverse, so reverse it to make it the correct direction and then output it.
-            Array.Reverse(waypoints);
-            return waypoints;
+            path.Reverse();
+            return path.ToArray();
         }
 
         // Generates only the waypoints from a list of nodes where the direction changes.
-        private Vector2[] SmoothPath(List<Node> path, Node startNode)
+        private List<Vector2> SmoothPath(List<Vector2> path, Node startNode)
         {
             List<Vector2> waypoints = new List<Vector2>();
-            waypoints.Add(path[0].WorldPosition);
+            waypoints.Add(path[0]);
 
             Vector2 oldDir = Vector2.zero;
 
@@ -146,21 +156,21 @@ namespace Pathfinding.AStar
             for (int i = 1; i < path.Count; i++)
             {
                 // Calculate the direction from the previous node to the current node.
-                Vector2 newDir = path[i].WorldPosition - path[i - 1].WorldPosition;
+                Vector2 newDir = path[i] - path[i - 1];
 
                 // If the direction has changed, then add this node's position to the waypoint list.
                 if (oldDir != newDir)
-                    waypoints.Add(path[i].WorldPosition);
+                    waypoints.Add(path[i]);
                 
                 // Update the direction.
                 oldDir = newDir;
             }
 
-            if (oldDir != path[path.Count - 1].WorldPosition - startNode.WorldPosition)
-                waypoints.Add(path[path.Count - 1].WorldPosition);
+            if (oldDir != path[path.Count - 1] - startNode.WorldPosition)
+                waypoints.Add(path[path.Count - 1]);
 
             // Return the waypoints list as an array.
-            return waypoints.ToArray();
+            return waypoints;
         }
 
 

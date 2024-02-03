@@ -16,8 +16,12 @@ public class TestUnit : MonoBehaviour
 
     private void Start()
     {
-        PathRequestManager.RequestPath(transform.position, _target.position, OnPathFound);
+        RequestPath();
     }
+
+
+    [ContextMenu(itemName: "Request Path")]
+    private void RequestPath() => PathRequestManager.RequestPath(transform.position, _target.position, OnPathFound);
 
 
     private void OnPathFound(Path path)
