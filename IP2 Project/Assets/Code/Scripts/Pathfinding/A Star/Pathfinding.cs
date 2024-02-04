@@ -13,7 +13,6 @@ namespace Pathfinding.AStar
     public class Pathfinding : MonoBehaviour, IPathfinder
     {
         private Grid _grid;
-        [SerializeField] private bool _useSmoothing = true;
 
         private Heap<Node> _openSet;
         private HashSet<Node> _closedSet;
@@ -135,21 +134,18 @@ namespace Pathfinding.AStar
                 currentNode = currentNode.ParentNode;
             }
 
-            // Smooth the path into waypoints.
-            if (_useSmoothing)
-                path = SmoothPath(path, startNode);
+            // Simplify the path so that waypoints are only placed where the direction changes.
+            path = SimplifyPath(path, startNode);
 
-            // Our path is currently in reverse, so reverse it to make it the correct direction and then output it.
+            // Our path is currently in reverse, so reverse it to make it the correct direction, then output it.
             path.Reverse();
             return path.ToArray();
         }
 
         // Generates only the waypoints from a list of nodes where the direction changes.
-        private List<Vector2> SmoothPath(List<Vector2> path, Node startNode)
+        private List<Vector2> SimplifyPath(List<Vector2> path, Node startNode)
         {
             List<Vector2> waypoints = new List<Vector2>();
-            waypoints.Add(path[0]);
-
             Vector2 oldDir = Vector2.zero;
 
             // Loop through each node in the path.
@@ -160,8 +156,10 @@ namespace Pathfinding.AStar
 
                 // If the direction has changed, then add this node's position to the waypoint list.
                 if (oldDir != newDir)
-                    waypoints.Add(path[i]);
-                
+                {
+                    waypoints.Add(path[i - 1]);
+                    Debug.DrawLine(path[i - 1] + Vector2.up, path[i - 1] + Vector2.down, Color.red, 5f);
+                }
                 // Update the direction.
                 oldDir = newDir;
             }
