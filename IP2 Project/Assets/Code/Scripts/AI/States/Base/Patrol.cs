@@ -14,6 +14,8 @@ namespace States.Base
 
         private Transform _transform;
         [SerializeField] private List<Vector2> _patrolPoints;
+        public List<Vector2> PatrolPoints => _patrolPoints; // For Debug.
+
         private int _currentPatrolPoint;
 
         private const float REACHED_POINT_THRESHOLD = 0.2f;
@@ -27,14 +29,14 @@ namespace States.Base
             [SerializeField] private bool _chooseRandomPoints;
 
 
-        public void InitialiseValues(Transform transformToMove) => _transform = transformToMove;
-
+        public void InitialiseValues(Transform transformToMove) => this._transform = transformToMove;
 
         public override void Init()
         {
             base.Init();
             ResetPatrolPoint(randomValue: false);
         }
+
         public override void OnLogic()
         {
             base.OnLogic();

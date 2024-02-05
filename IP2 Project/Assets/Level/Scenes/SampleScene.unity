@@ -336,15 +336,15 @@ GameObject:
   - component: {fileID: 244744709}
   - component: {fileID: 244744708}
   - component: {fileID: 244744711}
-  - component: {fileID: 244744712}
   - component: {fileID: 244744713}
+  - component: {fileID: 244744714}
   m_Layer: 0
   m_Name: Pathfinding Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &244744708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,13 +359,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gridTopRight: {x: 10, y: 5}
   _gridBottomLeft: {x: -10, y: -5}
-  _allowMovementBesideWalls: 1
-  _nodeRadius: 0.5
+  _allowMovementBesideWalls: 0
+  _nodeRadius: 0.25
   _obstacleMask:
     serializedVersion: 2
     m_Bits: 64
   _drawGizmos: 1
-  _nodeGizmoSize: 0.5
+  _nodeGizmoSize: 0.25
 --- !u!4 &244744709
 Transform:
   m_ObjectHideFlags: 0
@@ -393,19 +393,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7fe25a8b22e8446ab9fadd364da65d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &244744712
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244744707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee29962ed6378194cbfc33a047b0f223, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _orthogonalMovementOnly: 0
 --- !u!156049354 &244744713
 Grid:
   m_ObjectHideFlags: 0
@@ -418,6 +405,19 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!114 &244744714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244744707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee29962ed6378194cbfc33a047b0f223, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _orthogonalMovementOnly: 0
 --- !u!1 &253965567
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,7 +478,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &311566954
 Transform:
   m_ObjectHideFlags: 0
@@ -597,7 +597,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &374631426
 Transform:
   m_ObjectHideFlags: 0
@@ -627,7 +627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentStatePath: 
-  _playerPosition: {fileID: 11400000, guid: 0e098537d6b85684692cdd13c21fb24f, type: 2}
+  _target: {fileID: 841404699}
   _deadState:
     _objectToDestroy: {fileID: 374631425}
     _destroyDelay: 2
@@ -644,10 +644,21 @@ MonoBehaviour:
     _rotateSpeed: 270
     _chooseRandomPoints: 0
   _chaseState:
-    _chaseSpeed: 5
+    _chaseSpeed: 3
+    _faceTarget: 0
+    _rotationSpeed: 270
+  _attackingState:
+    _moveSpeed: 2
+    _rotationSpeed: 270
+    _keepDistance: 2
+    _maxDistance: 4
+    _smoothingPercent: 0.15
+    _exampleAttackRecovery: 0
   _isDead: 0
   _canSeePlayer: 0
   _returnToIdle: 0
+  _drawPatrolGizmos: 0
+  _drawAttackingGizmos: 1
 --- !u!114 &374631428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,7 +671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ede55f636badd14cb6d49017052621b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _faction: 0
+  _faction: 2
 --- !u!114 &374631429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -681,7 +692,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   _hearingStrength: 1
-  _drawGizmos: 1
+  _drawGizmos: 0
   _visionGizmosColour: {r: 1, g: 0, b: 0, a: 1}
   _hearingGizmosColour: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &519420028
@@ -1085,7 +1096,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &859467242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1099,7 +1110,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 841404699}
+  _updatePathDistance: 0.5
+  CHECK_TIME_DELAY: 2
   _moveSpeed: 1
+  _rotationSpeed: 270
+  _drawGizmos: 1
 --- !u!4 &859467243
 Transform:
   m_ObjectHideFlags: 0
@@ -1109,7 +1124,7 @@ Transform:
   m_GameObject: {fileID: 859467241}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.5, y: -0.5, z: 0}
+  m_LocalPosition: {x: -7.5, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1302,7 +1317,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1329112345
 Transform:
   m_ObjectHideFlags: 0
@@ -1312,7 +1327,7 @@ Transform:
   m_GameObject: {fileID: 1329112344}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2, y: 0, z: 0}
+  m_LocalPosition: {x: 2.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1875,7 +1890,7 @@ Transform:
   m_GameObject: {fileID: 2104009264}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -12,7 +12,7 @@ public class TestEnemy : MonoBehaviour
 
 
     [Space(10)]
-    [SerializeField] private Position _playerPosition;
+    [SerializeField] private Transform _target;
     private Vector2? _currentTargetPosition
     {
         get
@@ -20,9 +20,10 @@ public class TestEnemy : MonoBehaviour
             if (_canSeePlayer == false)
                 return null;
 
-            return _playerPosition.Value;
+            return _target.position;
         }
     }
+
 
 
     [Header("Root States")]
@@ -38,6 +39,7 @@ public class TestEnemy : MonoBehaviour
 
     [Header("Combat States")]
     [SerializeField] private Chase _chaseState;
+    [SerializeField] private Attacking _attackingState;
 
 
     [Header("Testing")]
@@ -46,6 +48,11 @@ public class TestEnemy : MonoBehaviour
 
     [Space(5)]
     [SerializeField] private bool _returnToIdle;
+
+
+    [Header("Debug")]
+    [SerializeField] private bool _drawPatrolGizmos;
+    [SerializeField] private bool _drawAttackingGizmos;
 
 
 
@@ -57,7 +64,8 @@ public class TestEnemy : MonoBehaviour
 
         // State Initialisation.
         _patrolState.InitialiseValues(this.transform);
-        _chaseState.InitialiseValues(() => _currentTargetPosition.Value);
+        _chaseState.InitialiseValues(() => _currentTargetPosition.Value, this.transform);
+        _attackingState.InitialiseValues(() => _currentTargetPosition.Value, this.transform);
 
 
         #region Root FSM Setup
@@ -102,11 +110,16 @@ public class TestEnemy : MonoBehaviour
 
         #region Combat FSM Setup
         _combatFSM.AddState(_chaseState);
+        _combatFSM.AddState(_attackingState);
 
         // Initial State
         _combatFSM.SetStartState(_chaseState);
 
         #region Transitions
+        _combatFSM.AddTwoWayTransition(
+            from: _chaseState,
+            to: _attackingState,
+            condition: t => Vector2.Distance(transform.position, _currentTargetPosition.Value) <= _attackingState.MaxAttackDistance);
         #endregion
         #endregion
 
@@ -131,4 +144,32 @@ public class TestEnemy : MonoBehaviour
         _currentStatePath = _rootFSM.GetActiveHierarchyPath();
     }
     private void FixedUpdate() => _rootFSM.OnFixedTick(); // Notify the Root State Machine to run OnFixedLogic.
+
+
+
+    private void OnDrawGizmos()
+    {
+        if (_drawPatrolGizmos)
+        {
+            Gizmos.color = Color.white;
+            foreach (Vector2 patrolPoint in _patrolState.PatrolPoints)
+            {
+                Gizmos.DrawWireSphere(patrolPoint, 0.5f);
+            }
+        }
+
+        if (_drawAttackingGizmos)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, _attackingState.KeepDistance);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, _attackingState.MaxAttackDistance);
+
+            Gizmos.color = Color.blue;
+            float targetDistance = (_attackingState.MaxAttackDistance + _attackingState.KeepDistance) / 2f;
+            float smoothingValue = (_attackingState.SmoothingThreshold * (_attackingState.MaxAttackDistance - _attackingState.KeepDistance)) / 2f;
+            Gizmos.DrawWireSphere(transform.position, targetDistance + smoothingValue);
+            Gizmos.DrawWireSphere(transform.position, targetDistance - smoothingValue);
+        }
+    }
 }
