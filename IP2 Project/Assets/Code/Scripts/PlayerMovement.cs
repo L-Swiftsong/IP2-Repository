@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float moveSpeed;
     public Rigidbody2D rb;
+    public bool sprint = false ;
 
     private Vector2 moveDirection;
 
@@ -28,13 +29,13 @@ public class PlayerMovement : MonoBehaviour
         if(Input.GetKeyDown("left shift"))
         {
             moveSpeed = 10;
+            sprint = true;
         }
         if (Input.GetKeyUp("left shift"))
         {
             moveSpeed = 5;
+            sprint = false;
         }
-        
-
         moveDirection = new Vector2(moveX, moveY).normalized;
     }
 
