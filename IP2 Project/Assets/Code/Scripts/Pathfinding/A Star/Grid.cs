@@ -11,6 +11,7 @@ namespace Pathfinding.AStar
         [SerializeField] private Vector2 _gridBottomLeft;
         private Vector2 _gridCentre { get => (_gridTopRight + _gridBottomLeft) / 2f; }
         private Vector2 _gridExtents { get => _gridTopRight - _gridBottomLeft; }
+        [SerializeField] private bool _allowMovementBesideWalls;
 
         public int MaxSize => _gridSizeX * _gridSizeY;
 
@@ -20,7 +21,6 @@ namespace Pathfinding.AStar
         private float _nodeDiameter;
 
         [SerializeField] private LayerMask _obstacleMask;
-        public LayerMask ObstacleMask => _obstacleMask;
 
 
         private int _gridSizeX, _gridSizeY;
@@ -73,7 +73,7 @@ namespace Pathfinding.AStar
                 {
                     // Calculate node values.
                     Vector2 worldPos = _gridBottomLeft + Vector2.right * (x * _nodeDiameter + _nodeRadius) + Vector2.up * (y * _nodeDiameter + _nodeRadius);
-                    bool isWalkable = !(Physics2D.OverlapCircle(worldPos, _nodeRadius, _obstacleMask));
+                    bool isWalkable = !(Physics2D.OverlapCircle(worldPos, _nodeRadius * (_allowMovementBesideWalls ? 0.95f : 1f), _obstacleMask));
 
                     // Create the new node.
                     _grid[x, y] = new Node(isWalkable, worldPos, x, y);
@@ -109,6 +109,47 @@ namespace Pathfinding.AStar
 
             return neighbours;
         }
+        public List<Node> GetOrthogonalNeighbours(Node node)
+        {
+            List<Node> neighbours = new List<Node>();
+
+            for (int x = -1; x <= 1; x++)
+            {
+                // Don't add the centre node to the list of neighbours.
+                if (x == 0)
+                    continue;
+
+                // Get the index of this node in the grid.
+                int nodeX = node.GridX + x;
+
+                // Check if this node is within the grid's boundaries.
+                if (nodeX >= 0 && nodeX < _gridSizeX)
+                {
+                    // If this is true, add this node to the list of neighbours.
+                    neighbours.Add(_grid[nodeX, node.GridY]);
+                }
+            }
+
+            for (int y = -1; y <= 1; y++)
+            {
+                // Don't add the centre node to the list of neighbours.
+                if (y == 0)
+                    continue;
+
+                // Get the index of this node in the grid.
+                int nodeY = node.GridY + y;
+
+                // Check if this node is within the grid's boundaries.
+                if (nodeY >= 0 && nodeY < _gridSizeY)
+                {
+                    // If this is true, add this node to the list of neighbours.
+                    neighbours.Add(_grid[node.GridX, nodeY]);
+                }
+            }
+
+            return neighbours;
+        }
+
 
         public Node NodeFromWorldPos(Vector2 worldPos)
         {

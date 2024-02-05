@@ -13,6 +13,7 @@ namespace Pathfinding.AStar
     public class Pathfinding : MonoBehaviour, IPathfinder
     {
         private Grid _grid;
+        [SerializeField] private bool _orthogonalMovementOnly;
 
         private Heap<Node> _openSet;
         private HashSet<Node> _closedSet;
@@ -78,7 +79,7 @@ namespace Pathfinding.AStar
 
 
                 // Loop over each neighbour.
-                foreach (Node neighbour in _grid.GetNodeNeighbours(currentNode))
+                foreach (Node neighbour in _orthogonalMovementOnly ? _grid.GetOrthogonalNeighbours(currentNode) : _grid.GetNodeNeighbours(currentNode))
                 {
                     // Ignore non-walkable neighbours or neighbours that have already been evaluated.
                     if (!neighbour.IsWalkable || _closedSet.Contains(neighbour))
