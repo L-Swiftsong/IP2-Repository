@@ -122,6 +122,8 @@ namespace Pathfinding.AStar.ThetaStar
 
                 if (!_openSet.Contains(neighbourNode))
                     _openSet.Add(neighbourNode);
+                else
+                    _openSet.UpdateItem(neighbourNode);
             }
         }
         private void ComputeCost(Node currentNode, Node neighbour)
@@ -130,6 +132,7 @@ namespace Pathfinding.AStar.ThetaStar
             if (currentNode.ParentNode != null && LineOfSight(currentNode.ParentNode, neighbour))
             {
                 // Calculate the cost to move to the neighbour from the current node.
+                // Note: How will we implement movementPenalties here?
                 int newCostFromParent = currentNode.ParentNode.GCost + GetDistance(currentNode.ParentNode, neighbour);
 
                 // If the newCost is less than the current cost, then update the cost and parent node.
@@ -144,7 +147,7 @@ namespace Pathfinding.AStar.ThetaStar
             else
             {
                 // Calculate the cost to move to the neighbour from the current node.
-                int newCostToNeighbour = currentNode.GCost + GetDistance(currentNode, neighbour);
+                int newCostToNeighbour = currentNode.GCost + Mathf.RoundToInt(GetDistance(currentNode, neighbour) * neighbour.MovementPenalty);
 
                 // If the newCost is less than the current cost, then update the cost and parent node.
                 if (newCostToNeighbour < neighbour.GCost)

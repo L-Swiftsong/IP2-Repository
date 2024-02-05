@@ -12,6 +12,9 @@ namespace Pathfinding.AStar
         public int GridY;
 
 
+        public float MovementPenalty;
+
+
         public int GCost;
         public int HCost;
         public int FCost => GCost + HCost;
@@ -22,12 +25,13 @@ namespace Pathfinding.AStar
         public Node ParentNode;
 
 
-        public Node(bool isWalkable, Vector2 worldPosition, int gridX, int gridY)
+        public Node(bool isWalkable, Vector2 worldPosition, int gridX, int gridY, float penalty)
         {
             this.IsWalkable = isWalkable;
             this.WorldPosition = worldPosition;
             this.GridX = gridX;
             this.GridY = gridY;
+            this.MovementPenalty = penalty;
         }
 
 

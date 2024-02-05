@@ -103,7 +103,7 @@ namespace Pathfinding.AStar
         private void UpdateNodeCost(Node currentNode, Node neighbourNode, Node targetNode)
         {
             // Calculate the cost to move to the neighbour from this node.
-            int newCostToNeightbour = currentNode.GCost + GetDistance(currentNode, neighbourNode);
+            int newCostToNeightbour = currentNode.GCost + Mathf.RoundToInt(GetDistance(currentNode, neighbourNode) * neighbourNode.MovementPenalty);
 
             if (newCostToNeightbour < currentNode.GCost || !_openSet.Contains(neighbourNode))
             {
@@ -113,8 +113,13 @@ namespace Pathfinding.AStar
 
                 // Set the neighbour's parent to this node, as this is the shortest discovered distance to the node.
                 neighbourNode.ParentNode = currentNode;
+
+
+                // If this node is currently in the open set, update it. Otherwise, add it to the open set.
                 if (!_openSet.Contains(neighbourNode))
                     _openSet.Add(neighbourNode);
+                else
+                    _openSet.UpdateItem(neighbourNode);
             }
         }
 
@@ -156,10 +161,8 @@ namespace Pathfinding.AStar
 
                 // If the direction has changed, then add this node's position to the waypoint list.
                 if (oldDir != newDir)
-                {
                     waypoints.Add(path[i - 1]);
-                    Debug.DrawLine(path[i - 1] + Vector2.up, path[i - 1] + Vector2.down, Color.red, 5f);
-                }
+
                 // Update the direction.
                 oldDir = newDir;
             }
@@ -177,9 +180,13 @@ namespace Pathfinding.AStar
             // Calculate the distance on each axis.
             int xDistance = Mathf.Abs(a.GridX - b.GridX);
             int yDistance = Mathf.Abs(a.GridY - b.GridY);
-            
+
             // Calculate the number of steps required to reach the target node, subtracting steps for diagonals (The number of which are equal to the min between xDist and yDist).
-            return HORIZONTAL_MOVEMENT_COST * (xDistance + yDistance) + ((DIAGONAL_MOVEMENT_COST - 2 * HORIZONTAL_MOVEMENT_COST) * Mathf.Min(xDistance, yDistance));
+            //return HORIZONTAL_MOVEMENT_COST * (xDistance + yDistance) + ((DIAGONAL_MOVEMENT_COST - 2 * HORIZONTAL_MOVEMENT_COST) * Mathf.Min(xDistance, yDistance));
+            if (xDistance > yDistance)
+                return DIAGONAL_MOVEMENT_COST * yDistance + HORIZONTAL_MOVEMENT_COST * (xDistance - yDistance);
+            else
+                return DIAGONAL_MOVEMENT_COST * xDistance + HORIZONTAL_MOVEMENT_COST * (yDistance - xDistance);
         }
     }
 }

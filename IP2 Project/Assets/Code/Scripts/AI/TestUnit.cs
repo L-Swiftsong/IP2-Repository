@@ -70,13 +70,16 @@ public class TestUnit : MonoBehaviour
     {
         if (_waypoints != null && _waypoints.Length > 0)
         {
-            Gizmos.color = Color.yellow;
             for (int i = _targetIndex; i < _waypoints.Length; i++)
             {
+                Gizmos.color = Color.yellow;
                 if (i == _targetIndex)
                     Gizmos.DrawLine(transform.position, _waypoints[_targetIndex]);
                 else
                     Gizmos.DrawLine(_waypoints[i - 1], _waypoints[i]);
+
+                Gizmos.color = Color.black;
+                Gizmos.DrawSphere(_waypoints[i], 0.2f);
             }
         }
     }
