@@ -5,6 +5,7 @@ using UnityEngine;
 public class EntitySenses : MonoBehaviour
 {
     [SerializeField, ReadOnly] private Transform _currentTarget;
+    public Transform CurrentTarget => _currentTarget;
     [SerializeField] private EntityFaction _thisFaction;
 
 

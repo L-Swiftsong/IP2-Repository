@@ -12,17 +12,7 @@ public class TestEnemy : MonoBehaviour
 
 
     [Space(10)]
-    [SerializeField] private Transform _target;
-    private Vector2? _currentTargetPosition
-    {
-        get
-        {
-            if (_canSeePlayer == false)
-                return null;
-
-            return _target.position;
-        }
-    }
+    [SerializeField] private EntitySenses _entitySenses;
 
 
 
@@ -44,7 +34,6 @@ public class TestEnemy : MonoBehaviour
 
     [Header("Testing")]
     [SerializeField] private bool _isDead;
-    [SerializeField] private bool _canSeePlayer;
 
     [Space(5)]
     [SerializeField] private bool _returnToIdle;
@@ -64,8 +53,8 @@ public class TestEnemy : MonoBehaviour
 
         // State Initialisation.
         _patrolState.InitialiseValues(this.transform);
-        _chaseState.InitialiseValues(() => _currentTargetPosition.Value, this.transform);
-        _attackingState.InitialiseValues(() => _currentTargetPosition.Value, this.transform);
+        _chaseState.InitialiseValues(() => _entitySenses.CurrentTarget.position, this.transform);
+        _attackingState.InitialiseValues(() => _entitySenses.CurrentTarget.position, this.transform);
 
 
         #region Root FSM Setup
@@ -84,7 +73,7 @@ public class TestEnemy : MonoBehaviour
         _rootFSM.AddTwoWayTransition(
             from: _unawareFSM,
             to: _combatFSM,
-            condition: t => _canSeePlayer);
+            condition: t => _entitySenses.CurrentTarget != null);
         #endregion
         #endregion
 
@@ -119,7 +108,7 @@ public class TestEnemy : MonoBehaviour
         _combatFSM.AddTwoWayTransition(
             from: _chaseState,
             to: _attackingState,
-            condition: t => Vector2.Distance(transform.position, _currentTargetPosition.Value) <= _attackingState.MaxAttackDistance);
+            condition: t => Vector2.Distance(transform.position, _entitySenses.CurrentTarget.position) <= _attackingState.MaxAttackDistance);
         #endregion
         #endregion
 

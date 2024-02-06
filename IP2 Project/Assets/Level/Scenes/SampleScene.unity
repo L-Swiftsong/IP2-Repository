@@ -417,7 +417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentStatePath: 
-  _target: {fileID: 253965569}
+  _entitySenses: {fileID: 374631429}
   _deadState:
     _objectToDestroy: {fileID: 374631425}
     _destroyDelay: 2
@@ -445,7 +445,6 @@ MonoBehaviour:
     _smoothingPercent: 0.15
     _exampleAttackRecovery: 0
   _isDead: 0
-  _canSeePlayer: 0
   _returnToIdle: 0
   _drawPatrolGizmos: 0
   _drawAttackingGizmos: 1
