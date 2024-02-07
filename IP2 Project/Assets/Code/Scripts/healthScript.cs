@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class healthScript : MonoBehaviour
 {
     public int health = 0;
-    public Text healthText;
+    public TMP_Text healthText;
 
     void Update()
     {
-       healthText.text = "health = " + health;
+       healthText.text = "Health: " + health;
     }
 }
