@@ -874,6 +874,8 @@ GameObject:
   m_Component:
   - component: {fileID: 914109620}
   - component: {fileID: 914109621}
+  - component: {fileID: 914109622}
+  - component: {fileID: 914109623}
   m_Layer: 0
   m_Name: Testing Dummy
   m_TagString: Untagged
@@ -918,6 +920,64 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
+--- !u!61 &914109622
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914109619}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &914109623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914109619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ede55f636badd14cb6d49017052621b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _faction: 0
 --- !u!1 &1089583005
 GameObject:
   m_ObjectHideFlags: 0
@@ -1523,6 +1583,7 @@ GameObject:
   - component: {fileID: 2061507349}
   - component: {fileID: 2061507344}
   - component: {fileID: 2061507350}
+  - component: {fileID: 2061507351}
   - component: {fileID: 2061507347}
   m_Layer: 0
   m_Name: Player
@@ -1676,6 +1737,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 959762d1-af1f-4b9a-bb7f-c1870e221b80
     m_ActionName: Default/Primary Attack[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2061507350}
+        m_TargetAssemblyTypeName: PlayerAttacks, Assembly-CSharp
+        m_MethodName: OnUseAbilityPressed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 72080326-bf76-499a-879c-c211bca0f351
+    m_ActionName: Default/Use Ability[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: MnK
   m_DefaultActionMap: Default
@@ -1729,10 +1806,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _primaryAttacks:
-  - name: Slash 1
-  - name: Slash 2
-  - name: Slash 3
+  - {fileID: 11400000, guid: 7f751aab5b85c7f4495e4caaf685b2da, type: 2}
+  - {fileID: 11400000, guid: 0d82c2cf8f9ce6b45adb19d57220ac1a, type: 2}
+  - {fileID: 11400000, guid: 910227fe832ee4e4a8611fb8bcdd49b4, type: 2}
+  _attackToDebug: 0
   _resetPrimaryComboDuration: 0.75
+  _temp: 0
+--- !u!114 &2061507351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2061507341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ede55f636badd14cb6d49017052621b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _faction: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Attack
+public abstract class Attack : ScriptableObject
 {
-    [SerializeField] private string name;
+    [SerializeField] protected bool CanHitSelf = false;
+    [SerializeField] protected bool CanHitAllies = false;
+    [SerializeField] protected LayerMask HitMask;
+
+
+    public abstract void MakeAttack(Transform attackingTransform);
+    public abstract void DrawGizmos(Transform gizmosOrigin);
 }
