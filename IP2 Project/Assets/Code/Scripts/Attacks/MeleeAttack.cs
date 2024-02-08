@@ -10,6 +10,9 @@ public class MeleeAttack : Attack
     [SerializeField] private Vector2 _extents;
     [SerializeField] private Vector2 _offset;
 
+    [Space(5)]
+    [SerializeField] private bool _reflectProjectiles;
+
 
     public override void MakeAttack(Transform attackingTransform)
     {
@@ -55,6 +58,11 @@ public class MeleeAttack : Attack
             // Deal damage.
             if (healthComponent != null)
                 healthComponent.TakeDamage();
+
+
+            // Reflect Projectiles.
+            if (_reflectProjectiles && targetTransform.TryGetComponent<Projectile>(out Projectile projectile))
+                projectile.Reflect(attackingTransform);
 
 
             // Add this transform to the list of already hit transforms.
