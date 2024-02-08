@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private LayerMask _hitMask;
     private ContactFilter2D _contactFilter;
+    private List<Collider2D> _ignoredColliders;
 
     private Vector2 _previousPosition;
     private Action<Collider2D> _callback;
@@ -15,7 +16,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private bool _canReflect;
 
 
-    public void Init(Action<Collider2D> callback)
+    public void Init(Collider2D ignoreCollider, Action<Collider2D> callback)
     {
         // Set the callback.
         this._callback = callback;
@@ -23,7 +24,14 @@ public class Projectile : MonoBehaviour
         // Initialize the contact filter.
         this._contactFilter = new ContactFilter2D();
         this._contactFilter.SetLayerMask(_hitMask);
-        
+
+        // Initialize the ignored colliders.
+        this._ignoredColliders = new List<Collider2D>
+        {
+            ignoreCollider,
+            this.GetComponent<Collider2D>()
+        };
+
         // Initialize the previousPosition.
         _previousPosition = transform.position;
     }
@@ -36,7 +44,8 @@ public class Projectile : MonoBehaviour
         // Detect hit colliders.
         RaycastHit2D[] results = new RaycastHit2D[1];
         if (Physics2D.Linecast(_previousPosition, transform.position, _contactFilter, results) > 0)
-            HitObject(results[0].collider);
+            if (!_ignoredColliders.Contains(results[0].collider))
+                HitObject(results[0].collider);
         
 
         // Update the previous position.
@@ -55,7 +64,7 @@ public class Projectile : MonoBehaviour
         if (reflectInFacingDirection)
             newUp = reflectionTransform.up;
         else
-            newUp = Vector2.Reflect((transform.position - reflectionTransform.position).normalized, reflectionTransform.up);
+            newUp = Vector2.Reflect(transform.up, reflectionTransform.up);
 
         // Set the new up.
         transform.up = newUp;

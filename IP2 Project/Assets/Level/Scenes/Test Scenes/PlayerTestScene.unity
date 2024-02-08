@@ -918,6 +918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _projectilePrefab: {fileID: 4263343964843693753, guid: 4232e69a6a3234a4ebe4dad5a4a8e5f2, type: 3}
+  _ignoredCollider: {fileID: 0}
   _initialDelay: 3
   _delayBetweenShots: 2
 --- !u!1 &675118925
@@ -1802,6 +1803,7 @@ GameObject:
   - component: {fileID: 2061507350}
   - component: {fileID: 2061507351}
   - component: {fileID: 2061507347}
+  - component: {fileID: 2061507352}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1970,6 +1972,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 72080326-bf76-499a-879c-c211bca0f351
     m_ActionName: Default/Use Ability[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2061507352}
+        m_TargetAssemblyTypeName: PlayerFaceDirection, Assembly-CSharp
+        m_MethodName: OnMouseInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 977edff1-5c2a-4b24-8bcc-ad671f1dab35
+    m_ActionName: Default/Mouse Position[/Mouse/position]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: MnK
   m_DefaultActionMap: Default
@@ -2042,6 +2060,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _faction: 1
+--- !u!114 &2061507352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2061507341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 085e25fde36f6344fad8d5bc99a89cc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerInput: {fileID: 2061507348}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

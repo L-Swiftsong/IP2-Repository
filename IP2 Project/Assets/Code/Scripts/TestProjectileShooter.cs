@@ -5,6 +5,7 @@ using UnityEngine;
 public class TestProjectileShooter : MonoBehaviour
 {
     [SerializeField] private GameObject _projectilePrefab;
+    [SerializeField] private Collider2D _ignoredCollider;
 
     [SerializeField] private float _initialDelay;
     [SerializeField] private float _delayBetweenShots;
@@ -21,7 +22,7 @@ public class TestProjectileShooter : MonoBehaviour
     private void Shoot()
     {
         Projectile projectile = Instantiate(_projectilePrefab, transform.position, Quaternion.LookRotation(Vector3.forward, transform.up)).GetComponent<Projectile>();
-        projectile.Init(DebugHit);
+        projectile.Init(_ignoredCollider, DebugHit);
 
         _nextShotTime = Time.time + _delayBetweenShots;
     }
