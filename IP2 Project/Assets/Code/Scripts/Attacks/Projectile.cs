@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Projectile : MonoBehaviour
 {
@@ -15,7 +16,6 @@ public class Projectile : MonoBehaviour
     
     [SerializeField] private LayerMask _hitMask;
     [SerializeField] private Factions _ignoredFactions;
-    private ContactFilter2D _contactFilter;
     
     private List<Collider2D> _ignoredColliders;
 
@@ -26,7 +26,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private bool _canReflect;
 
 
-    public void Init(Collider2D ignoreCollider, Action<Collider2D> callback, Factions ignoredFactions = Factions.Unaligned)
+    public void Init(Collider2D ignoreCollider, Action<Collider2D> callback, LayerMask? targetLayers = null, Factions ignoredFactions = Factions.Unaligned)
     {
         // Set the callback.
         this._callback = callback;
@@ -36,8 +36,8 @@ public class Projectile : MonoBehaviour
 
 
         // Initialize the contact filter.
-        this._contactFilter = new ContactFilter2D();
-        this._contactFilter.SetLayerMask(_hitMask);
+        if (targetLayers.HasValue)
+            _hitMask = targetLayers.Value;
 
         // Initialize the ignored colliders.
         this._ignoredColliders = new List<Collider2D>
@@ -83,6 +83,11 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // If the _hitMask does not contain the collided object's layer, then ignore it.
+        if (_hitMask != (_hitMask | (1 << collision.gameObject.layer)))
+            return;
+
+        
         // Ignore collisions with already collided colliders.
         if (_ignoredColliders.Contains(collision))
             return;

@@ -68,7 +68,6 @@ public class PlayerAttacks : MonoBehaviour
     }
     private void AttemptAttack(Attack attack)
     {
-        Debug.Log("Primary Attack: " + _primaryAttackIndex);
         // Make the attack.
         attack.MakeAttack(this.transform);
 

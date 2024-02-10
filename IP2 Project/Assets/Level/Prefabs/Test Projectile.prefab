@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8968659783282585639}
   - component: {fileID: 3332226374571333701}
   - component: {fileID: 426634844935904491}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Test Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,7 +126,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3134450868536959477}
   - component: {fileID: 7191975255201035292}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}

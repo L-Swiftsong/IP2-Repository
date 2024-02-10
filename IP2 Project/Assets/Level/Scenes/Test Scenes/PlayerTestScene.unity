@@ -579,7 +579,7 @@ GameObject:
   m_Component:
   - component: {fileID: 389465533}
   - component: {fileID: 389465534}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Temp GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1008,7 +1008,7 @@ GameObject:
   m_Component:
   - component: {fileID: 789137165}
   - component: {fileID: 789137166}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Direction Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1889,7 +1889,7 @@ GameObject:
   - component: {fileID: 2061507351}
   - component: {fileID: 2061507347}
   - component: {fileID: 2061507352}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1905,7 +1905,7 @@ Transform:
   m_GameObject: {fileID: 2061507341}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.378, y: 0.336, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
