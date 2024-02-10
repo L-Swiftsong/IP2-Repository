@@ -19,5 +19,6 @@ MonoBehaviour:
     m_Bits: 73
   RecoveryTime: 1
   _projectilePrefab: {fileID: 4263343964843693753, guid: 4232e69a6a3234a4ebe4dad5a4a8e5f2, type: 3}
+  _dealsDamage: 1
   _projectileCount: 1
   _angleBetweenProjectiles: 10

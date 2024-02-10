@@ -17,5 +17,6 @@ public abstract class Attack : ScriptableObject
 
 
     public abstract void MakeAttack(Transform attackingTransform);
+    public abstract void MakeAttack(Transform attackingTransform, Vector2 targetPos);
     public abstract void DrawGizmos(Transform gizmosOrigin);
 }

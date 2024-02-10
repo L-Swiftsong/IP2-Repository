@@ -27,6 +27,12 @@ public class PlayerAttacks : MonoBehaviour
     private bool _useAbilityHeld;
 
 
+    [Header("AoE Test")]
+    [SerializeField] private Camera _playerCam;
+    [SerializeField] private bool _throwToMouse;
+    private Vector2 _mousePosition;
+
+
     public void OnPrimaryAttack(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -40,6 +46,14 @@ public class PlayerAttacks : MonoBehaviour
             _useAbilityHeld = true;
         else if (context.canceled)
             _useAbilityHeld = false;
+    }
+    public void GetMousePosition(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Vector3 worldPos = _playerCam.ScreenToWorldPoint(context.ReadValue<Vector2>());
+            _mousePosition = worldPos;
+        }
     }
 
 
@@ -69,8 +83,19 @@ public class PlayerAttacks : MonoBehaviour
     private void AttemptAttack(Attack attack)
     {
         // Make the attack.
-        attack.MakeAttack(this.transform);
+        switch (attack)
+        {
+            case AoEAttack:
+                if (_throwToMouse)
+                    attack.MakeAttack(this.transform, _mousePosition);
+                else
+                    attack.MakeAttack(this.transform);
 
+                break;
+            default:
+                attack.MakeAttack(this.transform);
+                break;
+        }
 
         // Update the recovery time.
         _nextAttackAvailableTime = Time.time + attack.GetRecoveryTime();
@@ -94,6 +119,7 @@ public class PlayerAttacks : MonoBehaviour
     }
     private IEnumerator ResetPrimaryCombo()
     {
+        yield return new WaitUntil(() => CanAttack());
         yield return new WaitForSeconds(_resetPrimaryComboDuration);
 
         Debug.Log("Combo Reset");
