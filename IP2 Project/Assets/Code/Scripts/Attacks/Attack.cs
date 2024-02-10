@@ -9,6 +9,12 @@ public abstract class Attack : ScriptableObject
     [SerializeField] protected bool CanHitAllies = false;
     [SerializeField] protected LayerMask HitMask;
 
+    [Space(5)]
+    [SerializeField] protected float RecoveryTime;
+
+    public float GetRecoveryTime() => RecoveryTime;
+
+
 
     public abstract void MakeAttack(Transform attackingTransform);
     public abstract void DrawGizmos(Transform gizmosOrigin);
