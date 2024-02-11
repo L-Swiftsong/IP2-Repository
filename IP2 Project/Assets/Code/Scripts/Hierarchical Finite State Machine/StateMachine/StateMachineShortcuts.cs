@@ -132,37 +132,37 @@ namespace HFSM
                 ));
         }
 
-  //      /// <summary> Shortcut method for adding a new trigger transition that can happen from any possible state,
-  //      ///     but is only checked when the specified trigger is activated.
-  //      ///     It creates a new Transition() under the hood (See Transition for more information).</summary>
-  //      /// <remarks> When no condition or callbacks are required, it creates a TransitionBase for optimal performance,
-  //      ///     otherwise it creates a Transition object.</remarks>
-  //      /// <inheritdoc cref="Transition(
-  //      ///     IState,
-  //      ///     IState,
-  //      ///     Func{Transition, bool},
-		///// 	Action{Transition},
-  //      /// 	Action{Transition},
-  //      /// 	bool
-  //      /// )"/>
-  //      public static void AddTriggerTransitionFromAny<TEvent>(
-  //          this StateMachine<TEvent> fsm,
-  //          TEvent trigger,
-  //          IState to,
-  //          Func<Transition, bool> condition = null,
-  //          Action<Transition> onTransition = null,
-  //          Action<Transition> afterTransition = null,
-  //          bool forceInstantly = false)
-  //      {
-  //          fsm.AddTriggerTransitionFromAny(trigger, CreateOptimisedTransition(
-  //              default,
-  //              to,
-  //              condition,
-  //              onTransition: onTransition,
-  //              afterTransition: afterTransition,
-  //              forceInstantly: forceInstantly
-  //              ));
-  //      }
+        /// <summary> Shortcut method for adding a new trigger transition that can happen from any possible state,
+        ///     but is only checked when the specified trigger is activated.
+        ///     It creates a new Transition() under the hood (See Transition for more information).</summary>
+        /// <remarks> When no condition or callbacks are required, it creates a TransitionBase for optimal performance,
+        ///     otherwise it creates a Transition object.</remarks>
+        /// <inheritdoc cref="Transition(
+        ///     IState,
+        ///     IState,
+        ///     Func{Transition, bool},
+		/// 	Action{Transition},
+        /// 	Action{Transition},
+        /// 	bool
+        /// )"/>
+        public static void AddAnyTriggerTransition(
+            this StateMachine<Action> fsm,
+            IState to,
+            ref Action trigger,
+            Func<TriggerTransition, bool> condition = null,
+            Action<TriggerTransition> onTransition = null,
+            Action<TriggerTransition> afterTransition = null,
+            bool forceInstantly = false)
+        {
+            fsm.AddAnyTransition(new TriggerTransition(
+                default,
+                to,
+                ref trigger,
+                condition,
+                onTransition: onTransition,
+                afterTransition: afterTransition,
+                forceInstantly: forceInstantly));
+        }
 
 
         /// <summary> Shortcut method for adding two transitions:

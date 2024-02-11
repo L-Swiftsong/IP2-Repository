@@ -17,9 +17,14 @@ public class HealthComponent : MonoBehaviour
             _maxHealth = value;
             Debug.Log(this.name + " New Max Health: " + value);
 
+            int healthChange = Mathf.Max(0, value);
+
             // Constrain current health if it is larger than the new max.
             if (_currentHealthProperty > value)
                 _currentHealthProperty = value;
+            // If current health is less than the new max, and our max has increased, increase our current health by the same amount.
+            else if (healthChange > 0)
+                _currentHealthProperty += healthChange;
             // Otherwise, call the OnHealthChanged event.
             else
                 OnHealthChanged?.Invoke(new HealthChangedValues(_currentHealthProperty, value));
@@ -31,7 +36,7 @@ public class HealthComponent : MonoBehaviour
         set
         {
             // Health Changed Event.
-            OnHealthChanged?.Invoke(new HealthChangedValues());
+            OnHealthChanged?.Invoke(new HealthChangedValues(_currentHealthProperty, value, _maxHealth));
             
             // Clamp values between 0 & max.
             _currentHealth = Mathf.Clamp(value, 0, _maxHealthProperty);

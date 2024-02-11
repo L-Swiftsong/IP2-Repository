@@ -965,7 +965,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &646511045
 Transform:
   m_ObjectHideFlags: 0
@@ -1248,7 +1248,7 @@ MonoBehaviour:
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
-  _iFrameDuration: 0.5
+  _iFrameDuration: 0.2
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -2227,6 +2227,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2061507350}
+        m_TargetAssemblyTypeName: PlayerAttacks, Assembly-CSharp
+        m_MethodName: GetMousePosition
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 977edff1-5c2a-4b24-8bcc-ad671f1dab35
     m_ActionName: Default/Mouse Position[/Mouse/position]
   - m_PersistentCalls:
@@ -2303,7 +2315,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 910227fe832ee4e4a8611fb8bcdd49b4, type: 2}
   _attackToDebug: 0
   _resetPrimaryComboDuration: 0.75
-  _temp: 0
+  _currentAbility: {fileID: 11400000, guid: 1143c7af52cca614c8fdcaf247291a3b, type: 2}
+  _playerCam: {fileID: 519420031}
+  _throwToMouse: 0
 --- !u!114 &2061507351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2331,7 +2345,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerInput: {fileID: 2061507348}
   _playerCam: {fileID: 0}
-  _rotationSpeed: 360
+  _rotationSpeed: 720
 --- !u!1 &2099926163
 GameObject:
   m_ObjectHideFlags: 0

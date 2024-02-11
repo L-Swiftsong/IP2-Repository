@@ -14,7 +14,16 @@ public class MeleeAttack : Attack
     [SerializeField] private bool _reflectProjectiles;
 
 
-    public override void MakeAttack(Transform attackingTransform)
+    public override void MakeAttack(Transform attackingTransform) => ProcessAttack(attackingTransform, attackingTransform.up);
+    public override void MakeAttack(Transform attackingTransform, Vector2 targetPos)
+    {
+        Vector2 attackDirection = (targetPos - (Vector2)attackingTransform.position).normalized;
+
+        ProcessAttack(attackingTransform, attackDirection);
+    }
+
+
+    private void ProcessAttack(Transform attackingTransform, Vector2 attackDirection)
     {
         // Calculate ally factions.
         Factions allyFactions = Factions.Unaligned;
@@ -23,7 +32,7 @@ public class MeleeAttack : Attack
 
         // Calculate variables needed for OverlapBoxAll.
         Vector2 attackOrigin = attackingTransform.TransformPoint(_offset);
-        float attackAngle = attackingTransform.eulerAngles.z;
+        float attackAngle = Vector2.Angle(Vector2.up, attackDirection);
 
 
         // Create a list that will be used for our already hit targets.
@@ -34,7 +43,7 @@ public class MeleeAttack : Attack
         // Loop through each hit collider.
         foreach (Collider2D target in Physics2D.OverlapBoxAll(attackOrigin, _extents, attackAngle, HitMask))
         {
-            
+
             // Don't hit allies (If CanHitAllies is true, this should always return false due to allyFactions being set to Factions.Unaligned).
             if (target.TryGetComponentThroughParents<EntityFaction>(out entityFaction))
                 if (entityFaction.IsAlly(allyFactions))
