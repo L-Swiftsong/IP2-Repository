@@ -12,6 +12,13 @@ public class RangedAttack : Attack
     [SerializeField, Min(1)] private int _projectileCount;
     [SerializeField] private float _angleBetweenProjectiles;
 
+
+    [Header("Attack Variability")]
+    [Tooltip("The maximum for the projectile's accuracy deviation (In Degrees)")]
+        [SerializeField] private float _projectileAccuracy;
+    [Tooltip("Should each projectile be randomly rotated?")]
+        [SerializeField] private bool _individualAccuracy;
+
     
     public override void MakeAttack(Transform attackingTransform) => ProcessAttack(attackingTransform, attackingTransform.up);
     public override void MakeAttack(Transform attackingTransform, Vector2 targetPos)
@@ -31,13 +38,16 @@ public class RangedAttack : Attack
         if (!CanHitAllies && attackingTransform.TryGetComponent<EntityFaction>(out EntityFaction entityFaction))
             ignoredFactions = entityFaction.Faction;
 
-
+        float sharedAccuracyDeviation = Random.Range(-_projectileAccuracy, _projectileAccuracy);
         // Loop through for each projectile we should create.
         for (int i = 0; i < _projectileCount; i++)
         {
-            // Calculate the firing direction of this projectile.
-            float projectileAngle = minAngle + (_angleBetweenProjectiles * i);
-            Vector2 firingDirection = (Quaternion.Euler(0f, 0f, projectileAngle) * attackDirection).normalized;
+            // Calculate the accuracy deviation for this projetile.
+            float accuracyDeviation = _individualAccuracy ? Random.Range(-_projectileAccuracy, _projectileAccuracy) : sharedAccuracyDeviation;
+
+            // Calculate the firing direction for this projectile.
+            float firingAngle = minAngle + (_angleBetweenProjectiles * i) + accuracyDeviation;
+            Vector2 firingDirection = (Quaternion.Euler(0f, 0f, firingAngle) * attackDirection).normalized;
 
             // Create the projectile.
             CreateProjectile(attackingTransform, firingDirection, attackingCollider, ignoredFactions);
