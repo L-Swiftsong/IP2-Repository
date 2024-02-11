@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,12 +14,16 @@ public class TestEnemy : MonoBehaviour
 
     [Space(10)]
     [SerializeField] private EntitySenses _entitySenses;
+    [SerializeField] private HealthComponent _healthComponent;
 
+    private Action OnStunned;
+    private Action OnDied;
 
 
     [Header("Root States")]
     [SerializeField] private Unaware _unawareFSM;
     [SerializeField] private Combat _combatFSM;
+    [SerializeField] private Stunned _stunnedState;
     [SerializeField] private Dead _deadState;
 
 
@@ -32,13 +37,6 @@ public class TestEnemy : MonoBehaviour
     [SerializeField] private Attacking _attackingState;
 
 
-    [Header("Testing")]
-    [SerializeField] private bool _isDead;
-
-    [Space(5)]
-    [SerializeField] private bool _returnToIdle;
-
-
     [Header("Debug")]
     [SerializeField] private bool _drawPatrolGizmos;
     [SerializeField] private bool _drawAttackingGizmos;
@@ -48,6 +46,10 @@ public class TestEnemy : MonoBehaviour
     private StateMachine _rootFSM;
     private void Awake()
     {
+        if (_healthComponent == null)
+            _healthComponent = GetComponent<HealthComponent>();
+
+        
         #region State Machine Setup
         _rootFSM = new StateMachine();
 
@@ -60,20 +62,37 @@ public class TestEnemy : MonoBehaviour
         #region Root FSM Setup
         _rootFSM.AddState(_unawareFSM);
         _rootFSM.AddState(_combatFSM);
+        _rootFSM.AddState(_stunnedState);
         _rootFSM.AddState(_deadState);
 
         // Initial State.
         _rootFSM.SetStartState(_unawareFSM);
 
         #region Transitions
-        _rootFSM.AddAnyTransition(
+        _rootFSM.AddAnyTriggerTransition(
             to: _deadState,
-            condition: t => _isDead);
+            trigger: ref OnDied);
 
         _rootFSM.AddTwoWayTransition(
             from: _unawareFSM,
             to: _combatFSM,
             condition: t => _entitySenses.CurrentTarget != null);
+
+
+        // Stunned Transitions.
+        _rootFSM.AddTriggerTransition(
+            from: _unawareFSM,
+            to: _stunnedState,
+            trigger: ref OnStunned);
+        _rootFSM.AddTriggerTransition(
+            from: _combatFSM,
+            to: _stunnedState,
+            trigger: ref OnStunned);
+
+        _rootFSM.AddTransition(
+            from: _stunnedState,
+            to: _unawareFSM,
+            condition: t => _stunnedState.HasStunCompleted);
         #endregion
         #endregion
 
@@ -90,9 +109,6 @@ public class TestEnemy : MonoBehaviour
             from: _idleState,
             to: _patrolState,
             condition: t => _idleState.IsDelayComplete);
-        _unawareFSM.AddAnyTransition(
-            to: _idleState,
-            condition: t => _returnToIdle);
         #endregion
         #endregion
 
@@ -118,15 +134,23 @@ public class TestEnemy : MonoBehaviour
         #endregion
     }
 
+
+    private void OnEnable()
+    {
+        _healthComponent.OnHealthChanged.AddListener(HealthChanged);
+        _healthComponent.OnDeath.AddListener(Dead);
+    }
+    private void OnDisable()
+    {
+        _healthComponent.OnHealthChanged.RemoveListener(HealthChanged);
+        _healthComponent.OnDeath.RemoveListener(Dead);
+    }
+
+
     private void Update()
     {
         // Notify the Root State Machine to run OnLogic.
         _rootFSM.OnTick();
-
-
-        // Test Variable Resetting.
-        if (_returnToIdle)
-            _returnToIdle = false;
 
 
         // Debug Stuff.
@@ -134,6 +158,19 @@ public class TestEnemy : MonoBehaviour
     }
     private void FixedUpdate() => _rootFSM.OnFixedTick(); // Notify the Root State Machine to run OnFixedLogic.
 
+
+    private void HealthChanged(HealthChangedValues changedValues)
+    {
+        // Calculate the damage taken.
+        float damageTaken = changedValues.OldHealth - changedValues.NewHealth;
+        Debug.Log("Stunned: " + damageTaken);
+        
+        // If the damage taken is greater than or equal to the stunned state's stun threshold, then be stunned.
+        if (damageTaken >= _stunnedState.StunThreshold)
+            OnStunned?.Invoke();
+    }
+    private void Dead() => OnDied?.Invoke();
+    
 
 
     private void OnDrawGizmos()

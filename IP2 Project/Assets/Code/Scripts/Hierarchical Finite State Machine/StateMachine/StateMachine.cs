@@ -384,6 +384,16 @@ namespace HFSM
             // Add this transition to the list of global transitions.
             _transitionsFromAny.Add(transition);
         }
+        /// <summary> Adds a new transition that can happen from any possible state.</summary>
+        /// <param name="transition"> The transition instance. The "From" field can be left empty, as it has no meaning in this context.</param>
+        public void AddAnyTriggerTransition(TriggerTransition transition)
+        {
+            // Initialise the transition.
+            InitTransition(transition);
+
+            // Add this transition to the list of global transitions.
+            _transitionsFromAny.Add(transition);
+        }
 
 
         /// <summary> Adds two transitions:

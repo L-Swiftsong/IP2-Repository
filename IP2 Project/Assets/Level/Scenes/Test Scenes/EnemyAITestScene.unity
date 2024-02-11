@@ -379,6 +379,7 @@ GameObject:
   m_Component:
   - component: {fileID: 374631426}
   - component: {fileID: 374631427}
+  - component: {fileID: 374631430}
   - component: {fileID: 374631429}
   - component: {fileID: 374631428}
   m_Layer: 0
@@ -418,6 +419,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentStatePath: 
   _entitySenses: {fileID: 374631429}
+  _healthComponent: {fileID: 374631430}
+  _stunnedState:
+    _stunThreshold: 1
+    _stunDuration: 0.5
   _deadState:
     _objectToDestroy: {fileID: 374631425}
     _destroyDelay: 2
@@ -484,6 +489,27 @@ MonoBehaviour:
   _drawGizmos: 0
   _visionGizmosColour: {r: 1, g: 0, b: 0, a: 1}
   _hearingGizmosColour: {r: 0, g: 1, b: 0, a: 1}
+--- !u!114 &374631430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374631425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef112ba69d8367f42928fc453f7771da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 5
+  _currentHealth: 0
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _iFrameDuration: 0
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &475124055
 GameObject:
   m_ObjectHideFlags: 0

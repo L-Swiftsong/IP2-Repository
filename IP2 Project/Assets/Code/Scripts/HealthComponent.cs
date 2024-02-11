@@ -36,7 +36,7 @@ public class HealthComponent : MonoBehaviour
         set
         {
             // Health Changed Event.
-            OnHealthChanged?.Invoke(new HealthChangedValues());
+            OnHealthChanged?.Invoke(new HealthChangedValues(_currentHealthProperty, value, _maxHealth));
             
             // Clamp values between 0 & max.
             _currentHealth = Mathf.Clamp(value, 0, _maxHealthProperty);
