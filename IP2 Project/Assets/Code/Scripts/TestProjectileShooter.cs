@@ -11,8 +11,11 @@ public class TestProjectileShooter : MonoBehaviour
     [SerializeField] private float _delayBetweenShots;
     private float _nextShotTime;
 
+    [SerializeField] healthScript detectScript;
 
-    private void Start() => _nextShotTime = Time.time + _initialDelay;
+   
+
+    private void Start() =>_nextShotTime = Time.time + _initialDelay;
     private void Update()
     {
         if (Time.time > _nextShotTime)
@@ -23,8 +26,19 @@ public class TestProjectileShooter : MonoBehaviour
     {
         Projectile projectile = Instantiate(_projectilePrefab, transform.position, Quaternion.LookRotation(Vector3.forward, transform.up)).GetComponent<Projectile>();
         projectile.Init(_ignoredCollider, DebugHit);
+        projectile.Init(_ignoredCollider, PlayerHit);
 
         _nextShotTime = Time.time + _delayBetweenShots;
     }
     private void DebugHit(Collider2D hit) => Debug.Log(this.name + " hit: " + hit.name);
+
+    private void PlayerHit(Collider2D hit)
+    {
+        if (hit.name == "Player")
+        {
+            detectScript.health -= 1;
+        }
+    }
+        
+
 }

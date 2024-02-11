@@ -2,45 +2,117 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-
+    
     public float moveSpeed;
     public Rigidbody2D rb;
     public bool sprint = false;
 
+    public Image StaminaBar;
+
+    public float Stamina, MaxStamina;
+
+    public float DashCost;
+
+    private Coroutine recharge;
+    public float ChargeRate;
+
     private Vector2 movementInput;
     //private Vector2 moveDirection;
 
+    private float activeMoveSpeed;
+    public float dashSpeed;
+
+    public float dashLength = .5f, dashCooldown = 1f;
+
+    private float dashCounter;
+    private float dashCoolCounter;
+
+    private void Start()
+    {
+        activeMoveSpeed = moveSpeed;
+    }
 
     public void OnMovementInput(InputAction.CallbackContext context) => movementInput = context.ReadValue<Vector2>().normalized;
     public void OnSprintPressed(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            moveSpeed = 10f;
-            sprint = true;
+            if (dashCoolCounter <=0 && dashCounter <=0 && Stamina >=50)
+            {
+                activeMoveSpeed = dashSpeed;
+                dashCounter = dashLength;
+                Stamina -= DashCost;
+                StaminaBar.fillAmount = Stamina / MaxStamina;
+
+                if (recharge != null)StopCoroutine(recharge);
+                recharge = StartCoroutine(RechargeStamina());
+                
+            }
+            
         }
-        else if (context.canceled)
-        {
-            moveSpeed = 5f;
-            sprint = false;
-        }
+       
+       
     }
 
 
     //// Update is called once per frame
     //void Update()
     //{
-    //    ProcessInputs();
+    //    
     //}
 
     void FixedUpdate()
     {
         Move();
+        
     }
 
+    void Update()
+    {
+        if (dashCounter > 0)
+        {
+            dashCounter -= Time.deltaTime;
+
+            if (dashCounter <= 0)
+            {
+                activeMoveSpeed = moveSpeed;
+                dashCoolCounter = dashCooldown;
+            }
+        }
+
+        if (dashCoolCounter > 0)
+        {
+            dashCoolCounter -= Time.deltaTime;
+        }
+
+        
+
+    }
+
+    private IEnumerator RechargeStamina()
+    {
+        yield return new WaitForSeconds(1f);
+
+        while (Stamina < MaxStamina)
+        {
+            Stamina += ChargeRate / 10f;
+
+            if (Stamina > MaxStamina)
+            {
+                Stamina = MaxStamina;
+            }
+
+            StaminaBar.fillAmount = Stamina / MaxStamina;
+
+            yield return new WaitForSeconds(.1f);
+
+           
+        }
+    }
     //void ProcessInputs()
     //{
     //    float moveX = Input.GetAxisRaw("Horizontal");
@@ -60,6 +132,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Move()
     {
-        rb.velocity = movementInput * moveSpeed;
+        rb.velocity = movementInput * activeMoveSpeed;
     }
+
+
 }
