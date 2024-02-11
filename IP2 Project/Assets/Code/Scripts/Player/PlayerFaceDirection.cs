@@ -10,6 +10,7 @@ public class PlayerFaceDirection : MonoBehaviour
     [SerializeField] private Camera _playerCam;
 
     [SerializeField] private float _rotationSpeed;
+    private Vector2? _mousePosition;
     private Vector2 _targetDirection;
 
     private const string MOUSE_AND_KEYBOARD_SCHEME_NAME = "MnK";
@@ -20,19 +21,18 @@ public class PlayerFaceDirection : MonoBehaviour
         if (_playerInput.currentControlScheme == MOUSE_AND_KEYBOARD_SCHEME_NAME)
         {
             Vector3 worldPos = _playerCam.ScreenToWorldPoint(context.ReadValue<Vector2>());
-            _targetDirection = (worldPos - transform.position).normalized;
+            _mousePosition = worldPos;
         }
         else
         {
             Debug.LogWarning("Warning: Invalid Scheme");
-            _targetDirection = Vector2.zero;
+            _mousePosition = null;
         }
     }
     public void OnFaceDirection(InputAction.CallbackContext context)
     {
         if (_playerInput.currentControlScheme == GAMEPAD_SCHEME_NAME)
         {
-            Debug.Log("Using Gamepad");
             _targetDirection = context.ReadValue<Vector2>().normalized;
         }
         else
@@ -51,6 +51,12 @@ public class PlayerFaceDirection : MonoBehaviour
 
     private void Update()
     {
+        // If we are using the mouse position, update the target direction every frame.
+        //  This ensures that we keep facing the mouse even when the player moves but the mouse doesn't.
+        if (_mousePosition.HasValue)
+            _targetDirection = (_mousePosition.Value - (Vector2)transform.position).normalized;
+
+
         // Don't rotate if we have no input.
         if (_targetDirection == Vector2.zero)
             return;

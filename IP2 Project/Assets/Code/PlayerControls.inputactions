@@ -51,7 +51,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Face Diraction",
+                    "name": "Face Direction",
                     "type": "Value",
                     "id": "f53ef51e-db0b-4770-a636-3ee638b9148f",
                     "expectedControlType": "Vector2",
@@ -141,7 +141,7 @@
                 {
                     "name": "",
                     "id": "16b3a098-905b-40dd-bb34-43e4a940ca77",
-                    "path": "<Gamepad>/leftStickPress",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -211,7 +211,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Face Diraction",
+                    "action": "Face Direction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
