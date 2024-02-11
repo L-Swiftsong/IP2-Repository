@@ -492,7 +492,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &358225059
 RectTransform:
@@ -655,7 +655,7 @@ GameObject:
   m_Component:
   - component: {fileID: 389465533}
   - component: {fileID: 389465534}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Temp GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -998,6 +998,7 @@ MonoBehaviour:
   _ignoredCollider: {fileID: 0}
   _initialDelay: 0
   _delayBetweenShots: 2
+  detectScript: {fileID: 2061507347}
 --- !u!1 &675118925
 GameObject:
   m_ObjectHideFlags: 0
@@ -1121,7 +1122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 789137165}
   - component: {fileID: 789137166}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Direction Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1771,6 +1772,37 @@ Transform:
   - {fileID: 384712822}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1755330652
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1755330653}
+  m_Layer: 0
+  m_Name: Respawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1755330653
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1755330652}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.12, y: -0.08, z: 0.27779472}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1802825943
 GameObject:
   m_ObjectHideFlags: 0
@@ -2002,7 +2034,7 @@ GameObject:
   - component: {fileID: 2061507351}
   - component: {fileID: 2061507347}
   - component: {fileID: 2061507352}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2089,6 +2121,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 5
   healthText: {fileID: 1240379425}
+  Player: {fileID: 2061507341}
+  Projectile: {fileID: 4263343964843693753, guid: 4232e69a6a3234a4ebe4dad5a4a8e5f2, type: 3}
+  RespawnPoint: {fileID: 1755330652}
 --- !u!114 &2061507348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2377,11 +2412,12 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 358225059}
   - {fileID: 619394802}
   - {fileID: 675118926}
   - {fileID: 2061507343}
   - {fileID: 1510379483}
-  - {fileID: 358225059}
   - {fileID: 1362322266}
   - {fileID: 914109620}
   - {fileID: 646511045}
+  - {fileID: 1755330653}
