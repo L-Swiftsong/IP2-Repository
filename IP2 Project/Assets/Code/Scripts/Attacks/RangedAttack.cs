@@ -75,6 +75,37 @@ public class RangedAttack : Attack
     }
 
 
+    public override Vector2? CalculateInterceptionPosition(Vector2 startPos, Vector2 targetPos, Vector2 targetVelocity)
+    {
+        // Calculate values.
+        Vector2 startToTarget = startPos - targetPos;
+        float targetDistance = startToTarget.magnitude;
+        float targetVelocityDirection = Vector2.Angle(startToTarget, targetVelocity) * Mathf.Deg2Rad;
+        float targetSpeed = targetVelocity.magnitude;
+        float projectileSpeed = _projectilePrefab.GetComponent<Projectile>().ProjectileSpeed;
+
+
+        float r = targetSpeed / projectileSpeed;
+        // If there is no valid direction, then stop here.
+        if (MathFunctions.SolveQuadratic(
+            1 - (r * r),
+            2 * r * targetDistance * Mathf.Cos(targetVelocityDirection),
+            -(targetDistance * targetDistance),
+            out float root1,
+            out float root2) == 0)
+        {
+            return null;
+        }
+
+
+        // Find the positive root.
+        float distanceToEstimatedPosition = Mathf.Max(root1, root2);
+
+        // Calculate and output the interception position.
+        float timeToInterception = distanceToEstimatedPosition / projectileSpeed;
+        Debug.Log(targetVelocity);
+        return targetPos + targetVelocity * timeToInterception;
+    }
     public override void DrawGizmos(Transform gizmosOrigin)
     {
         Gizmos.color = Color.red;

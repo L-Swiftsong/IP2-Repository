@@ -18,6 +18,11 @@ namespace States.Base
 
         [Header("Attacks")]
         [SerializeField] private Attack _attack;
+        [SerializeField] private bool _predictTargetPosition;
+        private Vector2 _previousTargetPosition;
+
+
+        [Space(5)]
         [SerializeField] private float _maxAttackRange;
         private float _attackCooldownCompleteTime;
 
@@ -47,37 +52,49 @@ namespace States.Base
             base.OnLogic();
 
 
-            Vector2 targetDirection = _targetPos() - (Vector2)_movementTransform.position;
-            float distanceToTarget = targetDirection.magnitude;
-            targetDirection.Normalize();
+            // Calculate the position where our target is expected to be when our attack will land.
+            Vector2 targetPos = _targetPos();
+            Vector2? interceptionPosition = _attack.CalculateInterceptionPosition(_movementTransform.position, targetPos, (targetPos - _previousTargetPosition) / Time.deltaTime);
+            Vector2 estimatedTargetPos = interceptionPosition.HasValue ? interceptionPosition.Value : targetPos;
+            _previousTargetPosition = targetPos;
+
+
+            Vector2 targetDirection = (estimatedTargetPos - (Vector2)_movementTransform.position).normalized;
+            float distanceToTarget = Vector2.Distance(targetPos, _movementTransform.position);
 
 
             // If we are within range to attack, and our cooldown has elapsed, then make the attack.
             if (distanceToTarget < _maxAttackRange && Time.time >= _attackCooldownCompleteTime)
             {
-                _attack.MakeAttack(_movementTransform, _targetPos());
+                _attack.MakeAttack(_movementTransform, estimatedTargetPos);
                 _attackCooldownCompleteTime = Time.time + _attack.GetRecoveryTime();
             }
 
 
             // Calculate values for keeping distance.
+            Vector2 directionToMove = CalculateDirectionToMove(targetDirection, distanceToTarget);
+
+            // Move to keep distance.
+            _movementTransform.position += (Vector3)directionToMove * _moveSpeed * Time.deltaTime;
+
+            // Face target.
+            Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, targetDirection);
+            _movementTransform.rotation = Quaternion.RotateTowards(_movementTransform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
+        }
+
+        private Vector2 CalculateDirectionToMove(Vector2 directionToTarget, float distanceToTarget)
+        {
             Vector2 directionToMove = Vector2.zero;
             float targetDistance = (_maxDistance + _keepDistance) / 2f;
             float smoothingThreshold = _smoothingPercent * (_maxDistance - _keepDistance) / 2f;
 
             // Determine the movement vector & strength of this vector for keeping distance to the target.
             if (distanceToTarget > targetDistance + smoothingThreshold)
-                directionToMove = targetDirection * Mathf.Lerp(0f, 1f, distanceToTarget - targetDistance);
+                directionToMove = directionToTarget * Mathf.Lerp(0f, 1f, distanceToTarget - targetDistance);
             else if (distanceToTarget < targetDistance - smoothingThreshold)
-                directionToMove = -targetDirection * Mathf.Lerp(0f, 1f, targetDistance - distanceToTarget);
+                directionToMove = -directionToTarget * Mathf.Lerp(0f, 1f, targetDistance - distanceToTarget);
 
-            // Move to keep distance.
-            _movementTransform.position += (Vector3)directionToMove * _moveSpeed * Time.deltaTime;
-
-
-            // Face target.
-            Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, targetDirection);
-            _movementTransform.rotation = Quaternion.RotateTowards(_movementTransform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
+            return directionToMove;
         }
     }
 }

@@ -80,6 +80,7 @@ public class MeleeAttack : Attack
     }
 
 
+    public override Vector2? CalculateInterceptionPosition(Vector2 startPos, Vector2 targetPos, Vector2 targetVelocity) => targetPos;
     public override void DrawGizmos(Transform gizmosOrigin)
     {
         // Change the gizmos matrix into a local matrix around the origin transform, allowing for local offsets & rotations to be used.

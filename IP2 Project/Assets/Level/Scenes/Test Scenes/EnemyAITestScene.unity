@@ -444,13 +444,13 @@ MonoBehaviour:
     _rotationSpeed: 270
   _attackingState:
     _attack: {fileID: 11400000, guid: 75ec767df792f5b4fba90cd2ebfe937a, type: 2}
+    _predictTargetPosition: 0
     _maxAttackRange: 4
     _moveSpeed: 2
     _rotationSpeed: 270
     _keepDistance: 2
     _maxDistance: 4
     _smoothingPercent: 0.15
-    _exampleAttackRecovery: 0
   _drawPatrolGizmos: 0
   _drawAttackingGizmos: 1
 --- !u!114 &374631428
@@ -480,7 +480,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentTarget: {fileID: 0}
   _thisFaction: {fileID: 374631428}
-  _visionRadius: 5
+  _visionRadius: 6
   _visionAngle: 135
   _visibleLayers:
     serializedVersion: 2
