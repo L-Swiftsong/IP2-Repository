@@ -124,7 +124,7 @@ public class TestEnemy : MonoBehaviour
         _combatFSM.AddTwoWayTransition(
             from: _chaseState,
             to: _attackingState,
-            condition: t => Vector2.Distance(transform.position, _entitySenses.CurrentTarget.position) <= _attackingState.MaxAttackDistance);
+            condition: t => Vector2.Distance(transform.position, _entitySenses.CurrentTarget.position) <= _attackingState.MaxDistance);
         #endregion
         #endregion
 
@@ -175,27 +175,10 @@ public class TestEnemy : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (_drawPatrolGizmos)
-        {
-            Gizmos.color = Color.white;
-            foreach (Vector2 patrolPoint in _patrolState.PatrolPoints)
-            {
-                Gizmos.DrawWireSphere(patrolPoint, 0.5f);
-            }
-        }
+        if (_drawPatrolGizmos && _patrolState != null)
+            _patrolState.DrawGizmos();
 
-        if (_drawAttackingGizmos)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, _attackingState.KeepDistance);
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, _attackingState.MaxAttackDistance);
-
-            Gizmos.color = Color.blue;
-            float targetDistance = (_attackingState.MaxAttackDistance + _attackingState.KeepDistance) / 2f;
-            float smoothingValue = (_attackingState.SmoothingThreshold * (_attackingState.MaxAttackDistance - _attackingState.KeepDistance)) / 2f;
-            Gizmos.DrawWireSphere(transform.position, targetDistance + smoothingValue);
-            Gizmos.DrawWireSphere(transform.position, targetDistance - smoothingValue);
-        }
+        if (_drawAttackingGizmos && _attackingState != null)
+            _attackingState.DrawGizmos(transform);
     }
 }

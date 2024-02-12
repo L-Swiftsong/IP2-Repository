@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using HFSM;
-using System;
+
 
 namespace States.Base
 {
@@ -35,9 +36,7 @@ namespace States.Base
         [SerializeField] private float _keepDistance;
         [SerializeField] private float _maxDistance;
         [SerializeField, Range(0f, 1f)] private float _smoothingPercent;
-        public float MaxAttackDistance => _maxDistance;
-        public float KeepDistance => _keepDistance; // For Debug.
-        public float SmoothingThreshold => _smoothingPercent * (_maxDistance - _keepDistance) / 2f; // For Debug;
+        public float MaxDistance => _maxDistance;
 
 
         public void InitialiseValues(Func<Vector2> target, Transform movementTransform)
@@ -95,6 +94,28 @@ namespace States.Base
                 directionToMove = -directionToTarget * Mathf.Lerp(0f, 1f, targetDistance - distanceToTarget);
 
             return directionToMove;
+        }
+
+
+        public void DrawGizmos(Transform gizmosOrigin)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(gizmosOrigin.position, _keepDistance); // (Gizmo) Draw 'Keep Distance' Radius.
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(gizmosOrigin.position, _maxDistance); // (Gizmo) Draw 'Max Distance' Radius.
+
+
+            // (Gizmo) Draw Max Attack Radius.
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(gizmosOrigin.position, _maxAttackRange);
+
+
+            // (Gizmo) Draw Threshold Radii.
+            Gizmos.color = Color.blue;
+            float targetDistance = (_maxDistance + _keepDistance) / 2f;
+            float smoothingValue = (_smoothingPercent * (_maxDistance - _keepDistance)) / 2f;
+            Gizmos.DrawWireSphere(gizmosOrigin.position, targetDistance + smoothingValue);
+            Gizmos.DrawWireSphere(gizmosOrigin.position, targetDistance - smoothingValue);
         }
     }
 }
