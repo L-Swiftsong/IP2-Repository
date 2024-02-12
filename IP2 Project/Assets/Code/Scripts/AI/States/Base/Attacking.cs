@@ -16,6 +16,12 @@ namespace States.Base
         private Transform _movementTransform;
 
 
+        [Header("Attacks")]
+        [SerializeField] private Attack _attack;
+        [SerializeField] private float _maxAttackRange;
+        private float _attackCooldownCompleteTime;
+
+
         [Header("Keep Distance")]
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _rotationSpeed;
@@ -29,12 +35,6 @@ namespace States.Base
         public float SmoothingThreshold => _smoothingPercent * (_maxDistance - _keepDistance) / 2f; // For Debug;
 
 
-
-        [Header("Example Attack Variables")]
-        [SerializeField] private float _exampleAttackRecovery;
-        private float _attackRecoveryCompleteTime;
-
-
         public void InitialiseValues(Func<Vector2> target, Transform movementTransform)
         {
             this._targetPos = target;
@@ -46,14 +46,19 @@ namespace States.Base
         {
             base.OnLogic();
 
-            // If we are still recovering from an attack, stop here.
-            if (Time.time < _attackRecoveryCompleteTime)
-                return;
-
 
             Vector2 targetDirection = _targetPos() - (Vector2)_movementTransform.position;
             float distanceToTarget = targetDirection.magnitude;
             targetDirection.Normalize();
+
+
+            // If we are within range to attack, and our cooldown has elapsed, then make the attack.
+            if (distanceToTarget < _maxAttackRange && Time.time >= _attackCooldownCompleteTime)
+            {
+                _attack.MakeAttack(_movementTransform, _targetPos());
+                _attackCooldownCompleteTime = Time.time + _attack.GetRecoveryTime();
+            }
+
 
             // Calculate values for keeping distance.
             Vector2 directionToMove = Vector2.zero;
