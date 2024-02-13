@@ -9,6 +9,7 @@ public class Projectile : MonoBehaviour
 {
     [Header("Projectile")]
     [SerializeField] private float _speed;
+    public float ProjectileSpeed => _speed;
 
 
     [Header("Collision")]

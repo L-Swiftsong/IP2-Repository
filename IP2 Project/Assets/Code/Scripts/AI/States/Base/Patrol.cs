@@ -14,11 +14,10 @@ namespace States.Base
 
         private Transform _transform;
         [SerializeField] private List<Vector2> _patrolPoints;
-        public List<Vector2> PatrolPoints => _patrolPoints; // For Debug.
-
         private int _currentPatrolPoint;
 
         private const float REACHED_POINT_THRESHOLD = 0.2f;
+
 
         [Space(5)]
         [SerializeField] private float _patrolSpeed;
@@ -81,6 +80,17 @@ namespace States.Base
                 _currentPatrolPoint = Random.Range(0, _patrolPoints.Count);
             else
                 _currentPatrolPoint = 0;
+        }
+
+
+
+        public void DrawGizmos()
+        {
+            Gizmos.color = Color.white;
+            foreach (Vector2 patrolPoint in _patrolPoints)
+            {
+                Gizmos.DrawWireSphere(patrolPoint, 0.5f);
+            }
         }
     }
 }

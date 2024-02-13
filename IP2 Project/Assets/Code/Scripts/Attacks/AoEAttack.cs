@@ -51,6 +51,8 @@ public class AoEAttack : Attack
     }
 
 
+    public override Vector2? CalculateInterceptionPosition(Vector2 startPos, Vector2 targetPos, Vector2 targetVelocity) => targetPos + targetVelocity * _aoeDelay;
+    
     public override void DrawGizmos(Transform gizmosOrigin)
     {
         Gizmos.color = Color.red;
