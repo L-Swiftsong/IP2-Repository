@@ -2309,15 +2309,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09719135b5ef98740b540725cbf246f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _primaryAttacks:
-  - {fileID: 11400000, guid: 7f751aab5b85c7f4495e4caaf685b2da, type: 2}
-  - {fileID: 11400000, guid: 0d82c2cf8f9ce6b45adb19d57220ac1a, type: 2}
-  - {fileID: 11400000, guid: 910227fe832ee4e4a8611fb8bcdd49b4, type: 2}
+  _primaryWeapon:
+    _weapon: {fileID: 11400000, guid: 01ece5847bf07be4ea69247f6114148b, type: 2}
   _attackToDebug: 0
-  _resetPrimaryComboDuration: 0.75
   _currentAbility: {fileID: 11400000, guid: 1143c7af52cca614c8fdcaf247291a3b, type: 2}
   _playerCam: {fileID: 519420031}
-  _throwToMouse: 0
+  _throwToMouse: 1
 --- !u!114 &2061507351
 MonoBehaviour:
   m_ObjectHideFlags: 0

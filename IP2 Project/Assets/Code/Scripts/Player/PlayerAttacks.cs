@@ -7,18 +7,10 @@ using UnityEngine.InputSystem;
 public class PlayerAttacks : MonoBehaviour
 {
     [Header("Primary Attacks")]
-    [SerializeField] private Attack[] _primaryAttacks;
-    private int _primaryAttackIndex;
+    [SerializeField] private WeaponWrapper _primaryWeapon;
     private bool _primaryAttackHeld;
 
-    private float _nextAttackAvailableTime;
-
     [SerializeField, Min(0)] private int _attackToDebug;
-
-
-    [Space(5)]
-    [SerializeField] private float _resetPrimaryComboDuration;
-    private Coroutine _resetPrimaryComboCoroutine;
 
 
     [Header("Abilities")]
@@ -57,6 +49,8 @@ public class PlayerAttacks : MonoBehaviour
     }
 
 
+    private void Start() => _primaryWeapon = new WeaponWrapper(_primaryWeapon.Weapon, this);
+
     private void Update()
     {
         // Abilities are checked before attacks.
@@ -64,66 +58,23 @@ public class PlayerAttacks : MonoBehaviour
         {
             UseAbility();
         }
-        else if (_primaryAttackHeld && CanAttack())
+        else if (_primaryAttackHeld)
         {
-            AttemptAttack(_primaryAttacks[_primaryAttackIndex]);
+            AttemptAttack(_primaryWeapon);
         }
     }
 
+    private void AttemptAttack(WeaponWrapper weapon) => weapon.MakeAttack(_mousePosition, throwToMouse: _throwToMouse);
 
-    private bool CanAttack()
+
+    public void EquipWeapon(Weapon newWeapon, bool replacePrimary = true)
     {
-        // If we cannot attack yet, return false.
-        if (_nextAttackAvailableTime >= Time.time)
-            return false;
+        WeaponWrapper newWrapper = new WeaponWrapper(newWeapon, this);
 
-        // Otherwise, return true.
-        return true;
-    }
-    private void AttemptAttack(Attack attack)
-    {
-        // Make the attack.
-        switch (attack)
-        {
-            case AoEAttack:
-                if (_throwToMouse)
-                    attack.MakeAttack(this.transform, _mousePosition);
-                else
-                    attack.MakeAttack(this.transform);
-
-                break;
-            default:
-                attack.MakeAttack(this.transform);
-                break;
-        }
-
-        // Update the recovery time.
-        _nextAttackAvailableTime = Time.time + attack.GetRecoveryTime();
-
-
-        IncrementPrimaryCombo();
-    }
-
-    private void IncrementPrimaryCombo()
-    {
-        // Update Primary Attack Combo Index.
-        if (_primaryAttackIndex < _primaryAttacks.Length - 1)
-            _primaryAttackIndex++;
-        else
-            _primaryAttackIndex = 0;
-
-        // Start reset combo coroutine.
-        if (_resetPrimaryComboCoroutine != null)
-            StopCoroutine(_resetPrimaryComboCoroutine);
-        _resetPrimaryComboCoroutine = StartCoroutine(ResetPrimaryCombo());
-    }
-    private IEnumerator ResetPrimaryCombo()
-    {
-        yield return new WaitUntil(() => CanAttack());
-        yield return new WaitForSeconds(_resetPrimaryComboDuration);
-
-        Debug.Log("Combo Reset");
-        _primaryAttackIndex = 0;
+        if (replacePrimary)
+            _primaryWeapon = newWrapper;
+        // else
+        //  _secondaryWeapon = newWrapper;
     }
 
 
@@ -144,7 +95,7 @@ public class PlayerAttacks : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (_attackToDebug < _primaryAttacks.Length)
-            _primaryAttacks[_attackToDebug].DrawGizmos(this.transform);
+        if (_primaryWeapon.Weapon != null && _attackToDebug < _primaryWeapon.Weapon.Attacks.Length)
+            _primaryWeapon.Weapon.Attacks[_attackToDebug].DrawGizmos(this.transform);
     }
 }
