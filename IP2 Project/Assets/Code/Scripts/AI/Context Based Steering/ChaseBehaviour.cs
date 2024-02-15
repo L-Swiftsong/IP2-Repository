@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ChaseBehaviour : BaseSteeringBehaviour
 {
-    [SerializeField] private Transform[] _targets;
+    [SerializeField] private Transform _target;
     [SerializeField] private float _maxChaseDistance;
+    [SerializeField] private float _minChaseDistance;
 
     
     // Return a interest map based on the direction to the targets.
@@ -13,35 +15,31 @@ public class ChaseBehaviour : BaseSteeringBehaviour
     {
         float[] interestMap = new float[directions.Length];
 
-        // Loop through each potential target.
-        foreach(Transform target in _targets)
+        // Cache values.
+        Vector2 targetDirection = ((Vector2)_target.position - position).normalized;
+        float distanceToTarget = Vector2.Distance(_target.position, position);
+
+        // Ignore targets that are too far or too close.
+        if (distanceToTarget > _maxChaseDistance || distanceToTarget < _minChaseDistance)
+            return interestMap;
+
+        //float targetWeight = (distanceToTarget / greatestDistance);
+
+        // Loop through each direction we should consider.
+        for(int i = 0; i < directions.Length; i++)
         {
-            // Cache values.
-            Vector2 targetPos = target.position;
-            Vector2 targetDirection = targetPos - position;
-            float targetDistance = targetDirection.magnitude;
-            targetDirection.Normalize();
+            // Calculate the interest towards this point based on the dot product scaled to a range of 0-1.
+            //float interest = (1f + Vector2.Dot(targetDirection, directions[i])) / 2f;
+            float interest = Vector2.Dot(targetDirection, directions[i]);
 
-            // Ignore targets that are too far.
-            if (targetDistance > _maxChaseDistance)
-                continue;
+            // Scale interest based on distance.
+            //interest *= targetWeight;
 
-
-            // Loop through each direction we should consider.
-            for(int i = 0; i < directions.Length; i++)
-            {
-                // Calculate the interest towards this point based on the dot product scaled to a range of 0-1.
-                //float interest = (1f + Vector2.Dot(targetDirection, directions[i])) / 2f;
-                float interest = Mathf.Clamp01(Vector2.Dot(targetDirection, directions[i]));
-
-                // Scale interest based on distance.
-                interest *= 1f - (targetDistance / _maxChaseDistance); 
-
-                // If this interest is the largest in this direction slot, then assign it.
-                if (interest > interestMap[i])
-                    interestMap[i] = interest;
-            }
+            // If this interest is the largest in this direction slot, then assign it.
+            if (interest > interestMap[i])
+                interestMap[i] = interest;
         }
+        
 
         // Return our calculated interest map.
         return interestMap;

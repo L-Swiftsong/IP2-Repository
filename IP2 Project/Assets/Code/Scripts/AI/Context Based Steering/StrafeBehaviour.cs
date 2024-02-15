@@ -5,7 +5,7 @@ using UnityEngine;
 public class StrafeBehaviour : BaseSteeringBehaviour
 {
     [SerializeField] private Transform _target;
-    [SerializeField] private float _strafeDistance;
+    [SerializeField] private bool _favourRight;
 
 
     public override float[] GetInterestMap(Vector2 position, Vector2[] directions)
@@ -14,15 +14,18 @@ public class StrafeBehaviour : BaseSteeringBehaviour
         
         // Cache Values.
         Vector2 targetDirection = ((Vector2)_target.position - position).normalized;
+        
 
         // Loop through each direction.
         for(int i = 0; i < directions.Length; i++)
         {
             // Calculate the dot product.
             float dot = Vector2.Dot(targetDirection, directions[i]);
+            bool toTheRight = Vector2.Dot(Vector2.Perpendicular(targetDirection), directions[i]) < 0;
+            Debug.Log("Direction: " + directions[i] + " is " + (toTheRight ? "the Right" : "the Left"));
 
             // Weight the dot product to face the sides.
-            float weightedDot = 1f - Mathf.Abs(dot);
+            float weightedDot = (1f - Mathf.Abs(dot)) * (toTheRight == _favourRight ? 1 : -1);
 
             // Assign our weighted dot as the interest.
             interestMap[i] = weightedDot;
@@ -34,7 +37,8 @@ public class StrafeBehaviour : BaseSteeringBehaviour
     // Directions leading towards the target will be mapped to the danger map.
     public override float[] GetDangerMap(Vector2 position, Vector2[] directions)
     {
-        float[] dangerMap = new float[directions.Length];
+        return new float[directions.Length];
+        /*float[] dangerMap = new float[directions.Length];
 
         // Cache Values.
         Vector2 targetDirection = ((Vector2)_target.position - position).normalized;
@@ -67,6 +71,6 @@ public class StrafeBehaviour : BaseSteeringBehaviour
             }
         }
 
-        return dangerMap;
+        return dangerMap;*/
     }
 }

@@ -13,12 +13,20 @@ public class ContextMerger : MonoBehaviour
     private float[] _dangerMap;
 
 
+    [Header("Testing")]
+    [SerializeField] private bool _normalizeDirection;
+
+    [Space(5)]
+    [SerializeField] private Rigidbody2D _rb2D;
     [SerializeField] private float _speed;
+    [SerializeField] private float _acceleration;
+
+    [Space(5)]
     [SerializeField] private bool _move;
 
 
-    [Header("Gizmos")]
-    [SerializeField] private bool _drawMapTotals;
+    [Header("Debug")]
+    [SerializeField] private bool _drawCombinedMaps;
     [SerializeField] private Color _interestColour = Color.green;
     [SerializeField] private Color _dangerColour = Color.red;
 
@@ -57,8 +65,13 @@ public class ContextMerger : MonoBehaviour
         CalculateMaps();
         Vector2 movementDirection = CalculateBestDirection();
 
+        if (_normalizeDirection)
+            movementDirection.Normalize();
+        Debug.DrawRay(transform.position, movementDirection, Color.blue);
+
+
         if (_move)
-            transform.position += (Vector3)movementDirection * _speed * Time.deltaTime;
+            _rb2D.velocity = Vector2.MoveTowards(_rb2D.velocity, movementDirection * _speed, _acceleration * Time.deltaTime);
     }
 
 
@@ -125,19 +138,29 @@ public class ContextMerger : MonoBehaviour
             // Calculate the filtered direction.
             filteredDirections[i] = _interestMap[i] - _dangerMap[i];
 
-            if (_drawMapTotals)
+            if (_drawCombinedMaps)
+                Debug.DrawRay(transform.position, Mathf.Abs(filteredDirections[i]) * _directions[i], filteredDirections[i] > 0 ? _interestColour : _dangerColour);
+            else
             {
                 Debug.DrawRay(transform.position, _dangerMap[i] * _directions[i], _dangerColour);
                 Debug.DrawRay(transform.position, _interestMap[i] * _directions[i], _interestColour);
-            } else
-                Debug.DrawRay(transform.position, Mathf.Abs(filteredDirections[i]) * _directions[i], filteredDirections[i] > 0 ? _interestColour : _dangerColour);
+            }
         }
 
-        // Find the direction to move.
+        // Find the direction with the greatest weight.
         float greatestDirection = Mathf.Max(filteredDirections);
         int targetIndex = System.Array.FindIndex(filteredDirections, t => t == greatestDirection);
 
+        // Calculate the direction to move.
+        Vector2 targetDirection = AverageDirections(filteredDirections, targetIndex);
+        //Debug.DrawRay(transform.position, targetDirection, Color.blue);
 
+        return targetDirection;
+    }
+
+    // Average directions in a filtered list, treating values below 0 as essentially blockades.
+    Vector2 AverageDirections(float[] filteredDirections, int greatestDirectionIndex)
+    {
         int minIndex = 0;
         int maxIndex = 0;
         int halfCount = Mathf.FloorToInt(_directionCount / 2);
@@ -148,7 +171,7 @@ public class ContextMerger : MonoBehaviour
                 continue;
 
             // If the filtered value at this index is 0 (Has been excluded)
-            int respectiveIndex = targetIndex + (i < 0 ? i + _directionCount : i);
+            int respectiveIndex = greatestDirectionIndex + (i < 0 ? i + _directionCount : i);
             if (respectiveIndex > _directionCount - 1)
                 respectiveIndex -= _directionCount;
             else if (respectiveIndex < 0)
@@ -170,7 +193,7 @@ public class ContextMerger : MonoBehaviour
             else
             {
                 Debug.Log(respectiveIndex + " is not blocked (" + i + ")");
-                
+
                 // Set the corresponding index.
                 if (i < 0 && minIndex == 0)
                     minIndex = i;
@@ -182,25 +205,23 @@ public class ContextMerger : MonoBehaviour
         Debug.Log("Min: " + minIndex);
         Debug.Log("Max: " + maxIndex);
 
-        Vector2 targetDirection = Vector2.zero;
+        Vector2 averagedDirection = Vector2.zero;
         for (int i = minIndex; i <= maxIndex; i++)
         {
-            int respectiveIndex = targetIndex + (i < 0 ? i + _directionCount : i);
+            int respectiveIndex = greatestDirectionIndex + (i < 0 ? i + _directionCount : i);
             if (respectiveIndex > _directionCount - 1)
                 respectiveIndex -= _directionCount;
             else if (respectiveIndex < 0)
                 respectiveIndex += _directionCount;
 
-            targetDirection += filteredDirections[respectiveIndex] * _directions[respectiveIndex];
+            averagedDirection += filteredDirections[respectiveIndex] * _directions[respectiveIndex];
         }
-        targetDirection /= (maxIndex - minIndex) + 1;
+        averagedDirection /= (maxIndex - minIndex) + 1;
 
         // If we have no direction and the largest direction is valid, select the largest direction as our target.
-        if (targetDirection == Vector2.zero && filteredDirections[targetIndex] > 0)
-            targetDirection = filteredDirections[targetIndex] * _directions[targetIndex];
+        if (averagedDirection == Vector2.zero && filteredDirections[greatestDirectionIndex] > 0)
+            averagedDirection = filteredDirections[greatestDirectionIndex] * _directions[greatestDirectionIndex];
 
-        Debug.DrawRay(transform.position, targetDirection, Color.blue);
-
-        return targetDirection.normalized;
+        return averagedDirection;
     }
 }

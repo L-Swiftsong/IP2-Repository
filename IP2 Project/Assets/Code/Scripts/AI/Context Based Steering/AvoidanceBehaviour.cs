@@ -7,6 +7,7 @@ public class AvoidanceBehaviour : BaseSteeringBehaviour
     [SerializeField] private float _detectionDistance;
     [SerializeField] private LayerMask _obstacleLayers;
 
+
     // The AvoidanceBehaviour behaviour does not return interest values.
     public override float[] GetInterestMap(Vector2 position, Vector2[] directions) => new float[directions.Length];
 
@@ -19,19 +20,22 @@ public class AvoidanceBehaviour : BaseSteeringBehaviour
         foreach(Collider2D obstacle in Physics2D.OverlapCircleAll(position, _detectionDistance, _obstacleLayers))
         {
             // Cache values.
-            Vector2 targetDirection = ((Vector2)obstacle.transform.position - position).normalized;
-            float targetDistance = Vector2.Distance(obstacle.transform.position, position);
+            Vector2 closestPoint = obstacle.ClosestPoint(position);
+            Vector2 targetDirection = (closestPoint - position).normalized;
+            float targetDistance = Vector2.Distance(closestPoint, position);
 
+            // Calculate the weight applied to the weights, inversely proportional to the distance to the target.
+            float targetWeight = targetDistance > _detectionDistance ? 1 : (_detectionDistance - targetDistance) / _detectionDistance;
 
             // Loop through each direction.
             for (int i = 0; i < directions.Length; i++)
             {
                 // Calculate the danger based on the dot product weighted between 0 & 1.
                 //float danger = (1f + Vector2.Dot(targetDirection, directions[i])) / 2f;
-                float danger = Vector2.Dot(targetDirection, directions[i]);
+                float dot = Vector2.Dot(targetDirection, directions[i]);
 
                 // Weigh the danger based on distance & clamp between 0 & 1.
-                danger = Mathf.Clamp01(danger * (1f - (danger * (targetDistance / _detectionDistance))));
+                float danger = dot * targetWeight;
 
                 if (danger > dangerMap[i])
                     dangerMap[i] = danger;
