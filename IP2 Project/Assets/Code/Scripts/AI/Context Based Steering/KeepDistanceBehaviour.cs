@@ -8,7 +8,10 @@ public class KeepDistanceBehaviour : BaseSteeringBehaviour
 
     [SerializeField] private float _targetDistance; // The distance that we wish to keep
     [SerializeField] private float _stopThreshold; // A threshold for when we should stop moving.
-    [SerializeField] private float _maxValueThreshold; // A threshold representing the distance within which our interest decreases nearing the target. (Note: Only works without movement normalisation).
+
+    // Note: The speed-change functionality given by these two variables only works without normalisation.
+    [SerializeField] private float _maxMagnitudeOuterThreshold; // A threshold representing the outer distance from the targetDistance where our interest will start decreasing.
+    [SerializeField] private float _maxMagnitudeInnerThreshold; // A threshold representing the inner distance from the targetDistance where our interest will start decreasing.
 
 
     [Header("Gizmos")]
@@ -34,7 +37,7 @@ public class KeepDistanceBehaviour : BaseSteeringBehaviour
         float targetWeight = Mathf.Lerp(
             a: -1,
             b: 1,
-            t: (distanceToTarget - (_targetDistance - _maxValueThreshold)) / ((_targetDistance + _maxValueThreshold) - (_targetDistance - _maxValueThreshold)));
+            t: (distanceToTarget - (_targetDistance - _maxMagnitudeInnerThreshold)) / ((_targetDistance + _maxMagnitudeOuterThreshold) - (_targetDistance - _maxMagnitudeInnerThreshold)));
 
         // Loop through each direction we should consider.
         for (int i = 0; i < directions.Length; i++)
@@ -69,8 +72,8 @@ public class KeepDistanceBehaviour : BaseSteeringBehaviour
         Gizmos.DrawWireSphere(transform.position, _targetDistance);
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, _targetDistance - _maxValueThreshold);
-        Gizmos.DrawWireSphere(transform.position, _targetDistance + _maxValueThreshold);
+        Gizmos.DrawWireSphere(transform.position, _targetDistance - _maxMagnitudeInnerThreshold);
+        Gizmos.DrawWireSphere(transform.position, _targetDistance + _maxMagnitudeOuterThreshold);
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _targetDistance - _stopThreshold);
