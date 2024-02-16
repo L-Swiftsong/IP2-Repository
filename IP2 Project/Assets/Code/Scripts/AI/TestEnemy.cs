@@ -14,6 +14,7 @@ public class TestEnemy : MonoBehaviour
 
     [Space(10)]
     [SerializeField] private EntitySenses _entitySenses;
+    [SerializeField] private EntityMovement _movementScript;
     [SerializeField] private HealthComponent _healthComponent;
 
     private Action OnStunned;
@@ -54,9 +55,9 @@ public class TestEnemy : MonoBehaviour
         _rootFSM = new StateMachine();
 
         // State Initialisation.
-        _patrolState.InitialiseValues(this.transform);
-        _chaseState.InitialiseValues(() => _entitySenses.CurrentTarget.position, this.transform);
-        _attackingState.InitialiseValues(() => _entitySenses.CurrentTarget.position, this.transform);
+        _patrolState.InitialiseValues(_movementScript);
+        _chaseState.InitialiseValues(() => _entitySenses.CurrentTarget.position, _movementScript);
+        _attackingState.InitialiseValues(() => _entitySenses.CurrentTarget.position, _movementScript);
 
 
         #region Root FSM Setup

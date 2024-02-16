@@ -382,6 +382,10 @@ GameObject:
   - component: {fileID: 374631430}
   - component: {fileID: 374631429}
   - component: {fileID: 374631428}
+  - component: {fileID: 374631432}
+  - component: {fileID: 374631431}
+  - component: {fileID: 374631434}
+  - component: {fileID: 374631433}
   m_Layer: 0
   m_Name: Test Enemy
   m_TagString: Untagged
@@ -419,6 +423,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentStatePath: 
   _entitySenses: {fileID: 374631429}
+  _movementScript: {fileID: 374631432}
   _healthComponent: {fileID: 374631430}
   _stunnedState:
     _stunThreshold: 1
@@ -435,22 +440,23 @@ MonoBehaviour:
     - {x: -3, y: -1.5}
     - {x: 0, y: 1.5}
     - {x: 3, y: -1.5}
-    _patrolSpeed: 3
-    _rotateSpeed: 270
+    _movementBehaviours:
+    - {fileID: 11400000, guid: 012421c460685d049b48ba73f0ba64be, type: 2}
+    - {fileID: 11400000, guid: ebe723a7bb82b214ea26081f8d2fa88c, type: 2}
     _chooseRandomPoints: 0
   _chaseState:
-    _chaseSpeed: 3
+    _movementBehaviours:
+    - {fileID: 11400000, guid: 012421c460685d049b48ba73f0ba64be, type: 2}
+    - {fileID: 11400000, guid: ebe723a7bb82b214ea26081f8d2fa88c, type: 2}
     _faceTarget: 0
-    _rotationSpeed: 270
   _attackingState:
     _attack: {fileID: 11400000, guid: 75ec767df792f5b4fba90cd2ebfe937a, type: 2}
     _predictTargetPosition: 0
     _maxAttackRange: 4
-    _moveSpeed: 2
-    _rotationSpeed: 270
-    _keepDistance: 2
-    _maxDistance: 4
-    _smoothingPercent: 0.15
+    _movementBehaviours:
+    - {fileID: 11400000, guid: 739be35af355ee3418f959588ed74d9b, type: 2}
+    - {fileID: 11400000, guid: b4a18ff433ee9954c95809668a972da0, type: 2}
+    - {fileID: 11400000, guid: ebe723a7bb82b214ea26081f8d2fa88c, type: 2}
   _drawPatrolGizmos: 0
   _drawAttackingGizmos: 1
 --- !u!114 &374631428
@@ -510,6 +516,101 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &374631431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374631425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2654ea8db2553ef4b9aed162970c7e84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _directionCount: 8
+  _drawCombinedMaps: 1
+  _interestColour: {r: 0, g: 1, b: 0, a: 1}
+  _dangerColour: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &374631432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374631425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f5b5d44cc6ed0f47a2d67b63a803675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rb2D: {fileID: 374631434}
+  _movementSpeed: 2
+  _acceleration: 15
+  _rotationSpeed: 270
+  _ctxMerger: {fileID: 374631431}
+--- !u!58 &374631433
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374631425}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
+--- !u!50 &374631434
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374631425}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 1
+  m_AngularDrag: 1
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &475124055
 GameObject:
   m_ObjectHideFlags: 0

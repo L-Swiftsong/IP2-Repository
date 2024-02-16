@@ -2,18 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Steering Behaviours/Retreat Behaviour", fileName = "New Retreat Behaviour")]
 public class RetreatBehaviour : BaseSteeringBehaviour
 {
-    [SerializeField] private Transform _target;
-
-    
     // The interest map points away from the target.
-    public override float[] GetInterestMap(Vector2 position, Vector2[] directions)
+    public override float[] GetInterestMap(Vector2 position, Vector2 targetPos, Vector2[] directions)
     {
         float[] interestMap = new float[directions.Length];
 
         // Cache values.
-        Vector2 targetDirection = ((Vector2)_target.position - position).normalized;
+        Vector2 targetDirection = (targetPos - position).normalized;
 
         // Loop through each direction.
         for(int i = 0; i < directions.Length; i++)
@@ -32,13 +30,12 @@ public class RetreatBehaviour : BaseSteeringBehaviour
     }
 
     // The danger map points towards the target.
-    public override float[] GetDangerMap(Vector2 position, Vector2[] directions)
+    public override float[] GetDangerMap(Vector2 position, Vector2 targetPos, Vector2[] directions)
     {
         float[] dangerMap = new float[directions.Length];
 
         // Cache Values.
-        Vector2 targetDirection = ((Vector2)_target.position - position).normalized;
-        float targetDistance = Vector2.Distance(_target.position, position);
+        Vector2 targetDirection = (targetPos - position).normalized;
 
         // Loop through each direction.
         for(int i = 0; i < directions.Length; i++)

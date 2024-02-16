@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Steering Behaviours/Avoidance", fileName = "New Avoidance Behaviour")]
 public class AvoidanceBehaviour : BaseSteeringBehaviour
 {
     [SerializeField] private float _detectionDistance;
@@ -21,7 +22,7 @@ public class AvoidanceBehaviour : BaseSteeringBehaviour
 
 
     // The AvoidanceBehaviour behaviour does not return interest values.
-    public override float[] GetInterestMap(Vector2 position, Vector2[] directions)
+    public override float[] GetInterestMap(Vector2 position, Vector2 targetPos, Vector2[] directions)
     {
         float[] interestMap = new float[directions.Length];
 
@@ -62,7 +63,7 @@ public class AvoidanceBehaviour : BaseSteeringBehaviour
     }
 
     // Calculate danger values based on the distance to the obstacle.
-    public override float[] GetDangerMap(Vector2 position, Vector2[] directions)
+    public override float[] GetDangerMap(Vector2 position, Vector2 targetPos, Vector2[] directions)
     {
         float[] dangerMap = new float[directions.Length];
 
@@ -99,7 +100,7 @@ public class AvoidanceBehaviour : BaseSteeringBehaviour
     }
 
 
-    private void OnDrawGizmosSelected()
+    public void DrawGizmos(Transform transform)
     {
         if (!_drawGizmos)
             return;

@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Steering Behaviours/Chase", fileName = "New Chase Behaviour")]
 public class ChaseBehaviour : BaseSteeringBehaviour
 {
-    [SerializeField] private Transform _target;
     [SerializeField] private float _maxChaseDistance;
     [SerializeField] private float _minChaseDistance;
 
     
     // Return a interest map based on the direction to the targets.
-    public override float[] GetInterestMap(Vector2 position, Vector2[] directions)
+    public override float[] GetInterestMap(Vector2 position, Vector2 targetPos, Vector2[] directions)
     {
         float[] interestMap = new float[directions.Length];
 
         // Cache values.
-        Vector2 targetDirection = ((Vector2)_target.position - position).normalized;
-        float distanceToTarget = Vector2.Distance(_target.position, position);
+        Vector2 targetDirection = (targetPos - position).normalized;
+        float distanceToTarget = Vector2.Distance(targetPos, position);
 
         // Ignore targets that are too far or too close.
         if (distanceToTarget > _maxChaseDistance || distanceToTarget < _minChaseDistance)
@@ -46,6 +46,6 @@ public class ChaseBehaviour : BaseSteeringBehaviour
     }
 
     // The ChaseBehaviour behaviour returns no danger map.
-    public override float[] GetDangerMap(Vector2 position, Vector2[] directions) => new float[directions.Length];
+    public override float[] GetDangerMap(Vector2 position, Vector2 targetPos, Vector2[] directions) => new float[directions.Length];
     
 }

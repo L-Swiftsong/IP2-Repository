@@ -216,6 +216,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 176416964}
+  - component: {fileID: 176416965}
   - component: {fileID: 176416963}
   - component: {fileID: 176416962}
   - component: {fileID: 176416961}
@@ -339,11 +340,6 @@ MonoBehaviour:
   _behaviours:
   - {fileID: 176416960}
   - {fileID: 176416959}
-  _normalizeDirection: 1
-  _rb2D: {fileID: 176416962}
-  _speed: 2
-  _acceleration: 15
-  _move: 0
   _drawCombinedMaps: 1
   _interestColour: {r: 0, g: 1, b: 0.28147006, a: 1}
   _dangerColour: {r: 1, g: 0, b: 0, a: 1}
@@ -364,6 +360,24 @@ Transform:
   - {fileID: 1978513200}
   m_Father: {fileID: 1873703756}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &176416965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176416956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 132336f28c8a86540972b57e15440afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rb2D: {fileID: 176416962}
+  _moveSpeed: 2
+  _acceleration: 15
+  _contextMerger: {fileID: 176416963}
+  _shouldMove: 0
+  _normalizeDirection: 0
 --- !u!1 &211239378
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,6 +471,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 255601909}
+  - component: {fileID: 255601917}
   - component: {fileID: 255601916}
   - component: {fileID: 255601915}
   - component: {fileID: 255601914}
@@ -616,14 +631,27 @@ MonoBehaviour:
   - {fileID: 255601910}
   - {fileID: 255601911}
   - {fileID: 255601912}
-  _normalizeDirection: 1
-  _rb2D: {fileID: 255601915}
-  _speed: 2
-  _acceleration: 15
-  _move: 1
   _drawCombinedMaps: 0
   _interestColour: {r: 0, g: 1, b: 0.28147006, a: 1}
   _dangerColour: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &255601917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255601908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 132336f28c8a86540972b57e15440afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rb2D: {fileID: 176416962}
+  _moveSpeed: 2
+  _acceleration: 15
+  _contextMerger: {fileID: 176416963}
+  _shouldMove: 0
+  _normalizeDirection: 0
 --- !u!1 &271780314
 GameObject:
   m_ObjectHideFlags: 0
@@ -938,6 +966,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 532724271}
+  - component: {fileID: 532724279}
   - component: {fileID: 532724272}
   - component: {fileID: 532724277}
   - component: {fileID: 532724276}
@@ -984,11 +1013,6 @@ MonoBehaviour:
   _behaviours:
   - {fileID: 532724278}
   - {fileID: 532724275}
-  _normalizeDirection: 1
-  _rb2D: {fileID: 532724277}
-  _speed: 2
-  _acceleration: 15
-  _move: 1
   _drawCombinedMaps: 0
   _interestColour: {r: 0, g: 1, b: 0.28147006, a: 1}
   _dangerColour: {r: 1, g: 0, b: 0, a: 1}
@@ -1119,6 +1143,24 @@ MonoBehaviour:
   _maxMagnitudeOuterThreshold: 0.5
   _maxMagnitudeInnerThreshold: 0.5
   _drawGizmos: 1
+--- !u!114 &532724279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 532724270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 132336f28c8a86540972b57e15440afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rb2D: {fileID: 176416962}
+  _moveSpeed: 2
+  _acceleration: 15
+  _contextMerger: {fileID: 176416963}
+  _shouldMove: 0
+  _normalizeDirection: 0
 --- !u!1 &541163821
 GameObject:
   m_ObjectHideFlags: 0
@@ -1809,6 +1851,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1515403356}
+  - component: {fileID: 1515403357}
   - component: {fileID: 1515403355}
   - component: {fileID: 1515403354}
   - component: {fileID: 1515403353}
@@ -1935,11 +1978,6 @@ MonoBehaviour:
   _behaviours:
   - {fileID: 1515403349}
   - {fileID: 1515403351}
-  _normalizeDirection: 1
-  _rb2D: {fileID: 1515403354}
-  _speed: 2
-  _acceleration: 15
-  _move: 1
   _drawCombinedMaps: 0
   _interestColour: {r: 0, g: 1, b: 0.28147006, a: 1}
   _dangerColour: {r: 1, g: 0, b: 0, a: 1}
@@ -1960,6 +1998,24 @@ Transform:
   - {fileID: 1501920870}
   m_Father: {fileID: 1873703756}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1515403357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1515403348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 132336f28c8a86540972b57e15440afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rb2D: {fileID: 176416962}
+  _moveSpeed: 2
+  _acceleration: 15
+  _contextMerger: {fileID: 176416963}
+  _shouldMove: 0
+  _normalizeDirection: 0
 --- !u!1 &1818867355
 GameObject:
   m_ObjectHideFlags: 0
@@ -1969,6 +2025,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1818867363}
+  - component: {fileID: 1818867364}
   - component: {fileID: 1818867362}
   - component: {fileID: 1818867361}
   - component: {fileID: 1818867360}
@@ -2095,11 +2152,6 @@ MonoBehaviour:
   _behaviours:
   - {fileID: 1818867356}
   - {fileID: 1818867358}
-  _normalizeDirection: 1
-  _rb2D: {fileID: 1818867361}
-  _speed: 2
-  _acceleration: 15
-  _move: 1
   _drawCombinedMaps: 0
   _interestColour: {r: 0, g: 1, b: 0.28147006, a: 1}
   _dangerColour: {r: 1, g: 0, b: 0, a: 1}
@@ -2120,6 +2172,24 @@ Transform:
   - {fileID: 1170055416}
   m_Father: {fileID: 1873703756}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1818867364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818867355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 132336f28c8a86540972b57e15440afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rb2D: {fileID: 176416962}
+  _moveSpeed: 2
+  _acceleration: 15
+  _contextMerger: {fileID: 176416963}
+  _shouldMove: 0
+  _normalizeDirection: 0
 --- !u!1 &1873703755
 GameObject:
   m_ObjectHideFlags: 0

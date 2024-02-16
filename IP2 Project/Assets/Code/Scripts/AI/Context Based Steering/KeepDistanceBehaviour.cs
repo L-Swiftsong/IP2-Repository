@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Steering Behaviours/Keep Distance", fileName = "New Keep Distance Behaviour")]
 public class KeepDistanceBehaviour : BaseSteeringBehaviour
 {
-    [SerializeField] private Transform _target; // Our target
-
     [SerializeField] private float _targetDistance; // The distance that we wish to keep
     [SerializeField] private float _stopThreshold; // A threshold for when we should stop moving.
 
@@ -19,13 +18,13 @@ public class KeepDistanceBehaviour : BaseSteeringBehaviour
 
 
     // Return a interest map based on the direction to the targets.
-    public override float[] GetInterestMap(Vector2 position, Vector2[] directions)
+    public override float[] GetInterestMap(Vector2 position, Vector2 targetPos, Vector2[] directions)
     {
         float[] interestMap = new float[directions.Length];
 
         // Cache values.
-        Vector2 targetDirection = ((Vector2)_target.position - position).normalized;
-        float distanceToTarget = Vector2.Distance(_target.position, position);
+        Vector2 targetDirection = (targetPos - position).normalized;
+        float distanceToTarget = Vector2.Distance(targetPos, position);
 
 
         // If we are within the stop threshold, then stop.
@@ -58,12 +57,12 @@ public class KeepDistanceBehaviour : BaseSteeringBehaviour
     }
 
     // The ChaseBehaviour behaviour returns no danger map.
-    public override float[] GetDangerMap(Vector2 position, Vector2[] directions) => new float[directions.Length];
+    public override float[] GetDangerMap(Vector2 position, Vector2 targetPos, Vector2[] directions) => new float[directions.Length];
 
 
 
-    private void OnDrawGizmosSelected()
-    {
+    public void DrawGizmos(Transform transform)
+    { 
         if (!_drawGizmos)
             return;
 

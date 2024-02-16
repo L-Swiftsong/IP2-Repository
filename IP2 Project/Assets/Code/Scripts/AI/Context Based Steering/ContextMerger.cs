@@ -4,25 +4,13 @@ using UnityEngine;
 
 public class ContextMerger : MonoBehaviour
 {
-    [SerializeField] private int _directionCount;
+    [SerializeField] private int _directionCount = 8;
     private Vector2[] _directions;
 
-    [SerializeField] private BaseSteeringBehaviour[] _behaviours;
-
+    private bool _hasCalculatedMaps;
     private float[] _interestMap;
     private float[] _dangerMap;
 
-
-    [Header("Testing")]
-    [SerializeField] private bool _normalizeDirection;
-
-    [Space(5)]
-    [SerializeField] private Rigidbody2D _rb2D;
-    [SerializeField] private float _speed;
-    [SerializeField] private float _acceleration;
-
-    [Space(5)]
-    [SerializeField] private bool _move;
 
 
     [Header("Debug")]
@@ -31,10 +19,8 @@ public class ContextMerger : MonoBehaviour
     [SerializeField] private Color _dangerColour = Color.red;
 
 
-    private void Awake()
-    {
-        InitializeDirections();
-    }
+    private void Awake() => InitializeDirections();
+    
 
     private void InitializeDirections()
     {
@@ -60,32 +46,19 @@ public class ContextMerger : MonoBehaviour
     }
 
 
-    private void Update()
-    {
-        CalculateMaps();
-        Vector2 movementDirection = CalculateBestDirection();
+    private void LateUpdate() => _hasCalculatedMaps = false;
 
-        if (_normalizeDirection)
-            movementDirection.Normalize();
-        Debug.DrawRay(transform.position, movementDirection, Color.blue);
-
-
-        if (_move)
-            _rb2D.velocity = Vector2.MoveTowards(_rb2D.velocity, movementDirection * _speed, _acceleration * Time.deltaTime);
-    }
-
-
-    private void CalculateMaps()
+    private void CalculateMaps(Vector2 position, Vector2 targetPos, BaseSteeringBehaviour[] behaviours)
     {
         // Initialise the arrays of all maps.
         List<float[]> interestMaps = new List<float[]>();
         List<float[]> dangerMaps = new List<float[]>();
 
         // Recieve the arrays of all maps.
-        foreach(BaseSteeringBehaviour behaviour in _behaviours)
+        foreach(BaseSteeringBehaviour behaviour in behaviours)
         {
-            interestMaps.Add(behaviour.GetInterestMap(transform.position, _directions));
-            dangerMaps.Add(behaviour.GetDangerMap(transform.position, _directions));
+            interestMaps.Add(behaviour.GetInterestMap(position, targetPos, _directions));
+            dangerMaps.Add(behaviour.GetDangerMap(position, targetPos, _directions));
         }
 
 
@@ -94,6 +67,9 @@ public class ContextMerger : MonoBehaviour
 
         // Collapse all danger maps into final danger map.
         _dangerMap = CalculateFinalMap(dangerMaps);
+
+
+        _hasCalculatedMaps = true;
     }
     private float[] CalculateFinalMap(List<float[]> maps, bool combine = false)
     {
@@ -120,8 +96,12 @@ public class ContextMerger : MonoBehaviour
     }
 
 
-    private Vector2 CalculateBestDirection()
+    public Vector2 CalculateBestDirection(Vector2 position, Vector2 targetPos, BaseSteeringBehaviour[] behaviours)
     {
+        if (!_hasCalculatedMaps)
+            CalculateMaps(position, targetPos, behaviours);
+
+
         // Find the lowest danger.
         float lowestDanger = _dangerMap[0];
         for (int i = 1; i < _directionCount; i++)
@@ -153,7 +133,7 @@ public class ContextMerger : MonoBehaviour
 
         // Calculate the direction to move.
         Vector2 targetDirection = AverageDirections(filteredDirections, targetIndex);
-        //Debug.DrawRay(transform.position, targetDirection, Color.blue);
+        Debug.DrawRay(transform.position, targetDirection, Color.blue);
 
         return targetDirection;
     }
