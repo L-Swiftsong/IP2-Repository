@@ -7,18 +7,9 @@ public class AvoidanceBehaviour : BaseSteeringBehaviour
 {
     [SerializeField] private float _detectionDistance;
     [SerializeField] private LayerMask _obstacleLayers;
-    private Collider2D[] _obstacles;
-    private bool _cachedObstacles;
 
     [Space(5)]
     [SerializeField] private float _maxMagnitudeRadius;
-
-
-    [Header("Gizmos")]
-    [SerializeField] private bool _drawGizmos;
-
-
-    private void LateUpdate() => _cachedObstacles = false;
 
 
     // The AvoidanceBehaviour behaviour does not return interest values.
@@ -26,11 +17,8 @@ public class AvoidanceBehaviour : BaseSteeringBehaviour
     {
         float[] interestMap = new float[directions.Length];
 
-        if (!_cachedObstacles)
-            _obstacles = Physics2D.OverlapCircleAll(position, _detectionDistance, _obstacleLayers);
-
-        // Loop through each potential target.
-        foreach (Collider2D obstacle in _obstacles)
+        /*// Loop through each potential target.
+        foreach (Collider2D obstacle in Physics2D.OverlapCircleAll(position, _detectionDistance, _obstacleLayers))
         {
             // Cache values.
             Vector2 closestPoint = obstacle.ClosestPoint(position);
@@ -49,7 +37,9 @@ public class AvoidanceBehaviour : BaseSteeringBehaviour
             for (int i = 0; i < directions.Length; i++)
             {
                 // Calculate the interest by inverting the dot product and clamping between 0 & 1.
-                float dot = Mathf.Clamp01(-Vector2.Dot(targetDirection, directions[i]));
+                //float dot = Mathf.Clamp01(-Vector2.Dot(targetDirection, directions[i]));
+                // Apply a shaping function to favour moving away from the target at a slight angle.
+                float dot = Mathf.Clamp01(-(1f - Mathf.Abs(Vector2.Dot(targetDirection, directions[i]) - 0.65f)));
 
                 // Weigh the interest based on distance.
                 float interest = dot * targetWeight;
@@ -58,7 +48,7 @@ public class AvoidanceBehaviour : BaseSteeringBehaviour
                     interestMap[i] = interest;
             }
         }
-
+        */
         return interestMap;
     }
 
@@ -67,11 +57,8 @@ public class AvoidanceBehaviour : BaseSteeringBehaviour
     {
         float[] dangerMap = new float[directions.Length];
 
-        if (!_cachedObstacles)
-            _obstacles = Physics2D.OverlapCircleAll(position, _detectionDistance, _obstacleLayers);
-
         // Loop through each potential target.
-        foreach (Collider2D obstacle in _obstacles)
+        foreach (Collider2D obstacle in Physics2D.OverlapCircleAll(position, _detectionDistance, _obstacleLayers))
         {
             // Cache values.
             Vector2 closestPoint = obstacle.ClosestPoint(position);
@@ -79,17 +66,19 @@ public class AvoidanceBehaviour : BaseSteeringBehaviour
             float targetDistance = Vector2.Distance(closestPoint, position);
 
             // Calculate the weight applied to the weights, inversely proportional to the distance to the target.
-            float targetWeight = targetDistance < _maxMagnitudeRadius
+            /*float targetWeight = targetDistance < _maxMagnitudeRadius
                 ? 1
                 : 1f - ((targetDistance - _maxMagnitudeRadius) / (_detectionDistance - _maxMagnitudeRadius));
-            targetWeight = Mathf.Clamp01(targetWeight);
+            targetWeight = Mathf.Clamp01(targetWeight);*/
+            float targetWeight = 1f - (targetDistance / _detectionDistance);
 
             // Loop through each direction.
             for (int i = 0; i < directions.Length; i++)
             {
                 // Calculate the danger using on the dot product, then weigh using the targetWeight.
+                //float dot = Mathf.Clamp01(1f - Mathf.Abs(Vector2.Dot(targetDirection, directions[i]) - 0.65f));
                 float dot = Vector2.Dot(targetDirection, directions[i]);
-                float danger = dot * targetWeight;
+                float danger = Mathf.Clamp01(dot * targetWeight);
 
                 if (danger > dangerMap[i])
                     dangerMap[i] = danger;
@@ -100,9 +89,9 @@ public class AvoidanceBehaviour : BaseSteeringBehaviour
     }
 
 
-    public void DrawGizmos(Transform transform)
+    public override void DrawGizmos(Transform transform)
     {
-        if (!_drawGizmos)
+        if (ShowGizmos)
             return;
 
         Gizmos.color = Color.red;

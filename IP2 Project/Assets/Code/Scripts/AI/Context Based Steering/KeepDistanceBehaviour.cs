@@ -13,10 +13,6 @@ public class KeepDistanceBehaviour : BaseSteeringBehaviour
     [SerializeField] private float _maxMagnitudeInnerThreshold; // A threshold representing the inner distance from the targetDistance where our interest will start decreasing.
 
 
-    [Header("Gizmos")]
-    [SerializeField] private bool _drawGizmos;
-
-
     // Return a interest map based on the direction to the targets.
     public override float[] GetInterestMap(Vector2 position, Vector2 targetPos, Vector2[] directions)
     {
@@ -37,6 +33,7 @@ public class KeepDistanceBehaviour : BaseSteeringBehaviour
             a: -1,
             b: 1,
             t: (distanceToTarget - (_targetDistance - _maxMagnitudeInnerThreshold)) / ((_targetDistance + _maxMagnitudeOuterThreshold) - (_targetDistance - _maxMagnitudeInnerThreshold)));
+        Debug.Log("Distance: " + distanceToTarget + " | Weight: " + targetWeight);
 
         // Loop through each direction we should consider.
         for (int i = 0; i < directions.Length; i++)
@@ -44,7 +41,8 @@ public class KeepDistanceBehaviour : BaseSteeringBehaviour
             float interest = Vector2.Dot(targetDirection, directions[i]);
 
             // Scale interest based on distance.
-            interest *= targetWeight;
+            interest = Mathf.Clamp01(interest * targetWeight);
+            Debug.Log(string.Format("Interest {0}: {1}", i, interest));
 
             // If this interest is the largest in this direction slot, then assign it.
             if (interest > interestMap[i])
@@ -61,9 +59,9 @@ public class KeepDistanceBehaviour : BaseSteeringBehaviour
 
 
 
-    public void DrawGizmos(Transform transform)
+    public override void DrawGizmos(Transform transform)
     { 
-        if (!_drawGizmos)
+        if (!ShowGizmos)
             return;
 
 

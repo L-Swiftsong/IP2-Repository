@@ -40,5 +40,12 @@ namespace States.Base
             // Move towards the target using our desired behaviours.
             _movementScript.CalculateMovement(_targetPosition(), _movementBehaviours, rotationType: _faceTarget ? RotationType.TargetDirection : RotationType.VelocityDirection);
         }
+
+
+        public void DrawGizmos(Transform gizmoOrigin, bool drawGizmos = true)
+        {
+            foreach (BaseSteeringBehaviour behaviour in _movementBehaviours)
+                behaviour.DrawGizmos(gizmoOrigin);
+        }
     }
 }

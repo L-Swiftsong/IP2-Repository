@@ -40,6 +40,7 @@ public class TestEnemy : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] private bool _drawPatrolGizmos;
+    [SerializeField] private bool _drawChaseGizmos;
     [SerializeField] private bool _drawAttackingGizmos;
 
 
@@ -125,7 +126,7 @@ public class TestEnemy : MonoBehaviour
         _combatFSM.AddTwoWayTransition(
             from: _chaseState,
             to: _attackingState,
-            condition: t => Vector2.Distance(transform.position, _entitySenses.CurrentTarget.position) <= _attackingState.MaxDistance);
+            condition: t => _attackingState.ShouldStopAttacking());
         #endregion
         #endregion
 
@@ -176,10 +177,13 @@ public class TestEnemy : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (_drawPatrolGizmos && _patrolState != null)
-            _patrolState.DrawGizmos();
+        if (_patrolState != null)
+            _patrolState.DrawGizmos(transform, _drawPatrolGizmos);
 
-        if (_drawAttackingGizmos && _attackingState != null)
-            _attackingState.DrawGizmos(transform);
+        if (_chaseState != null)
+            _chaseState.DrawGizmos(transform, _drawChaseGizmos);
+
+        if (_attackingState != null)
+            _attackingState.DrawGizmos(transform, _drawAttackingGizmos);
     }
 }

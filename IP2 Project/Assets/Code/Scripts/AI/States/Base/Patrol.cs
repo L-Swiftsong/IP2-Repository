@@ -76,13 +76,20 @@ namespace States.Base
 
 
 
-        public void DrawGizmos()
+        public void DrawGizmos(Transform gizmoOrigin, bool drawGizmos = true)
         {
-            Gizmos.color = Color.white;
-            foreach (Vector2 patrolPoint in _patrolPoints)
+            if (drawGizmos)
             {
-                Gizmos.DrawWireSphere(patrolPoint, 0.5f);
+                // Draw the patrol points.
+                Gizmos.color = Color.white;
+                foreach (Vector2 patrolPoint in _patrolPoints)
+                {
+                    Gizmos.DrawWireSphere(patrolPoint, 0.5f);
+                }
             }
+
+            foreach(BaseSteeringBehaviour behaviour in _movementBehaviours)
+                behaviour.DrawGizmos(gizmoOrigin);
         }
     }
 }

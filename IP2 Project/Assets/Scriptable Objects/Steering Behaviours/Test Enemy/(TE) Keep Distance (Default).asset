@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3b0a1fb61616cf4f9990f49497186a8, type: 3}
   m_Name: (TE) Keep Distance (Default)
   m_EditorClassIdentifier: 
+  ShowGizmos: 1
   _targetDistance: 3
-  _stopThreshold: 0.3
-  _maxMagnitudeOuterThreshold: 0.5
-  _maxMagnitudeInnerThreshold: 0.5
-  _drawGizmos: 0
+  _stopThreshold: 0.2
+  _maxMagnitudeOuterThreshold: 1
+  _maxMagnitudeInnerThreshold: 2.5

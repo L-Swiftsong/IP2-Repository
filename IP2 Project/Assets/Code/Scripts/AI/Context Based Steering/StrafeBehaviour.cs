@@ -25,7 +25,7 @@ public class StrafeBehaviour : BaseSteeringBehaviour
             Debug.Log("Direction: " + directions[i] + " is " + (toTheRight ? "the Right" : "the Left"));
 
             // Weight the dot product to face the sides.
-            float weightedDot = (1f - Mathf.Abs(dot)) * (toTheRight == _favourRight ? 1 : -1);
+            float weightedDot = Mathf.Clamp01(1f - Mathf.Abs(dot)) * (toTheRight == _favourRight ? 1 : -1);
 
             // Assign our weighted dot as the interest.
             interestMap[i] = weightedDot;

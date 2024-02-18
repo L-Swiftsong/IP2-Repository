@@ -10,6 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe35511ce93eebd47bb33706d52130c7, type: 3}
-  m_Name: (TE) Melee Strafe
+  m_Name: New Strafe Behaviour
   m_EditorClassIdentifier: 
+  ShowGizmos: 1
   _favourRight: 0

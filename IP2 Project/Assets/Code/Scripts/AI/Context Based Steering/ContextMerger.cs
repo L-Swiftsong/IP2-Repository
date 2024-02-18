@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ContextMerger : MonoBehaviour
@@ -12,8 +13,19 @@ public class ContextMerger : MonoBehaviour
     private float[] _dangerMap;
 
 
+    [Space(10)]
+    [SerializeField] private MergingMethod _mergingMethod;
+    [System.Serializable]
+    private enum MergingMethod
+    {
+        LowestValue,
+        Subtraction
+    }
 
     [Header("Debug")]
+    [SerializeField] private bool _sendObstructionDebug;
+
+    [Space(5)]
     [SerializeField] private bool _drawCombinedMaps;
     [SerializeField] private Color _interestColour = Color.green;
     [SerializeField] private Color _dangerColour = Color.red;
@@ -71,7 +83,7 @@ public class ContextMerger : MonoBehaviour
 
         _hasCalculatedMaps = true;
     }
-    private float[] CalculateFinalMap(List<float[]> maps, bool combine = false)
+    private float[] CalculateFinalMap(List<float[]> maps)
     {
         float[] finalMap = new float[_directionCount];
 
@@ -102,30 +114,8 @@ public class ContextMerger : MonoBehaviour
             CalculateMaps(position, targetPos, behaviours);
 
 
-        // Find the lowest danger.
-        float lowestDanger = _dangerMap[0];
-        for (int i = 1; i < _directionCount; i++)
-        {
-            // If the danger is lower than the lowest, set the lowest.
-            if (lowestDanger > _dangerMap[i])
-                lowestDanger = _dangerMap[i];
-        }
-        
-        // Filter out any directions where the value is greater than the lowest danger.
-        float[] filteredDirections = new float[_directionCount];
-        for (int i = 0; i < _directionCount; i++)
-        {
-            // Calculate the filtered direction.
-            filteredDirections[i] = _interestMap[i] - _dangerMap[i];
+        float[] filteredDirections = CalculateFilteredDirections();
 
-            if (_drawCombinedMaps)
-                Debug.DrawRay(transform.position, Mathf.Abs(filteredDirections[i]) * _directions[i], filteredDirections[i] > 0 ? _interestColour : _dangerColour);
-            else
-            {
-                Debug.DrawRay(transform.position, _dangerMap[i] * _directions[i], _dangerColour);
-                Debug.DrawRay(transform.position, _interestMap[i] * _directions[i], _interestColour);
-            }
-        }
 
         // Find the direction with the greatest weight.
         float greatestDirection = Mathf.Max(filteredDirections);
@@ -137,6 +127,43 @@ public class ContextMerger : MonoBehaviour
 
         return targetDirection;
     }
+    private float[] CalculateFilteredDirections()
+    {
+        // Find the lowest danger that isn't 0.
+        IEnumerable<float> nonZeroDangers = _dangerMap.Where(val => val > 0);
+        float lowestDanger = nonZeroDangers.Count() > 0 ? nonZeroDangers.Min() : 0;
+        Debug.Log(lowestDanger);
+
+
+        // Filter out any directions where the value is greater than the lowest danger.
+        float[] filteredDirections = new float[_directionCount];
+        for (int i = 0; i < _directionCount; i++)
+        {
+            // Calculate the filtered direction.
+            Debug.Log(i + ": " + _dangerMap[i]);
+            if (_mergingMethod == MergingMethod.LowestValue)
+            {
+                if (_dangerMap[i] <= lowestDanger)
+                    filteredDirections[i] = _interestMap[i];
+            }
+            else if (_mergingMethod == MergingMethod.Subtraction)
+            {
+                filteredDirections[i] = _interestMap[i] - _dangerMap[i];
+            }
+
+            if (_drawCombinedMaps)
+                Debug.DrawRay(transform.position, Mathf.Abs(filteredDirections[i]) * _directions[i], filteredDirections[i] > 0 ? _interestColour : _dangerColour);
+            else
+            {
+                Debug.DrawRay(transform.position, _dangerMap[i] * _directions[i], _dangerColour);
+                Debug.DrawRay(transform.position, _interestMap[i] * _directions[i], _interestColour);
+            }
+        }
+
+
+        return filteredDirections;
+    }
+
 
     // Average directions in a filtered list, treating values below 0 as essentially blockades.
     Vector2 AverageDirections(float[] filteredDirections, int greatestDirectionIndex)
@@ -160,7 +187,8 @@ public class ContextMerger : MonoBehaviour
 
             if (filteredDirections[respectiveIndex] <= 0)
             {
-                Debug.Log(respectiveIndex + " is blocked (" + i + ")");
+                if (_sendObstructionDebug)
+                    Debug.Log(respectiveIndex + " is blocked (" + i + ")");
 
                 // Reset the corresponding index.
                 if (i < 0)
@@ -172,7 +200,8 @@ public class ContextMerger : MonoBehaviour
             // Otherwise, if it hasn't been excluded.
             else
             {
-                Debug.Log(respectiveIndex + " is not blocked (" + i + ")");
+                if (_sendObstructionDebug)
+                    Debug.Log(respectiveIndex + " is not blocked (" + i + ")");
 
                 // Set the corresponding index.
                 if (i < 0 && minIndex == 0)

@@ -30,7 +30,8 @@ namespace States.Base
 
         [Header("Keep Distance")]
         [SerializeField] private BaseSteeringBehaviour[] _movementBehaviours;
-        public float MaxDistance => _maxAttackRange;
+        //public bool ShouldStopAttacking() => Vector2.Distance(_movementScript.transform.position, _targetPos()) > _maxAttackRange;
+        public bool ShouldStopAttacking() => Physics2D.Linecast(_movementScript.transform.position, _targetPos());
 
 
         public void InitialiseValues(Func<Vector2> target, EntityMovement movementScript)
@@ -68,25 +69,18 @@ namespace States.Base
         }
 
 
-        public void DrawGizmos(Transform gizmosOrigin)
+        public void DrawGizmos(Transform gizmosOrigin, bool drawGizmos = true)
         {
-            /*Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(gizmosOrigin.position, _keepDistance); // (Gizmo) Draw 'Keep Distance' Radius.
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(gizmosOrigin.position, _maxDistance); // (Gizmo) Draw 'Max Distance' Radius.
+            if (drawGizmos)
+            {
+                // Draw Max Attack Radius.
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(gizmosOrigin.position, _maxAttackRange);
+            }
 
-
-            // (Gizmo) Draw Max Attack Radius.
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(gizmosOrigin.position, _maxAttackRange);
-
-
-            // (Gizmo) Draw Threshold Radii.
-            Gizmos.color = Color.blue;
-            float targetDistance = (_maxDistance + _keepDistance) / 2f;
-            float smoothingValue = (_smoothingPercent * (_maxDistance - _keepDistance)) / 2f;
-            Gizmos.DrawWireSphere(gizmosOrigin.position, targetDistance + smoothingValue);
-            Gizmos.DrawWireSphere(gizmosOrigin.position, targetDistance - smoothingValue);*/
+            // Movement Behaviour Gizmos.
+            foreach (BaseSteeringBehaviour behaviour in _movementBehaviours)
+                behaviour.DrawGizmos(gizmosOrigin);
         }
     }
 }
