@@ -2,13 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 
 public class PlayerAttacks : MonoBehaviour
 {
     [Header("Primary Attacks")]
     [SerializeField] private WeaponWrapper _primaryWeapon;
-    private bool _primaryAttackHeld;
+    public bool _primaryAttackHeld;
+
+    [Header("Secondary Attacks")]
+    [SerializeField] private WeaponWrapper _secondaryWeapon;
+    public bool _secondaryAttackHeld;
 
     [SerializeField, Min(0)] private int _attackToDebug;
 
@@ -24,7 +29,30 @@ public class PlayerAttacks : MonoBehaviour
     [SerializeField] private bool _throwToMouse;
     private Vector2 _mousePosition;
 
+    [Header("Cooldown for ability")]
+    [SerializeField] Image Coolbar;
+    [SerializeField] float energy, maxEnergy;
+    [SerializeField] float attackCost;
+    [SerializeField] float chargeRate;
+    private Coroutine recharge;
 
+
+    public void OnSecondaryAttack(InputAction.CallbackContext context)
+    {
+        if (context.started && energy == maxEnergy)
+        {
+            _secondaryAttackHeld = true;
+            energy -= attackCost;
+            Coolbar.fillAmount = energy / maxEnergy;
+
+            if (recharge != null) StopCoroutine(recharge);
+            recharge = StartCoroutine(RechargeAttack());
+        }
+
+
+        else if (context.canceled && energy != maxEnergy)
+            _secondaryAttackHeld = false;
+    }
     public void OnPrimaryAttack(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -32,6 +60,8 @@ public class PlayerAttacks : MonoBehaviour
         else if (context.canceled)
             _primaryAttackHeld = false;
     }
+
+    
     public void OnUseAbilityPressed(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -49,8 +79,11 @@ public class PlayerAttacks : MonoBehaviour
     }
 
 
-    private void Start() => _primaryWeapon = new WeaponWrapper(_primaryWeapon.Weapon, this);
-
+    private void Start()
+    {
+        _primaryWeapon = new WeaponWrapper(_primaryWeapon.Weapon, this);
+        _secondaryWeapon = new WeaponWrapper(_secondaryWeapon.Weapon, this);
+    }
     private void Update()
     {
         // Abilities are checked before attacks.
@@ -61,6 +94,11 @@ public class PlayerAttacks : MonoBehaviour
         else if (_primaryAttackHeld)
         {
             AttemptAttack(_primaryWeapon);
+        }
+
+        else if (_secondaryAttackHeld)
+        {
+            AttemptAttack(_secondaryWeapon);
         }
     }
 
@@ -73,8 +111,8 @@ public class PlayerAttacks : MonoBehaviour
 
         if (replacePrimary)
             _primaryWeapon = newWrapper;
-        // else
-        //  _secondaryWeapon = newWrapper;
+        else
+            _secondaryWeapon = newWrapper;
     }
 
 
@@ -97,5 +135,29 @@ public class PlayerAttacks : MonoBehaviour
     {
         if (_primaryWeapon.Weapon != null && _attackToDebug < _primaryWeapon.Weapon.Attacks.Length)
             _primaryWeapon.Weapon.Attacks[_attackToDebug].DrawGizmos(this.transform);
+
+        else if (_secondaryWeapon.Weapon != null && _attackToDebug < _secondaryWeapon.Weapon.Attacks.Length)
+            _secondaryWeapon.Weapon.Attacks[_attackToDebug].DrawGizmos(this.transform);
+    }
+
+    private IEnumerator RechargeAttack()
+    {
+        yield return new WaitForSeconds(1f);
+
+        while (energy < maxEnergy)
+        {
+            energy += chargeRate / 10f;
+
+            if (energy > maxEnergy)
+            {
+                energy = maxEnergy;
+            }
+
+            Coolbar.fillAmount = energy / maxEnergy;
+
+            yield return new WaitForSeconds(.1f);
+
+
+        }
     }
 }

@@ -33,6 +33,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Secondary Attack",
+                    "type": "Button",
+                    "id": "485bae69-7560-4c40-a069-8750a63cebeb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Use Ability",
                     "type": "Button",
                     "id": "72080326-bf76-499a-879c-c211bca0f351",
@@ -212,6 +221,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Face Direction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2f558ef7-bd12-4623-8a89-e93f8da81f46",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "MnK",
+                    "action": "Secondary Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "77035a69-9726-45b1-aa08-0ca061ae243f",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Secondary Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
