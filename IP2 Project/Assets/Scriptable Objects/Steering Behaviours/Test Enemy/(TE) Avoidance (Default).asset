@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74522ac8245ee9f47bfed9f14f0c5a42, type: 3}
   m_Name: (TE) Avoidance (Default)
   m_EditorClassIdentifier: 
+  ShowGizmos: 1
   _detectionDistance: 3
   _obstacleLayers:
     serializedVersion: 2
     m_Bits: 65
-  _maxMagnitudeRadius: 0.5
-  _drawGizmos: 0
+  _interestDistance: 1

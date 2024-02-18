@@ -8,6 +8,7 @@ public class KeepDistanceBehaviour : BaseSteeringBehaviour
     [SerializeField] private float _targetDistance; // The distance that we wish to keep
     [SerializeField] private float _stopThreshold; // A threshold for when we should stop moving.
 
+    [Space(5)]
     // Note: The speed-change functionality given by these two variables only works without normalisation.
     [SerializeField] private float _maxMagnitudeOuterThreshold; // A threshold representing the outer distance from the targetDistance where our interest will start decreasing.
     [SerializeField] private float _maxMagnitudeInnerThreshold; // A threshold representing the inner distance from the targetDistance where our interest will start decreasing.
@@ -16,19 +17,17 @@ public class KeepDistanceBehaviour : BaseSteeringBehaviour
     // Return a interest map based on the direction to the targets.
     public override float[] GetInterestMap(Vector2 position, Vector2 targetPos, Vector2[] directions)
     {
-        float[] interestMap = new float[directions.Length];
-
         // Cache values.
         Vector2 targetDirection = (targetPos - position).normalized;
         float distanceToTarget = Vector2.Distance(targetPos, position);
 
 
-        // If we are within the stop threshold, then stop.
+        // If we are within the stop threshold, then stop the calculations here.
         if ((distanceToTarget > _targetDistance - _stopThreshold) && (distanceToTarget < _targetDistance + _stopThreshold))
-            return interestMap;
+            return new float[directions.Length];
 
 
-        // Calculate the weight of this value.
+        // Calculate the weight applied to each interest value based on the distance to the target.
         float targetWeight = Mathf.Lerp(
             a: -1,
             b: 1,
@@ -36,11 +35,12 @@ public class KeepDistanceBehaviour : BaseSteeringBehaviour
         Debug.Log("Distance: " + distanceToTarget + " | Weight: " + targetWeight);
 
         // Loop through each direction we should consider.
+        float[] interestMap = new float[directions.Length];
         for (int i = 0; i < directions.Length; i++)
         {
             float interest = Vector2.Dot(targetDirection, directions[i]);
 
-            // Scale interest based on distance.
+            // Scale interest based on distance & obstruction value.
             interest = Mathf.Clamp01(interest * targetWeight);
             Debug.Log(string.Format("Interest {0}: {1}", i, interest));
 

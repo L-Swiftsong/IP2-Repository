@@ -456,6 +456,7 @@ MonoBehaviour:
     _movementBehaviours:
     - {fileID: 11400000, guid: 739be35af355ee3418f959588ed74d9b, type: 2}
     - {fileID: 11400000, guid: ebe723a7bb82b214ea26081f8d2fa88c, type: 2}
+    - {fileID: 11400000, guid: 43438cba4a2fe134ea66d8385b264a75, type: 2}
   _drawPatrolGizmos: 0
   _drawChaseGizmos: 0
   _drawAttackingGizmos: 0
