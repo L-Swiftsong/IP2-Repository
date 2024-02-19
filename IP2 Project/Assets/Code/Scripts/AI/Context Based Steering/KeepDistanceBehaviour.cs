@@ -7,6 +7,7 @@ public class KeepDistanceBehaviour : BaseSteeringBehaviour
 {
     [SerializeField] private float _targetDistance; // The distance that we wish to keep
     [SerializeField] private float _stopThreshold; // A threshold for when we should stop moving.
+    [SerializeField] private float _multiplier;
 
     [Space(5)]
     // Note: The speed-change functionality given by these two variables only works without normalisation.
@@ -41,7 +42,7 @@ public class KeepDistanceBehaviour : BaseSteeringBehaviour
             float interest = Vector2.Dot(targetDirection, directions[i]);
 
             // Scale interest based on distance & obstruction value.
-            interest = Mathf.Clamp01(interest * targetWeight);
+            interest = Mathf.Clamp01(interest * targetWeight) * _multiplier;
             Debug.Log(string.Format("Interest {0}: {1}", i, interest));
 
             // If this interest is the largest in this direction slot, then assign it.

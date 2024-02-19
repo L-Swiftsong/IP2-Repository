@@ -15,5 +15,6 @@ MonoBehaviour:
   ShowGizmos: 0
   _targetDistance: 3
   _stopThreshold: 0.2
+  _multiplier: 0.5
   _maxMagnitudeOuterThreshold: 1
   _maxMagnitudeInnerThreshold: 1
