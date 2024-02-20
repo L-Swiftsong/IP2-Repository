@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[ExecuteInEditMode]
 public class CBSViewer : MonoBehaviour
 {
     [SerializeField] private Camera _cam;
+    [SerializeField] private Rigidbody2D _rb2D;
 
     [Space(5)]
     [SerializeField] private BaseSteeringBehaviour _behaviourToVisualise;
@@ -57,12 +56,12 @@ public class CBSViewer : MonoBehaviour
 
     void Update()
     {
-        if (_behaviourToVisualise == null)
+        if (_behaviourToVisualise == null || _rb2D == null)
             return;
         
         // Get the interest and danger values.
-        _interestMap = _behaviourToVisualise.GetInterestMap(transform.position, _mousePos, _directions);
-        _dangerMap = _behaviourToVisualise.GetDangerMap(transform.position, _mousePos, _directions);
+        _interestMap = _behaviourToVisualise.GetInterestMap(_rb2D, _mousePos, _directions);
+        _dangerMap = _behaviourToVisualise.GetDangerMap(_rb2D, _mousePos, _directions);
 
         // Visualise the directions.
         for (int i = 0; i < _directions.Length; i++)

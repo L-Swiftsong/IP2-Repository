@@ -16,11 +16,11 @@ public class KeepDistanceBehaviour : BaseSteeringBehaviour
 
 
     // Return a interest map based on the direction to the targets.
-    public override float[] GetInterestMap(Vector2 position, Vector2 targetPos, Vector2[] directions)
+    public override float[] GetInterestMap(Rigidbody2D movementBody, Vector2 targetPos, Vector2[] directions)
     {
         // Cache values.
-        Vector2 targetDirection = (targetPos - position).normalized;
-        float distanceToTarget = Vector2.Distance(targetPos, position);
+        Vector2 targetDirection = (targetPos - movementBody.position).normalized;
+        float distanceToTarget = Vector2.Distance(targetPos, movementBody.position);
 
 
         // If we are within the stop threshold, then stop the calculations here.
@@ -56,7 +56,7 @@ public class KeepDistanceBehaviour : BaseSteeringBehaviour
     }
 
     // The ChaseBehaviour behaviour returns no danger map.
-    public override float[] GetDangerMap(Vector2 position, Vector2 targetPos, Vector2[] directions) => new float[directions.Length];
+    public override float[] GetDangerMap(Rigidbody2D movementBody, Vector2 targetPos, Vector2[] directions) => new float[directions.Length];
 
 
 

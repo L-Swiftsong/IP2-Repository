@@ -18,7 +18,7 @@ public class EntityMovement : MonoBehaviour, IMoveable
     public void CalculateMovement(Vector2 targetPos, BaseSteeringBehaviour[] behaviours, RotationType rotationType = RotationType.None)
     {
         // Calculate the target direction.
-        Vector2 targetDirection = _ctxMerger.CalculateBestDirection(transform.position, targetPos, behaviours).normalized;
+        Vector2 targetDirection = _ctxMerger.CalculateBestDirection(_rb2D, targetPos, behaviours).normalized;
 
         // Move the rigidbody's velocity vector towards our desired velocity.
         _rb2D.velocity = Vector2.MoveTowards(_rb2D.velocity, targetDirection * _movementSpeed, _acceleration * Time.deltaTime);

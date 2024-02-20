@@ -23,7 +23,7 @@ public class SimpleMovement : MonoBehaviour
     private void Update()
     {
         // Get the movement direction.
-        Vector2 movementDirection = _contextMerger.CalculateBestDirection(transform.position, _target.position, _behaviours);
+        Vector2 movementDirection = _contextMerger.CalculateBestDirection(_rb2D, _target.position, _behaviours);
         if (_normalizeDirection)
             movementDirection.Normalize();
 

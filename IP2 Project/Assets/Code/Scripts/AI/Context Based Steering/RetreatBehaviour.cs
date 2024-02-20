@@ -6,12 +6,12 @@ using UnityEngine;
 public class RetreatBehaviour : BaseSteeringBehaviour
 {
     // The interest map points away from the target.
-    public override float[] GetInterestMap(Vector2 position, Vector2 targetPos, Vector2[] directions)
+    public override float[] GetInterestMap(Rigidbody2D movementBody, Vector2 targetPos, Vector2[] directions)
     {
         float[] interestMap = new float[directions.Length];
 
         // Cache values.
-        Vector2 targetDirection = (targetPos - position).normalized;
+        Vector2 targetDirection = (targetPos - movementBody.position).normalized;
 
         // Loop through each direction.
         for(int i = 0; i < directions.Length; i++)
@@ -30,12 +30,12 @@ public class RetreatBehaviour : BaseSteeringBehaviour
     }
 
     // The danger map points towards the target.
-    public override float[] GetDangerMap(Vector2 position, Vector2 targetPos, Vector2[] directions)
+    public override float[] GetDangerMap(Rigidbody2D movementBody, Vector2 targetPos, Vector2[] directions)
     {
         float[] dangerMap = new float[directions.Length];
 
         // Cache Values.
-        Vector2 targetDirection = (targetPos - position).normalized;
+        Vector2 targetDirection = (targetPos - movementBody.position).normalized;
 
         // Loop through each direction.
         for(int i = 0; i < directions.Length; i++)

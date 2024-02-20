@@ -13,7 +13,7 @@ public class AvoidanceBehaviour : BaseSteeringBehaviour
 
 
     // The AvoidanceBehaviour behaviour does not return interest values.
-    public override float[] GetInterestMap(Vector2 position, Vector2 targetPos, Vector2[] directions)
+    public override float[] GetInterestMap(Rigidbody2D movementBody, Vector2 targetPos, Vector2[] directions)
     {
         float[] interestMap = new float[directions.Length];
 
@@ -56,17 +56,17 @@ public class AvoidanceBehaviour : BaseSteeringBehaviour
     }
 
     // Calculate danger values based on the distance to the obstacle.
-    public override float[] GetDangerMap(Vector2 position, Vector2 targetPos, Vector2[] directions)
+    public override float[] GetDangerMap(Rigidbody2D movementBody, Vector2 targetPos, Vector2[] directions)
     {
         float[] dangerMap = new float[directions.Length];
 
         // Loop through each potential target.
-        foreach (Collider2D obstacle in Physics2D.OverlapCircleAll(position, _detectionDistance, _obstacleLayers))
+        foreach (Collider2D obstacle in Physics2D.OverlapCircleAll(movementBody.position, _detectionDistance, _obstacleLayers))
         {
             // Cache values.
-            Vector2 closestPoint = obstacle.ClosestPoint(position);
-            Vector2 targetDirection = (closestPoint - position).normalized;
-            float targetDistance = Vector2.Distance(closestPoint, position);
+            Vector2 closestPoint = obstacle.ClosestPoint(movementBody.position);
+            Vector2 targetDirection = (closestPoint - movementBody.position).normalized;
+            float targetDistance = Vector2.Distance(closestPoint, movementBody.position);
 
             // Calculate the weight applied to the weights, inversely proportional to the distance to the target.
             float targetWeight = 1f - (targetDistance / _detectionDistance);

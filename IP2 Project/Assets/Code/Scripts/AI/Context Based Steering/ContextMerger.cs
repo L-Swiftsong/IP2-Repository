@@ -60,7 +60,7 @@ public class ContextMerger : MonoBehaviour
 
     private void LateUpdate() => _hasCalculatedMaps = false;
 
-    private void CalculateMaps(Vector2 position, Vector2 targetPos, BaseSteeringBehaviour[] behaviours)
+    private void CalculateMaps(Rigidbody2D movementBody, Vector2 targetPos, BaseSteeringBehaviour[] behaviours)
     {
         // Initialise the arrays of all maps.
         List<float[]> interestMaps = new List<float[]>();
@@ -69,8 +69,8 @@ public class ContextMerger : MonoBehaviour
         // Recieve the arrays of all maps.
         foreach(BaseSteeringBehaviour behaviour in behaviours)
         {
-            interestMaps.Add(behaviour.GetInterestMap(position, targetPos, _directions));
-            dangerMaps.Add(behaviour.GetDangerMap(position, targetPos, _directions));
+            interestMaps.Add(behaviour.GetInterestMap(movementBody, targetPos, _directions));
+            dangerMaps.Add(behaviour.GetDangerMap(movementBody, targetPos, _directions));
         }
 
 
@@ -108,10 +108,10 @@ public class ContextMerger : MonoBehaviour
     }
 
 
-    public Vector2 CalculateBestDirection(Vector2 position, Vector2 targetPos, BaseSteeringBehaviour[] behaviours)
+    public Vector2 CalculateBestDirection(Rigidbody2D movementBody, Vector2 targetPos, BaseSteeringBehaviour[] behaviours)
     {
         if (!_hasCalculatedMaps)
-            CalculateMaps(position, targetPos, behaviours);
+            CalculateMaps(movementBody, targetPos, behaviours);
 
 
         float[] filteredDirections = CalculateFilteredDirections();

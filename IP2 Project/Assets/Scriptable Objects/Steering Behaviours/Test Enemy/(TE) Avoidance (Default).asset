@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: (TE) Avoidance (Default)
   m_EditorClassIdentifier: 
   ShowGizmos: 1
-  _detectionDistance: 3
+  _detectionDistance: 2
   _obstacleLayers:
     serializedVersion: 2
     m_Bits: 65
