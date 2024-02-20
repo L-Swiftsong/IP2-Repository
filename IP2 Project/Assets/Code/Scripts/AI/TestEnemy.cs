@@ -14,6 +14,7 @@ public class TestEnemy : MonoBehaviour
 
     [Space(10)]
     [SerializeField] private EntitySenses _entitySenses;
+    [SerializeField] private EntityMovement _movementScript;
     [SerializeField] private HealthComponent _healthComponent;
 
     private Action OnStunned;
@@ -39,6 +40,7 @@ public class TestEnemy : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] private bool _drawPatrolGizmos;
+    [SerializeField] private bool _drawChaseGizmos;
     [SerializeField] private bool _drawAttackingGizmos;
 
 
@@ -54,9 +56,9 @@ public class TestEnemy : MonoBehaviour
         _rootFSM = new StateMachine();
 
         // State Initialisation.
-        _patrolState.InitialiseValues(this.transform);
-        _chaseState.InitialiseValues(() => _entitySenses.CurrentTarget.position, this.transform);
-        _attackingState.InitialiseValues(() => _entitySenses.CurrentTarget.position, this.transform);
+        _patrolState.InitialiseValues(_movementScript);
+        _chaseState.InitialiseValues(() => _entitySenses.CurrentTarget.position, _movementScript);
+        _attackingState.InitialiseValues(() => _entitySenses.CurrentTarget.position, _movementScript);
 
 
         #region Root FSM Setup
@@ -124,7 +126,7 @@ public class TestEnemy : MonoBehaviour
         _combatFSM.AddTwoWayTransition(
             from: _chaseState,
             to: _attackingState,
-            condition: t => Vector2.Distance(transform.position, _entitySenses.CurrentTarget.position) <= _attackingState.MaxDistance);
+            condition: t => _attackingState.ShouldStopAttacking());
         #endregion
         #endregion
 
@@ -175,10 +177,13 @@ public class TestEnemy : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (_drawPatrolGizmos && _patrolState != null)
-            _patrolState.DrawGizmos();
+        if (_patrolState != null)
+            _patrolState.DrawGizmos(transform, _drawPatrolGizmos);
 
-        if (_drawAttackingGizmos && _attackingState != null)
-            _attackingState.DrawGizmos(transform);
+        if (_chaseState != null)
+            _chaseState.DrawGizmos(transform, _drawChaseGizmos);
+
+        if (_attackingState != null)
+            _attackingState.DrawGizmos(transform, _drawAttackingGizmos);
     }
 }
