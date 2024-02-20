@@ -49,6 +49,12 @@ namespace States.Base
             // Calculate the position where our target is expected to be when our attack will land.
             Vector2 targetPos = _targetPos();
             Vector2? interceptionPosition = _attack.CalculateInterceptionPosition(_movementScript.transform.position, targetPos, (targetPos - _previousTargetPosition) / Time.deltaTime);
+            if (interceptionPosition.HasValue)
+            {
+                Debug.DrawLine(interceptionPosition.Value + Vector2.down, interceptionPosition.Value + Vector2.up, Color.red);
+                Debug.DrawLine(interceptionPosition.Value + Vector2.left, interceptionPosition.Value + Vector2.right, Color.red);
+            }
+
             Vector2 estimatedTargetPos = interceptionPosition.HasValue ? interceptionPosition.Value : targetPos;
             _previousTargetPosition = targetPos;
 
