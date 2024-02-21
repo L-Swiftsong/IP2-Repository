@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void OnMovementInput(InputAction.CallbackContext context) => movementInput = context.ReadValue<Vector2>().normalized;
-    public void OnSprintPressed(InputAction.CallbackContext context)
+    public void OnDashPressed(InputAction.CallbackContext context)
     {
         if (context.performed)
         {

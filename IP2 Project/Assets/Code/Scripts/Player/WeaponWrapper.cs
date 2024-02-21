@@ -17,12 +17,16 @@ public class WeaponWrapper
 
     private int _usesRemaining; // How many uses of this weapon are remaining before we need to wait for a recharge.
     private Coroutine _rechargeUsesCoroutine;
+    private float _rechargeTimeRemaining;
 
 
     // Accessors.
     public Weapon Weapon => _weapon;
     public int WeaponAttackIndex => _weaponAttackIndex;
     public int UsesRemaining => _usesRemaining;
+    public float RechargeTimeRemaining => _rechargeTimeRemaining;
+    public float RechargePercentage => 1f - (_rechargeTimeRemaining / _weapon.TimeToRecharge);
+
 
 
     // Called from Start()/When this WeaponWrapper is created. 
@@ -123,7 +127,15 @@ public class WeaponWrapper
     }
     private IEnumerator RechargeUses()
     {
-        yield return new WaitForSeconds(_weapon.TimeToRecharge);
+        // Wait TimeToRecharge seconds while still allowing for the accessing of the time left to recharge.
+        _rechargeTimeRemaining = _weapon.TimeToRecharge;
+        while (_rechargeTimeRemaining > 0)
+        {
+            _rechargeTimeRemaining -= Time.deltaTime;
+            yield return null;
+        }
+        
+        // Reset the uses.
         _usesRemaining = _weapon.UsesBeforeRecharge;
     }
 }

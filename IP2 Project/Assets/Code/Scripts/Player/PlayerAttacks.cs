@@ -39,7 +39,7 @@ public class PlayerAttacks : MonoBehaviour
 
     public void OnSecondaryAttack(InputAction.CallbackContext context)
     {
-        if (context.started && energy == maxEnergy)
+        /*if (context.started && energy == maxEnergy)
         {
             _secondaryAttackHeld = true;
             energy -= attackCost;
@@ -51,6 +51,10 @@ public class PlayerAttacks : MonoBehaviour
 
 
         else if (context.canceled && energy != maxEnergy)
+            _secondaryAttackHeld = false;*/
+        if (context.started)
+            _secondaryAttackHeld = true;
+        else if (context.canceled)
             _secondaryAttackHeld = false;
     }
     public void OnPrimaryAttack(InputAction.CallbackContext context)
@@ -100,6 +104,8 @@ public class PlayerAttacks : MonoBehaviour
         {
             AttemptAttack(_secondaryWeapon);
         }
+
+        Coolbar.fillAmount = _secondaryWeapon.RechargePercentage;
     }
 
     private void AttemptAttack(WeaponWrapper weapon) => weapon.MakeAttack(_mousePosition, throwToMouse: _throwToMouse);

@@ -17,5 +17,5 @@ MonoBehaviour:
   ComboResetTime: 0
   IgnoreUses: 0
   TickUseOnFirstAttackOnly: 1
-  UsesBeforeRecharge: 6
-  TimeToRecharge: 1.2
+  UsesBeforeRecharge: 1
+  TimeToRecharge: 3
