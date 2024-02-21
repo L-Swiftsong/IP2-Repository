@@ -20,4 +20,4 @@ MonoBehaviour:
   IgnoreUses: 1
   TickUseOnFirstAttackOnly: 1
   UsesBeforeRecharge: 0
-  TimeToRecharge: 0
+  TimeToRecharge: 0.1
