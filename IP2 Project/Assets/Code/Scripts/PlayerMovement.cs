@@ -30,18 +30,36 @@ public class PlayerMovement : MonoBehaviour
 
     private float dashCounter;
     private float dashCoolCounter;
+    bool isMoving;
 
     private void Start()
     {
         activeMoveSpeed = moveSpeed;
+        isMoving = false;
     }
 
-    public void OnMovementInput(InputAction.CallbackContext context) => movementInput = context.ReadValue<Vector2>().normalized;
+    public void OnMovementInput(InputAction.CallbackContext context)
+    {
+        movementInput = context.ReadValue<Vector2>().normalized;
+
+        if (context.started)
+        {
+            isMoving = true;
+        }
+
+        if (context.canceled)
+        {
+            isMoving = false;
+        }
+    }
+
+  
+
     public void OnDashPressed(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            if (dashCoolCounter <=0 && dashCounter <=0 && Stamina >=50)
+            if (dashCoolCounter <=0 && dashCounter <=0 && Stamina >=50 && isMoving == true)
             {
                 activeMoveSpeed = dashSpeed;
                 dashCounter = dashLength;
