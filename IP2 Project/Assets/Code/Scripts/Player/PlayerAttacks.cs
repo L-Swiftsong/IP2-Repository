@@ -85,6 +85,9 @@ public class PlayerAttacks : MonoBehaviour
 
     private void Start()
     {
+        if (_playerCam == null)
+            _playerCam = Camera.main;
+        
         _primaryWeapon = new WeaponWrapper(_primaryWeapon.Weapon, this);
         _secondaryWeapon = new WeaponWrapper(_secondaryWeapon.Weapon, this);
     }
