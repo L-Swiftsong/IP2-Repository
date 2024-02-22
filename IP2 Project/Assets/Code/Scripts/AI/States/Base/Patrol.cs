@@ -40,6 +40,11 @@ namespace States.Base
         {
             base.OnLogic();
 
+            // Prevent errors from having no patrol points.
+            if (_patrolPoints == null || _patrolPoints.Count == 0)
+                return;
+
+
             // Detect if we've arrived at the patrol point.
             if (Vector2.Distance(_movementScript.transform.position, _patrolPoints[_currentPatrolPoint]) < REACHED_POINT_THRESHOLD)
             {

@@ -12,6 +12,7 @@ public class AoEAttack : Attack
     [Space(5)]
     [SerializeField] private GameObject _explosivePrefab;
     [SerializeField] private float _defaultThrowDistance;
+    [SerializeField] private float _throwSpeed;
 
     [Space(5)]
     [SerializeField] private bool _useCustomThrowCurve;
@@ -21,17 +22,17 @@ public class AoEAttack : Attack
     public override void MakeAttack(Transform attackingTransform) => ProcessAttack(attackingTransform, attackingTransform.up, _defaultThrowDistance);
     public override void MakeAttack(Transform attackingTransform, Vector2 targetPos)
     {
-        float throwStrength = Vector2.Distance(attackingTransform.position, targetPos);
+        float throwDistance = Vector2.Distance(attackingTransform.position, targetPos);
         Vector2 throwDirection = (targetPos - (Vector2)attackingTransform.position).normalized;
 
-        ProcessAttack(attackingTransform, throwDirection, throwStrength);
+        ProcessAttack(attackingTransform, throwDirection, throwDistance);
     }
 
 
     private void ProcessAttack(Transform attackingTransform, Vector2 attackDirection, float throwDistance)
     {
         Vector2 targetPosition = (Vector2)attackingTransform.position + (attackDirection * throwDistance);
-        
+
         Factions ignoredFactions = Factions.Unaligned;
         if (!CanHitAllies && attackingTransform.TryGetComponentThroughParents<EntityFaction>(out EntityFaction entityFaction))
             ignoredFactions = entityFaction.Faction;
@@ -42,6 +43,7 @@ public class AoEAttack : Attack
         instantiatedExplosive.Init(
             startPos: attackingTransform.position,
             targetPos: targetPosition,
+            speed: _throwSpeed,
             radius: _aoeRadius,
             delay: _aoeDelay,
             throwCurve: _useCustomThrowCurve ? _customThrowCurve : null,
@@ -51,8 +53,40 @@ public class AoEAttack : Attack
     }
 
 
-    public override Vector2? CalculateInterceptionPosition(Vector2 startPos, Vector2 targetPos, Vector2 targetVelocity) => targetPos + targetVelocity * _aoeDelay;
-    
+    public override Vector2? CalculateInterceptionPosition(Vector2 startPos, Vector2 targetPos, Vector2 targetVelocity)
+    {
+        // Calculate values.
+        Vector2 startToTarget = startPos - targetPos;
+        float targetDistance = startToTarget.magnitude;
+        float targetVelocityDirection = Vector2.Angle(startToTarget, targetVelocity) * Mathf.Deg2Rad;
+        float targetSpeed = targetVelocity.magnitude;
+
+
+        float r = targetSpeed / _throwSpeed;
+        // If there is no valid direction, then stop here.
+        if (MathFunctions.SolveQuadratic(
+            1 - (r * r),
+            2 * r * targetDistance * Mathf.Cos(targetVelocityDirection),
+            -(targetDistance * targetDistance),
+            out float root1,
+            out float root2) == 0)
+        {
+            return null;
+        }
+
+
+        // Find the positive root.
+        float distanceToEstimatedPosition = Mathf.Max(root1, root2);
+
+        // Calculate and output the interception position.
+        float timeToInterception = distanceToEstimatedPosition / _throwSpeed;
+        return targetPos + targetVelocity * timeToInterception;
+
+
+        //return targetPos + targetVelocity * _aoeDelay;
+    }
+
+
     public override void DrawGizmos(Transform gizmosOrigin)
     {
         Gizmos.color = Color.red;

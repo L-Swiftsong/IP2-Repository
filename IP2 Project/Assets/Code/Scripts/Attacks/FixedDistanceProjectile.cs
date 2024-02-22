@@ -21,6 +21,7 @@ public class FixedDistanceProjectile : MonoBehaviour
 
     private Vector2 _startPos;
     private Vector2 _targetPos;
+    private float _speed;
 
 
     private LayerMask _explosionHitMask;
@@ -29,10 +30,11 @@ public class FixedDistanceProjectile : MonoBehaviour
 
 
     
-    public void Init(Vector2 startPos, Vector2 targetPos, float radius, float delay, AnimationCurve throwCurve, LayerMask? damageableLayers = null, Collider2D ignoredCollider = null, Factions ignoredFactions = Factions.Unaligned)
+    public void Init(Vector2 startPos, Vector2 targetPos, float speed, float radius, float delay, AnimationCurve throwCurve, LayerMask? damageableLayers = null, Collider2D ignoredCollider = null, Factions ignoredFactions = Factions.Unaligned)
     {
         this._startPos = startPos;
         this._targetPos = targetPos;
+        this._speed = speed;
         transform.position = _startPos;
 
         
@@ -64,11 +66,13 @@ public class FixedDistanceProjectile : MonoBehaviour
 
     private void Update()
     {
+        // Movement.
+        transform.position = Vector2.MoveTowards(transform.position, _targetPos, _speed * Time.deltaTime);
+
+        
+        // Indicator.
         if (_delayElapsed < _aoeDelay)
         {
-            float lerpValue = _delayElapsed / _aoeDelay;
-            transform.position = Vector2.Lerp(_startPos, _targetPos, _distanceCurve.Evaluate(lerpValue));
-
             if (_maxRadiusIndicator != null)
             {
                 float maxScale = _aoeRadius * 2f;
@@ -77,7 +81,7 @@ public class FixedDistanceProjectile : MonoBehaviour
 
             if (_currentRadiusIndicator != null)
             {
-                float targetScale = Mathf.Lerp(0f, _aoeRadius, lerpValue) * 2f;
+                float targetScale = Mathf.Lerp(0f, _aoeRadius, _delayElapsed / _aoeDelay) * 2f;
 
                 if (targetScale == 0)
                     _currentRadiusIndicator.gameObject.SetActive(false);

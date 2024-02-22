@@ -22,6 +22,7 @@ MonoBehaviour:
   _aoeDelay: 2
   _explosivePrefab: {fileID: 2579404463370864339, guid: 586d260a79f94e94bbaf2b0dc7a06b51, type: 3}
   _defaultThrowDistance: 3
+  _throwSpeed: 12
   _useCustomThrowCurve: 0
   _customThrowCurve:
     serializedVersion: 2
