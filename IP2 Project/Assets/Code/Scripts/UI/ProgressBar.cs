@@ -28,9 +28,9 @@ public class ProgressBar : MonoBehaviour
     [SerializeField] private Image _fill;
     [SerializeField] private Gradient _colourGradient;
 
-    private int _max = 1;
-    private int _current;
-    private int _min = 0;
+    private float _max = 1f;
+    private float _current = 0f;
+    private float _min = 0f;
 
 
 
@@ -41,14 +41,14 @@ public class ProgressBar : MonoBehaviour
         UpdateFill();
     }
 
-    public void SetValues(int current) => SetValues(current, _max, _min);
-    public void SetValues(int current, int max) => SetValues(current, max, _min);
-    public void SetValues(int current, int max, int min)
+    public void SetValues(float current) => SetValues(current, _max, _min);
+    public void SetValues(float current, float max) => SetValues(current, max, _min);
+    public void SetValues(float current, float max, float min)
     {
         // Update cached values.
-        _current = current;
         _max = max;
-        _min = min;
+        _min = Mathf.Min(min, max); // Ensure that _min is not greater than _max.
+        _current = Mathf.Clamp(current, _min, _max); // Ensure that _current is between _min and _max
 
         // Update the progress bar's fill.
         UpdateFill();
@@ -61,7 +61,6 @@ public class ProgressBar : MonoBehaviour
         float currentOffset = _current - _min;
         float maxOffset = _max - _min;
         float fillAmount = currentOffset / maxOffset;
-
 
         // Set the mask's value.
         _mask.fillAmount = fillAmount;

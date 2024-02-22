@@ -20,12 +20,39 @@ public class WeaponWrapper
     private float _rechargeTimeRemaining;
 
 
-    // Accessors.
+    #region Accessors.
     public Weapon Weapon => _weapon;
     public int WeaponAttackIndex => _weaponAttackIndex;
     public int UsesRemaining => _usesRemaining;
     public float RechargeTimeRemaining => _rechargeTimeRemaining;
-    public float RechargePercentage => 1f - (_rechargeTimeRemaining / _weapon.TimeToRecharge);
+    public float RechargePercentage
+    {
+        get
+        {
+            // Ensures that we don't get an error from weapons with no recharge time (E.g. Unlimited Uses).
+            if (_weapon.TimeToRecharge <= 0)
+                return 1f;
+            
+            // Return the percentage of how far through recharging this weapon is.
+            return 1f - (_rechargeTimeRemaining / _weapon.TimeToRecharge);
+        }
+    }
+    public float RecoveryTimePercentage
+    {
+        get
+        {
+            // Calculate values.
+            float timeTillReady = _nextReadyTime - Time.time;
+            int previousAttackIndex = _weaponAttackIndex != 0 ? _weaponAttackIndex - 1 : _weapon.Attacks.Length - 1;
+
+            // If the timeTillReady is less than 0, the recovery time is complete.
+            //  Otherwise, calculate the percentage of how far through the recovery we are, based on the previous attack.
+            return timeTillReady <= 0
+                ? 1f
+                : 1f - (timeTillReady / _weapon.Attacks[previousAttackIndex].GetRecoveryTime());
+        }
+    }
+    #endregion
 
 
 
@@ -113,9 +140,12 @@ public class WeaponWrapper
             _usesRemaining--;
 
             // Reset weapon uses timer.
-            if (_rechargeUsesCoroutine != null)
-                _linkedScript.StopCoroutine(_rechargeUsesCoroutine);
-            _rechargeUsesCoroutine = _linkedScript.StartCoroutine(RechargeUses());
+            if (!_weapon.RechargeOnlyWhenOut || _usesRemaining <= 0)
+            {
+                if (_rechargeUsesCoroutine != null)
+                    _linkedScript.StopCoroutine(_rechargeUsesCoroutine);
+                _rechargeUsesCoroutine = _linkedScript.StartCoroutine(RechargeUses());
+            }
         }
     }
 
