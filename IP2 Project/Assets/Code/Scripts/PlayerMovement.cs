@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -11,9 +10,9 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rb;
     public bool sprint = false;
 
-    public Image StaminaBar;
-
     public float Stamina, MaxStamina;
+    public static System.Action<float> OnStaminaChanged; // <float staminaPercentage>
+    public static System.Action<float, float> OnStaminaValuesChanged; // <float maxStamina, float dashCost>
 
     public float DashCost;
 
@@ -36,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
     {
         activeMoveSpeed = moveSpeed;
         isMoving = false;
+
+        OnStaminaValuesChanged?.Invoke(MaxStamina, DashCost);
     }
 
     public void OnMovementInput(InputAction.CallbackContext context)
@@ -59,34 +60,22 @@ public class PlayerMovement : MonoBehaviour
     {
         if (context.performed)
         {
-            if (dashCoolCounter <=0 && dashCounter <=0 && Stamina >=50 && isMoving == true)
+            if (dashCoolCounter <= 0 && dashCounter <= 0 && Stamina >= DashCost && isMoving == true)
             {
                 activeMoveSpeed = dashSpeed;
                 dashCounter = dashLength;
                 Stamina -= DashCost;
-                StaminaBar.fillAmount = Stamina / MaxStamina;
 
-                if (recharge != null)StopCoroutine(recharge);
+                if (recharge != null)
+                    StopCoroutine(recharge);
                 recharge = StartCoroutine(RechargeStamina());
-                
             }
-            
         }
-       
-       
     }
-
-
-    //// Update is called once per frame
-    //void Update()
-    //{
-    //    
-    //}
 
     void FixedUpdate()
     {
         Move();
-        
     }
 
     void Update()
@@ -106,13 +95,12 @@ public class PlayerMovement : MonoBehaviour
         {
             dashCoolCounter -= Time.deltaTime;
         }
-
-        
-
     }
 
     private IEnumerator RechargeStamina()
     {
+        OnStaminaChanged?.Invoke(Stamina / MaxStamina);
+        
         yield return new WaitForSeconds(1f);
 
         while (Stamina < MaxStamina)
@@ -124,34 +112,14 @@ public class PlayerMovement : MonoBehaviour
                 Stamina = MaxStamina;
             }
 
-            StaminaBar.fillAmount = Stamina / MaxStamina;
+            OnStaminaChanged?.Invoke(Stamina / MaxStamina);
 
             yield return new WaitForSeconds(.1f);
-
-           
         }
     }
-    //void ProcessInputs()
-    //{
-    //    float moveX = Input.GetAxisRaw("Horizontal");
-    //    float moveY = Input.GetAxisRaw("Vertical");
-    //    if(Input.GetKeyDown("left shift"))
-    //    {
-    //        moveSpeed = 10;
-    //        sprint = true;
-    //    }
-    //    if (Input.GetKeyUp("left shift"))
-    //    {
-    //        moveSpeed = 5;
-    //        sprint = false;
-    //    }
-    //    moveDirection = new Vector2(moveX, moveY).normalized;
-    //}
 
     void Move()
     {
         rb.velocity = movementInput * activeMoveSpeed;
     }
-
-
 }

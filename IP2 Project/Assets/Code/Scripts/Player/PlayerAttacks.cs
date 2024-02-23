@@ -18,8 +18,7 @@ public class PlayerAttacks : MonoBehaviour
             OnPrimaryWeaponChanged?.Invoke(value.Weapon);
         }
     }
-
-    public bool _primaryAttackHeld;
+    private bool _primaryAttackHeld;
     
     public static System.Action<float> OnPrimaryRecoveryTimeChanged; // Called every frame while the weapon's RechargePercentage is below 1.
     public static System.Action<float> OnPrimaryUseRechargeTimeChanged; // Called every frame while the weapon is recharging its uses.
@@ -37,8 +36,7 @@ public class PlayerAttacks : MonoBehaviour
             OnSecondaryWeaponChanged?.Invoke(value.Weapon);
         }
     }
-
-    public bool _secondaryAttackHeld;
+    private bool _secondaryAttackHeld;
 
     public static System.Action<float> OnSecondaryRecoveryTimeChanged; // Called every frame while the weapon's RechargePercentage is below 1.
     public static System.Action<float> OnSecondaryUseRechargeTimeChanged; // Called every frame while the weapon is recharging its uses.
@@ -92,8 +90,9 @@ public class PlayerAttacks : MonoBehaviour
         {
             AttemptAttack(_primaryWeaponProperty);
         }
-        // If the primary isn't being held, check for the secondary attack.
-        else if (_secondaryAttackHeld)
+        
+        // Check if the secondary attack button is held.
+        if (_secondaryAttackHeld)
         {
             AttemptAttack(_secondaryWeapon);
         }
