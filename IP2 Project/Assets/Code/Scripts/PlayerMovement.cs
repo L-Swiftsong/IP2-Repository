@@ -15,9 +15,9 @@ public class PlayerMovement : MonoBehaviour
 
 
     [Header("Dashing")]
-    [SerializeField] private float dashSpeed;
-    [SerializeField] private float dashDuration = 0.5f;
-    private float dashDurationRemaining;
+    [SerializeField] private float _dashSpeed;
+    [SerializeField] private float _dashDistance;
+    private float _dashDurationRemaining;
 
     [SerializeField] private float dashCooldown = 0.25f;
     private float dashCooldownRemaining;
@@ -38,6 +38,11 @@ public class PlayerMovement : MonoBehaviour
     private float staminaRegenerationDelayRemaining;
 
 
+    [Header("Debug")]
+    [SerializeField] private bool _drawGizmos;
+    [SerializeField] private Color _dashGizmoColour = Color.red;
+
+
 
     public void OnMovementInput(InputAction.CallbackContext context) => movementInput = context.ReadValue<Vector2>().normalized;
     
@@ -56,10 +61,10 @@ public class PlayerMovement : MonoBehaviour
         if (_isDashing)
         {
             // Decrement the dash duration remaining.
-            dashDurationRemaining -= Time.deltaTime;
+            _dashDurationRemaining -= Time.deltaTime;
 
             // If we are to stop dashing, do so.
-            if (dashDurationRemaining <= 0f)
+            if (_dashDurationRemaining <= 0f)
             {
                 _isDashing = false;
                 dashCooldownRemaining = dashCooldown;
@@ -92,9 +97,9 @@ public class PlayerMovement : MonoBehaviour
         
         // Start Dashing.
         Vector2 dashDirection = (movementInput != Vector2.zero ? movementInput : (Vector2)transform.up).normalized;
-        rb.velocity = dashDirection * dashSpeed;
+        rb.velocity = dashDirection * _dashSpeed;
 
-        dashDurationRemaining = dashDuration;
+        _dashDurationRemaining = _dashDistance / _dashSpeed; // From physics: 't = d/v'.
         _isDashing = true;
 
 
@@ -128,5 +133,15 @@ public class PlayerMovement : MonoBehaviour
             // Wait until the next frame.
             yield return null;
         }
+    }
+
+
+    private void OnDrawGizmosSelected()
+    {
+        if (!_drawGizmos)
+            return;
+
+        Gizmos.color = _dashGizmoColour;
+        Gizmos.DrawRay(transform.position, transform.up * _dashDistance);
     }
 }
