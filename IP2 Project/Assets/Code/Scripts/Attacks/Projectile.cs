@@ -17,6 +17,10 @@ public class Projectile : MonoBehaviour
     private float _stopOrientationDelay = 0f;
 
     protected Vector2? TargetPosition;
+    
+    [Space(5)]
+    [SerializeField] private float _maxLifetime = 7.5f;
+    private float _destroyTime;
 
 
     [Header("Collision")]
@@ -61,7 +65,10 @@ public class Projectile : MonoBehaviour
             ignoreTransform
         };
 
-
+        // Calculate the time when this projectile will be destroyed.
+        _destroyTime = Time.time + _maxLifetime;
+        
+        
         // Setup specific targeting.
         this.TargetTransform = targetTransform;
         this.TargetPosition = targetPosition;
@@ -93,6 +100,10 @@ public class Projectile : MonoBehaviour
         
         // Move in our up direction.
         transform.position += transform.up * Speed * Time.fixedDeltaTime;
+        
+        // Destroy the projectile if the lifetime has elapsed.
+        if (Time.time > _destroyTime)
+            Destroy(this.gameObject);
     }
 
     public void Reflect(Transform reflectionTransform, bool reflectInFacingDirection = true)
@@ -122,6 +133,9 @@ public class Projectile : MonoBehaviour
 
         // Set the new up.
         transform.up = newUp;
+
+        // Reset the destroy timer.
+        _destroyTime = Time.time + _maxLifetime;
 
 
         // Improve reflection when we have a value for _targetTransform by stopping the autotargeting for a fixed delay.

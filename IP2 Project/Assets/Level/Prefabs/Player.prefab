@@ -440,14 +440,13 @@ MonoBehaviour:
   moveSpeed: 5
   rb: {fileID: 9067624589833551237}
   sprint: 0
-  StaminaBar: {fileID: 0}
   Stamina: 100
   MaxStamina: 100
   DashCost: 50
   ChargeRate: 33
   dashSpeed: 20
   dashLength: 0.3
-  dashCooldown: 1
+  dashCooldown: 0.25
 --- !u!114 &728810112589049453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -462,19 +461,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _primaryWeapon:
     _weapon: {fileID: 11400000, guid: 01ece5847bf07be4ea69247f6114148b, type: 2}
-  _primaryAttackHeld: 0
   _secondaryWeapon:
     _weapon: {fileID: 11400000, guid: 957461238b332b641a845fb881175d4d, type: 2}
-  _secondaryAttackHeld: 0
-  _attackToDebug: 0
-  _currentAbility: {fileID: 11400000, guid: 1143c7af52cca614c8fdcaf247291a3b, type: 2}
   _playerCam: {fileID: 0}
   _throwToMouse: 1
-  Coolbar: {fileID: 0}
-  energy: 100
-  maxEnergy: 100
-  attackCost: 100
-  chargeRate: 33
 --- !u!114 &1382203755656598338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,7 +496,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: HealthUI, Assembly-CSharp
+        m_TargetAssemblyTypeName: PlayerHealthUI, Assembly-CSharp
         m_MethodName: UpdateHearts
         m_Mode: 0
         m_Arguments:
