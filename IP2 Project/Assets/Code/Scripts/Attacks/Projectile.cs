@@ -10,6 +10,8 @@ public class Projectile : MonoBehaviour
     [Header("Projectile")]
     [SerializeField] private float _speed;
     public float ProjectileSpeed => _speed;
+    [SerializeField] private float _maxLifetime = 7.5f;
+    private float _destroyTime;
 
 
     [Header("Collision")]
@@ -45,11 +47,22 @@ public class Projectile : MonoBehaviour
         {
             ignoreCollider,
         };
+
+
+        // Calculate the time when this projectile will be destroyed.
+        _destroyTime = Time.time + _maxLifetime;
     }
 
 
-    private void FixedUpdate() => transform.position += transform.up * _speed * Time.fixedDeltaTime;
-    
+    private void FixedUpdate()
+    {
+        // Move the projectile.
+        transform.position += transform.up * _speed * Time.fixedDeltaTime;
+
+        // Destroy the projectile if the lifetime has elapsed.
+        if (Time.time > _destroyTime)
+            Destroy(this.gameObject);
+    }
 
     public void Reflect(Transform reflectionTransform, bool reflectInFacingDirection = true)
     {
@@ -79,6 +92,10 @@ public class Projectile : MonoBehaviour
             _ignoredFactions = entityFaction.Faction;
         else
             _ignoredFactions = Factions.Unaligned;
+
+
+        // Reset the destroy timer.
+        _destroyTime = Time.time + _maxLifetime;
     }
 
 

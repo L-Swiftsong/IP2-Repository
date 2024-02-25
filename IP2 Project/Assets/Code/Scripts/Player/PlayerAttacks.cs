@@ -9,19 +9,38 @@ public class PlayerAttacks : MonoBehaviour
 {
     [Header("Primary Attacks")]
     [SerializeField] private WeaponWrapper _primaryWeapon;
-    public bool _primaryAttackHeld;
+    private WeaponWrapper _primaryWeaponProperty
+    {
+        get => _primaryWeapon;
+        set
+        {
+            _primaryWeapon = value;
+            OnPrimaryWeaponChanged?.Invoke(value.Weapon);
+        }
+    }
+    private bool _primaryAttackHeld;
+    
+    public static System.Action<float> OnPrimaryRecoveryTimeChanged; // Called every frame while the weapon's RechargePercentage is below 1.
+    public static System.Action<float> OnPrimaryUseRechargeTimeChanged; // Called every frame while the weapon is recharging its uses.
+    public static System.Action<Weapon> OnPrimaryWeaponChanged; // Called when the primaryWeapon is assigned.
+
 
     [Header("Secondary Attacks")]
     [SerializeField] private WeaponWrapper _secondaryWeapon;
-    public bool _secondaryAttackHeld;
+    private WeaponWrapper _secondaryWeaponProperty
+    {
+        get => _secondaryWeapon;
+        set
+        {
+            _secondaryWeapon = value;
+            OnSecondaryWeaponChanged?.Invoke(value.Weapon);
+        }
+    }
+    private bool _secondaryAttackHeld;
 
-    [SerializeField, Min(0)] private int _attackToDebug;
-
-
-    [Header("Abilities")]
-    [SerializeField] private Ability _currentAbility;
-    private float _abilityCooldownComplete;
-    private bool _useAbilityHeld;
+    public static System.Action<float> OnSecondaryRecoveryTimeChanged; // Called every frame while the weapon's RechargePercentage is below 1.
+    public static System.Action<float> OnSecondaryUseRechargeTimeChanged; // Called every frame while the weapon is recharging its uses.
+    public static System.Action<Weapon> OnSecondaryWeaponChanged; // Called when the primaryWeapon is assigned.
 
 
     [Header("AoE Test")]
@@ -29,29 +48,9 @@ public class PlayerAttacks : MonoBehaviour
     [SerializeField] private bool _throwToMouse;
     private Vector2 _mousePosition;
 
-    [Header("Cooldown for ability")]
-    [SerializeField] Image Coolbar;
-    [SerializeField] float energy, maxEnergy;
-    [SerializeField] float attackCost;
-    [SerializeField] float chargeRate;
-    private Coroutine recharge;
-
 
     public void OnSecondaryAttack(InputAction.CallbackContext context)
     {
-        /*if (context.started && energy == maxEnergy)
-        {
-            _secondaryAttackHeld = true;
-            energy -= attackCost;
-            Coolbar.fillAmount = energy / maxEnergy;
-
-            if (recharge != null) StopCoroutine(recharge);
-            recharge = StartCoroutine(RechargeAttack());
-        }
-
-
-        else if (context.canceled && energy != maxEnergy)
-            _secondaryAttackHeld = false;*/
         if (context.started)
             _secondaryAttackHeld = true;
         else if (context.canceled)
@@ -66,13 +65,6 @@ public class PlayerAttacks : MonoBehaviour
     }
 
     
-    public void OnUseAbilityPressed(InputAction.CallbackContext context)
-    {
-        if (context.started)
-            _useAbilityHeld = true;
-        else if (context.canceled)
-            _useAbilityHeld = false;
-    }
     public void GetMousePosition(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -87,28 +79,33 @@ public class PlayerAttacks : MonoBehaviour
     {
         if (_playerCam == null)
             _playerCam = Camera.main;
-        
-        _primaryWeapon = new WeaponWrapper(_primaryWeapon.Weapon, this);
-        _secondaryWeapon = new WeaponWrapper(_secondaryWeapon.Weapon, this);
+
+        _primaryWeaponProperty = new WeaponWrapper(_primaryWeaponProperty.Weapon, this);
+        _secondaryWeaponProperty = new WeaponWrapper(_secondaryWeaponProperty.Weapon, this);
     }
     private void Update()
     {
-        // Abilities are checked before attacks.
-        if (_useAbilityHeld && CanUseAbility())
+        // Check if the primary attack button is held.
+        if (_primaryAttackHeld)
         {
-            UseAbility();
+            AttemptAttack(_primaryWeaponProperty);
         }
-        else if (_primaryAttackHeld)
-        {
-            AttemptAttack(_primaryWeapon);
-        }
-
-        else if (_secondaryAttackHeld)
+        
+        // Check if the secondary attack button is held.
+        if (_secondaryAttackHeld)
         {
             AttemptAttack(_secondaryWeapon);
         }
 
-        Coolbar.fillAmount = _secondaryWeapon.RechargePercentage;
+
+        // Call Events for UI (Currently occuring every frame. We can optimise this by reducing the number of calls).
+        // (Primary Weapon)
+        OnPrimaryRecoveryTimeChanged?.Invoke(_primaryWeaponProperty.RecoveryTimePercentage); // Recovery Event (Time between attacks).
+        OnPrimaryUseRechargeTimeChanged?.Invoke(_primaryWeaponProperty.RechargePercentage); // Recharge Event (Uses Remaining).
+
+        // (Secondary Weapon)
+        OnSecondaryRecoveryTimeChanged?.Invoke(_secondaryWeaponProperty.RecoveryTimePercentage); // Recovery Event (Time between attacks).
+        OnSecondaryUseRechargeTimeChanged?.Invoke(_secondaryWeaponProperty.RechargePercentage); // Recharge Event (Uses Remaining).
     }
 
     private void AttemptAttack(WeaponWrapper weapon) => weapon.MakeAttack(_mousePosition, throwToMouse: _throwToMouse);
@@ -119,54 +116,19 @@ public class PlayerAttacks : MonoBehaviour
         WeaponWrapper newWrapper = new WeaponWrapper(newWeapon, this);
 
         if (replacePrimary)
-            _primaryWeapon = newWrapper;
+            _primaryWeaponProperty = newWrapper;
         else
-            _secondaryWeapon = newWrapper;
-    }
-
-
-    private bool CanUseAbility()
-    {
-        if (_abilityCooldownComplete >= Time.time)
-            return false;
-
-        return true;
-    }
-    private void UseAbility()
-    {
-        Debug.Log("Used Ability");
-        _abilityCooldownComplete = Time.time + _currentAbility.GetCooldownTime();
+            _secondaryWeaponProperty = newWrapper;
     }
 
 
 
-    private void OnDrawGizmos()
-    {
-        if (_primaryWeapon.Weapon != null && _attackToDebug < _primaryWeapon.Weapon.Attacks.Length)
-            _primaryWeapon.Weapon.Attacks[_attackToDebug].DrawGizmos(this.transform);
+    //private void OnDrawGizmos()
+    //{
+    //    if (_primaryWeapon.Weapon != null && _attackToDebug < _primaryWeapon.Weapon.Attacks.Length)
+    //        _primaryWeapon.Weapon.Attacks[_attackToDebug].DrawGizmos(this.transform);
 
-        else if (_secondaryWeapon.Weapon != null && _attackToDebug < _secondaryWeapon.Weapon.Attacks.Length)
-            _secondaryWeapon.Weapon.Attacks[_attackToDebug].DrawGizmos(this.transform);
-    }
-
-    private IEnumerator RechargeAttack()
-    {
-        yield return new WaitForSeconds(1f);
-
-        while (energy < maxEnergy)
-        {
-            energy += chargeRate / 10f;
-
-            if (energy > maxEnergy)
-            {
-                energy = maxEnergy;
-            }
-
-            Coolbar.fillAmount = energy / maxEnergy;
-
-            yield return new WaitForSeconds(.1f);
-
-
-        }
-    }
+    //    else if (_secondaryWeapon.Weapon != null && _attackToDebug < _secondaryWeapon.Weapon.Attacks.Length)
+    //        _secondaryWeapon.Weapon.Attacks[_attackToDebug].DrawGizmos(this.transform);
+    //}
 }
