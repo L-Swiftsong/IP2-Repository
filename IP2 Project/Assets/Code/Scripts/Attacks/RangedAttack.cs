@@ -7,7 +7,6 @@ public class RangedAttack : Attack
 {
     [Header("Ranged Attack Variables")]
     [SerializeField] private GameObject _projectilePrefab;
-    [SerializeField] private bool _dealsDamage;
 
     [SerializeField, Min(1)] private int _projectileCount;
     [SerializeField] private float _angleBetweenProjectiles;
@@ -33,7 +32,6 @@ public class RangedAttack : Attack
         // Cache values.
         float minAngle = -_angleBetweenProjectiles * ((_projectileCount - 1) / 2f);
 
-        Collider2D attackingCollider = !CanHitSelf ? attackingTransform.GetComponent<Collider2D>() : null;
         Factions ignoredFactions = Factions.Unaligned;
         if (!CanHitAllies && attackingTransform.TryGetComponent<EntityFaction>(out EntityFaction entityFaction))
             ignoredFactions = entityFaction.Faction;
@@ -50,27 +48,27 @@ public class RangedAttack : Attack
             Vector2 firingDirection = (Quaternion.Euler(0f, 0f, firingAngle) * attackDirection).normalized;
 
             // Create the projectile.
-            CreateProjectile(attackingTransform, firingDirection, attackingCollider, ignoredFactions);
+            CreateProjectile(attackingTransform, firingDirection, !CanHitSelf ? attackingTransform : null, ignoredFactions);
         }
     }
-    private void CreateProjectile(Transform originTransform, Vector2 upDir, Collider2D ignoredCollider, Factions ignoredFactions)
+    private void CreateProjectile(Transform originTransform, Vector2 upDir, Transform ignoredTransform, Factions ignoredFactions)
     {
         // Instantiate the projectile GO.
         Projectile projectile = Instantiate<GameObject>(_projectilePrefab.gameObject, originTransform.position, Quaternion.LookRotation(Vector3.forward, upDir)).GetComponent<Projectile>();
         
         // Initialise the projectile.
-        projectile.Init(ignoredCollider, OnHit,
+        projectile.Init(ignoredTransform, OnHit,
             targetLayers: HitMask,
             ignoredFactions: ignoredFactions);
     }
 
 
-    private void OnHit(Collider2D hitCollider)
+    private void OnHit(Transform hitTransform)
     {
-        Debug.Log(this.name + " was used to hit: " + hitCollider.name);
+        Debug.Log(this.name + " was used to hit: " + hitTransform.name);
 
         // Deal damage.
-        if (_dealsDamage && hitCollider.TryGetComponent<HealthComponent>(out HealthComponent healthComponent))
+        if (DealsDamage && hitTransform.TryGetComponent<HealthComponent>(out HealthComponent healthComponent))
             healthComponent.TakeDamage();
     }
 

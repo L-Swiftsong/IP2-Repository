@@ -12,6 +12,9 @@ public abstract class Attack : ScriptableObject
     [Space(5)]
     [SerializeField] protected float RecoveryTime;
 
+    [Space(5)]
+    [SerializeField] protected bool DealsDamage;
+
     public float GetRecoveryTime() => RecoveryTime;
 
 
