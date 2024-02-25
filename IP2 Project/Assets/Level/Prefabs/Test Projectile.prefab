@@ -47,12 +47,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ae28283edc85e40bc58276068561c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
+  Speed: 6
+  _rotationSpeed: 120
+  _maxLifetime: 7.5
   _detectionOffset: 0.125
-  _hitMask:
+  HitMask:
     serializedVersion: 2
-    m_Bits: 65
-  _ignoredFactions: 0
+    m_Bits: 0
+  IgnoredFactions: 0
   _canReflect: 1
 --- !u!58 &3332226374571333701
 CircleCollider2D:
