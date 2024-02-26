@@ -17,7 +17,9 @@ MonoBehaviour:
   HitMask:
     serializedVersion: 2
     m_Bits: 137
+  _attackAnimation: {fileID: 11400000, guid: a084a203f77dcd14e9e329bfc38c0fe4, type: 2}
   RecoveryTime: 0.2
+  DealsDamage: 0
   _extents: {x: 1.75, y: 1.25}
   _offset: {x: 0, y: 1}
   _reflectProjectiles: 1

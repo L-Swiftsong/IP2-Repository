@@ -49,6 +49,10 @@ public class PlayerAttacks : MonoBehaviour
     private Vector2 _mousePosition;
 
 
+    [Header("Animations")]
+    [SerializeField] private AnimationController _animationController;
+
+
     public void OnSecondaryAttack(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -82,6 +86,9 @@ public class PlayerAttacks : MonoBehaviour
 
         _primaryWeaponProperty = new WeaponWrapper(_primaryWeaponProperty.Weapon, this);
         _secondaryWeaponProperty = new WeaponWrapper(_secondaryWeaponProperty.Weapon, this);
+
+        if (_animationController == null)
+            _animationController = GetComponent<AnimationController>();
     }
     private void Update()
     {
@@ -108,8 +115,17 @@ public class PlayerAttacks : MonoBehaviour
         OnSecondaryUseRechargeTimeChanged?.Invoke(_secondaryWeaponProperty.RechargePercentage); // Recharge Event (Uses Remaining).
     }
 
-    private void AttemptAttack(WeaponWrapper weapon) => weapon.MakeAttack(_mousePosition, throwToMouse: _throwToMouse);
-
+    private void AttemptAttack(WeaponWrapper weaponWrapper)
+    {
+        AnimationContainerSO attackAnimation = weaponWrapper.GetCurrentAttacksAnimation(out float attackDuration);
+        if (weaponWrapper.MakeAttack(_mousePosition, throwToMouse: _throwToMouse))
+        {
+            Debug.Log("Attack was successful");
+            
+            // Call for Animations.
+            _animationController?.PlayAttackAnimation(attackAnimation, minRevertDuration: attackDuration);
+        }
+    }
 
     public void EquipWeapon(Weapon newWeapon, bool replacePrimary = true)
     {

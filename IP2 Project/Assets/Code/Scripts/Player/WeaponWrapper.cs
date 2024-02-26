@@ -70,17 +70,17 @@ public class WeaponWrapper
         this._usesRemaining = _weapon.UsesBeforeRecharge;
     }
 
-    public void MakeAttack(Vector2? targetPos = null, bool throwToMouse = false)
+    public bool MakeAttack(Vector2? targetPos = null, bool throwToMouse = false)
     {
         // Ensure this wrapper has been set up.
         if (_linkedScript == null)
         {
             Debug.LogWarning("Warning: WeaponWrapper for " + _weapon.name + " has not been set up before MakeAttack call. Stopping execution");
-            return;
+            return false;
         }
 
         if (!CanAttack())
-            return;
+            return false;
 
         // We can attack.
         // Make the attack.
@@ -104,8 +104,14 @@ public class WeaponWrapper
 
         IncrementAttackIndex();
         DecrementWeaponUses();
+        return true;
     }
-
+    public AnimationContainerSO GetCurrentAttacksAnimation() => Weapon.Attacks[_weaponAttackIndex].AttackAnimation;
+    public AnimationContainerSO GetCurrentAttacksAnimation(out float attackDuration)
+    {
+        attackDuration = Weapon.Attacks[_weaponAttackIndex].GetRecoveryTime();
+        return Weapon.Attacks[_weaponAttackIndex].AttackAnimation;
+    }
 
     private bool CanAttack()
     {

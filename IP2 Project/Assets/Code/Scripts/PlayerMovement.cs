@@ -38,6 +38,11 @@ public class PlayerMovement : MonoBehaviour
     private float staminaRegenerationDelayRemaining;
 
 
+    [Header("Animations")]
+    [SerializeField] private AnimationController _animationController;
+    [SerializeField] private AnimationContainerSO _dashAnim;
+
+
     [Header("Debug")]
     [SerializeField] private bool _drawGizmos;
     [SerializeField] private Color _dashGizmoColour = Color.red;
@@ -53,7 +58,15 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private void Start() => OnStaminaValuesChanged?.Invoke(MaxStamina, DashCost);
+    private void Start()
+    {
+        // Call stamina changed event to show the default values.
+        OnStaminaValuesChanged?.Invoke(MaxStamina, DashCost);
+
+        // Find the animation controller if we don't already have it.
+        if (_animationController == null)
+            _animationController = GetComponent<AnimationController>();
+    }
 
     void Update()
     {
@@ -66,8 +79,7 @@ public class PlayerMovement : MonoBehaviour
             // If we are to stop dashing, do so.
             if (_dashDurationRemaining <= 0f)
             {
-                _isDashing = false;
-                dashCooldownRemaining = dashCooldown;
+                StopDashing();
             }
         }
         // If we aren't dashing & our cooldown time hasn't elapsed, decrement the cooldown time remaining.
@@ -85,6 +97,12 @@ public class PlayerMovement : MonoBehaviour
 
         // Move by setting the player's velocity.
         rb.velocity = movementInput * moveSpeed;
+
+        // Play animations.
+        if (movementInput == Vector2.zero)
+            _animationController?.PlayIdle();
+        else
+            _animationController.PlayRunning();
     }
 
 
@@ -103,6 +121,10 @@ public class PlayerMovement : MonoBehaviour
         _isDashing = true;
 
 
+        // Attempt to call Anim.
+        _animationController?.SetNextAnimation(_dashAnim, softOverridable: false, hardOverride: true, loops: true, isTemporary: false, customRevertCondition: () => !_isDashing);
+
+
         // Update Stamina.
         Stamina -= DashCost;
         OnStaminaChanged?.Invoke(Stamina / MaxStamina);
@@ -112,6 +134,16 @@ public class PlayerMovement : MonoBehaviour
             StopCoroutine(dashRechargeCoroutine);
         dashRechargeCoroutine = StartCoroutine(RechargeStamina());
     }
+    private void StopDashing()
+    {
+        _isDashing = false;
+        dashCooldownRemaining = dashCooldown;
+
+        // Attempt to stop the dash animation.
+        _animationController?.StopCurrentAnimation();
+    }
+
+
     private IEnumerator RechargeStamina()
     {
         // Don't start regenerating stamina for staminaRegenerationDelay seconds.

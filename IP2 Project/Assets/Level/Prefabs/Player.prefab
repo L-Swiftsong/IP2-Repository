@@ -186,6 +186,7 @@ GameObject:
   - component: {fileID: 1382203755656598338}
   - component: {fileID: 6812040678532771438}
   - component: {fileID: 2659672840177048775}
+  - component: {fileID: 4519550686233223380}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -447,6 +448,8 @@ MonoBehaviour:
   MaxStamina: 100
   ChargeRate: 33
   staminaRegenerationDelay: 1
+  _animationController: {fileID: 0}
+  _dashAnim: {fileID: 11400000, guid: 601092a088b238a46b03dd49e7c24a75, type: 2}
   _drawGizmos: 0
   _dashGizmoColour: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &728810112589049453
@@ -467,6 +470,7 @@ MonoBehaviour:
     _weapon: {fileID: 11400000, guid: 957461238b332b641a845fb881175d4d, type: 2}
   _playerCam: {fileID: 0}
   _throwToMouse: 1
+  _animationController: {fileID: 0}
 --- !u!114 &1382203755656598338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -509,10 +513,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4519550686233223380}
+        m_TargetAssemblyTypeName: AnimationController, Assembly-CSharp
+        m_MethodName: HandleHealthChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _iFrameDuration: 0.25
   OnDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4519550686233223380}
+        m_TargetAssemblyTypeName: AnimationController, Assembly-CSharp
+        m_MethodName: PlayDead
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2659672840177048775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528,3 +556,23 @@ MonoBehaviour:
   _playerInput: {fileID: 3289976143937181819}
   _playerCam: {fileID: 0}
   _rotationSpeed: 720
+--- !u!114 &4519550686233223380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9144251323198861198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3fd3c28e08288141ad69fca2b410f1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentAnimationName: 
+  _previousAnimationName: 
+  _animate: 1
+  _spriteRenderer: {fileID: 5312180351850510114}
+  _framerate: 6
+  _entityType: 0
+  _idleAnim: {fileID: 11400000, guid: 6b286fdf0ed5a7e49a6755d271b6ec01, type: 2}
+  _runningAnim: {fileID: 11400000, guid: 8e2701cc013eb51478b1e27bb1497f55, type: 2}

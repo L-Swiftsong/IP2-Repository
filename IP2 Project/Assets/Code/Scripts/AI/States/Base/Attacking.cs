@@ -15,6 +15,7 @@ namespace States.Base
 
         private Func<Vector2> _targetPos;
         private EntityMovement _movementScript;
+        private AnimationController _animationController;
 
 
         [Header("Attacks")]
@@ -73,6 +74,9 @@ namespace States.Base
             {
                 _attack.MakeAttack(_movementScript.transform, estimatedTargetPos);
                 _attackCooldownCompleteTime = Time.time + _attack.GetRecoveryTime();
+
+                // Call for animations.
+                _animationController?.SetNextAnimation(_attack.AttackAnimation, softOverridable: false, hardOverride: true, isTemporary: true);
             }
 
 

@@ -10,12 +10,16 @@ public abstract class Attack : ScriptableObject
     [SerializeField] protected LayerMask HitMask;
 
     [Space(5)]
+    [SerializeField] private AnimationContainerSO _attackAnimation;
+    public AnimationContainerSO AttackAnimation => _attackAnimation;
+
+    [Space(5)]
     [SerializeField] protected float RecoveryTime;
+    public float GetRecoveryTime() => RecoveryTime;
 
     [Space(5)]
     [SerializeField] protected bool DealsDamage;
 
-    public float GetRecoveryTime() => RecoveryTime;
 
 
 
