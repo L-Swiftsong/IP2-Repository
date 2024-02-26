@@ -20,6 +20,7 @@ public class AnimationController : MonoBehaviour
     // Current animation parameters.
     private bool _currentIsSoft; // Soft animations are automatically overrided by new animations.
     private bool _currentLoops; // Should this animation loop.
+    private bool _hasCurrentLooped = false;
     private bool _currentIsTemporary; // Temporary animations aren't saved as previous animations when set.
     
     private System.Func<bool> _currentResetCondition;
@@ -77,6 +78,18 @@ public class AnimationController : MonoBehaviour
     }
     private void SetNextSprite()
     {
+        // If the current animation is temporary, has looped at least once, and the reset condition has been met, reset it as opposed to waiting until the animation fully completes.
+        if (_hasCurrentLooped && (_currentIsTemporary && _currentResetCondition()))
+        {
+            if (_revertToPreviousCoroutine != null)
+                StopCoroutine(_revertToPreviousCoroutine);
+            _revertToPreviousCoroutine = StartCoroutine(RevertToPreviousAfterCondition(_currentResetCondition));
+
+            // Stop here to prevent errors.
+            return;
+        }
+
+        
         // Increment current sprite index.
         _currentSpriteIndex++;
         if (_currentSpriteIndex >= _currentAnimation.Length)
@@ -84,21 +97,25 @@ public class AnimationController : MonoBehaviour
             // If we are to destroy ourself when the current animation completes, do so now.
             if (_destroyOnComplete)
                 Destroy(this);
-            
-            // If this animation loops, constrain the index and allow it to loop.
+
+            // If this animation loops AND (is not temporary OR the condition has not been met), constrain the index and allow it to loop.
             if (_currentLoops)
+            {
                 _currentSpriteIndex = 0;
+                _hasCurrentLooped = true;
+            }
             // Otherwise, revert to the previous animation.
             else
             {
                 if (_revertToPreviousCoroutine != null)
                     StopCoroutine(_revertToPreviousCoroutine);
                 _revertToPreviousCoroutine = StartCoroutine(RevertToPreviousAfterCondition(_currentResetCondition));
-                
+
                 // Stop here to prevent errors.
                 return;
             }
         }
+
 
         // Set the sprite of the sprite renderer.
         _spriteRenderer.sprite = _currentAnimation[_currentSpriteIndex];
@@ -171,6 +188,7 @@ public class AnimationController : MonoBehaviour
             // Set new animation parameters.
             _currentIsSoft = softOverridable;
             _currentLoops = loops;
+            _hasCurrentLooped = false;
             _currentIsTemporary = isTemporary;
             _currentAnimationID = animationContainer.GetInstanceID();
 
@@ -221,6 +239,7 @@ public class AnimationController : MonoBehaviour
         // Revert to the previous animation's parameters.
         _currentIsSoft = _previousAnimationParameters.isSoft;
         _currentLoops = _previousAnimationParameters.loops;
+        _hasCurrentLooped = false;
         _currentAnimationID = _previousAnimationParameters.ID;
         _currentIsTemporary = false;
     }
