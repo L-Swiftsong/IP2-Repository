@@ -9,18 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e1239ec5c5f3d844a22e5107560bc9a, type: 3}
-  m_Name: Ranged Attack Test
+  m_Script: {fileID: 11500000, guid: ad4fdcedac66c254c88a872b56e553f6, type: 3}
+  m_Name: Yakuza Melee Slash
   m_EditorClassIdentifier: 
   CanHitSelf: 0
   CanHitAllies: 0
   HitMask:
     serializedVersion: 2
-    m_Bits: 73
-  RecoveryTime: 0.5
+    m_Bits: 9
+  RecoveryTime: 0.4
   DealsDamage: 1
-  _projectilePrefab: {fileID: 4263343964843693753, guid: 4232e69a6a3234a4ebe4dad5a4a8e5f2, type: 3}
-  _projectileCount: 1
-  _angleBetweenProjectiles: 10
-  _projectileAccuracy: 0
-  _individualAccuracy: 0
+  _extents: {x: 1.75, y: 1.25}
+  _offset: {x: 0, y: 1}
+  _reflectProjectiles: 0

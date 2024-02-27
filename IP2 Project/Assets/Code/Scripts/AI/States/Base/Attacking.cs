@@ -31,8 +31,7 @@ namespace States.Base
 
         [Header("Keep Distance")]
         [SerializeField] private BaseSteeringBehaviour[] _movementBehaviours;
-        //public bool ShouldStopAttacking() => Vector2.Distance(_movementScript.transform.position, _targetPos()) > _maxAttackRange;
-        public bool ShouldStopAttacking() => Physics2D.Linecast(_movementScript.transform.position, _targetPos());
+        public bool ShouldStopAttacking() => Vector2.Distance(_movementScript.transform.position, _targetPos()) > _maxAttackRange;
 
 
         public void InitialiseValues(Func<Vector2> target, EntityMovement movementScript)

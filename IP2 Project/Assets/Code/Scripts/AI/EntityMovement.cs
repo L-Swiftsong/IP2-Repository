@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D), typeof(ContextMerger))]
 public class EntityMovement : MonoBehaviour, IMoveable
 {
-    [SerializeField] private Rigidbody2D _rb2D;
+    private Rigidbody2D _rb2D;
+    private ContextMerger _ctxMerger;
 
-    [Space(5)]
+    
     [SerializeField] private float _movementSpeed;
     [SerializeField] private float _acceleration;
     [SerializeField] private float _rotationSpeed;
 
-    [Space(10)]
-    [SerializeField] private ContextMerger _ctxMerger;
+    private void Start()
+    {
+        _rb2D = GetComponent<Rigidbody2D>();
+        _ctxMerger = GetComponent<ContextMerger>();
+    }
 
 
     public void CalculateMovement(Vector2 targetPos, BaseSteeringBehaviour[] behaviours, RotationType rotationType = RotationType.None)

@@ -30,11 +30,6 @@ public class EntitySenses : MonoBehaviour
     [SerializeField] private Color _hearingGizmosColour = Color.green;
 
 
-    private void Awake()
-    {
-        if (_thisFaction == null)
-            _thisFaction = GetComponent<EntityFaction>();
-    }
     private void OnEnable()
     {
         if (_updateTargetCoroutine == null)
@@ -55,10 +50,11 @@ public class EntitySenses : MonoBehaviour
         // Find nearby targets.
         Transform closestTarget = null;
         float minDistance = float.MaxValue;
+        bool selfHasFaction = _thisFaction != null;
         foreach (Collider2D potentialTarget in Physics2D.OverlapCircleAll(transform.position, _visionRadius, _visibleLayers))
         {
             // Discount allies.
-            if (potentialTarget.TryGetComponent<EntityFaction>(out EntityFaction faction))
+            if (selfHasFaction && potentialTarget.TryGetComponent<EntityFaction>(out EntityFaction faction))
                 if (_thisFaction.IsAlly(faction))
                     continue;
 

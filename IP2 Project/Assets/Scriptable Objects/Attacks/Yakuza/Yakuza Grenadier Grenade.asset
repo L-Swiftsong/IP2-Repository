@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e8de86a064867e419fc72df317901d9, type: 3}
-  m_Name: AoE Attack Test
+  m_Name: Yakuza Grenadier Grenade
   m_EditorClassIdentifier: 
   CanHitSelf: 0
-  CanHitAllies: 0
+  CanHitAllies: 1
   HitMask:
     serializedVersion: 2
-    m_Bits: 73
+    m_Bits: 9
   RecoveryTime: 1.5
-  DealsDamage: 1
+  DealsDamage: 0
   _aoeRadius: 2
   _aoeDelay: 2
   _explosionDealsDamage: 1
