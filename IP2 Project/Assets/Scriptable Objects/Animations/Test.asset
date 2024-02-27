@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7db55af6a69e1d439d9b78e11c03147, type: 3}
-  m_Name: Idle Animations
+  m_Script: {fileID: 11500000, guid: 0c1d9f2d8c0325d47862b8b1c04b7326, type: 3}
+  m_Name: Test
   m_EditorClassIdentifier: 
   PairedAnimations:
     _serializedList:
     - Key: 0
       Value:
-      - {fileID: -2413806693520163455, guid: 179c7b438452c7f46819374a9039d293, type: 3}
+        _serializedList: []

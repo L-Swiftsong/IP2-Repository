@@ -15,4 +15,5 @@ MonoBehaviour:
   PairedAnimations:
     _serializedList:
     - Key: 0
-      Value: []
+      Value:
+      - {fileID: 7482667652216324306, guid: 9060fe503302dc740a9e0da47eb8ae02, type: 3}

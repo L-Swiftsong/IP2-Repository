@@ -38,8 +38,8 @@ public class AnimationController : MonoBehaviour
 
     [Header("Animation Containter Parameters")]
     [SerializeField] private EntityType _entityType;
-    [SerializeField] private AnimationContainerSO _idleAnim;
-    [SerializeField] private AnimationContainerSO _runningAnim;
+    [SerializeField] private DirectionalAnimationContainerSO _idleAnim;
+    [SerializeField] private DirectionalAnimationContainerSO _runningAnim;
 
     [Space(5)]
     [SerializeField] private AnimationContainerSO _hurtAnim;
@@ -123,8 +123,8 @@ public class AnimationController : MonoBehaviour
 
 
     #region Shortcut functions for Common Animations
-    public void PlayIdle() => SetNextAnimation(_idleAnim, softOverridable: true, hardOverride: false, loops: true, isTemporary: false);
-    public void PlayRunning() => SetNextAnimation(_runningAnim, softOverridable: true, hardOverride: false, loops: true, isTemporary: false);
+    public void PlayIdle(Vector2 direction) => SetNextAnimation(_idleAnim, softOverridable: true, hardOverride: false, loops: true, isTemporary: false);
+    public void PlayRunning(Vector2 direction) => SetNextAnimation(_runningAnim, softOverridable: true, hardOverride: false, loops: true, isTemporary: false);
 
     
     public void HandleHealthChanged(HealthChangedValues newValues)
@@ -148,6 +148,30 @@ public class AnimationController : MonoBehaviour
     #endregion
 
 
+    public void SetNextAnimation(DirectionalAnimationContainerSO animationContainer, Vector2 direction, bool softOverridable = true, bool hardOverride = false, bool loops = true, bool isTemporary = true, System.Func<bool> customRevertCondition = null, float minRevertDuration = 0f)
+    {
+        if (hardOverride || _currentIsSoft)
+        {
+            // If the animation container does not exist, then stop here.
+            if (animationContainer == null)
+                return;
+
+            // If the Anim Container doesn't contain a value for this entity & direction, stop.
+            if (!animationContainer.PairedAnimations.ContainsKey(_entityType))
+                return;
+
+            Direction directionFromVector = DirectionExtensions.GetDirectionFromVector(direction);
+            if (!animationContainer.PairedAnimations[_entityType].ContainsKey(directionFromVector))
+                return;
+
+            // If this Anim Container is currently playing, stop here.
+            if (animationContainer.GetInstanceID() == _currentAnimationID)
+                return;
+
+            
+
+        }
+    }
     /// <summary>
     /// Set the next animation to be played.
     /// </summary>
