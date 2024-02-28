@@ -83,7 +83,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 7095d4cea1ee19d4597e688bbfa3ed6d, type: 2}
     _faceTarget: 0
   _attackingState:
-    _attack: {fileID: 11400000, guid: 4a0e6173810ce4640b5cf9d50c4a9be3, type: 2}
+    _weapon: {fileID: 11400000, guid: 5400f91e85382b540951e87820617dc7, type: 2}
     _predictTargetPosition: 0
     _attackPredictionMask:
       serializedVersion: 2
@@ -93,8 +93,11 @@ MonoBehaviour:
     - {fileID: 11400000, guid: c2e5b8d87ca87374ca0c074f5e769309, type: 2}
     - {fileID: 11400000, guid: df67848c8429e094fb78d898899a80fb, type: 2}
     - {fileID: 11400000, guid: 7095d4cea1ee19d4597e688bbfa3ed6d, type: 2}
+    _attackToDispay: 0
   _drawGizmos: 0
+  _drawCBSBehaviourGizmos: 0
   _drawInvestigatePosition: 0
+  _drawAttackingStateGizmos: 0
 --- !u!114 &2051473795482390033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef112ba69d8367f42928fc453f7771da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 1
+  _maxHealth: 5
   _currentHealth: 0
   OnHealthChanged:
     m_PersistentCalls:

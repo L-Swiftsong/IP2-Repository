@@ -341,7 +341,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 7095d4cea1ee19d4597e688bbfa3ed6d, type: 2}
     _faceTarget: 0
   _attackingState:
-    _attack: {fileID: 11400000, guid: 8eb8d5bafa932bb459ca76755c72d1db, type: 2}
+    _weapon: {fileID: 11400000, guid: 01ece5847bf07be4ea69247f6114148b, type: 2}
     _predictTargetPosition: 0
     _attackPredictionMask:
       serializedVersion: 2
@@ -350,6 +350,7 @@ MonoBehaviour:
     _movementBehaviours:
     - {fileID: 11400000, guid: 831ae77f214129b4b9066fd5ffb1e4fd, type: 2}
     - {fileID: 11400000, guid: 7095d4cea1ee19d4597e688bbfa3ed6d, type: 2}
+    _attackToDispay: 0
   _drawGizmos: 1
   _drawCBSBehaviourGizmos: 0
   _drawInvestigatePosition: 0

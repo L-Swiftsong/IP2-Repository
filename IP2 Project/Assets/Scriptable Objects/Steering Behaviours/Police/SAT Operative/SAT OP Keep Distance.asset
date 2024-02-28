@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3b0a1fb61616cf4f9990f49497186a8, type: 3}
-  m_Name: Yakuza Melee Keep Distance
+  m_Name: SAT OP Keep Distance
   m_EditorClassIdentifier: 
   ShowGizmos: 1
-  _targetDistance: 1.5
-  _stopThreshold: 0.2
+  _targetDistance: 5
+  _stopThreshold: 0.45
   _multiplier: 0.5
-  _maxMagnitudeOuterThreshold: 0.5
-  _maxMagnitudeInnerThreshold: 0.5
+  _maxMagnitudeOuterThreshold: 1
+  _maxMagnitudeInnerThreshold: 1

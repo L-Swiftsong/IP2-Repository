@@ -108,7 +108,7 @@ public class PlayerAttacks : MonoBehaviour
         OnSecondaryUseRechargeTimeChanged?.Invoke(_secondaryWeaponProperty.RechargePercentage); // Recharge Event (Uses Remaining).
     }
 
-    private void AttemptAttack(WeaponWrapper weapon) => weapon.MakeAttack(_mousePosition, throwToMouse: _throwToMouse);
+    private void AttemptAttack(WeaponWrapper weapon) => weapon.MakeAttack(_mousePosition, throwToTarget: _throwToMouse);
 
 
     public void EquipWeapon(Weapon newWeapon, bool replacePrimary = true)

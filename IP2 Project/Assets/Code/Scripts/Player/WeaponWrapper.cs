@@ -70,7 +70,7 @@ public class WeaponWrapper
         this._usesRemaining = _weapon.UsesBeforeRecharge;
     }
 
-    public void MakeAttack(Vector2? targetPos = null, bool throwToMouse = false)
+    public void MakeAttack(Vector2? targetPos = null, bool throwToTarget = false)
     {
         // Ensure this wrapper has been set up.
         if (_linkedScript == null)
@@ -88,7 +88,7 @@ public class WeaponWrapper
         switch (attack)
         {
             case AoEAttack:
-                if (targetPos.HasValue && throwToMouse)
+                if (targetPos.HasValue && throwToTarget)
                     attack.MakeAttack(_linkedScript.transform, targetPos.Value);
                 else
                     attack.MakeAttack(_linkedScript.transform);
@@ -107,7 +107,7 @@ public class WeaponWrapper
     }
 
 
-    private bool CanAttack()
+    public bool CanAttack()
     {
         // Ensure we can attack pt1 (Ready Time).
         if (Time.time < _nextReadyTime)

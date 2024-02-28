@@ -7,13 +7,13 @@ public abstract class Attack : ScriptableObject
 {
     [SerializeField] protected bool CanHitSelf = false;
     [SerializeField] protected bool CanHitAllies = false;
-    [SerializeField] protected LayerMask HitMask;
+    [SerializeField] protected LayerMask HitMask = 1 << 0 | 1 << 3 | 1 << 6 | 1 << 8;
 
     [Space(5)]
-    [SerializeField] protected float RecoveryTime;
+    [SerializeField] protected float RecoveryTime = 1f;
 
     [Space(5)]
-    [SerializeField] protected bool DealsDamage;
+    [SerializeField] protected bool DealsDamage = true;
 
     public float GetRecoveryTime() => RecoveryTime;
 

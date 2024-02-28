@@ -18,7 +18,9 @@ namespace States.Base
 
 
         [Header("Attacks")]
-        [SerializeField] private Attack _attack;
+        [SerializeField] private Weapon _weapon;
+        private WeaponWrapper _weaponWrapper;
+
         [SerializeField] private bool _predictTargetPosition;
         [SerializeField] private LayerMask _attackPredictionMask = 1 << 0 | 1 << 6; // Default Value: Default, Level
         private Vector2 _previousTargetPosition;
@@ -34,10 +36,16 @@ namespace States.Base
         public bool ShouldStopAttacking() => Vector2.Distance(_movementScript.transform.position, _targetPos()) > _maxAttackRange;
 
 
+        [Header("Debug")]
+        [SerializeField] private int _attackToDispay;
+
+
         public void InitialiseValues(EntityMovement movementScript, Func<Vector2> target)
         {
             this._movementScript = movementScript;
             this._targetPos = target;
+
+            _weaponWrapper = new WeaponWrapper(_weapon, movementScript);
         }
 
 
@@ -45,35 +53,42 @@ namespace States.Base
         {
             base.OnFixedLogic();
 
-
-            // Calculate the position where our target is expected to be when our attack will land.
             Vector2 targetPos = _targetPos();
-            Vector2 estimatedTargetPos = targetPos;
-           
-            Vector2? interceptionPosition = _attack.CalculateInterceptionPosition(_movementScript.transform.position, targetPos, (targetPos - _previousTargetPosition) / Time.fixedDeltaTime);
-            if (interceptionPosition.HasValue)
+
+            // Only calculate interception positions and attempt to attack if we are able to attack.
+            if (_weaponWrapper.CanAttack())
             {
-                RaycastHit2D rayHit = Physics2D.Linecast(targetPos, interceptionPosition.Value, _attackPredictionMask);
-                estimatedTargetPos = rayHit.transform != null ? rayHit.point : interceptionPosition.Value;
-                
-                // Debug.
-                Debug.DrawLine(interceptionPosition.Value + Vector2.down, interceptionPosition.Value + Vector2.up, Color.red);
-                Debug.DrawLine(interceptionPosition.Value + Vector2.left, interceptionPosition.Value + Vector2.right, Color.red);
+                // Calculate the position where our target is expected to be when our attack will land.
+                Vector2 estimatedTargetPos = targetPos;
+
+                Attack currentAttack = _weaponWrapper.Weapon.Attacks[_weaponWrapper.WeaponAttackIndex];
+                Vector2? interceptionPosition = currentAttack.CalculateInterceptionPosition(_movementScript.transform.position, targetPos, (targetPos - _previousTargetPosition) / Time.fixedDeltaTime);
+                if (interceptionPosition.HasValue)
+                {
+                    RaycastHit2D rayHit = Physics2D.Linecast(targetPos, interceptionPosition.Value, _attackPredictionMask);
+                    estimatedTargetPos = rayHit.transform != null ? rayHit.point : interceptionPosition.Value;
+
+                    // Debug.
+                    Debug.DrawLine(interceptionPosition.Value + Vector2.down, interceptionPosition.Value + Vector2.up, Color.red);
+                    Debug.DrawLine(interceptionPosition.Value + Vector2.left, interceptionPosition.Value + Vector2.right, Color.red);
+                }
+
+
+                // Calculate the distance to the target.
+                float distanceToTarget = Vector2.Distance(targetPos, _movementScript.transform.position);
+
+                // If we are within range to attack, and our cooldown has elapsed, then make the attack.
+                if (distanceToTarget < _maxAttackRange)
+                {
+                    _weaponWrapper.MakeAttack(estimatedTargetPos, true);
+                    //currentAttack.MakeAttack(_movementScript.transform, estimatedTargetPos);
+                    _attackCooldownCompleteTime = Time.time + currentAttack.GetRecoveryTime();
+                }
             }
 
+
+            // Cache the target's current position for next frame.
             _previousTargetPosition = targetPos;
-
-
-            // Calculate the distance to the target.
-            float distanceToTarget = Vector2.Distance(targetPos, _movementScript.transform.position);
-
-            // If we are within range to attack, and our cooldown has elapsed, then make the attack.
-            if (distanceToTarget < _maxAttackRange && Time.time >= _attackCooldownCompleteTime)
-            {
-                _attack.MakeAttack(_movementScript.transform, estimatedTargetPos);
-                _attackCooldownCompleteTime = Time.time + _attack.GetRecoveryTime();
-            }
-
 
             // Move & rotate towards the target with our behaviours set.
             _movementScript.CalculateMovement(targetPos, _movementBehaviours, RotationType.TargetDirection);
@@ -86,8 +101,9 @@ namespace States.Base
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(gizmosOrigin.position, _maxAttackRange);
 
-            // Attack Gizmos.
-            _attack?.DrawGizmos(gizmosOrigin);
+
+            // Draw Attack Gizmos.
+            _weapon.Attacks[_attackToDispay]?.DrawGizmos(gizmosOrigin);
 
 
             if (drawBehaviours)

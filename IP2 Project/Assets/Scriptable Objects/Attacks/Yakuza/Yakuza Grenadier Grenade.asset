@@ -17,7 +17,7 @@ MonoBehaviour:
   HitMask:
     serializedVersion: 2
     m_Bits: 265
-  RecoveryTime: 1.5
+  RecoveryTime: 1.25
   DealsDamage: 0
   _aoeRadius: 2
   _aoeDelay: 2
