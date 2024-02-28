@@ -20,12 +20,12 @@ namespace States.Base
         [Header("Attacks")]
         [SerializeField] private Attack _attack;
         [SerializeField] private bool _predictTargetPosition;
-        [SerializeField] private LayerMask _attackPredictionMask;
+        [SerializeField] private LayerMask _attackPredictionMask = 1 << 0 | 1 << 6; // Default Value: Default, Level
         private Vector2 _previousTargetPosition;
 
 
         [Space(5)]
-        [SerializeField] private float _maxAttackRange;
+        [SerializeField] private float _maxAttackRange = 9f;
         private float _attackCooldownCompleteTime;
 
 
@@ -34,10 +34,10 @@ namespace States.Base
         public bool ShouldStopAttacking() => Vector2.Distance(_movementScript.transform.position, _targetPos()) > _maxAttackRange;
 
 
-        public void InitialiseValues(Func<Vector2> target, EntityMovement movementScript)
+        public void InitialiseValues(EntityMovement movementScript, Func<Vector2> target)
         {
-            this._targetPos = target;
             this._movementScript = movementScript;
+            this._targetPos = target;
         }
 
 

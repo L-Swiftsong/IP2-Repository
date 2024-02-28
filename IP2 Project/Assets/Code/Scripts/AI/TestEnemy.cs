@@ -57,8 +57,8 @@ public class TestEnemy : MonoBehaviour
 
         // State Initialisation.
         _patrolState.InitialiseValues(_movementScript);
-        _chaseState.InitialiseValues(() => _entitySenses.CurrentTarget.position, _movementScript);
-        _attackingState.InitialiseValues(() => _entitySenses.CurrentTarget.position, _movementScript);
+        _chaseState.InitialiseValues(_movementScript, () => _entitySenses.CurrentTarget.position);
+        _attackingState.InitialiseValues(_movementScript, () => _entitySenses.CurrentTarget.position);
 
 
         #region Root FSM Setup

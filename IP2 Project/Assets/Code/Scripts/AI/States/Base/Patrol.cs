@@ -18,8 +18,8 @@ namespace States.Base
         private int _currentPatrolPoint;
         private bool _shouldMove = true;
 
-        [SerializeField] private float _pointTransitionDelay;
-        [SerializeField] private bool _delayOnlyOnFinal;
+        [SerializeField] private float _pointTransitionDelay = 0.5f;
+        [SerializeField] private bool _delayOnlyOnFinal = false;
         private Coroutine _transitionDelayCoroutine;
 
         private const float REACHED_POINT_THRESHOLD = 0.2f;
@@ -78,24 +78,25 @@ namespace States.Base
             else
             {
                 if (_currentPatrolPoint >= _patrolPoints.Count - 1)
-                    _currentPatrolPoint = 0;
-                else
                 {
-                    _currentPatrolPoint++;
+                    // Reset the patrol point to 0 to prevent an IndexOutOfRange exception.
+                    _currentPatrolPoint = 0;
 
+                    // If we should only transition when at our final patrol point, pause here.
                     if (_delayOnlyOnFinal)
                     {
-                        // Transition Delay.
                         if (_transitionDelayCoroutine != null)
                             _movementScript.StopCoroutine(_transitionDelayCoroutine);
                         _transitionDelayCoroutine = _movementScript.StartCoroutine(StopMovingForDelay());
                     }
                 }
+                else
+                    _currentPatrolPoint++;
             }
 
+            // Transition Delay.
             if (!_delayOnlyOnFinal)
             {
-                // Transition Delay.
                 if (_transitionDelayCoroutine != null)
                     _movementScript.StopCoroutine(_transitionDelayCoroutine);
                 _transitionDelayCoroutine = _movementScript.StartCoroutine(StopMovingForDelay());

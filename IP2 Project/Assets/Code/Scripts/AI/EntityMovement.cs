@@ -9,9 +9,9 @@ public class EntityMovement : MonoBehaviour, IMoveable
     private ContextMerger _ctxMerger;
 
     
-    [SerializeField] private float _movementSpeed;
-    [SerializeField] private float _acceleration;
-    [SerializeField] private float _rotationSpeed;
+    [SerializeField] private float _movementSpeed = 3f;
+    [SerializeField] private float _acceleration = 15f;
+    [SerializeField] private float _rotationSpeed = 270f;
 
     private void Start()
     {

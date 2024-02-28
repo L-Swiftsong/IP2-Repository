@@ -11,7 +11,7 @@ namespace States.Base
 
 
         [SerializeField] private GameObject _objectToDestroy;
-        [SerializeField] private float _destroyDelay;
+        [SerializeField] private float _destroyDelay = 1f;
 
 
         public override void OnEnter()

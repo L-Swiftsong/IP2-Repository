@@ -50,8 +50,8 @@ public class EternallyAwareEnemy : MonoBehaviour
 
 
         // Initialise States that need Initialisation.
-        _chaseState.InitialiseValues(() => _targetPosition.Value, _movementScript);
-        _attackingState.InitialiseValues(() => _targetPosition.Value, _movementScript);
+        _chaseState.InitialiseValues(_movementScript, () => _targetPosition.Value);
+        _attackingState.InitialiseValues(_movementScript, () => _targetPosition.Value);
 
 
         #region Root FSM Setup

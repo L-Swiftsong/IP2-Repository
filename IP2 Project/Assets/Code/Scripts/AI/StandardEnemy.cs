@@ -13,6 +13,8 @@ public class StandardEnemy : MonoBehaviour
     [SerializeField, ReadOnly] private string _currentStatePath;
     private StateMachine _rootFSM;
 
+    [SerializeField, ReadOnly] private Vector2? _investigatePosition;
+
 
     private EntitySenses _entitySenses;
     private EntityMovement _movementScript;
@@ -20,6 +22,8 @@ public class StandardEnemy : MonoBehaviour
 
     private Action OnStunned;
     private Action OnDied;
+
+
 
 
     [Header("Root States")]
@@ -32,6 +36,7 @@ public class StandardEnemy : MonoBehaviour
     [Header("Unaware States")]
     [SerializeField] private Idle _idleState;
     [SerializeField] private Patrol _patrolState;
+    [SerializeField] private Investigate _investigateState;
 
 
     [Header("Combat States")]
@@ -41,6 +46,7 @@ public class StandardEnemy : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] private bool _drawGizmos;
+    [SerializeField] private bool _drawInvestigatePosition;
 
 
 
@@ -58,8 +64,10 @@ public class StandardEnemy : MonoBehaviour
 
         // Initialise States that need Initialisation.
         _patrolState.InitialiseValues(_movementScript);
-        _chaseState.InitialiseValues(() => _entitySenses.CurrentTarget.position, _movementScript);
-        _attackingState.InitialiseValues(() => _entitySenses.CurrentTarget.position, _movementScript);
+        _investigateState.InitialiseValues(_movementScript, () => _investigatePosition.Value);
+
+        _chaseState.InitialiseValues(_movementScript, () => _entitySenses.CurrentTarget.position);
+        _attackingState.InitialiseValues(_movementScript, () => _entitySenses.CurrentTarget.position);
 
 
         #region Root FSM Setup
@@ -108,6 +116,7 @@ public class StandardEnemy : MonoBehaviour
         // Add States.
         _unawareFSM.AddState(_idleState);
         _unawareFSM.AddState(_patrolState);
+        _unawareFSM.AddState(_investigateState);
 
         // Set Initial State.
         _unawareFSM.SetStartState(_idleState);
@@ -118,6 +127,20 @@ public class StandardEnemy : MonoBehaviour
             from: _idleState,
             to: _patrolState,
             condition: t => _idleState.IsDelayComplete);
+
+
+        // Idle > Investigate.
+        _unawareFSM.AddTransition(
+            from: _idleState,
+            to: _investigateState,
+            condition: t => _investigatePosition.HasValue);
+
+        // Investigate > Idle (Set investigate position to null when we do this transition).
+        _unawareFSM.AddTransition(
+            from: _investigateState,
+            to: _idleState,
+            condition: t => _investigateState.WithinInvestigationRadius(),
+            onTransition: t => _investigatePosition = null);
         #endregion
         #endregion
 
@@ -164,6 +187,11 @@ public class StandardEnemy : MonoBehaviour
         _rootFSM.OnTick();
 
 
+        // Set the current target position if we have a target.
+        if (_entitySenses.CurrentTarget != null)
+            _investigatePosition = _entitySenses.CurrentTarget.position;
+
+
         // Debug Stuff.
         _currentStatePath = _rootFSM.GetActiveHierarchyPath();
     }
@@ -177,8 +205,21 @@ public class StandardEnemy : MonoBehaviour
         Debug.Log("Stunned: " + damageTaken);
 
         // If the damage taken is greater than or equal to the stunned state's stun threshold, then be stunned.
-        if (damageTaken >= _stunnedState.StunThreshold)
+        if (damageTaken >= _stunnedState.StunThreshold && _stunnedState.HasResistedStun() == false)
             OnStunned?.Invoke();
     }
     private void Dead() => OnDied?.Invoke();
+
+
+    private void OnDrawGizmosSelected()
+    {
+        if (!_drawGizmos)
+            return;
+
+        if (_drawInvestigatePosition && _investigatePosition.HasValue)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(_investigatePosition.Value, 0.25f);
+        }
+    }
 }

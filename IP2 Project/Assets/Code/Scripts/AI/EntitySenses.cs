@@ -14,20 +14,15 @@ public class EntitySenses : MonoBehaviour
 
 
     [Header("Sight")]
-    [SerializeField] private float _visionRadius;
-    [SerializeField] private float _visionAngle;
+    [SerializeField] private float _visionRadius = 7.5f;
+    [SerializeField] private float _visionAngle = 225f;
 
-    [SerializeField] private LayerMask _visibleLayers;
-
-
-    [Header("Sound")]
-    [SerializeField] private float _hearingStrength;
+    [SerializeField] private LayerMask _visibleLayers = 1 << 3 | 1 << 8; // Default Value: Player, Entity.
 
 
     [Header("Gizmos")]
-    [SerializeField] private bool _drawGizmos;
+    [SerializeField] private bool _drawGizmos = false;
     [SerializeField] private Color _visionGizmosColour = Color.red;
-    [SerializeField] private Color _hearingGizmosColour = Color.green;
 
 
     private void OnEnable()

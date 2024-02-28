@@ -5,14 +5,20 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Steering Behaviours/Keep Distance", fileName = "New Keep Distance Behaviour")]
 public class KeepDistanceBehaviour : BaseSteeringBehaviour
 {
-    [SerializeField] private float _targetDistance; // The distance that we wish to keep
-    [SerializeField] private float _stopThreshold; // A threshold for when we should stop moving.
-    [SerializeField] private float _multiplier;
+    [Tooltip("The distance that this entity wishes to remain from its target.")]
+        [SerializeField] private float _targetDistance = 4f;
+    [Tooltip("A threshold for the distance around the targetDistance where we should stop moving.")]
+        [SerializeField] private float _stopThreshold = 0.35f;
+    [Tooltip("A multiplier applied to the return interest values.")]
+    [SerializeField, Range(0f, 1f)] private float _multiplier = 0.5f;
+
 
     [Space(5)]
     // Note: The speed-change functionality given by these two variables only works without normalisation.
-    [SerializeField] private float _maxMagnitudeOuterThreshold; // A threshold representing the outer distance from the targetDistance where our interest will start decreasing.
-    [SerializeField] private float _maxMagnitudeInnerThreshold; // A threshold representing the inner distance from the targetDistance where our interest will start decreasing.
+    [Tooltip("A threshold representing the outer distance from the targetDistance where our interest will start decreasing.")]
+        [SerializeField] private float _maxMagnitudeOuterThreshold = 1f; 
+    [Tooltip("A threshold representing the inner distance from the targetDistance where our interest will start decreasing.")]
+        [SerializeField] private float _maxMagnitudeInnerThreshold = 1f;
 
 
     // Return a interest map based on the direction to the targets.
@@ -33,7 +39,6 @@ public class KeepDistanceBehaviour : BaseSteeringBehaviour
             a: -1,
             b: 1,
             t: (distanceToTarget - (_targetDistance - _maxMagnitudeInnerThreshold)) / ((_targetDistance + _maxMagnitudeOuterThreshold) - (_targetDistance - _maxMagnitudeInnerThreshold)));
-        Debug.Log("Distance: " + distanceToTarget + " | Weight: " + targetWeight);
 
         // Loop through each direction we should consider.
         float[] interestMap = new float[directions.Length];
@@ -43,7 +48,6 @@ public class KeepDistanceBehaviour : BaseSteeringBehaviour
 
             // Scale interest based on distance & obstruction value.
             interest = Mathf.Clamp01(interest * targetWeight) * _multiplier;
-            Debug.Log(string.Format("Interest {0}: {1}", i, interest));
 
             // If this interest is the largest in this direction slot, then assign it.
             if (interest > interestMap[i])

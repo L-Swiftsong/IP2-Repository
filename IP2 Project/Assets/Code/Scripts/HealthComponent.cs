@@ -51,7 +51,7 @@ public class HealthComponent : MonoBehaviour
 
 
     [Header("Invulnerability Frames")]
-    [SerializeField] private float _iFrameDuration;
+    [SerializeField] private float _iFrameDuration = 0f;
     private float _iFrameEndTime;
 
 
