@@ -46,7 +46,13 @@ public class StandardEnemy : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] private bool _drawGizmos;
+    [SerializeField] private bool _drawCBSBehaviourGizmos;
+
     [SerializeField] private bool _drawInvestigatePosition;
+    
+    [Space(5)]
+    [SerializeField] private bool _drawAttackingStateGizmos;
+    
 
 
 
@@ -221,5 +227,10 @@ public class StandardEnemy : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(_investigatePosition.Value, 0.25f);
         }
+
+
+        // State Gizmos.
+        if (_drawAttackingStateGizmos)
+            _attackingState.DrawGizmos(this.transform, drawBehaviours: _drawCBSBehaviourGizmos);
     }
 }

@@ -197,7 +197,7 @@ MonoBehaviour:
   _visionAngle: 225
   _visibleLayers:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 264
   _drawGizmos: 0
   _visionGizmosColour: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &4028336450465363451

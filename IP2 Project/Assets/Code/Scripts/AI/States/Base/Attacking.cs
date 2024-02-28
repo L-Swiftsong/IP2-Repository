@@ -80,18 +80,22 @@ namespace States.Base
         }
 
 
-        public void DrawGizmos(Transform gizmosOrigin, bool drawGizmos = true)
+        public void DrawGizmos(Transform gizmosOrigin, bool drawBehaviours = false)
         {
-            if (drawGizmos)
-            {
-                // Draw Max Attack Radius.
-                Gizmos.color = Color.green;
-                Gizmos.DrawWireSphere(gizmosOrigin.position, _maxAttackRange);
-            }
+            // Draw Max Attack Radius.
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(gizmosOrigin.position, _maxAttackRange);
 
-            // Movement Behaviour Gizmos.
-            foreach (BaseSteeringBehaviour behaviour in _movementBehaviours)
-                behaviour.DrawGizmos(gizmosOrigin);
+            // Attack Gizmos.
+            _attack?.DrawGizmos(gizmosOrigin);
+
+
+            if (drawBehaviours)
+            { 
+                // Movement Behaviour Gizmos.
+                foreach (BaseSteeringBehaviour behaviour in _movementBehaviours)
+                    behaviour.DrawGizmos(gizmosOrigin);
+            }
         }
     }
 }

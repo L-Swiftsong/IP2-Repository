@@ -16,7 +16,7 @@ MonoBehaviour:
   CanHitAllies: 1
   HitMask:
     serializedVersion: 2
-    m_Bits: 9
+    m_Bits: 265
   RecoveryTime: 1.5
   DealsDamage: 0
   _aoeRadius: 2

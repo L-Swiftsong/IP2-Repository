@@ -87,7 +87,8 @@ public class HealthComponent : MonoBehaviour
 
 
         // Set IFrames.
-        _iFrameEndTime = Time.time + _iFrameDuration;
+        if (_iFrameDuration > 0)
+            _iFrameEndTime = Time.time + _iFrameDuration;
     }
     #endregion
 

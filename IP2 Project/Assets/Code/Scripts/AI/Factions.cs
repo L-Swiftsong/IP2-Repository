@@ -4,7 +4,8 @@ public enum Factions
     Unaligned = 0,
     Player = 1 << 0,
     Yakuza = 1 << 1,
-    TestFaction = 1 << 2,
+    RivalYakuza = 1 << 2,
+    Police = 1 << 4,
 }
 
 public static class FactionsExtensions

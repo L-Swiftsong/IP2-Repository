@@ -16,11 +16,11 @@ MonoBehaviour:
   CanHitAllies: 1
   HitMask:
     serializedVersion: 2
-    m_Bits: 73
+    m_Bits: 329
   RecoveryTime: 0.35
   DealsDamage: 1
   _projectilePrefab: {fileID: 4263343964843693753, guid: 4232e69a6a3234a4ebe4dad5a4a8e5f2, type: 3}
   _projectileCount: 1
   _angleBetweenProjectiles: 0
-  _projectileAccuracy: 0
+  _projectileAccuracy: 5
   _individualAccuracy: 0
