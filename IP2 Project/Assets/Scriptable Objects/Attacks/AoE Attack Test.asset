@@ -16,10 +16,12 @@ MonoBehaviour:
   CanHitAllies: 0
   HitMask:
     serializedVersion: 2
-    m_Bits: 73
+    m_Bits: 329
   RecoveryTime: 1.5
+  DealsDamage: 0
   _aoeRadius: 2
   _aoeDelay: 2
+  _explosionDealsDamage: 1
   _explodeOnCollision: 0
   _showExplosionRadius: 1
   _earlyExplosionReducesSize: 0

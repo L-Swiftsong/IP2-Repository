@@ -8,7 +8,7 @@ public class RangedAttack : Attack
     [Header("Ranged Attack Variables")]
     [SerializeField] private GameObject _projectilePrefab;
 
-    [SerializeField, Min(1)] private int _projectileCount;
+    [SerializeField, Min(1)] private int _projectileCount = 1;
     [SerializeField] private float _angleBetweenProjectiles;
 
 
