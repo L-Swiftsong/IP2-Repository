@@ -17,6 +17,7 @@ public class AoEAttack : Attack
     [SerializeField] private bool _useCustomThrowCurve;
     [SerializeField] private AnimationCurve _customThrowCurve;
     public int ComboMultiplier;
+    public bool Timer;
     
 
     public override void MakeAttack(Transform attackingTransform) => ProcessAttack(attackingTransform, attackingTransform.up, _defaultThrowDistance);
@@ -38,6 +39,14 @@ public class AoEAttack : Attack
             ignoredFactions = entityFaction.Faction;
         Collider2D ignoredCollider = CanHitSelf ? null : attackingTransform.GetComponent<Collider2D>();
 
+        if (attackingTransform.TryGetComponentThroughParents<EntityFaction>(out EntityFaction faction))
+        {
+            if(faction.IsAlly(Factions.Yakuza))
+            {
+                ComboMultiplier++;
+                Timer = true;
+            }
+        }
 
         FixedDistanceProjectile instantiatedExplosive = Instantiate<GameObject>(_explosivePrefab.gameObject, attackingTransform.position, Quaternion.identity).GetComponent<FixedDistanceProjectile>();
         instantiatedExplosive.Init(

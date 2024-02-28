@@ -1760,12 +1760,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 728810112589049453, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
       propertyPath: resetTime
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 728810112589049453, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
       propertyPath: _playerCam
       value: 
       objectReference: {fileID: 905702029}
+    - target: {fileID: 728810112589049453, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
+      propertyPath: GetAoEAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: 23bb258aeb352d646a336459489c0342, type: 2}
     - target: {fileID: 728810112589049453, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
       propertyPath: GetMeleeAttack1
       value: 
@@ -1778,6 +1782,14 @@ PrefabInstance:
       propertyPath: GetMeleeAttack3
       value: 
       objectReference: {fileID: 11400000, guid: 910227fe832ee4e4a8611fb8bcdd49b4, type: 2}
+    - target: {fileID: 728810112589049453, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
+      propertyPath: GetRangedAttack1
+      value: 
+      objectReference: {fileID: 11400000, guid: d5b0f0ccd06bbce48a0686e9519adb06, type: 2}
+    - target: {fileID: 728810112589049453, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
+      propertyPath: GetRangedAttack2
+      value: 
+      objectReference: {fileID: 11400000, guid: 75ec767df792f5b4fba90cd2ebfe937a, type: 2}
     - target: {fileID: 2928679218508242623, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
       propertyPath: StaminaBar
       value: 

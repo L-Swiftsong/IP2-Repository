@@ -21,9 +21,16 @@ public class PlayerAttacks : MonoBehaviour
     int combo1;
     int combo2;
     int combo3;
+    int combo4;
+    int combo5;
+    int combo6;
+
     bool Timer1;
     bool Timer2;
     bool Timer3;
+    bool Timer4;
+    bool Timer5;
+    bool Timer6;
 
     [Header("Secondary Attacks")]
     [SerializeField] private WeaponWrapper _secondaryWeapon;
@@ -54,6 +61,9 @@ public class PlayerAttacks : MonoBehaviour
     public MeleeAttack GetMeleeAttack1;
     public MeleeAttack GetMeleeAttack2;
     public MeleeAttack GetMeleeAttack3;
+    public RangedAttack GetRangedAttack1;
+    public RangedAttack GetRangedAttack2;
+    public AoEAttack GetAoEAttack;
 
 
 
@@ -130,16 +140,25 @@ public class PlayerAttacks : MonoBehaviour
         GetMeleeAttack1.ComboMultiplier = 0;
         GetMeleeAttack2.ComboMultiplier = 0;
         GetMeleeAttack3.ComboMultiplier = 0;
+        GetRangedAttack1.ComboMultiplier = 0;
+        GetRangedAttack2.ComboMultiplier = 0;
+        GetAoEAttack.ComboMultiplier = 0;
 
         Timer1 = GetMeleeAttack1.Timer;
         Timer2 = GetMeleeAttack2.Timer;
         Timer3 = GetMeleeAttack3.Timer;
+        Timer4 = GetRangedAttack1.Timer;
+        Timer5 = GetRangedAttack2.Timer;
+        Timer6 = GetAoEAttack.Timer;
 
         combo1 = GetMeleeAttack1.ComboMultiplier;
         combo2 = GetMeleeAttack2.ComboMultiplier;
         combo3 = GetMeleeAttack3.ComboMultiplier;
-       
-        
+        combo4 = GetRangedAttack1.ComboMultiplier;
+        combo5 = GetRangedAttack2.ComboMultiplier;
+        combo6 = GetAoEAttack.ComboMultiplier;
+
+
 
     }
     private void Update()
@@ -149,12 +168,18 @@ public class PlayerAttacks : MonoBehaviour
         combo1 = GetMeleeAttack1.ComboMultiplier;
         combo2 = GetMeleeAttack2.ComboMultiplier;
         combo3 = GetMeleeAttack3.ComboMultiplier;
+        combo4 = GetRangedAttack1.ComboMultiplier;
+        combo5 = GetRangedAttack2.ComboMultiplier;
+        combo6 = GetAoEAttack.ComboMultiplier;
+
         Timer1 = GetMeleeAttack1.Timer;
         Timer2 = GetMeleeAttack2.Timer;
         Timer3 = GetMeleeAttack3.Timer;
+        Timer4 = GetRangedAttack1.Timer;
+        Timer5 = GetRangedAttack2.Timer;
+        Timer6 = GetAoEAttack.Timer;
 
-
-        ComboCounter = ComboCounter + combo1 + combo2 + combo3;
+        ComboCounter = ComboCounter + combo1 + combo2 + combo3 + combo4 + combo5 + combo6;
         ComboCounter2 = ComboCounter;
        
         if (Timer1 == true)
@@ -177,7 +202,26 @@ public class PlayerAttacks : MonoBehaviour
             Timer3 = false;
             GetMeleeAttack3.Timer = false;
         }
-        
+        if (Timer4 == true)
+        {
+            actualReset = resetTime;
+            Timer4 = false;
+            GetRangedAttack1.Timer = false;
+        }
+        if (Timer5 == true)
+        {
+            actualReset = resetTime;
+            Timer5 = false;
+            GetRangedAttack2.Timer = false;
+        }
+        if(Timer6 == true)
+        {
+            actualReset = resetTime;
+            Timer6 = false;
+            GetAoEAttack.Timer = false;
+        }
+
+
         if (ComboCounter >0)
         {
             actualReset -= Time.deltaTime;
@@ -191,15 +235,25 @@ public class PlayerAttacks : MonoBehaviour
             GetMeleeAttack1.ComboMultiplier = 0;
             GetMeleeAttack2.ComboMultiplier = 0;
             GetMeleeAttack3.ComboMultiplier = 0;
+            GetRangedAttack1.ComboMultiplier = 0;
+            GetRangedAttack2.ComboMultiplier = 0;
+            GetAoEAttack.ComboMultiplier = 0;
             combo1 = GetMeleeAttack1.ComboMultiplier;
             combo2 = GetMeleeAttack2.ComboMultiplier;
             combo3 = GetMeleeAttack3.ComboMultiplier;
+            combo4 = GetRangedAttack1.ComboMultiplier;
+            combo5 = GetRangedAttack2.ComboMultiplier;
+            combo6 = GetAoEAttack.ComboMultiplier;
+
             actualReset = resetTime;
         }
 
         GetMeleeAttack1.ComboMultiplier = 0;
         GetMeleeAttack2.ComboMultiplier = 0;
         GetMeleeAttack3.ComboMultiplier = 0;
+        GetRangedAttack1.ComboMultiplier = 0;
+        GetRangedAttack2.ComboMultiplier = 0;
+        GetAoEAttack.ComboMultiplier = 0;
 
 
 

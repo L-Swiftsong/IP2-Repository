@@ -19,6 +19,7 @@ public class RangedAttack : Attack
     [Tooltip("Should each projectile be randomly rotated?")]
         [SerializeField] private bool _individualAccuracy;
     public int ComboMultiplier;
+    public bool Timer;
 
     
     public override void MakeAttack(Transform attackingTransform) => ProcessAttack(attackingTransform, attackingTransform.up);
@@ -38,6 +39,7 @@ public class RangedAttack : Attack
         Factions ignoredFactions = Factions.Unaligned;
         if (!CanHitAllies && attackingTransform.TryGetComponent<EntityFaction>(out EntityFaction entityFaction))
             ignoredFactions = entityFaction.Faction;
+
 
         float sharedAccuracyDeviation = Random.Range(-_projectileAccuracy, _projectileAccuracy);
         // Loop through for each projectile we should create.
@@ -75,9 +77,14 @@ public class RangedAttack : Attack
         {
             healthComponent.TakeDamage();
 
-            if (hitCollider.name == "Test Enemy")
+            if (hitCollider.TryGetComponent<EntityFaction>(out EntityFaction faction))
             {
-                ComboMultiplier++;
+                if (faction.IsAlly(Factions.Yakuza))
+                {
+                    ComboMultiplier++;
+                    Timer = true;
+                }
+                
             }
         }
 
