@@ -11,6 +11,20 @@ public class PlayerAttacks : MonoBehaviour
     [SerializeField] private WeaponWrapper _primaryWeapon;
     public bool _primaryAttackHeld;
 
+    [Header("Combo")]
+    [SerializeField] private int ComboCounter;
+    int ComboCounter2;
+    private int comboBefore;
+    public float resetTime;
+    public float actualReset;
+    public Text ComboUI;
+    int combo1;
+    int combo2;
+    int combo3;
+    bool Timer1;
+    bool Timer2;
+    bool Timer3;
+
     [Header("Secondary Attacks")]
     [SerializeField] private WeaponWrapper _secondaryWeapon;
     public bool _secondaryAttackHeld;
@@ -36,6 +50,12 @@ public class PlayerAttacks : MonoBehaviour
     [SerializeField] float chargeRate;
     private Coroutine recharge;
 
+    [Header("Combo Counter Attacks")]
+    public MeleeAttack GetMeleeAttack1;
+    public MeleeAttack GetMeleeAttack2;
+    public MeleeAttack GetMeleeAttack3;
+
+
 
     public void OnSecondaryAttack(InputAction.CallbackContext context)
     {
@@ -53,14 +73,20 @@ public class PlayerAttacks : MonoBehaviour
         else if (context.canceled && energy != maxEnergy)
             _secondaryAttackHeld = false;*/
         if (context.started)
+        {
             _secondaryAttackHeld = true;
+            
+        }
         else if (context.canceled)
             _secondaryAttackHeld = false;
     }
     public void OnPrimaryAttack(InputAction.CallbackContext context)
     {
         if (context.started)
+        {
             _primaryAttackHeld = true;
+            
+        }
         else if (context.canceled)
             _primaryAttackHeld = false;
     }
@@ -69,7 +95,11 @@ public class PlayerAttacks : MonoBehaviour
     public void OnUseAbilityPressed(InputAction.CallbackContext context)
     {
         if (context.started)
+        {
             _useAbilityHeld = true;
+            
+        }
+
         else if (context.canceled)
             _useAbilityHeld = false;
     }
@@ -82,17 +112,99 @@ public class PlayerAttacks : MonoBehaviour
         }
     }
 
+    public void HitCombo()
+    {
+        ComboUI.text = "x" + ComboCounter;
+    }
+
 
     private void Start()
     {
+
+        actualReset = resetTime;
         if (_playerCam == null)
             _playerCam = Camera.main;
         
         _primaryWeapon = new WeaponWrapper(_primaryWeapon.Weapon, this);
         _secondaryWeapon = new WeaponWrapper(_secondaryWeapon.Weapon, this);
+        GetMeleeAttack1.ComboMultiplier = 0;
+        GetMeleeAttack2.ComboMultiplier = 0;
+        GetMeleeAttack3.ComboMultiplier = 0;
+
+        Timer1 = GetMeleeAttack1.Timer;
+        Timer2 = GetMeleeAttack2.Timer;
+        Timer3 = GetMeleeAttack3.Timer;
+
+        combo1 = GetMeleeAttack1.ComboMultiplier;
+        combo2 = GetMeleeAttack2.ComboMultiplier;
+        combo3 = GetMeleeAttack3.ComboMultiplier;
+       
+        
+
     }
     private void Update()
     {
+        
+        
+        combo1 = GetMeleeAttack1.ComboMultiplier;
+        combo2 = GetMeleeAttack2.ComboMultiplier;
+        combo3 = GetMeleeAttack3.ComboMultiplier;
+        Timer1 = GetMeleeAttack1.Timer;
+        Timer2 = GetMeleeAttack2.Timer;
+        Timer3 = GetMeleeAttack3.Timer;
+
+
+        ComboCounter = ComboCounter + combo1 + combo2 + combo3;
+        ComboCounter2 = ComboCounter;
+       
+        if (Timer1 == true)
+        {
+            actualReset = resetTime;
+            Timer1 = false;
+            GetMeleeAttack1.Timer = false;
+        }
+        
+        if (Timer2 == true)
+        {
+            actualReset = resetTime;
+            Timer2 = false;
+            GetMeleeAttack2.Timer = false;
+        }
+        
+        if (Timer3 == true)
+        {
+            actualReset = resetTime;
+            Timer3 = false;
+            GetMeleeAttack3.Timer = false;
+        }
+        
+        if (ComboCounter >0)
+        {
+            actualReset -= Time.deltaTime;
+        }
+
+        
+
+        if (actualReset <=0)
+        {
+            ComboCounter = 0;
+            GetMeleeAttack1.ComboMultiplier = 0;
+            GetMeleeAttack2.ComboMultiplier = 0;
+            GetMeleeAttack3.ComboMultiplier = 0;
+            combo1 = GetMeleeAttack1.ComboMultiplier;
+            combo2 = GetMeleeAttack2.ComboMultiplier;
+            combo3 = GetMeleeAttack3.ComboMultiplier;
+            actualReset = resetTime;
+        }
+
+        GetMeleeAttack1.ComboMultiplier = 0;
+        GetMeleeAttack2.ComboMultiplier = 0;
+        GetMeleeAttack3.ComboMultiplier = 0;
+
+
+
+
+
         // Abilities are checked before attacks.
         if (_useAbilityHeld && CanUseAbility())
         {
@@ -109,6 +221,10 @@ public class PlayerAttacks : MonoBehaviour
         }
 
         Coolbar.fillAmount = _secondaryWeapon.RechargePercentage;
+
+        HitCombo();
+
+        
     }
 
     private void AttemptAttack(WeaponWrapper weapon) => weapon.MakeAttack(_mousePosition, throwToMouse: _throwToMouse);
@@ -168,5 +284,9 @@ public class PlayerAttacks : MonoBehaviour
 
 
         }
+
+    
+        
     }
+
 }

@@ -18,7 +18,7 @@ public class WeaponWrapper
     private int _usesRemaining; // How many uses of this weapon are remaining before we need to wait for a recharge.
     private Coroutine _rechargeUsesCoroutine;
     private float _rechargeTimeRemaining;
-
+    private int Combo;
 
     // Accessors.
     public Weapon Weapon => _weapon;
@@ -124,6 +124,7 @@ public class WeaponWrapper
     {
         yield return new WaitForSeconds(_weapon.ComboResetTime);
         _weaponAttackIndex = 0;
+
     }
     private IEnumerator RechargeUses()
     {

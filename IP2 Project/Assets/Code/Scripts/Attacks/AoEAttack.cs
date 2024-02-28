@@ -16,7 +16,8 @@ public class AoEAttack : Attack
     [Space(5)]
     [SerializeField] private bool _useCustomThrowCurve;
     [SerializeField] private AnimationCurve _customThrowCurve;
-
+    public int ComboMultiplier;
+    
 
     public override void MakeAttack(Transform attackingTransform) => ProcessAttack(attackingTransform, attackingTransform.up, _defaultThrowDistance);
     public override void MakeAttack(Transform attackingTransform, Vector2 targetPos)
@@ -58,4 +59,6 @@ public class AoEAttack : Attack
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(gizmosOrigin.position, _aoeRadius);
     }
+
+    
 }

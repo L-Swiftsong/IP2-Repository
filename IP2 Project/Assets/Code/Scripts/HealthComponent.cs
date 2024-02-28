@@ -47,6 +47,9 @@ public class HealthComponent : MonoBehaviour
                 Die();
         }
     }
+
+    
+
     public UnityEvent<HealthChangedValues> OnHealthChanged;
 
 
