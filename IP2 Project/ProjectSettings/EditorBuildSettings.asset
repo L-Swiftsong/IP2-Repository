@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Level/Scenes/Test Scenes/EnemyAITestScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Level/Scenes/Main Menu Test/MainMenu.unity
+    guid: dc7ddfe876161ac4aa35cc7373b41011
+  - enabled: 1
+    path: Assets/Level/Scenes/Test Scenes/PlayerTestScene.unity
+    guid: bc270b6f91327074fb283a058b59c276
   m_configObjects: {}
