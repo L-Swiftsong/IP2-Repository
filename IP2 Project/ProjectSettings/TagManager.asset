@@ -14,10 +14,10 @@ TagManager:
   - Level
   - Projectile
   - 
-  - 
-  - 
-  - 
-  - 
+  - Enemy
+  - Foreground
+  - Light
+  - Background
   - 
   - 
   - 
