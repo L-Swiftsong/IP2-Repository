@@ -59,15 +59,15 @@ public class MeleeAttack : Attack
 
             // Don't hit allies (If CanHitAllies is true, this should always return false due to allyFactions being set to Factions.Unaligned).
             if (target.TryGetComponentThroughParents<EntityFaction>(out entityFaction))
+            {
                 if (entityFaction.IsAlly(allyFactions))
                     continue;
                 if (entityFaction.IsAlly(Factions.Yakuza))
                 {
                     ComboMultiplier++;
-                    Timer = true;    
+                    Timer = true;
                 }
-
-
+            }
 
 
             // Get the HealthComponent and Target's Transform.
@@ -97,9 +97,6 @@ public class MeleeAttack : Attack
 
             // Add this transform to the list of already hit transforms.
             hitTargets.Add(targetTransform);
-
-            
-
         }
     }
 
