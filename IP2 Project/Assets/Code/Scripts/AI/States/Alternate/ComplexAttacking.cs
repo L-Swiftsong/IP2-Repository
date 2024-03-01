@@ -20,7 +20,9 @@ namespace States.Alternative
         [Header("Attacks")]
         [SerializeField] private Weapon[] _weapons;
         private WeaponWrapper[] _weaponWrappers;
-        private int _currentWeapon;
+        public Action<Weapon, int> OnSwappedWeapon;
+        [SerializeField] private WeaponAnimator _weaponAnimator;
+
 
         [Space(5)]
         [SerializeField] private bool _simultaniousWeaponUsage = false;
@@ -40,7 +42,6 @@ namespace States.Alternative
 
         [Space(5)]
         [SerializeField] private float _maxAttackRange = 9f;
-        private float _attackCooldownCompleteTime;
 
 
         [Header("Keep Distance")]
@@ -58,10 +59,11 @@ namespace States.Alternative
             this._movementScript = movementScript;
             this._targetPos = target;
 
+            // Setup the Weapon Wrappers.
             _weaponWrappers = new WeaponWrapper[_weapons.Length];
             for (int i = 0; i < _weapons.Length; i++)
             {
-                _weaponWrappers[i] = new WeaponWrapper(_weapons[i], movementScript);
+                SetWeaponWrapper(_weapons[i], i);
             }
         }
 
@@ -86,12 +88,19 @@ namespace States.Alternative
 
             if (_simultaniousWeaponUsage)
             {
-                foreach (WeaponWrapper wrapper in _weaponWrappers)
-                    AttemptAttack(wrapper, targetPos);
+                for (int i = 0; i < _weapons.Length; i++)
+                {
+                    int previousAttackIndex = _weaponWrappers[i].WeaponAttackIndex;
+                    if (AttemptAttack(_weaponWrappers[i], targetPos))
+                        _weaponAnimator.StartAttack(i, previousAttackIndex, _weaponWrappers[i].Weapon.Attacks[previousAttackIndex].GetRecoveryTime()); // Animations (Temp).
+                }
             }
             else
-                AttemptAttack(_weaponWrappers[_currentWeaponIndex], targetPos);
-
+            {
+                int previousAttackIndex = _weaponWrappers[_currentWeaponIndex].WeaponAttackIndex;
+                if (AttemptAttack(_weaponWrappers[_currentWeaponIndex], targetPos))
+                    _weaponAnimator.StartAttack(_currentWeaponIndex, previousAttackIndex, _weaponWrappers[_currentWeaponIndex].Weapon.Attacks[previousAttackIndex].GetRecoveryTime());
+            }
 
             // Cache the target's current position for next frame.
             _previousTargetPosition = targetPos;
@@ -100,11 +109,11 @@ namespace States.Alternative
             _movementScript.CalculateMovement(targetPos, _movementBehaviours, RotationType.TargetDirection);
         }
 
-        private void AttemptAttack(WeaponWrapper weaponWrapper, Vector2 targetPos)
+        private bool AttemptAttack(WeaponWrapper weaponWrapper, Vector2 targetPos)
         {
             // Only continue if we are able to attack.
             if (!weaponWrapper.CanAttack())
-                return;
+                return false;
             
 
             // Calculate the position where our target is expected to be when our attack will land.
@@ -130,9 +139,10 @@ namespace States.Alternative
             if (distanceToTarget < _maxAttackRange)
             {
                 weaponWrapper.MakeAttack(estimatedTargetPos, true);
-                //currentAttack.MakeAttack(_movementScript.transform, estimatedTargetPos);
-                _attackCooldownCompleteTime = Time.time + currentAttack.GetRecoveryTime();
             }
+
+
+            return true;
         }
         private IEnumerator SwapWeapons()
         {
@@ -159,6 +169,13 @@ namespace States.Alternative
             // Stop the swap weapons coroutine.
             if (_swapWeaponsCoroutine != null)
                 _movementScript.StopCoroutine(_swapWeaponsCoroutine);
+        }
+
+
+        private void SetWeaponWrapper(Weapon newWeapon, int index)
+        {
+            _weaponWrappers[index] = new WeaponWrapper(newWeapon, _movementScript);
+            OnSwappedWeapon?.Invoke(newWeapon, index);
         }
 
 

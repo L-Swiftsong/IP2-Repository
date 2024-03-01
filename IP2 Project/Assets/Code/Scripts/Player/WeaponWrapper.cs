@@ -9,15 +9,15 @@ public class WeaponWrapper
 
 
     [SerializeField] private Weapon _weapon;
-    private int _weaponAttackIndex; // An index for referencing what part of the combo we are in.
+    private int _weaponAttackIndex = 0; // An index for referencing what part of the combo we are in.
     private Coroutine _resetComboCoroutine;
 
-    private float _nextReadyTime; // The time when this weapon can be used again.
+    private float _nextReadyTime = 0f; // The time when this weapon can be used again.
 
 
     private int _usesRemaining; // How many uses of this weapon are remaining before we need to wait for a recharge.
     private Coroutine _rechargeUsesCoroutine;
-    private float _rechargeTimeRemaining;
+    private float _rechargeTimeRemaining = 0f;
 
 
     #region Accessors.
@@ -70,17 +70,17 @@ public class WeaponWrapper
         this._usesRemaining = _weapon.UsesBeforeRecharge;
     }
 
-    public void MakeAttack(Vector2? targetPos = null, bool throwToTarget = false)
+    public bool MakeAttack(Vector2? targetPos = null, bool throwToTarget = false)
     {
         // Ensure this wrapper has been set up.
         if (_linkedScript == null)
         {
             Debug.LogWarning("Warning: WeaponWrapper for " + _weapon.name + " has not been set up before MakeAttack call. Stopping execution");
-            return;
+            return false;
         }
 
         if (!CanAttack())
-            return;
+            return false;
 
         // We can attack.
         // Make the attack.
@@ -104,6 +104,8 @@ public class WeaponWrapper
 
         IncrementAttackIndex();
         DecrementWeaponUses();
+
+        return true;
     }
 
 

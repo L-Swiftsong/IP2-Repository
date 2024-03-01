@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 using HFSM;
@@ -8,7 +6,7 @@ using States.Base;
 
 
 [RequireComponent(typeof(EntityMovement), typeof(HealthComponent))]
-public class EternallyAwareEnemy : MonoBehaviour
+public class EternallyAwareEnemy : MonoBehaviour, IEntityBrain
 {
     [SerializeField, ReadOnly] private string _currentStatePath;
     private StateMachine _rootFSM;
@@ -32,6 +30,8 @@ public class EternallyAwareEnemy : MonoBehaviour
     [SerializeField] private Chase _chaseState;
     [SerializeField] private Attacking _attackingState;
 
+    public event Action<Weapon, int> OnSwappedWeapon;
+
 
     [Header("Debug")]
     [SerializeField] private bool _drawGizmos;
@@ -42,7 +42,8 @@ public class EternallyAwareEnemy : MonoBehaviour
     {
         _movementScript = GetComponent<EntityMovement>();
         _healthComponent = GetComponent<HealthComponent>();
-
+        
+        _attackingState.OnSwappedWeapon += CallOnWeaponSwapped;
 
         #region Setup FSM
         // Create the Root FSM.
@@ -105,6 +106,8 @@ public class EternallyAwareEnemy : MonoBehaviour
         // Initialise the Root FSM
         _rootFSM.Init();
         #endregion
+
+        _attackingState.OnSwappedWeapon -= CallOnWeaponSwapped;
     }
 
 
@@ -112,11 +115,15 @@ public class EternallyAwareEnemy : MonoBehaviour
     {
         _healthComponent.OnHealthChanged.AddListener(HealthChanged);
         _healthComponent.OnDeath.AddListener(Dead);
+
+        _attackingState.OnSwappedWeapon += CallOnWeaponSwapped;
     }
     private void OnDisable()
     {
         _healthComponent.OnHealthChanged.RemoveListener(HealthChanged);
         _healthComponent.OnDeath.RemoveListener(Dead);
+
+        _attackingState.OnSwappedWeapon -= CallOnWeaponSwapped;
     }
 
 
@@ -143,4 +150,7 @@ public class EternallyAwareEnemy : MonoBehaviour
             OnStunned?.Invoke();
     }
     private void Dead() => OnDied?.Invoke();
+
+
+    private void CallOnWeaponSwapped(Weapon newWeapon) => OnSwappedWeapon?.Invoke(newWeapon, 0);
 }

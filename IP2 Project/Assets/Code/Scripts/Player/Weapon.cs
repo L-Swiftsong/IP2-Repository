@@ -11,6 +11,7 @@ public class Weapon : ScriptableObject
 
     [Space(5)]
     public Sprite WeaponSprite;
+    public GameObject WeaponPrefab;
 
 
     [Header("Recharging Uses Variables")]

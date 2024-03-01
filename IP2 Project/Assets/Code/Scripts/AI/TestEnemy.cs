@@ -1,13 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 using HFSM;
 using States.Base;
 
 
-public class TestEnemy : MonoBehaviour
+public class TestEnemy : MonoBehaviour, IEntityBrain
 {
     [SerializeField, ReadOnly] private string _currentStatePath;
 
@@ -36,6 +34,8 @@ public class TestEnemy : MonoBehaviour
     [Header("Combat States")]
     [SerializeField] private Chase _chaseState;
     [SerializeField] private Attacking _attackingState;
+
+    public event Action<Weapon, int> OnSwappedWeapon;
 
 
     [Header("Debug")]
@@ -141,11 +141,15 @@ public class TestEnemy : MonoBehaviour
     {
         _healthComponent.OnHealthChanged.AddListener(HealthChanged);
         _healthComponent.OnDeath.AddListener(Dead);
+
+        _attackingState.OnSwappedWeapon += CallOnWeaponSwapped;
     }
     private void OnDisable()
     {
         _healthComponent.OnHealthChanged.RemoveListener(HealthChanged);
         _healthComponent.OnDeath.RemoveListener(Dead);
+
+        _attackingState.OnSwappedWeapon -= CallOnWeaponSwapped;
     }
 
 
@@ -172,7 +176,9 @@ public class TestEnemy : MonoBehaviour
             OnStunned?.Invoke();
     }
     private void Dead() => OnDied?.Invoke();
-    
+
+
+    private void CallOnWeaponSwapped(Weapon newWeapon) => OnSwappedWeapon?.Invoke(newWeapon, 0);
 
 
     private void OnDrawGizmos()

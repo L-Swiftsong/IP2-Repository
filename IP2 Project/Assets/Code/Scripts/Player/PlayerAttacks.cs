@@ -49,6 +49,10 @@ public class PlayerAttacks : MonoBehaviour
     private Vector2 _mousePosition;
 
 
+    [Header("Animations")]
+    [SerializeField] private WeaponAnimator _weaponAnimator;
+
+
     public void OnSecondaryAttack(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -108,8 +112,15 @@ public class PlayerAttacks : MonoBehaviour
         OnSecondaryUseRechargeTimeChanged?.Invoke(_secondaryWeaponProperty.RechargePercentage); // Recharge Event (Uses Remaining).
     }
 
-    private void AttemptAttack(WeaponWrapper weapon) => weapon.MakeAttack(_mousePosition, throwToTarget: _throwToMouse);
-
+    private void AttemptAttack(WeaponWrapper weapon)
+    {
+        int previousAttackIndex = _primaryWeaponProperty.WeaponAttackIndex;
+        if (weapon.MakeAttack(_mousePosition, throwToTarget: _throwToMouse))
+        {
+            Debug.Log(previousAttackIndex);
+            _weaponAnimator.StartAttack(_primaryWeaponProperty == weapon ? 0 : 1, previousAttackIndex, _primaryWeaponProperty.Weapon.Attacks[previousAttackIndex].GetRecoveryTime());
+        }
+    }
 
     public void EquipWeapon(Weapon newWeapon, bool replacePrimary = true)
     {

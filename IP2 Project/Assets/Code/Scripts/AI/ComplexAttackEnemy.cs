@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 using HFSM;
@@ -9,7 +7,7 @@ using States.Alternative;
 
 
 [RequireComponent(typeof(EntitySenses), typeof(EntityMovement), typeof(HealthComponent))]
-public class ComplexAttackEnemy : MonoBehaviour
+public class ComplexAttackEnemy : MonoBehaviour, IEntityBrain
 {
     [SerializeField, ReadOnly] private string _currentStatePath;
     private StateMachine _rootFSM;
@@ -44,6 +42,8 @@ public class ComplexAttackEnemy : MonoBehaviour
     [SerializeField] private Chase _chaseState;
     [SerializeField] private ComplexAttacking _attackingState;
 
+    public event Action<Weapon, int> OnSwappedWeapon;
+
 
     [Header("Debug")]
     [SerializeField] private bool _drawGizmos;
@@ -63,6 +63,7 @@ public class ComplexAttackEnemy : MonoBehaviour
         _movementScript = GetComponent<EntityMovement>();
         _healthComponent = GetComponent<HealthComponent>();
 
+        _attackingState.OnSwappedWeapon += CallOnWeaponSwapped;
 
         #region Setup FSM
         // Create the Root FSM.
@@ -173,6 +174,8 @@ public class ComplexAttackEnemy : MonoBehaviour
         // Initialise the Root FSM
         _rootFSM.Init();
         #endregion
+
+        _attackingState.OnSwappedWeapon += CallOnWeaponSwapped;
     }
 
 
@@ -180,11 +183,15 @@ public class ComplexAttackEnemy : MonoBehaviour
     {
         _healthComponent.OnHealthChanged.AddListener(HealthChanged);
         _healthComponent.OnDeath.AddListener(Dead);
+
+        _attackingState.OnSwappedWeapon += CallOnWeaponSwapped;
     }
     private void OnDisable()
     {
         _healthComponent.OnHealthChanged.RemoveListener(HealthChanged);
         _healthComponent.OnDeath.RemoveListener(Dead);
+
+        _attackingState.OnSwappedWeapon -= CallOnWeaponSwapped;
     }
 
 
@@ -216,6 +223,9 @@ public class ComplexAttackEnemy : MonoBehaviour
             OnStunned?.Invoke();
     }
     private void Dead() => OnDied?.Invoke();
+
+
+    private void CallOnWeaponSwapped(Weapon newWeapon, int index) => OnSwappedWeapon?.Invoke(newWeapon, index);
 
 
     private void OnDrawGizmosSelected()
