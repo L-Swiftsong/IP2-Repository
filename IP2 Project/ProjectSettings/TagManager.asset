@@ -15,9 +15,9 @@ TagManager:
   - Projectile
   - 
   - Enemy
-  - Foreground
-  - Light
-  - Background
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -40,4 +40,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3434077411
+    locked: 0
+  - name: Light
+    uniqueID: 2466658811
+    locked: 0
+  - name: Foreground
+    uniqueID: 1375689499
     locked: 0
