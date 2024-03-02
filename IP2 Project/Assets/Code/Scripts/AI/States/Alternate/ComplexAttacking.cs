@@ -20,7 +20,7 @@ namespace States.Alternative
         [Header("Attacks")]
         [SerializeField] private Weapon[] _weapons;
         private WeaponWrapper[] _weaponWrappers;
-        public Action<Weapon, int> OnSwappedWeapon;
+
         [SerializeField] private WeaponAnimator _weaponAnimator;
 
 
@@ -175,7 +175,7 @@ namespace States.Alternative
         private void SetWeaponWrapper(Weapon newWeapon, int index)
         {
             _weaponWrappers[index] = new WeaponWrapper(newWeapon, _movementScript);
-            OnSwappedWeapon?.Invoke(newWeapon, index);
+            _weaponAnimator?.OnWeaponChanged(newWeapon, index);
         }
 
 

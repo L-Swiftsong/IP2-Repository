@@ -26,10 +26,10 @@ namespace States.Base
             set
             {
                 _weaponWrapper = value;
-                OnSwappedWeapon?.Invoke(value.Weapon);
+                _weaponAnimator?.OnWeaponChanged(value.Weapon, 0);
             }
         }
-        public event Action<Weapon> OnSwappedWeapon;
+
         [SerializeField] private WeaponAnimator _weaponAnimator;
 
 

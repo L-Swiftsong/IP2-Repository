@@ -35,8 +35,6 @@ public class TestEnemy : MonoBehaviour, IEntityBrain
     [SerializeField] private Chase _chaseState;
     [SerializeField] private Attacking _attackingState;
 
-    public event Action<Weapon, int> OnSwappedWeapon;
-
 
     [Header("Debug")]
     [SerializeField] private bool _drawPatrolGizmos;
@@ -141,15 +139,11 @@ public class TestEnemy : MonoBehaviour, IEntityBrain
     {
         _healthComponent.OnHealthChanged.AddListener(HealthChanged);
         _healthComponent.OnDeath.AddListener(Dead);
-
-        _attackingState.OnSwappedWeapon += CallOnWeaponSwapped;
     }
     private void OnDisable()
     {
         _healthComponent.OnHealthChanged.RemoveListener(HealthChanged);
         _healthComponent.OnDeath.RemoveListener(Dead);
-
-        _attackingState.OnSwappedWeapon -= CallOnWeaponSwapped;
     }
 
 
@@ -176,9 +170,6 @@ public class TestEnemy : MonoBehaviour, IEntityBrain
             OnStunned?.Invoke();
     }
     private void Dead() => OnDied?.Invoke();
-
-
-    private void CallOnWeaponSwapped(Weapon newWeapon) => OnSwappedWeapon?.Invoke(newWeapon, 0);
 
 
     private void OnDrawGizmos()

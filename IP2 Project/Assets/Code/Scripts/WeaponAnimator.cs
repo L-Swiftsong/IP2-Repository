@@ -5,8 +5,6 @@ using UnityEngine;
 public class WeaponAnimator : MonoBehaviour
 {
     [SerializeField] private bool _subscribeToPlayer = false;
-    [SerializeField] private Transform _associatedBrainTransform;
-    private IEntityBrain _associatedBrain;
 
     [Space(10)]
     [SerializeField] private Transform _rotationPivot;
@@ -19,23 +17,13 @@ public class WeaponAnimator : MonoBehaviour
 
 
 
-    private void Awake()
-    {
-        _weaponInstances = new GameObject[0];
-
-        if (!_subscribeToPlayer)
-            _associatedBrain = _associatedBrainTransform.GetComponent<IEntityBrain>();
-    }
+    private void Awake() => _weaponInstances = new GameObject[0];
     private void OnEnable()
     {
         if (_subscribeToPlayer)
         {
             PlayerAttacks.OnPrimaryWeaponChanged += OnPrimaryChanged;
             PlayerAttacks.OnSecondaryWeaponChanged += OnSecondaryChanged;
-        }
-        else
-        {
-            _associatedBrain.OnSwappedWeapon += OnWeaponChanged;
         }
     }
     private void OnDisable()
@@ -44,10 +32,6 @@ public class WeaponAnimator : MonoBehaviour
         {
             PlayerAttacks.OnPrimaryWeaponChanged -= OnPrimaryChanged;
             PlayerAttacks.OnSecondaryWeaponChanged -= OnSecondaryChanged;
-        }
-        else
-        {
-            _associatedBrain.OnSwappedWeapon -= OnWeaponChanged;
         }
     }
 
