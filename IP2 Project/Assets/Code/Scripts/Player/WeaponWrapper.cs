@@ -82,9 +82,22 @@ public class WeaponWrapper
         if (!CanAttack())
             return false;
 
+
         // We can attack.
-        // Make the attack.
+        _linkedScript.StartCoroutine(TriggerAttack(targetPos, throwToTarget));
+        return true;
+    }
+    private IEnumerator TriggerAttack(Vector2? targetPos, bool throwToTarget)
+    {
         Attack attack = _weapon.Attacks[_weaponAttackIndex];
+        _nextReadyTime = Time.time + attack.GetTotalAttackTime();
+        Debug.Log("Start Attack");
+
+        // Windup.
+        yield return new WaitForSeconds(attack.GetWindupTime());
+        Debug.Log("Make Attack");
+        
+        // Make the attack.
         switch (attack)
         {
             case AoEAttack:
@@ -100,12 +113,8 @@ public class WeaponWrapper
         }
 
         // Set variables for futher tasks.
-        _nextReadyTime = Time.time + attack.GetRecoveryTime();
-
         IncrementAttackIndex();
         DecrementWeaponUses();
-
-        return true;
     }
 
 

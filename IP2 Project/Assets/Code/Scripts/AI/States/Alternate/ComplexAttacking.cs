@@ -92,14 +92,14 @@ namespace States.Alternative
                 {
                     int previousAttackIndex = _weaponWrappers[i].WeaponAttackIndex;
                     if (AttemptAttack(_weaponWrappers[i], targetPos))
-                        _weaponAnimator.StartAttack(i, previousAttackIndex, _weaponWrappers[i].Weapon.Attacks[previousAttackIndex].GetRecoveryTime()); // Animations (Temp).
+                        _weaponAnimator.StartAttack(i, previousAttackIndex, _weaponWrappers[i].Weapon.Attacks[previousAttackIndex].GetTotalAttackTime()); // Animations (Temp).
                 }
             }
             else
             {
                 int previousAttackIndex = _weaponWrappers[_currentWeaponIndex].WeaponAttackIndex;
                 if (AttemptAttack(_weaponWrappers[_currentWeaponIndex], targetPos))
-                    _weaponAnimator.StartAttack(_currentWeaponIndex, previousAttackIndex, _weaponWrappers[_currentWeaponIndex].Weapon.Attacks[previousAttackIndex].GetRecoveryTime());
+                    _weaponAnimator.StartAttack(_currentWeaponIndex, previousAttackIndex, _weaponWrappers[_currentWeaponIndex].Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
             }
 
             // Cache the target's current position for next frame.

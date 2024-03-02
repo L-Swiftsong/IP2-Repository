@@ -10,12 +10,16 @@ public abstract class Attack : ScriptableObject
     [SerializeField] protected LayerMask HitMask = 1 << 0 | 1 << 3 | 1 << 6 | 1 << 8;
 
     [Space(5)]
+    [SerializeField] protected float WindupTime = 0f;
     [SerializeField] protected float RecoveryTime = 1f;
 
     [Space(5)]
     [SerializeField] protected bool DealsDamage = true;
 
+
+    public float GetWindupTime() => WindupTime;
     public float GetRecoveryTime() => RecoveryTime;
+    public float GetTotalAttackTime() => WindupTime + RecoveryTime;
 
 
 

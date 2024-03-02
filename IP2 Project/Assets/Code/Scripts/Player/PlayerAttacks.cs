@@ -118,7 +118,7 @@ public class PlayerAttacks : MonoBehaviour
         if (weapon.MakeAttack(_mousePosition, throwToTarget: _throwToMouse))
         {
             Debug.Log(previousAttackIndex);
-            _weaponAnimator.StartAttack(_primaryWeaponProperty == weapon ? 0 : 1, previousAttackIndex, _primaryWeaponProperty.Weapon.Attacks[previousAttackIndex].GetRecoveryTime());
+            _weaponAnimator.StartAttack(_primaryWeaponProperty == weapon ? 0 : 1, previousAttackIndex, _primaryWeaponProperty.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
         }
     }
 

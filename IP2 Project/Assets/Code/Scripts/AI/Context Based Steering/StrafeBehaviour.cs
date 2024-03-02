@@ -18,8 +18,6 @@ public class StrafeBehaviour : BaseSteeringBehaviour
         {
             // Calculate the dot product.
             float dot = Vector2.Dot(targetDirection, directions[i]);
-            bool toTheRight = Vector2.Dot(Vector2.Perpendicular(targetDirection), directions[i]) < 0;
-            Debug.Log("Direction: " + directions[i] + " is " + (toTheRight ? "the Right" : "the Left"));
 
             // Weight the dot product to face the sides.
             float weightedDot = Mathf.Clamp01(1f - Mathf.Abs(dot));
