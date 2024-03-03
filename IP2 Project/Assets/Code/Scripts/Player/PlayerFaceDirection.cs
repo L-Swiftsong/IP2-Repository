@@ -53,7 +53,7 @@ public class PlayerFaceDirection : MonoBehaviour
     {
         // If we are using the mouse position, update the target direction every frame.
         //  This ensures that we keep facing the mouse even when the player moves but the mouse doesn't.
-        if (_mouseScreenPosition.HasValue)
+        if (_mouseScreenPosition.HasValue && _mouseScreenPosition.Value != Vector2.zero)
         {
             Vector3 mouseWorldPos = _playerCam.ScreenToWorldPoint(_mouseScreenPosition.Value);
             _targetDirection = (mouseWorldPos - transform.position).normalized;

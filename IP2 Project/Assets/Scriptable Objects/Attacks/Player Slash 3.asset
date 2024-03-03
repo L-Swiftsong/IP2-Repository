@@ -17,7 +17,8 @@ MonoBehaviour:
   HitMask:
     serializedVersion: 2
     m_Bits: 393
-  RecoveryTime: 0.33
+  WindupTime: 0
+  RecoveryTime: 0.55
   DealsDamage: 1
   _extents: {x: 1.75, y: 1.25}
   _offset: {x: 0, y: 1}
