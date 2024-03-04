@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Level/Scenes/Test Scenes/EnemyAITestScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/Level/Scenes/Title Screen.unity
+    guid: 9adfd2cbebf8ad646806d7733d5f9942
+  - enabled: 1
+    path: Assets/Level/Scenes/Levels/TutorialLevel.unity
+    guid: d2ded8bd226b3704fb2dc2326767b577
+  - enabled: 1
+    path: Assets/Level/Scenes/Test Scenes/PlayerTestScene.unity
+    guid: bc270b6f91327074fb283a058b59c276
   m_configObjects: {}

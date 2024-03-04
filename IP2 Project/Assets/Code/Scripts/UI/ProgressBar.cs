@@ -60,7 +60,7 @@ public class ProgressBar : MonoBehaviour
         // Calculate values.
         float currentOffset = _current - _min;
         float maxOffset = _max - _min;
-        float fillAmount = currentOffset / maxOffset;
+        float fillAmount = Mathf.Clamp01(currentOffset / maxOffset);
 
         // Set the mask's value.
         _mask.fillAmount = fillAmount;
