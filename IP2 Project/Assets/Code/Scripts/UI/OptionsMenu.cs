@@ -121,5 +121,8 @@ public class OptionsMenu : MonoBehaviour
     {
         Debug.Log("Set Interactable Outline Thickness: " + newThickness);
     }
+
+
+    public void SetUseSimplifiedText(bool newValue) => AccessibilityManager.Instance.UseSimplifiedFont = newValue;
     #endregion
 }
