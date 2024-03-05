@@ -10,28 +10,38 @@ namespace IP2_Scripts
     [RequireComponent(typeof(Image))]
     public class TabButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
-        [SerializeField] private TabGroup _tabGroup;
+        private TabGroup _parentTabGroup;
         private Image _backgroundImage;
+        private bool _initialised = false;
 
         [Space(5)]
         [SerializeField] private GameObject _associatedSection;
 
 
-        private void Awake()
+
+        public void SetParentGroup(TabGroup group)
         {
+            _parentTabGroup = group;
+            Initialise();
+        }
+        private void Initialise()
+        {
+            if (_initialised)
+                return;
+
             _backgroundImage = GetComponent<Image>();
-            _tabGroup.Subscribe(this);
+            _initialised = true;
         }
 
 
-        public void OnPointerEnter(PointerEventData eventData) => _tabGroup.OnTabEnter(this);
-        public void OnPointerExit(PointerEventData eventData) => _tabGroup.OnTabExit(this);
-        public void OnPointerClick(PointerEventData eventData) => _tabGroup.OnTabSelected(this);
+        public void OnPointerEnter(PointerEventData eventData) => _parentTabGroup.OnTabEnter(this);
+        public void OnPointerExit(PointerEventData eventData) => _parentTabGroup.OnTabExit(this);
+        public void OnPointerClick(PointerEventData eventData) => _parentTabGroup.OnTabSelected(this);
 
 
         public void SetBackgroundSprite(Sprite newSprite) => _backgroundImage.sprite = newSprite;
         public void SetBackgroundColor(Color newColour) => _backgroundImage.color = newColour;
-
+        
 
         public GameObject GetAssociatedSection() => _associatedSection;
     }

@@ -25,6 +25,8 @@ namespace IP2_Scripts
         [SerializeField] private Color _selectedColor = Color.red;
 
 
+
+        private void Awake() => InitialiseTabs();
         private void OnEnable()
         {
             // If we have no selected button, select the first button.
@@ -34,12 +36,11 @@ namespace IP2_Scripts
             else
                 OnTabSelected(_selectedTab);
         }
-        public void Subscribe(TabButton button)
-        {
-            if (_tabButtons == null)
-                _tabButtons = new List<TabButton>();
 
-            _tabButtons.Add(button);
+        private void InitialiseTabs()
+        {
+            foreach (TabButton button in _tabButtons)
+                button.SetParentGroup(this);
         }
 
 
@@ -88,7 +89,7 @@ namespace IP2_Scripts
         private void UpdateTab(TabButton button, Sprite sprite, Color colour)
         {
             if (_useSprites)
-                button.SetBackgroundSprite(_idleSprite);
+                button.SetBackgroundSprite(sprite);
             else
                 button.SetBackgroundColor(colour);
         }
