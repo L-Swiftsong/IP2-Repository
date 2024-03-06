@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using TMPro;
 
 // Note: Try keep useable for in both the TitleScreen & PauseMenu.
@@ -25,8 +25,27 @@ public class OptionsMenu : MonoBehaviour
 
     [Header("Accessibility")]
     [SerializeField] private Material _playerOutline;
+    [SerializeField] private Image _currentPlayerOutlineColour;
+
+    [Space(5)]
     [SerializeField] private Material _enemyOutline;
+    [SerializeField] private Image _currentEnemyOutlineColour;
+    
+    [Space(5)]
     [SerializeField] private Material _interactableOutline;
+    [SerializeField] private Image _currentInteractableOutlineColour;
+
+
+    [Space(5)]
+    [SerializeField] private OutlineEditorUI _outlineEditor;
+    private ShaderType _selectedShaderType;
+
+
+    [Space(10)]
+    [SerializeField] private Material _aoeTotalRadiusMat;
+    [SerializeField] private Material _aoeInnerRadiusMat;
+
+
 
 
     private void Start()
@@ -37,7 +56,7 @@ public class OptionsMenu : MonoBehaviour
 
         // Set the options of the fullscreen dropdown.
         _fullscreenDropdown.AddOptions(new List<string>() { "Windowed", "Fullscreen" });
-        
+
         // Set the default value of the dropdown to match whether the screen is currently fullscreen.
         _fullscreenDropdown.value = Screen.fullScreen ? 1 : 0;
 
@@ -62,9 +81,23 @@ public class OptionsMenu : MonoBehaviour
 
         // Add the options from the list to the resolution dropdown.
         _resolutionDropdown.AddOptions(dropdownOptions);
-        
+
         // Set our currently selected option to the current resolution.
         _resolutionDropdown.value = currentResolutionIndex;
+        #endregion
+
+        #region Accessibility
+        // Hide the outline selection box.
+        _outlineEditor.gameObject.SetActive(false);
+
+
+        // Set default outline indicator values.
+        if (_playerOutline != null)
+            _currentPlayerOutlineColour.color = _playerOutline.GetColor("_Outline_Colour");
+        if (_enemyOutline != null)
+            _currentEnemyOutlineColour.color = _enemyOutline.GetColor("_Outline_Colour");
+        if (_interactableOutline != null)
+            _currentInteractableOutlineColour.color = _interactableOutline.GetColor("_Outline_Colour");
         #endregion
     }
 
@@ -84,10 +117,10 @@ public class OptionsMenu : MonoBehaviour
     }
 
     public void SetBloom(bool newVal) => Debug.Log("Bloom is " + (newVal ? "enabled" : "disabled"));
-#endregion
+    #endregion
 
 
-#region Audio
+    #region Audio
     public void SetMainVolume(float newVolume) => _mixer.SetFloat("MasterVolume", newVolume);
     public void SetMusicVolume(float newVolume) => _mixer.SetFloat("MusicVolume", newVolume);
     public void SetSFXVolume(float newVolume) => _mixer.SetFloat("EffectsVolume", newVolume);
@@ -95,34 +128,81 @@ public class OptionsMenu : MonoBehaviour
 
 
     #region Accessibility
-    public void SetPlayerOutlineColour(Color newColour)
+    public void SetSelectedOutlineColour(Color newColour)
     {
-        Debug.Log("Set Player Outline Colour: " + newColour);
+        switch (_selectedShaderType)
+        {
+            case ShaderType.Player:
+                if (_playerOutline != null)
+                    _playerOutline.SetColor("_Outline_Colour", newColour);
+                _currentPlayerOutlineColour.color = newColour;
+                break;
+            case ShaderType.Enemy:
+                if (_enemyOutline != null)
+                    _enemyOutline.SetColor("_Outline_Colour", newColour);
+                _currentEnemyOutlineColour.color = newColour;
+                break;
+            case ShaderType.Interactable:
+                if (_interactableOutline != null)
+                    _interactableOutline.SetColor("_Outline_Colour", newColour);
+                _currentInteractableOutlineColour.color = newColour;
+                break;
+        };
     }
-    public void SetPlayerOutlineThickness(float newThickness)
+    public void SetSelectedOutlineThickness(float newThickness)
     {
-        Debug.Log("Set Player Outline Thickness: " + newThickness);
+        switch (_selectedShaderType)
+        {
+            case ShaderType.Player:
+                if (_playerOutline != null)
+                    _playerOutline.SetFloat("_Outline_Thickness", newThickness);
+                break;
+            case ShaderType.Enemy:
+                if (_enemyOutline != null)
+                    _enemyOutline.SetFloat("_Outline_Thickness", newThickness);
+                break;
+            case ShaderType.Interactable:
+                if (_interactableOutline != null)
+                    _interactableOutline.SetFloat("_Outline_Thickness", newThickness);
+                break;
+        }
     }
+    public void SetSelectedShader(ShaderType newVal) => _selectedShaderType = newVal;
+    public void SetSelectedShader(int newVal) => _selectedShaderType = (ShaderType)newVal;
+    
+    public void OpenOutlineEditor()
+    {
+        // Enable the outline editor
+        _outlineEditor.gameObject.SetActive(true);
 
-    public void SetEnemyOutlineColour(Color newColour)
-    {
-        Debug.Log("Set Enemy Outline Colour: " + newColour);
+        // Set the current colour & thickness of the outline editor to that of the selected outline.
+        (Color Colour, float Thickness)? currentShaderValues = _selectedShaderType switch
+        {
+            ShaderType.Enemy => _enemyOutline != null ? (_enemyOutline.GetColor("_Outline_Colour"), _enemyOutline.GetFloat("_Outline_Colour")) : null,
+            ShaderType.Interactable => _interactableOutline != null ? (_interactableOutline.GetColor("_Outline_Colour"), _interactableOutline.GetFloat("_Outline_Colour")) : null,
+            _ => _playerOutline != null ? (_playerOutline.GetColor("_Outline_Colour"), _playerOutline.GetFloat("_Outline_Colour")) : null
+        };
+        _outlineEditor.SetColour(currentShaderValues.HasValue ? currentShaderValues.Value.Colour : Color.white);
+        _outlineEditor.SetThickness(currentShaderValues.HasValue ? currentShaderValues.Value.Thickness : 1.0f);
     }
-    public void SetEnemyOutlineThickness(float newThickness)
+    public void CancelOutlineEditor() => _outlineEditor.gameObject.SetActive(false);
+    public void ConfirmOutlineEditor(Color newColor, float newThickness)
     {
-        Debug.Log("Set Enemy Outline Thickness: " + newThickness);
-    }
+        // Update values.
+        SetSelectedOutlineColour(newColor);
+        SetSelectedOutlineThickness(newThickness);
 
-    public void SetInteractableOutlineColour(Color newColour)
-    {
-        Debug.Log("Set Interactable Outline Colour: " + newColour);
+        // Hide the editor.
+        _outlineEditor.gameObject.SetActive(false);
     }
-    public void SetInteractableOutlineThickness(float newThickness)
-    {
-        Debug.Log("Set Interactable Outline Thickness: " + newThickness);
-    }
-
 
     public void SetUseSimplifiedText(bool newValue) => AccessibilityManager.Instance.UseSimplifiedFont = newValue;
+
+
+    public void SetAoETotalRadiusColour(Color newColour) => _aoeTotalRadiusMat.color = newColour;
+    public void SetAoEInnerRadiusColour(Color newColour) => _aoeInnerRadiusMat.color = newColour;
     #endregion
 }
+
+[System.Serializable]
+public enum ShaderType { None = -1, Player = 0, Enemy = 1, Interactable = 2 };

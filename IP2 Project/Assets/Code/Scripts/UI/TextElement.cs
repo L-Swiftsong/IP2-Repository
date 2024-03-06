@@ -11,16 +11,17 @@ public class TextElement : MonoBehaviour
 
 
     private void Awake() => _text = GetComponent<TMP_Text>();
+    
     private void Start()
     {
         if (AccessibilityManager.Instance != null)
             SetFontType();
-
+        
         AccessibilityManager.OnUseSimplifiedFontChanged += SetFontType;
     }
 
     private void OnDestroy() => AccessibilityManager.OnUseSimplifiedFontChanged -= SetFontType;
-
+    
 
     private void SetFontType() => _text.font = _isHeader ? AccessibilityManager.Instance.GetHeaderFont() : AccessibilityManager.Instance.GetFont();
 }

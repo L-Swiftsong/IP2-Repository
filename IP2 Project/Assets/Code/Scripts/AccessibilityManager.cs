@@ -38,4 +38,18 @@ public class AccessibilityManager : MonoBehaviour
     [SerializeField] private TMP_FontAsset HeaderFont;
     [SerializeField] private TMP_FontAsset SimplifiedHeaderFont;
     public TMP_FontAsset GetHeaderFont() => UseSimplifiedFont ? SimplifiedHeaderFont : HeaderFont;
+
+
+    // Font Size
+    private float _fontSizePercentage = 1f;
+    public float FontSizePercentage
+    {
+        get => _fontSizePercentage;
+        set
+        {
+            _fontSizePercentage = value;
+            OnFontSizeChanged?.Invoke();
+        }
+    }
+    public static Action OnFontSizeChanged;
 }
