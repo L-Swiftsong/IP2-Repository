@@ -43,7 +43,13 @@ public class OptionsMenu : MonoBehaviour
 
     [Space(10)]
     [SerializeField] private Material _aoeTotalRadiusMat;
+    [SerializeField] private Image _currentAoeTotalRadiusColour;
+
     [SerializeField] private Material _aoeInnerRadiusMat;
+    [SerializeField] private Image _currentAoeInnerRadiusColour;
+
+    [SerializeField] private AoEEditorUI _aoeEditor;
+    private bool _editingOuterRadius;
 
 
 
@@ -98,6 +104,11 @@ public class OptionsMenu : MonoBehaviour
             _currentEnemyOutlineColour.color = _enemyOutline.GetColor("_Outline_Colour");
         if (_interactableOutline != null)
             _currentInteractableOutlineColour.color = _interactableOutline.GetColor("_Outline_Colour");
+
+
+        // Set the default AoE Colour Indicator values.
+        SetAoERadiusColourIndicator(true);
+        SetAoERadiusColourIndicator(false);
         #endregion
     }
 
@@ -128,6 +139,7 @@ public class OptionsMenu : MonoBehaviour
 
 
     #region Accessibility
+    #region Outline Shader Colour and Thickness
     public void SetSelectedOutlineColour(Color newColour)
     {
         switch (_selectedShaderType)
@@ -186,21 +198,84 @@ public class OptionsMenu : MonoBehaviour
         _outlineEditor.SetThickness(currentShaderValues.HasValue ? currentShaderValues.Value.Thickness : 1.0f);
     }
     public void CancelOutlineEditor() => _outlineEditor.gameObject.SetActive(false);
-    public void ConfirmOutlineEditor(Color newColor, float newThickness)
+    public void ConfirmOutlineEditor(Color newColour, float newThickness)
     {
         // Update values.
-        SetSelectedOutlineColour(newColor);
+        SetSelectedOutlineColour(newColour);
         SetSelectedOutlineThickness(newThickness);
 
         // Hide the editor.
         _outlineEditor.gameObject.SetActive(false);
     }
+    #endregion
+
 
     public void SetUseSimplifiedText(bool newValue) => AccessibilityManager.Instance.UseSimplifiedFont = newValue;
 
 
-    public void SetAoETotalRadiusColour(Color newColour) => _aoeTotalRadiusMat.color = newColour;
-    public void SetAoEInnerRadiusColour(Color newColour) => _aoeInnerRadiusMat.color = newColour;
+    #region AoE Colours
+    private void SetAoETotalRadiusColour(Color newColour)
+    {
+        _aoeTotalRadiusMat.color = newColour;
+        SetAoERadiusColourIndicator(true);
+    }
+    private void SetAoEInnerRadiusColour(Color newColour)
+    {
+        _aoeInnerRadiusMat.color = newColour;
+        SetAoERadiusColourIndicator(false);
+    }
+
+    private void SetAoERadiusColourIndicator(bool isOuter)
+    {
+        if (isOuter)
+        {
+            Color color = _aoeTotalRadiusMat.color;
+            _currentAoeTotalRadiusColour.color = new Color(color.r, color.g, color.b);
+        }
+        else
+        {
+            Color color = _aoeInnerRadiusMat.color;
+            _currentAoeInnerRadiusColour.color = new Color(color.r, color.g, color.b);
+        }
+    }
+    
+
+    public void OpenAoEEditor(bool editingTotalRadius)
+    {
+        // Enable the AoE editor
+        _aoeEditor.gameObject.SetActive(true);
+
+        // Set the value of _editingOuterRadius.
+        _editingOuterRadius = editingTotalRadius;
+
+        // Set the current colour of the outline editor to that of the selected radius.
+        Color currentColour = _editingOuterRadius ? _aoeTotalRadiusMat.color : _aoeInnerRadiusMat.color;
+        _aoeEditor.SetColour(currentColour);
+    }
+    public void CancelAoEEditor() => _aoeEditor.gameObject.SetActive(false);
+    public void ConfirmAoEEditor(Color newColour)
+    {
+        // Update values.
+        if (_editingOuterRadius)
+            SetAoETotalRadiusColour(newColour);
+        else
+            SetAoEInnerRadiusColour(newColour);
+
+        // Hide the editor.
+        _aoeEditor.gameObject.SetActive(false);
+    }
+
+    public void ResetAoEColours()
+    {
+        // Outer.
+        _aoeTotalRadiusMat.color = new Color(1f, 0f, 0f, 0.25f);
+        SetAoERadiusColourIndicator(true);
+
+        // Inner.
+        _aoeInnerRadiusMat.color = new Color(1f, 1f, 1f, 0.6f);
+        SetAoERadiusColourIndicator(false);
+    }
+    #endregion
     #endregion
 }
 

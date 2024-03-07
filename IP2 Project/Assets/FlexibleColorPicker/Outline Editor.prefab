@@ -430,7 +430,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e239fa002e8424cacdc1dee89d76d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isHeader: 0
+  _overrideDefaultFontAsset: {fileID: 0}
+  _useDifferentSizings: 0
+  _defaultFontSize: 0
+  _simplifiedFontSize: 0
+  _useDifferentColours: 0
+  _defaultFontColour: {r: 0, g: 0, b: 0, a: 0}
+  _simplifiedFontColour: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &3826641434029010420
 GameObject:
   m_ObjectHideFlags: 0
@@ -777,7 +783,7 @@ RectTransform:
   m_Father: {fileID: 3265927581322806391}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1003,7 +1009,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e239fa002e8424cacdc1dee89d76d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isHeader: 0
+  _overrideDefaultFontAsset: {fileID: 0}
+  _useDifferentSizings: 0
+  _defaultFontSize: 0
+  _simplifiedFontSize: 0
+  _useDifferentColours: 0
+  _defaultFontColour: {r: 0, g: 0, b: 0, a: 0}
+  _simplifiedFontColour: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &6535834492906007611
 GameObject:
   m_ObjectHideFlags: 0
@@ -1170,7 +1182,7 @@ RectTransform:
   m_Father: {fileID: 1648815254116149860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1572,7 +1584,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 841402196219775456}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -1762,7 +1774,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2130943084915617138, guid: 4214b57e615806c448ba9d993d629531, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2130943085361335403, guid: 4214b57e615806c448ba9d993d629531, type: 3}
       propertyPath: m_AnchorMax.x
