@@ -926,7 +926,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9104618259781657928, guid: 8cd94f99eeed9b646a93567310c2da26, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 9104618259781657928, guid: 8cd94f99eeed9b646a93567310c2da26, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1032,6 +1032,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mask: {fileID: 1725332274}
   _fill: {fileID: 1725332274}
+  _useColour: 0
   _colourGradient:
     serializedVersion: 2
     key0: {r: 0.6, g: 0.6, b: 0.6, a: 0.49019608}
@@ -1490,6 +1491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mask: {fileID: 1471158179}
   _fill: {fileID: 1471158179}
+  _useColour: 0
   _colourGradient:
     serializedVersion: 2
     key0: {r: 1, g: 0.8333334, b: 0, a: 1}
@@ -2169,6 +2171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mask: {fileID: 659166823}
   _fill: {fileID: 1204364483}
+  _useColour: 0
   _colourGradient:
     serializedVersion: 2
     key0: {r: 0.29803923, g: 1, b: 0.4745098, a: 1}
@@ -2620,6 +2623,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mask: {fileID: 831259904}
   _fill: {fileID: 831259904}
+  _useColour: 0
   _colourGradient:
     serializedVersion: 2
     key0: {r: 1, g: 0.8333334, b: 0, a: 1}
@@ -2879,6 +2883,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mask: {fileID: 1569173160}
   _fill: {fileID: 1569173160}
+  _useColour: 0
   _colourGradient:
     serializedVersion: 2
     key0: {r: 0.6, g: 0.6, b: 0.6, a: 0.49019608}
@@ -3106,6 +3111,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2089240709}
   - component: {fileID: 2089240710}
+  - component: {fileID: 2089240711}
   m_Layer: 5
   m_Name: Player Weapon UI
   m_TagString: Untagged
@@ -3152,6 +3158,24 @@ MonoBehaviour:
   _secondaryWeaponRecoveryBar: {fileID: 1780053994}
   _secondaryWeaponUseCooldownBar: {fileID: 1838603038}
   _secondaryWeaponImage: {fileID: 211531547}
+--- !u!114 &2089240711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2089240708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e1580ac44988514997261ffda055af7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _primaryRenderers:
+  - {fileID: 1471158179}
+  - {fileID: 831259904}
+  _secondaryRenderers:
+  - {fileID: 1578391232}
+  - {fileID: 1369338615}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

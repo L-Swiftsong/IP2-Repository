@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
         foreach (int sceneToUnload in scenesToUnload)
             _scenesLoading.Add(SceneManager.UnloadSceneAsync(sceneToUnload));
         foreach (int sceneToLoad in scenesToLoad)
-            _scenesLoading.Add(SceneManager.LoadSceneAsync(sceneToLoad));
+            _scenesLoading.Add(SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive));
 
 
         // Show loading progress.
