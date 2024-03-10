@@ -44,8 +44,8 @@ public class PlayerAttacks : MonoBehaviour
 
 
     [Header("AoE Test")]
-    [SerializeField] private Camera _playerCam;
     [SerializeField] private bool _throwToMouse;
+    private Camera _playerCam;
     private Vector2 _mousePosition;
 
 
@@ -81,8 +81,7 @@ public class PlayerAttacks : MonoBehaviour
 
     private void Start()
     {
-        if (_playerCam == null)
-            _playerCam = Camera.main;
+        _playerCam = GameManager.MainCamera;
 
         _primaryWeaponProperty = new WeaponWrapper(_primaryWeaponProperty.Weapon, this);
         _secondaryWeaponProperty = new WeaponWrapper(_secondaryWeaponProperty.Weapon, this);

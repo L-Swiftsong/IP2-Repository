@@ -20,16 +20,38 @@ public class GameManager : MonoBehaviour
         // Initialise the loading bar.
         _loadingBar?.SetValues(0f, max: 100f, min: 0f);
         _loadingScreen.SetActive(false);
-        _loadingCamera.SetActive(false);
+
+        // Clear all scenes but this.
+        ClearActiveScenes();
 
         // Load the Title Screen additively.
         SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE_SCREEN, LoadSceneMode.Additive);
+        _activeSceneBuildIndex = (int)SceneIndexes.TITLE_SCREEN;
+    }
+    private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
+    private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+
+
+    [Header("Cameras")]
+    [SerializeField] private Camera _mainCamera;
+    public static Camera MainCamera
+    {
+        get
+        {
+            if (GameManager.Instance == null)
+            {
+                Debug.LogWarning("WARNING: Game Manager not initialised. Accessing camera inefficiently via Camera.main");
+                return Camera.main;
+            }
+            else
+                return GameManager.Instance._mainCamera;
+        }
     }
 
 
     [Header("Scene Loading")]
     [SerializeField] private GameObject _loadingScreen;
-    [SerializeField] private GameObject _loadingCamera;
+    private int _activeSceneBuildIndex;
 
     [Space(5)]
     [SerializeField] private ProgressBar _loadingBar;
@@ -48,32 +70,34 @@ public class GameManager : MonoBehaviour
         // Unload the Main Menu & Load the Tutorial Scene.
         LoadScenesAsync(
             scenesToUnload: new int[] { (int)SceneIndexes.TITLE_SCREEN },
-            scenesToLoad: new int[] { (int)SceneIndexes.TUTORIAL_SCENE });
+            scenesToLoad: new int[] { (int)SceneIndexes.TUTORIAL_SCENE },
+            newActiveScene: (int)SceneIndexes.TUTORIAL_SCENE);
     }
     public void LoadFirstSceneFromMenu()
     {
         // Unload the Main Menu & Load the First Scene.
         LoadScenesAsync(
             scenesToUnload: new int[] { (int)SceneIndexes.TITLE_SCREEN },
-            scenesToLoad: new int[] { (int)SceneIndexes.FIRST_LEVEL });
+            scenesToLoad: new int[] { (int)SceneIndexes.FIRST_LEVEL },
+            newActiveScene: (int)SceneIndexes.FIRST_LEVEL);
     }
-    public void LoadScenesAsync(int[] scenesToUnload, int[] scenesToLoad)
+    public void LoadScenesAsync(int[] scenesToUnload, int[] scenesToLoad, int newActiveScene = (int)SceneIndexes.PERSISTENT_SCENE)
     {
         // Enable the Loading Screen.
         _loadingScreen.SetActive(true);
-        _loadingCamera.SetActive(true);
 
         // Show the progress bar and hide the loading completed text.
         _loadingProgressGO.SetActive(true);
         _loadingCompletedGO.SetActive(false);
 
 
+        _activeSceneBuildIndex = newActiveScene;
+
         // Start unloading & loading scenes.
         foreach (int sceneToUnload in scenesToUnload)
             _scenesLoading.Add(SceneManager.UnloadSceneAsync(sceneToUnload));
         foreach (int sceneToLoad in scenesToLoad)
             _scenesLoading.Add(SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive));
-
 
         // Show loading progress.
         StartCoroutine(GetSceneLoadProgress());
@@ -110,7 +134,6 @@ public class GameManager : MonoBehaviour
         // --We have finished loading the scenes--
         float previousDeltaTime = Time.timeScale;
         Time.timeScale = 0f;
-        _loadingCamera.SetActive(false);
 
         yield return new WaitForSecondsRealtime(0.5f);
 
@@ -131,5 +154,29 @@ public class GameManager : MonoBehaviour
         Time.timeScale = previousDeltaTime;
 
         // Allow the player to interact?
+    }
+
+
+    private void ClearActiveScenes()
+    {
+        // Unload all open scenes except the persistent scene.
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            int sceneBuildIndex = SceneManager.GetSceneAt(i).buildIndex;
+
+            // Don't unload the persistent scene.
+            if (sceneBuildIndex == (int)SceneIndexes.PERSISTENT_SCENE)
+                continue;
+
+            SceneManager.UnloadSceneAsync(sceneBuildIndex);
+        }
+    }
+
+
+    private void OnSceneLoaded(Scene loadedScene, LoadSceneMode sceneLoadMode)
+    {
+        // Set this scene to be the active scene if it is the one we are looking to have set.
+        if (loadedScene.buildIndex == _activeSceneBuildIndex)
+            SceneManager.SetActiveScene(loadedScene);
     }
 }

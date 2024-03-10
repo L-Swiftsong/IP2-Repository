@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerFaceDirection : MonoBehaviour
 {
     [SerializeField] private PlayerInput _playerInput;
-    [SerializeField] private Camera _playerCam;
+    private Camera _playerCam;
 
     [SerializeField] private float _rotationSpeed;
     private Vector2? _mouseScreenPosition;
@@ -43,11 +43,8 @@ public class PlayerFaceDirection : MonoBehaviour
     }
 
 
-    private void Start()
-    {
-        if (_playerCam == null)
-            _playerCam = Camera.main;
-    }
+    private void Start() => _playerCam = GameManager.MainCamera;
+    
 
     private void Update()
     {
