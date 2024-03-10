@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+#if UNITY_EDITOR
+[ExecuteInEditMode]
+#endif
 public class UIElement : MonoBehaviour
 {
     [SerializeField] private List<Image> _primaryRenderers;
@@ -10,24 +13,32 @@ public class UIElement : MonoBehaviour
     
     private void Awake()
     {
-        UpdateUIColours();
+        UpdateUIColours(UIManager.Instance.PrimaryColour, UIManager.Instance.SecondaryColour);
 
         // Subscribe to events.
         UIManager.OnUIColoursChanged += UpdateUIColours;
     }
     private void OnDestroy() => UIManager.OnUIColoursChanged += UpdateUIColours;
 
-    private void UpdateUIColours()
+
+#if UNITY_EDITOR
+    private void Update()
+    {
+        if (!Application.isPlaying && UIManager.Instance != null)
+        {
+            UpdateUIColours(UIManager.Instance.PrimaryColour, UIManager.Instance.SecondaryColour);
+        }
+    }
+#endif
+
+
+    private void UpdateUIColours(Color newPrimary, Color newSecondary)
     {
         if (UIManager.Instance == null)
         {
             Debug.LogWarning("WARNING: Persistent Scene not loaded or UIManager not initialised.");
             return;
         }
-
-        // Cache Values
-        Color newPrimary = UIManager.Instance.PrimaryColour;
-        Color newSecondary = UIManager.Instance.SecondaryColour;
 
         // Update primary colours.
         foreach (Image renderer in _primaryRenderers)

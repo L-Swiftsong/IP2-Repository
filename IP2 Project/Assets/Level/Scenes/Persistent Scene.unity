@@ -596,7 +596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c8791b6d560cf4d818ef3d19c9559d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _primaryColour: {r: 0.9960785, g: 0, b: 0.77647066, a: 1}
+  _primaryColour: {r: 1, g: 0, b: 0.88235295, a: 1}
   _secondaryColour: {r: 1, g: 1, b: 1, a: 1}
   _healthBarParent: {fileID: 1870381570}
 --- !u!1 &1719332434

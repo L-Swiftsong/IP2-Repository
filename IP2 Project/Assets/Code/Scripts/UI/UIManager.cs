@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+[ExecuteInEditMode]
+#endif
 public class UIManager : MonoBehaviour
 {
     /*// Instance Reference.
@@ -40,7 +43,7 @@ public class UIManager : MonoBehaviour
         set
         {
             _primaryColour = value;
-            OnUIColoursChanged?.Invoke();
+            OnUIColoursChanged?.Invoke(_primaryColour, _secondaryColour);
         }
     }
 
@@ -51,11 +54,11 @@ public class UIManager : MonoBehaviour
         set
         {
             _secondaryColour = value;
-            OnUIColoursChanged?.Invoke();
+            OnUIColoursChanged?.Invoke(_primaryColour, _secondaryColour);
         }
     }
 
-    public static Action OnUIColoursChanged;
+    public static Action<Color, Color> OnUIColoursChanged;
 
 
     // Health Bars.
