@@ -66,8 +66,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.0009499788, y: 0.37145, z: 0}
-    m_Extent: {x: 1.70875, y: 2.12185, z: 0}
+    m_Center: {x: -0.0065499544, y: 0.37219995, z: 0}
+    m_Extent: {x: 1.70075, y: 2.1244, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -92,6 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4107860293378116975}
   - component: {fileID: 2759110502407787361}
+  - component: {fileID: 4055461683538166564}
   m_Layer: 0
   m_Name: Neon_4
   m_TagString: Untagged
@@ -166,6 +167,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4055461683538166564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3041398776296433413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7bf552d08a76224fbfeaf6f775e5a57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 2759110502407787361}
+  MinTime: 0.1
+  MaxTime: 0.5
+  Timer: 0
+  AS: {fileID: 0}
+  LightAudio: {fileID: 0}
 --- !u!1 &5294519771565927285
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,7 +211,7 @@ Transform:
   m_GameObject: {fileID: 5294519771565927285}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15.95, y: 10.49, z: -0.0083470605}
+  m_LocalPosition: {x: 5.42, y: -5.68, z: -0.0083470605}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

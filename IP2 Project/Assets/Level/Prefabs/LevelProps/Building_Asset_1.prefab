@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2603339653693630132}
   - component: {fileID: 5503239892360611554}
+  - component: {fileID: 4067285357600707609}
   m_Layer: 12
   m_Name: Neon_5
   m_TagString: Untagged
@@ -84,6 +85,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4067285357600707609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3340365855231851380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7bf552d08a76224fbfeaf6f775e5a57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 5503239892360611554}
+  MinTime: 0.1
+  MaxTime: 0.5
+  Timer: 0
+  AS: {fileID: 0}
+  LightAudio: {fileID: 0}
 --- !u!1 &4233375326182198900
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,8 +128,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4233375326182198900}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.92, y: 10.22, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -8.85, y: 11.955908, z: -0.0083470605}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -182,6 +201,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4211054229205398776}
   - component: {fileID: 7123066400362600180}
+  - component: {fileID: 2508327648754302802}
   m_Layer: 12
   m_Name: Neon_1
   m_TagString: Untagged
@@ -256,6 +276,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2508327648754302802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265973745334929143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7bf552d08a76224fbfeaf6f775e5a57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 7123066400362600180}
+  MinTime: 0.1
+  MaxTime: 0.5
+  Timer: 0
+  AS: {fileID: 0}
+  LightAudio: {fileID: 0}
 --- !u!1 &8516756500554704035
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,8 +360,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.02364999, y: 0.9924, z: 0}
-    m_Extent: {x: 1.6635499, y: 2.808, z: 0}
+    m_Center: {x: -0.023750007, y: 0.99175, z: 0}
+    m_Extent: {x: 1.6545501, y: 2.79725, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -404,8 +442,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.019050002, y: 0.37335002, z: 0}
-    m_Extent: {x: 1.63625, y: 2.05135, z: 0}
+    m_Center: {x: 0.022049963, y: 0.38120002, z: 0}
+    m_Extent: {x: 1.6250501, y: 2.0461, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0

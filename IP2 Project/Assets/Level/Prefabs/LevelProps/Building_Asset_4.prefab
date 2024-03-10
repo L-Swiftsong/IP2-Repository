@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5869660647041366102}
   - component: {fileID: 6439814833521470792}
+  - component: {fileID: 2138755279463268459}
   m_Layer: 0
   m_Name: Neon_3
   m_TagString: Untagged
@@ -84,6 +85,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2138755279463268459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438371040794965278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7bf552d08a76224fbfeaf6f775e5a57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 6439814833521470792}
+  MinTime: 0.1
+  MaxTime: 0.5
+  Timer: 0
+  AS: {fileID: 0}
+  LightAudio: {fileID: 0}
 --- !u!1 &4829134233947166969
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,7 +114,7 @@ GameObject:
   - component: {fileID: 3163425325541835164}
   - component: {fileID: 6176989599917037454}
   m_Layer: 0
-  m_Name: Building_Asset_4 (2)
+  m_Name: Building_Asset_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -238,8 +257,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.44245005, y: 0.23175001, z: 0}
-    m_Extent: {x: 2.14065, y: 1.54135, z: 0}
+    m_Center: {x: 0.4389, y: 0.23049998, z: 0}
+    m_Extent: {x: 2.1468, y: 1.5487, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -320,8 +339,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.0053499937, y: 0.57614994, z: 0}
-    m_Extent: {x: 1.70175, y: 2.33075, z: 0}
+    m_Center: {x: 0.00089997053, y: 0.57234997, z: 0}
+    m_Extent: {x: 1.7009001, y: 2.33035, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -346,6 +365,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9193267787142389251}
   - component: {fileID: 29162524070213307}
+  - component: {fileID: 6043723931317314176}
   m_Layer: 0
   m_Name: Neon_2
   m_TagString: Untagged
@@ -420,3 +440,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6043723931317314176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8852502059168805086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7bf552d08a76224fbfeaf6f775e5a57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 29162524070213307}
+  MinTime: 0.1
+  MaxTime: 0.5
+  Timer: 0
+  AS: {fileID: 0}
+  LightAudio: {fileID: 0}
