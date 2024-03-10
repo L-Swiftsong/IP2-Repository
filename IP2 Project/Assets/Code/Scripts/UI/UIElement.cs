@@ -13,6 +13,9 @@ public class UIElement : MonoBehaviour
     
     private void Awake()
     {
+#if UNITY_EDITOR
+        if (Application.isPlaying)
+#endif
         UpdateUIColours(UIManager.Instance.PrimaryColour, UIManager.Instance.SecondaryColour);
 
         // Subscribe to events.

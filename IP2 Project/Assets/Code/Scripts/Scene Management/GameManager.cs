@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
@@ -18,6 +20,7 @@ public class GameManager : MonoBehaviour
         // Initialise the loading bar.
         _loadingBar?.SetValues(0f, max: 100f, min: 0f);
         _loadingScreen.SetActive(false);
+        _loadingCamera.SetActive(false);
 
         // Load the Title Screen additively.
         SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE_SCREEN, LoadSceneMode.Additive);
@@ -26,7 +29,15 @@ public class GameManager : MonoBehaviour
 
     [Header("Scene Loading")]
     [SerializeField] private GameObject _loadingScreen;
+    [SerializeField] private GameObject _loadingCamera;
+
+    [Space(5)]
     [SerializeField] private ProgressBar _loadingBar;
+    [SerializeField] private TMP_Text _loadingText;
+
+    [Space(5)]
+    [SerializeField] private GameObject _loadingProgressGO;
+    [SerializeField] private GameObject _loadingCompletedGO;
 
 
     private List<AsyncOperation> _scenesLoading = new List<AsyncOperation>();
@@ -50,6 +61,11 @@ public class GameManager : MonoBehaviour
     {
         // Enable the Loading Screen.
         _loadingScreen.SetActive(true);
+        _loadingCamera.SetActive(true);
+
+        // Show the progress bar and hide the loading completed text.
+        _loadingProgressGO.SetActive(true);
+        _loadingCompletedGO.SetActive(false);
 
 
         // Start unloading & loading scenes.
@@ -84,13 +100,26 @@ public class GameManager : MonoBehaviour
                 // Calculate the total percentage progress of us loading the scenes.
                 _totalSceneProgress = (_totalSceneProgress / _scenesLoading.Count) * 100f;
                 _loadingBar?.SetValues(_totalSceneProgress);
+                _loadingText.text = string.Format("Loading - {0}%", _totalSceneProgress.ToString("#.0"));
 
                 // Wait 1 frame between checks so as to not crash the game.
                 yield return null;
             }
         }
 
-        // We have finished loading the scenes, but wait until the user presses a button to continue (Currently Any, but we could set it to specific buttons via a new InputActionMap).
+        // --We have finished loading the scenes--
+        float previousDeltaTime = Time.timeScale;
+        Time.timeScale = 0f;
+        _loadingCamera.SetActive(false);
+
+        yield return new WaitForSecondsRealtime(0.5f);
+
+        // Show the loading completed text.
+        _loadingBar.SetValues(100f);
+        _loadingProgressGO.SetActive(false);
+        _loadingCompletedGO.SetActive(true);
+
+        // Wait until the user presses a button to continue (Currently Any, but we could set it to specific buttons via a new InputActionMap).
         bool shouldContinue = false;
         InputSystem.onAnyButtonPress.CallOnce(ctrl => shouldContinue = true);
         yield return new WaitUntil(() => shouldContinue);
@@ -98,6 +127,9 @@ public class GameManager : MonoBehaviour
         // Hide the loading screen.
         _loadingScreen.SetActive(false);
 
-        // Allow player control (How will we do this from another scene?).
+        // Revert the timeScale.
+        Time.timeScale = previousDeltaTime;
+
+        // Allow the player to interact?
     }
 }

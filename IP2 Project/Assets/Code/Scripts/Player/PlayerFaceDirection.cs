@@ -46,7 +46,7 @@ public class PlayerFaceDirection : MonoBehaviour
     private void Start()
     {
         if (_playerCam == null)
-            _playerCam = _playerInput.camera;
+            _playerCam = Camera.main;
     }
 
     private void Update()
