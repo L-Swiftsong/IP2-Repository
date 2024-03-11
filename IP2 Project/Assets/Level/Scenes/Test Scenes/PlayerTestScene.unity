@@ -3242,7 +3242,6 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 905702030}
   - {fileID: 1783463209}
   - {fileID: 260042948}
   - {fileID: 1634352837}
