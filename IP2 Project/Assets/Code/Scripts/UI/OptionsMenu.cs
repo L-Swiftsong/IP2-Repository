@@ -127,7 +127,7 @@ public class OptionsMenu : MonoBehaviour
         Screen.SetResolution(newResolution.width, newResolution.height, Screen.fullScreen);
     }
 
-    public void SetBloom(bool newVal) => Debug.Log("Bloom is " + (newVal ? "enabled" : "disabled"));
+    public void SetBloom(bool newVal) => GameManager.Instance.UseBloom = newVal;
     #endregion
 
 

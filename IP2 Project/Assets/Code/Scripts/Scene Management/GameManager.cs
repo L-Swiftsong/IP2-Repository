@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 using UnityEngine.SceneManagement;
+
+using TMPro;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -63,6 +66,21 @@ public class GameManager : MonoBehaviour
 
 
     private List<AsyncOperation> _scenesLoading = new List<AsyncOperation>();
+
+    [Header("Rendering")]
+    private bool _useBloom = true;
+    public bool UseBloom
+    {
+        get => _useBloom;
+        set
+        {
+            _useBloom = value;
+            OnPostProcessSettingsChanged?.Invoke();
+        }
+    }
+
+    public static Action OnPostProcessSettingsChanged;
+
 
 
     public void LoadTutorialSceneFromMenu()

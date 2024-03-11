@@ -39,16 +39,13 @@ public class UIElement : MonoBehaviour
     {
         if (UIManager.Instance == null)
         {
-            Debug.LogWarning("WARNING: Persistent Scene not loaded or UIManager not initialised.");
+            Debug.LogWarning("WARNING: Persistent Scene not loaded or UIManager not initialised. Returning to prevent errors");
             return;
         }
 
         // Update primary colours.
         foreach (Image renderer in _primaryRenderers)
-        {
             renderer.color = newPrimary;
-            Debug.Log(renderer.color);
-        }
 
         // Update secondary colours.
         foreach (Image renderer in _secondaryRenderers)
