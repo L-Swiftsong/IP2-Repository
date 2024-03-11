@@ -1,13 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 using HFSM;
 using States.Base;
 
 
-public class TestEnemy : MonoBehaviour
+public class TestEnemy : MonoBehaviour, IEntityBrain
 {
     [SerializeField, ReadOnly] private string _currentStatePath;
 
@@ -57,8 +55,8 @@ public class TestEnemy : MonoBehaviour
 
         // State Initialisation.
         _patrolState.InitialiseValues(_movementScript);
-        _chaseState.InitialiseValues(() => _entitySenses.CurrentTarget.position, _movementScript);
-        _attackingState.InitialiseValues(() => _entitySenses.CurrentTarget.position, _movementScript);
+        _chaseState.InitialiseValues(_movementScript, () => _entitySenses.CurrentTarget.position);
+        _attackingState.InitialiseValues(_movementScript, () => _entitySenses.CurrentTarget.position);
 
 
         #region Root FSM Setup
@@ -172,7 +170,6 @@ public class TestEnemy : MonoBehaviour
             OnStunned?.Invoke();
     }
     private void Dead() => OnDied?.Invoke();
-    
 
 
     private void OnDrawGizmos()

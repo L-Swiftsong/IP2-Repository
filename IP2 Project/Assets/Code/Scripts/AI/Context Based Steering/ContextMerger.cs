@@ -132,7 +132,6 @@ public class ContextMerger : MonoBehaviour
         // Find the lowest danger that isn't 0.
         IEnumerable<float> nonZeroDangers = _dangerMap.Where(val => val > 0);
         float lowestDanger = nonZeroDangers.Count() > 0 ? nonZeroDangers.Min() : 0;
-        Debug.Log(lowestDanger);
 
 
         // Filter out any directions where the value is greater than the lowest danger.
@@ -140,7 +139,6 @@ public class ContextMerger : MonoBehaviour
         for (int i = 0; i < _directionCount; i++)
         {
             // Calculate the filtered direction.
-            Debug.Log(i + ": " + _dangerMap[i]);
             if (_mergingMethod == MergingMethod.LowestValue)
             {
                 if (_dangerMap[i] <= lowestDanger)
@@ -211,8 +209,11 @@ public class ContextMerger : MonoBehaviour
             }
         }
 
-        Debug.Log("Min: " + minIndex);
-        Debug.Log("Max: " + maxIndex);
+        if (_sendObstructionDebug)
+        {
+            Debug.Log("Min: " + minIndex);
+            Debug.Log("Max: " + maxIndex);
+        }
 
         Vector2 averagedDirection = Vector2.zero;
         for (int i = minIndex; i <= maxIndex; i++)

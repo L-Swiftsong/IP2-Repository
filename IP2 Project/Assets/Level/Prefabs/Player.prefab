@@ -184,7 +184,6 @@ GameObject:
   - component: {fileID: 2928679218508242623}
   - component: {fileID: 728810112589049453}
   - component: {fileID: 1382203755656598338}
-  - component: {fileID: 8603409614940659121}
   - component: {fileID: 6812040678532771438}
   - component: {fileID: 2659672840177048775}
   m_Layer: 3
@@ -440,15 +439,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   rb: {fileID: 9067624589833551237}
-  sprint: 0
-  StaminaBar: {fileID: 0}
+  _dashSpeed: 25
+  _dashDistance: 4
+  dashCooldown: 0.25
+  DashCost: 50
   Stamina: 100
   MaxStamina: 100
-  DashCost: 50
   ChargeRate: 33
-  dashSpeed: 20
-  dashLength: 0.3
-  dashCooldown: 1
+  staminaRegenerationDelay: 1
+  _drawGizmos: 0
+  _dashGizmoColour: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &728810112589049453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,19 +463,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _primaryWeapon:
     _weapon: {fileID: 11400000, guid: 01ece5847bf07be4ea69247f6114148b, type: 2}
-  _primaryAttackHeld: 0
   _secondaryWeapon:
     _weapon: {fileID: 11400000, guid: 957461238b332b641a845fb881175d4d, type: 2}
-  _secondaryAttackHeld: 0
-  _attackToDebug: 0
-  _currentAbility: {fileID: 11400000, guid: 1143c7af52cca614c8fdcaf247291a3b, type: 2}
   _playerCam: {fileID: 0}
   _throwToMouse: 1
-  Coolbar: {fileID: 0}
-  energy: 100
-  maxEnergy: 100
-  attackCost: 100
-  chargeRate: 33
 --- !u!114 &1382203755656598338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,23 +480,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _faction: 1
---- !u!114 &8603409614940659121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9144251323198861198}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9787d22d2d4770747b6e63a1682fc260, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 5
-  healthText: {fileID: 0}
-  Player: {fileID: 9144251323198861198}
-  Projectile: {fileID: 4263343964843693753, guid: 4232e69a6a3234a4ebe4dad5a4a8e5f2, type: 3}
-  RespawnPoint: {fileID: 0}
 --- !u!114 &6812040678532771438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -524,8 +498,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: HealthUI, Assembly-CSharp
-        m_MethodName: UpdateHearts
+        m_TargetAssemblyTypeName: PlayerHealthUI, Assembly-CSharp
+        m_MethodName: UpdateHealth
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -2,156 +2,146 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    
-    public float moveSpeed;
-    public Rigidbody2D rb;
-    public bool sprint = false;
-
-    public Image StaminaBar;
-
-    public float Stamina, MaxStamina;
-
-    public float DashCost;
-
-    private Coroutine recharge;
-    public float ChargeRate;
-
+    [Header("Movement")]
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private Rigidbody2D rb;
     private Vector2 movementInput;
-    //private Vector2 moveDirection;
 
-    private float activeMoveSpeed;
-    public float dashSpeed;
+    public static System.Action<float> OnStaminaChanged; // <float staminaPercentage>
+    public static System.Action<float, float> OnStaminaValuesChanged; // <float maxStamina, float dashCost>
 
-    public float dashLength = .5f, dashCooldown = 1f;
 
-    private float dashCounter;
-    private float dashCoolCounter;
-    bool isMoving;
+    [Header("Dashing")]
+    [SerializeField] private float _dashSpeed;
+    [SerializeField] private float _dashDistance;
+    private float _dashDurationRemaining;
 
-    private void Start()
-    {
-        activeMoveSpeed = moveSpeed;
-        isMoving = false;
-    }
+    [SerializeField] private float dashCooldown = 0.25f;
+    private float dashCooldownRemaining;
+    [SerializeField] private float DashCost;
 
-    public void OnMovementInput(InputAction.CallbackContext context)
-    {
-        movementInput = context.ReadValue<Vector2>().normalized;
+    private bool _isDashing;
 
-        if (context.started)
-        {
-            isMoving = true;
-        }
 
-        if (context.canceled)
-        {
-            isMoving = false;
-        }
-    }
+    [Header("Stamina")]
+    [SerializeField] private float Stamina;
+    [SerializeField] private float MaxStamina;
 
-  
+    [Space(5)]
+    [SerializeField] private float ChargeRate;
+    private Coroutine dashRechargeCoroutine;
 
+    [SerializeField] private float staminaRegenerationDelay = 1f;
+    private float staminaRegenerationDelayRemaining;
+
+
+    [Header("Debug")]
+    [SerializeField] private bool _drawGizmos;
+    [SerializeField] private Color _dashGizmoColour = Color.red;
+
+
+
+    public void OnMovementInput(InputAction.CallbackContext context) => movementInput = context.ReadValue<Vector2>().normalized;
+    
     public void OnDashPressed(InputAction.CallbackContext context)
     {
         if (context.performed)
-        {
-            if (dashCoolCounter <=0 && dashCounter <=0 && Stamina >=50 && isMoving == true)
-            {
-                activeMoveSpeed = dashSpeed;
-                dashCounter = dashLength;
-                Stamina -= DashCost;
-                StaminaBar.fillAmount = Stamina / MaxStamina;
-
-                if (recharge != null)StopCoroutine(recharge);
-                recharge = StartCoroutine(RechargeStamina());
-                
-            }
-            
-        }
-       
-       
+            AttemptDash();
     }
 
 
-    //// Update is called once per frame
-    //void Update()
-    //{
-    //    
-    //}
-
-    void FixedUpdate()
-    {
-        Move();
-        
-    }
+    private void Start() => OnStaminaValuesChanged?.Invoke(MaxStamina, DashCost);
 
     void Update()
     {
-        if (dashCounter > 0)
+        // If we are currently dashing, handle dashing stuff.
+        if (_isDashing)
         {
-            dashCounter -= Time.deltaTime;
+            // Decrement the dash duration remaining.
+            _dashDurationRemaining -= Time.deltaTime;
 
-            if (dashCounter <= 0)
+            // If we are to stop dashing, do so.
+            if (_dashDurationRemaining <= 0f)
             {
-                activeMoveSpeed = moveSpeed;
-                dashCoolCounter = dashCooldown;
+                _isDashing = false;
+                dashCooldownRemaining = dashCooldown;
             }
         }
+        // If we aren't dashing & our cooldown time hasn't elapsed, decrement the cooldown time remaining.
+        else if (dashCooldownRemaining > 0f)
+            dashCooldownRemaining -= Time.deltaTime;
+    }
+    void FixedUpdate() => Move();
 
-        if (dashCoolCounter > 0)
-        {
-            dashCoolCounter -= Time.deltaTime;
-        }
 
-        
+    void Move()
+    {
+        // Don't process movement if we are dashing.
+        if (_isDashing)
+            return;
 
+        // Move by setting the player's velocity.
+        rb.velocity = movementInput * moveSpeed;
     }
 
+
+    private void AttemptDash()
+    {
+        // If we cannot dash for whatever reason, stop here.
+        if (_isDashing || dashCooldownRemaining > 0 || Stamina < DashCost)
+            return;
+
+        
+        // Start Dashing.
+        Vector2 dashDirection = (movementInput != Vector2.zero ? movementInput : (Vector2)transform.up).normalized;
+        rb.velocity = dashDirection * _dashSpeed;
+
+        _dashDurationRemaining = _dashDistance / _dashSpeed; // From physics: 't = d/v'.
+        _isDashing = true;
+
+
+        // Update Stamina.
+        Stamina -= DashCost;
+        OnStaminaChanged?.Invoke(Stamina / MaxStamina);
+
+        // Recharge the player's stamina.
+        if (dashRechargeCoroutine != null)
+            StopCoroutine(dashRechargeCoroutine);
+        dashRechargeCoroutine = StartCoroutine(RechargeStamina());
+    }
     private IEnumerator RechargeStamina()
     {
-        yield return new WaitForSeconds(1f);
+        // Don't start regenerating stamina for staminaRegenerationDelay seconds.
+        yield return new WaitForSeconds(staminaRegenerationDelay);
 
+        // Loop until we have fully regenerated our stamina.
         while (Stamina < MaxStamina)
         {
-            Stamina += ChargeRate / 10f;
-
+            // Increase our stamina, clamping to prevent exceeding our maximum.
+            Stamina += ChargeRate * Time.deltaTime;
             if (Stamina > MaxStamina)
             {
                 Stamina = MaxStamina;
             }
 
-            StaminaBar.fillAmount = Stamina / MaxStamina;
+            // Notify listeners that the stamina has changed.
+            OnStaminaChanged?.Invoke(Stamina / MaxStamina);
 
-            yield return new WaitForSeconds(.1f);
-
-           
+            // Wait until the next frame.
+            yield return null;
         }
     }
-    //void ProcessInputs()
-    //{
-    //    float moveX = Input.GetAxisRaw("Horizontal");
-    //    float moveY = Input.GetAxisRaw("Vertical");
-    //    if(Input.GetKeyDown("left shift"))
-    //    {
-    //        moveSpeed = 10;
-    //        sprint = true;
-    //    }
-    //    if (Input.GetKeyUp("left shift"))
-    //    {
-    //        moveSpeed = 5;
-    //        sprint = false;
-    //    }
-    //    moveDirection = new Vector2(moveX, moveY).normalized;
-    //}
 
-    void Move()
+
+    private void OnDrawGizmosSelected()
     {
-        rb.velocity = movementInput * activeMoveSpeed;
+        if (!_drawGizmos)
+            return;
+
+        Gizmos.color = _dashGizmoColour;
+        Gizmos.DrawRay(transform.position, transform.up * _dashDistance);
     }
-
-
 }

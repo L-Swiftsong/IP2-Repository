@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerHealthUI : MonoBehaviour
+public class PlayerHealthUI : HealthUI
 {
     [SerializeField] private Transform _heartParent;
     [SerializeField] private GameObject _heartPrefab;
@@ -42,7 +42,7 @@ public class PlayerHealthUI : MonoBehaviour
     }
 
 
-    public void UpdateHearts(HealthChangedValues newValues)
+    public override void UpdateHealth(HealthChangedValues newValues)
     {
         // Check if we need to change the number of existing hearts.
         int targetHeartCount = Mathf.CeilToInt(newValues.NewMax / 2f);
@@ -65,4 +65,5 @@ public class PlayerHealthUI : MonoBehaviour
             _instancedHearts[i].SetHeartStatus((HeartStatus)heartStatus);
         }
     }
+    public override void OnDead() { }
 }

@@ -10,8 +10,8 @@ namespace States.Base
         public override string Name { get => "Idle"; }
 
 
-        [SerializeField] private float _minIdleDelay;
-        [SerializeField] private float _maxIdleDelay;
+        [SerializeField] private float _minIdleDelay = 0f;
+        [SerializeField] private float _maxIdleDelay = 3f;
         [SerializeField, ReadOnly] private float _idleDelayComplete;
 
         public bool IsDelayComplete { get => Time.time >= _idleDelayComplete;}

@@ -18,75 +18,118 @@ namespace States.Base
 
 
         [Header("Attacks")]
-        [SerializeField] private Attack _attack;
+        [SerializeField] private Weapon _weapon;
+        private WeaponWrapper _weaponWrapper;
+        private WeaponWrapper _weaponWrapperProperty
+        {
+            get => _weaponWrapper;
+            set
+            {
+                _weaponWrapper = value;
+                _weaponAnimator?.OnWeaponChanged(value.Weapon, 0);
+            }
+        }
+
+        [SerializeField] private WeaponAnimator _weaponAnimator;
+
+
+        [Space(5)]
         [SerializeField] private bool _predictTargetPosition;
+        [SerializeField] private LayerMask _attackPredictionMask = 1 << 0 | 1 << 6; // Default Value: Default, Level
         private Vector2 _previousTargetPosition;
 
 
         [Space(5)]
-        [SerializeField] private float _maxAttackRange;
-        private float _attackCooldownCompleteTime;
+        [SerializeField] private float _maxAttackRange = 9f;
 
 
         [Header("Keep Distance")]
         [SerializeField] private BaseSteeringBehaviour[] _movementBehaviours;
-        //public bool ShouldStopAttacking() => Vector2.Distance(_movementScript.transform.position, _targetPos()) > _maxAttackRange;
-        public bool ShouldStopAttacking() => Physics2D.Linecast(_movementScript.transform.position, _targetPos());
+        public bool ShouldStopAttacking() => Vector2.Distance(_movementScript.transform.position, _targetPos()) > _maxAttackRange;
 
 
-        public void InitialiseValues(Func<Vector2> target, EntityMovement movementScript)
+        [Header("Debug")]
+        [SerializeField] private int _attackToDispay;
+
+
+        public void InitialiseValues(EntityMovement movementScript, Func<Vector2> target)
         {
-            this._targetPos = target;
             this._movementScript = movementScript;
+            this._targetPos = target;
+
+            _weaponWrapperProperty = new WeaponWrapper(_weapon, movementScript);
         }
 
 
-        public override void OnLogic()
+        public override void OnFixedLogic()
         {
-            base.OnLogic();
+            base.OnFixedLogic();
 
+            Vector2 targetPos = _targetPos();
+
+
+            int previousAttackIndex = _weaponWrapper.WeaponAttackIndex;
+            if (AttemptAttack(targetPos))
+                _weaponAnimator.StartAttack(0, previousAttackIndex, _weaponWrapper.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
+
+
+            // Cache the target's current position for next frame.
+            _previousTargetPosition = targetPos;
+
+            // Move & rotate towards the target with our behaviours set.
+            _movementScript.CalculateMovement(targetPos, _movementBehaviours, RotationType.TargetDirection);
+        }
+        private bool AttemptAttack(Vector2 targetPos)
+        {
+            // Only calculate interception positions and attempt to attack if we are able to attack.
+            if (!_weaponWrapperProperty.CanAttack())
+                return false;
+            
 
             // Calculate the position where our target is expected to be when our attack will land.
-            Vector2 targetPos = _targetPos();
-            Vector2? interceptionPosition = _attack.CalculateInterceptionPosition(_movementScript.transform.position, targetPos, (targetPos - _previousTargetPosition) / Time.deltaTime);
+            Vector2 estimatedTargetPos = targetPos;
+
+            Attack currentAttack = _weaponWrapperProperty.Weapon.Attacks[_weaponWrapperProperty.WeaponAttackIndex];
+            Vector2? interceptionPosition = currentAttack.CalculateInterceptionPosition(_movementScript.transform.position, targetPos, (targetPos - _previousTargetPosition) / Time.fixedDeltaTime);
             if (interceptionPosition.HasValue)
             {
+                RaycastHit2D rayHit = Physics2D.Linecast(targetPos, interceptionPosition.Value, _attackPredictionMask);
+                estimatedTargetPos = rayHit.transform != null ? rayHit.point : interceptionPosition.Value;
+
+                // Debug.
                 Debug.DrawLine(interceptionPosition.Value + Vector2.down, interceptionPosition.Value + Vector2.up, Color.red);
                 Debug.DrawLine(interceptionPosition.Value + Vector2.left, interceptionPosition.Value + Vector2.right, Color.red);
             }
-
-            Vector2 estimatedTargetPos = interceptionPosition.HasValue ? interceptionPosition.Value : targetPos;
-            _previousTargetPosition = targetPos;
 
 
             // Calculate the distance to the target.
             float distanceToTarget = Vector2.Distance(targetPos, _movementScript.transform.position);
 
             // If we are within range to attack, and our cooldown has elapsed, then make the attack.
-            if (distanceToTarget < _maxAttackRange && Time.time >= _attackCooldownCompleteTime)
-            {
-                _attack.MakeAttack(_movementScript.transform, estimatedTargetPos);
-                _attackCooldownCompleteTime = Time.time + _attack.GetRecoveryTime();
-            }
+            if (distanceToTarget < _maxAttackRange)
+                _weaponWrapperProperty.MakeAttack(estimatedTargetPos, true);
 
-
-            // Move & rotate towards the target with our behaviours set.
-            _movementScript.CalculateMovement(targetPos, _movementBehaviours, RotationType.TargetDirection);
+            return true;
         }
 
 
-        public void DrawGizmos(Transform gizmosOrigin, bool drawGizmos = true)
+        public void DrawGizmos(Transform gizmosOrigin, bool drawBehaviours = false)
         {
-            if (drawGizmos)
-            {
-                // Draw Max Attack Radius.
-                Gizmos.color = Color.green;
-                Gizmos.DrawWireSphere(gizmosOrigin.position, _maxAttackRange);
-            }
+            // Draw Max Attack Radius.
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(gizmosOrigin.position, _maxAttackRange);
 
-            // Movement Behaviour Gizmos.
-            foreach (BaseSteeringBehaviour behaviour in _movementBehaviours)
-                behaviour.DrawGizmos(gizmosOrigin);
+
+            // Draw Attack Gizmos.
+            _weapon.Attacks[_attackToDispay]?.DrawGizmos(gizmosOrigin);
+
+
+            if (drawBehaviours)
+            { 
+                // Movement Behaviour Gizmos.
+                foreach (BaseSteeringBehaviour behaviour in _movementBehaviours)
+                    behaviour.DrawGizmos(gizmosOrigin);
+            }
         }
     }
 }

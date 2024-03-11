@@ -1194,7 +1194,7 @@ MonoBehaviour:
   AS: {fileID: 0}
   LightAudio: {fileID: 0}
 --- !u!1001 &531600503
-PrefabInstance:
+PrefabInsta
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
@@ -4039,16 +4039,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7319748268883016486, guid: 2e88b60925a6e0d4f87712fd1cb81b18, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 568596546}
-  m_SourcePrefab: {fileID: 100100000, guid: 2e88b60925a6e0d4f87712fd1cb81b18, type: 3}
---- !u!4 &1561501812 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5042924040847158513, guid: 2e88b60925a6e0d4f87712fd1cb81b18, type: 3}
-  m_PrefabInstance: {fileID: 745789568}
-  m_PrefabAsset: {fileID: 0}
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
 --- !u!1 &1596145904
 GameObject:
   m_ObjectHideFlags: 0
@@ -5356,67 +5348,102 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2099926164}
-  - component: {fileID: 2099926166}
-  - component: {fileID: 2099926165}
-  m_Layer: 5
-  m_Name: StamBackground
+  - component: {fileID: 852112795686170170}
+  - component: {fileID: 5333091620681344158}
+  - component: {fileID: 6426413332362715795}
+  - component: {fileID: 3397071532565088051}
+  - component: {fileID: 3041513070388050424}
+  - component: {fileID: 2930063654898732661}
+  - component: {fileID: 5586838543530541740}
+  - component: {fileID: 900873008539744299}
+  - component: {fileID: 2163672394324420360}
+  m_Layer: 0
+  m_Name: Test Grenadier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &2099926164
-RectTransform:
+--- !u!1 &5069858877542032622
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2099926163}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.4062498, y: 0.44999996, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 734452108}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 715, y: -282}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2099926165
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 852112795928645808}
+  - component: {fileID: 5333091620454062612}
+  - component: {fileID: 6426413332605197337}
+  - component: {fileID: 3397071532272810425}
+  - component: {fileID: 3041513070162331506}
+  - component: {fileID: 2930063654589149439}
+  - component: {fileID: 5586838543286500390}
+  - component: {fileID: 900873008832022177}
+  - component: {fileID: 2163672394031602050}
+  m_Layer: 0
+  m_Name: Test Gunman
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &5333091620454062612
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2099926163}
+  m_GameObject: {fileID: 5069858877542032622}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 336c2931fded2094dafb910c006d9e33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 7482667652216324306, guid: 9060fe503302dc740a9e0da47eb8ae02, type: 3}
-  m_Type: 3
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 0
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &2099926166
-CanvasRenderer:
+  _currentStatePath: 
+  _entitySenses: {fileID: 3397071532272810425}
+  _movementScript: {fileID: 2930063654589149439}
+  _healthComponent: {fileID: 6426413332605197337}
+  _stunnedState:
+    _stunThreshold: 1
+    _stunDuration: 0.5
+  _deadState:
+    _objectToDestroy: {fileID: 5069858877542032622}
+    _destroyDelay: 2
+  _idleState:
+    _minIdleDelay: 1
+    _maxIdleDelay: 3
+    _idleDelayComplete: 0
+  _patrolState:
+    _patrolPoints:
+    - {x: -3, y: -1.5}
+    - {x: 0, y: 1.5}
+    - {x: 3, y: -1.5}
+    _movementBehaviours:
+    - {fileID: 11400000, guid: 012421c460685d049b48ba73f0ba64be, type: 2}
+    - {fileID: 11400000, guid: ebe723a7bb82b214ea26081f8d2fa88c, type: 2}
+    _chooseRandomPoints: 0
+  _chaseState:
+    _movementBehaviours:
+    - {fileID: 11400000, guid: 012421c460685d049b48ba73f0ba64be, type: 2}
+    - {fileID: 11400000, guid: ebe723a7bb82b214ea26081f8d2fa88c, type: 2}
+    _faceTarget: 0
+  _attackingState:
+    _attack: {fileID: 11400000, guid: 75ec767df792f5b4fba90cd2ebfe937a, type: 2}
+    _predictTargetPosition: 1
+    _attackPredictionMask:
+      serializedVersion: 2
+      m_Bits: 0
+    _maxAttackRange: 10
+    _movementBehaviours:
+    - {fileID: 11400000, guid: 739be35af355ee3418f959588ed74d9b, type: 2}
+    - {fileID: 11400000, guid: ebe723a7bb82b214ea26081f8d2fa88c, type: 2}
+    - {fileID: 11400000, guid: 43438cba4a2fe134ea66d8385b264a75, type: 2}
+  _drawPatrolGizmos: 0
+  _drawChaseGizmos: 0
+  _drawAttackingGizmos: 0
+--- !u!114 &5333091620681344158
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}

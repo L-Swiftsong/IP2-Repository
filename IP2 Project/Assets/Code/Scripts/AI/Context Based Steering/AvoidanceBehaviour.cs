@@ -5,55 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Steering Behaviours/Avoidance", fileName = "New Avoidance Behaviour")]
 public class AvoidanceBehaviour : BaseSteeringBehaviour
 {
-    [SerializeField] private float _detectionDistance;
-    [SerializeField] private LayerMask _obstacleLayers;
-
-    [Space(5)]
-    [SerializeField] private float _interestDistance;
+    [SerializeField] private float _detectionDistance = 2;
+    [SerializeField] private LayerMask _obstacleLayers = 1 << 0 | 1 << 6 | 1 << 8; // Default Values: Default, Level, Entity.
 
 
     // The AvoidanceBehaviour behaviour does not return interest values.
-    public override float[] GetInterestMap(Rigidbody2D movementBody, Vector2 targetPos, Vector2[] directions)
-    {
-        float[] interestMap = new float[directions.Length];
-
-        /*// Loop through each potential target.
-        foreach (Collider2D obstacle in Physics2D.OverlapCircleAll(position, _interestDistance, _obstacleLayers))
-        {
-            // Cache values.
-            Vector2 closestPoint = obstacle.ClosestPoint(position);
-            Vector2 targetDirection = (closestPoint - position).normalized;
-            float targetDistance = Vector2.Distance(closestPoint, position);
-
-            // Calculate the weight applied to the weights, inversely proportional to the distance to the target.
-            float targetWeight = 1f - (targetDistance / _interestDistance);
-
-            // Loop through each direction.
-            int applicationIndex = Mathf.CeilToInt(directions.Length / 2);
-            int directionCount = directions.Length;
-            for (int i = 0; i < directionCount; i++)
-            {
-                // Apply a shaping function to favour moving away from the target at a slight angle.
-                float dot = Vector2.Dot(targetDirection, directions[i]);
-                //float interest = -(1f - Mathf.Abs(dot + 0.65f));
-                float interest = 1f - Mathf.Abs(dot + 0.75f);
-
-                // Weigh the interest based on distance.
-                interest *= targetWeight;
-
-                // Apply the interest to the opposite direction.
-                if (interest > interestMap[i])
-                    interestMap[i] = interest;
-
-                // Increase the application index, resetting to 0 if we exceed the number of values in the directions array.
-                applicationIndex++;
-                if (applicationIndex >= directionCount)
-                    applicationIndex = 0;
-            }
-        }*/
-        
-        return interestMap;
-    }
+    public override float[] GetInterestMap(Rigidbody2D movementBody, Vector2 targetPos, Vector2[] directions) => new float[directions.Length];
+    
 
     // Calculate danger values based on the distance to the obstacle.
     public override float[] GetDangerMap(Rigidbody2D movementBody, Vector2 targetPos, Vector2[] directions)
@@ -93,7 +51,6 @@ public class AvoidanceBehaviour : BaseSteeringBehaviour
             return;
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _interestDistance);
         Gizmos.DrawWireSphere(transform.position, _detectionDistance);
     }
 }

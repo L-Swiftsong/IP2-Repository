@@ -16,16 +16,15 @@ MonoBehaviour:
   CanHitAllies: 0
   HitMask:
     serializedVersion: 2
-    m_Bits: 73
+    m_Bits: 329
   RecoveryTime: 1.5
+  DealsDamage: 0
   _aoeRadius: 2
   _aoeDelay: 2
-  _explosivePrefab: {fileID: 2579404463370864339, guid: 586d260a79f94e94bbaf2b0dc7a06b51, type: 3}
+  _explosionDealsDamage: 1
+  _explodeOnCollision: 0
+  _showExplosionRadius: 1
+  _earlyExplosionReducesSize: 0
+  _explosivePrefab: {fileID: 155073143460243986, guid: 4f7ce7175b690bc449261a7763ca3a66, type: 3}
   _defaultThrowDistance: 3
-  _useCustomThrowCurve: 0
-  _customThrowCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  _throwSpeed: 12
