@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerCombo : MonoBehaviour
 {
@@ -11,6 +12,13 @@ public class PlayerCombo : MonoBehaviour
     [Header("Combo Values")]
     [SerializeField] private float _maxCombo;
     [SerializeField, ReadOnly] private float _currentCombo;
+    public Text ComboText;
+
+
+    private void Start()
+    {
+        ComboText.text = "x 0";
+    }
     private float _currentComboProperty
     {
         get => _currentCombo;
@@ -52,6 +60,8 @@ public class PlayerCombo : MonoBehaviour
 
         // Increment the combo.
         _currentComboProperty += 1f;
+
+        ComboText.text = "x " + _currentCombo;
     }
     private IEnumerator ResetCombo()
     {
@@ -65,5 +75,6 @@ public class PlayerCombo : MonoBehaviour
 
         // Reset the combo.
         _currentCombo = 0f;
+        ComboText.text = "x " + _currentCombo;
     }
 }
