@@ -2470,7 +2470,7 @@ PrefabInstance:
     - target: {fileID: 5312180351850510114, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: c790fd5048b130a4ba9e8abd1b222c49, type: 2}
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 6812040678532771438, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
       propertyPath: OnHealthChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -3249,3 +3249,4 @@ SceneRoots:
   - {fileID: 262751715}
   - {fileID: 1076686381}
   - {fileID: 2021097561}
+  - {fileID: 905702030}
