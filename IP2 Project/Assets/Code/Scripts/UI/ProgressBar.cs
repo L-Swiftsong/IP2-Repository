@@ -26,6 +26,8 @@ public class ProgressBar : MonoBehaviour
 
     [SerializeField] private Image _mask;
     [SerializeField] private Image _fill;
+
+    [SerializeField] private bool _useColour;
     [SerializeField] private Gradient _colourGradient;
 
     private float _max = 1f;
@@ -60,10 +62,13 @@ public class ProgressBar : MonoBehaviour
         // Calculate values.
         float currentOffset = _current - _min;
         float maxOffset = _max - _min;
-        float fillAmount = currentOffset / maxOffset;
+        float fillAmount = Mathf.Clamp01(currentOffset / maxOffset);
 
         // Set the mask's value.
         _mask.fillAmount = fillAmount;
-        _fill.color = _colourGradient.Evaluate(fillAmount);
+
+        // Update the bar's colour if we wish to do so.
+        if (_useColour)
+            _fill.color = _colourGradient.Evaluate(fillAmount);
     }
 }

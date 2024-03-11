@@ -1,7 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+[ExecuteInEditMode]
+#endif
 public class UIManager : MonoBehaviour
 {
     /*// Instance Reference.
@@ -24,19 +28,42 @@ public class UIManager : MonoBehaviour
 
     // A private constructor to prevent creation from other scripts.
     private UIManager() { }
-    ~UIManager()
+    private void OnDestroy()
     {
-        if (Instance = this)
+        if (Instance == this)
             Instance = null;
     }
 
 
-    [SerializeField] private GameObject _player;
-    public GameObject GetPlayerObject() => _player;
+    // UI.
+    [SerializeField] private Color _primaryColour;
+    public Color PrimaryColour
+    {
+        get => _primaryColour;
+        set
+        {
+            _primaryColour = value;
+            OnUIColoursChanged?.Invoke(_primaryColour, _secondaryColour);
+        }
+    }
+
+    [SerializeField] private Color _secondaryColour;
+    public Color SecondaryColour
+    {
+        get => _secondaryColour;
+        set
+        {
+            _secondaryColour = value;
+            OnUIColoursChanged?.Invoke(_primaryColour, _secondaryColour);
+        }
+    }
+
+    public static Action<Color, Color> OnUIColoursChanged;
 
 
+    // Health Bars.
     [SerializeField] private Transform _healthBarParent;
-    public void CreateBossHealthBar(HealthComponent connectedComponent, GameObject customBarPrefab)
+    public void CreateBossHealthBar(HealthComponent connectedComponent, GameObject customBarPrefab = null)
     {
         // Ensure that healthBarParent exists, setting ourself to it if it doesn't already.
         if (_healthBarParent == null)
