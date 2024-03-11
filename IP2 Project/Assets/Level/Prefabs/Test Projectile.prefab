@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ae28283edc85e40bc58276068561c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
+  _speed: 8
   _detectionOffset: 0.125
   _hitMask:
     serializedVersion: 2
