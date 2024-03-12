@@ -25,6 +25,7 @@ public class PlayerAttacks : MonoBehaviour
     public static System.Action<Weapon> OnPrimaryWeaponChanged; // Called when the primaryWeapon is assigned.
 
 
+    
     [Header("Secondary Attacks")]
     [SerializeField] private WeaponWrapper _secondaryWeapon;
     private WeaponWrapper _secondaryWeaponProperty
@@ -52,18 +53,27 @@ public class PlayerAttacks : MonoBehaviour
     [Header("Animations")]
     [SerializeField] private WeaponAnimator _weaponAnimator;
 
+  
+
+
 
     public void OnSecondaryAttack(InputAction.CallbackContext context)
     {
         if (context.started)
+        {
             _secondaryAttackHeld = true;
+            
+        }
         else if (context.canceled)
             _secondaryAttackHeld = false;
     }
     public void OnPrimaryAttack(InputAction.CallbackContext context)
     {
         if (context.started)
+        {
             _primaryAttackHeld = true;
+            
+        }
         else if (context.canceled)
             _primaryAttackHeld = false;
     }
@@ -78,6 +88,7 @@ public class PlayerAttacks : MonoBehaviour
         }
     }
 
+  
 
     private void Start()
     {
@@ -88,17 +99,25 @@ public class PlayerAttacks : MonoBehaviour
     }
     private void Update()
     {
-        // Check if the primary attack button is held.
-        if (_primaryAttackHeld)
+        // Check abilities (Highest Priority).
+        if (_useAbilityHeld && CanUseAbility())
         {
-            AttemptAttack(_primaryWeaponProperty);
+            UseAbility();
         }
-        
-        // Check if the secondary attack button is held.
-        if (_secondaryAttackHeld)
+        // Check if the secondary attack button is held (Medium Priority).
+        else if (_secondaryAttackHeld)
         {
             AttemptAttack(_secondaryWeapon);
         }
+	// Check if the primary attack button is held (Lowest Priority).
+	else if (_primaryAttackHeld)
+	{
+            AttemptAttack(_primaryWeaponProperty);
+	}
+
+
+        // To-Do: Replace in a way that removes this dependency.
+        Coolbar.fillAmount = _secondaryWeapon.RechargePercentage;
 
 
         // Call Events for UI (Currently occuring every frame. We can optimise this by reducing the number of calls).

@@ -47,6 +47,9 @@ public class HealthComponent : MonoBehaviour
                 Die();
         }
     }
+
+    
+
     public UnityEvent<HealthChangedValues> OnHealthChanged;
 
 
@@ -57,6 +60,7 @@ public class HealthComponent : MonoBehaviour
 
     [Header("Death")]
     public UnityEvent OnDeath;
+    public static System.Action<Transform> OnDead;
     private bool _isDead = false;
 
 
@@ -105,6 +109,7 @@ public class HealthComponent : MonoBehaviour
         Debug.Log(this.name + " has died");
 
         OnDeath?.Invoke();
+        OnDead?.Invoke(this.transform);
     }
     #endregion
 }

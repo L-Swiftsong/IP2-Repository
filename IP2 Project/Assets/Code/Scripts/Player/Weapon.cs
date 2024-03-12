@@ -27,4 +27,6 @@ public class Weapon : ScriptableObject
         public int UsesBeforeRecharge;
     [Tooltip("How long after an attack before this weapon recharges its uses.")]
         public float TimeToRecharge;
+    [Tooltip("Combo Multiplier")]
+    public int Combomultiplier;
 }

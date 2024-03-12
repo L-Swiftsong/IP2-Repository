@@ -165,6 +165,7 @@ public class WeaponWrapper
     {
         yield return new WaitForSeconds(_weapon.ComboResetTime);
         _weaponAttackIndex = 0;
+
     }
     private IEnumerator RechargeUses()
     {

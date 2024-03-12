@@ -13,6 +13,18 @@ public class MeleeAttack : Attack
     [Space(5)]
     [SerializeField] private bool _reflectProjectiles = false;
 
+    public int ComboMultiplier = 0;
+    public float ComboWaitTime;
+
+    public bool Timer;
+    
+
+
+
+
+
+    
+  
 
     public override void MakeAttack(Transform attackingTransform) => ProcessAttack(attackingTransform, attackingTransform.up);
     public override void MakeAttack(Transform attackingTransform, Vector2 targetPos)
@@ -26,6 +38,7 @@ public class MeleeAttack : Attack
     private void ProcessAttack(Transform attackingTransform, Vector2 attackDirection)
     {
         // Calculate ally factions.
+        
         Factions allyFactions = Factions.Unaligned;
         if (!CanHitAllies && attackingTransform.TryGetComponent<EntityFaction>(out EntityFaction entityFaction))
             allyFactions = entityFaction.Faction;
@@ -46,8 +59,16 @@ public class MeleeAttack : Attack
 
             // Don't hit allies (If CanHitAllies is true, this should always return false due to allyFactions being set to Factions.Unaligned).
             if (target.TryGetComponentThroughParents<EntityFaction>(out entityFaction))
+            {
                 if (entityFaction.IsAlly(allyFactions))
                     continue;
+                if (entityFaction.IsAlly(Factions.Yakuza))
+                {
+                    ComboMultiplier++;
+                    Timer = true;
+                }
+            }
+
 
             // Get the HealthComponent and Target's Transform.
             Transform targetTransform = target.transform;
