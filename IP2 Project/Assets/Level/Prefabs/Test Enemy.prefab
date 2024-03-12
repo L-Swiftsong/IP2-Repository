@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7359677896789197886}
   - component: {fileID: 7461271893559070611}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Direction Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 5586838544949057565}
   - component: {fileID: 900873006966956698}
   - component: {fileID: 2163672394554277305}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Test Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -339,7 +339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8142606790171571735}
   - component: {fileID: 8431291612481145294}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Temp GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}

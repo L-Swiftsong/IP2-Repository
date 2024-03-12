@@ -11,7 +11,7 @@ public class MeleeAttack : Attack
     [SerializeField] private Vector2 _offset;
 
     [Space(5)]
-    [SerializeField] private bool _reflectProjectiles;
+    [SerializeField] private bool _reflectProjectiles = false;
 
     public int ComboMultiplier = 0;
     public float ComboWaitTime;

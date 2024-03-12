@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class HealthComponent : MonoBehaviour
 {
     [Header("Health")]
-    [SerializeField] private int _maxHealth;
+    [SerializeField] private int _maxHealth = 1;
     [SerializeField, ReadOnly] private int _currentHealth;
     private int _maxHealthProperty
     {
@@ -54,7 +54,7 @@ public class HealthComponent : MonoBehaviour
 
 
     [Header("Invulnerability Frames")]
-    [SerializeField] private float _iFrameDuration;
+    [SerializeField] private float _iFrameDuration = 0f;
     private float _iFrameEndTime;
 
 
@@ -91,7 +91,8 @@ public class HealthComponent : MonoBehaviour
 
 
         // Set IFrames.
-        _iFrameEndTime = Time.time + _iFrameDuration;
+        if (_iFrameDuration > 0)
+            _iFrameEndTime = Time.time + _iFrameDuration;
     }
     #endregion
 

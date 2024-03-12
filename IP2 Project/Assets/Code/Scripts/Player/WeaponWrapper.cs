@@ -9,23 +9,50 @@ public class WeaponWrapper
 
 
     [SerializeField] private Weapon _weapon;
-    private int _weaponAttackIndex; // An index for referencing what part of the combo we are in.
+    private int _weaponAttackIndex = 0; // An index for referencing what part of the combo we are in.
     private Coroutine _resetComboCoroutine;
 
-    private float _nextReadyTime; // The time when this weapon can be used again.
+    private float _nextReadyTime = 0f; // The time when this weapon can be used again.
 
 
     private int _usesRemaining; // How many uses of this weapon are remaining before we need to wait for a recharge.
     private Coroutine _rechargeUsesCoroutine;
-    private float _rechargeTimeRemaining;
-    private int Combo;
+    private float _rechargeTimeRemaining = 0f;
 
-    // Accessors.
+
+    #region Accessors.
     public Weapon Weapon => _weapon;
     public int WeaponAttackIndex => _weaponAttackIndex;
     public int UsesRemaining => _usesRemaining;
     public float RechargeTimeRemaining => _rechargeTimeRemaining;
-    public float RechargePercentage => 1f - (_rechargeTimeRemaining / _weapon.TimeToRecharge);
+    public float RechargePercentage
+    {
+        get
+        {
+            // Ensures that we don't get an error from weapons with no recharge time (E.g. Unlimited Uses).
+            if (_weapon.TimeToRecharge <= 0)
+                return 1f;
+            
+            // Return the percentage of how far through recharging this weapon is.
+            return 1f - (_rechargeTimeRemaining / _weapon.TimeToRecharge);
+        }
+    }
+    public float RecoveryTimePercentage
+    {
+        get
+        {
+            // Calculate values.
+            float timeTillReady = _nextReadyTime - Time.time;
+            int previousAttackIndex = _weaponAttackIndex != 0 ? _weaponAttackIndex - 1 : _weapon.Attacks.Length - 1;
+
+            // If the timeTillReady is less than 0, the recovery time is complete.
+            //  Otherwise, calculate the percentage of how far through the recovery we are, based on the previous attack.
+            return timeTillReady <= 0
+                ? 1f
+                : 1f - (timeTillReady / _weapon.Attacks[previousAttackIndex].GetRecoveryTime());
+        }
+    }
+    #endregion
 
 
 
@@ -43,25 +70,38 @@ public class WeaponWrapper
         this._usesRemaining = _weapon.UsesBeforeRecharge;
     }
 
-    public void MakeAttack(Vector2? targetPos = null, bool throwToMouse = false)
+    public bool MakeAttack(Vector2? targetPos = null, bool throwToTarget = false)
     {
         // Ensure this wrapper has been set up.
         if (_linkedScript == null)
         {
             Debug.LogWarning("Warning: WeaponWrapper for " + _weapon.name + " has not been set up before MakeAttack call. Stopping execution");
-            return;
+            return false;
         }
 
         if (!CanAttack())
-            return;
+            return false;
+
 
         // We can attack.
-        // Make the attack.
+        _linkedScript.StartCoroutine(TriggerAttack(targetPos, throwToTarget));
+        return true;
+    }
+    private IEnumerator TriggerAttack(Vector2? targetPos, bool throwToTarget)
+    {
         Attack attack = _weapon.Attacks[_weaponAttackIndex];
+        _nextReadyTime = Time.time + attack.GetTotalAttackTime();
+        Debug.Log("Start Attack");
+
+        // Windup.
+        yield return new WaitForSeconds(attack.GetWindupTime());
+        Debug.Log("Make Attack");
+        
+        // Make the attack.
         switch (attack)
         {
             case AoEAttack:
-                if (targetPos.HasValue && throwToMouse)
+                if (targetPos.HasValue && throwToTarget)
                     attack.MakeAttack(_linkedScript.transform, targetPos.Value);
                 else
                     attack.MakeAttack(_linkedScript.transform);
@@ -73,14 +113,12 @@ public class WeaponWrapper
         }
 
         // Set variables for futher tasks.
-        _nextReadyTime = Time.time + attack.GetRecoveryTime();
-
         IncrementAttackIndex();
         DecrementWeaponUses();
     }
 
 
-    private bool CanAttack()
+    public bool CanAttack()
     {
         // Ensure we can attack pt1 (Ready Time).
         if (Time.time < _nextReadyTime)
@@ -113,9 +151,12 @@ public class WeaponWrapper
             _usesRemaining--;
 
             // Reset weapon uses timer.
-            if (_rechargeUsesCoroutine != null)
-                _linkedScript.StopCoroutine(_rechargeUsesCoroutine);
-            _rechargeUsesCoroutine = _linkedScript.StartCoroutine(RechargeUses());
+            if (!_weapon.RechargeOnlyWhenOut || _usesRemaining <= 0)
+            {
+                if (_rechargeUsesCoroutine != null)
+                    _linkedScript.StopCoroutine(_rechargeUsesCoroutine);
+                _rechargeUsesCoroutine = _linkedScript.StartCoroutine(RechargeUses());
+            }
         }
     }
 

@@ -390,6 +390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cam: {fileID: 525258281}
+  _rb2D: {fileID: 0}
   _behaviourToVisualise: {fileID: 11400000, guid: 739be35af355ee3418f959588ed74d9b, type: 2}
   _directionCount: 8
   _combineMaps: 0
