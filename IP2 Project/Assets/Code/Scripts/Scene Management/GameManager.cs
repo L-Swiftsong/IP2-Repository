@@ -13,6 +13,7 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    [SerializeField] private bool _loadTitleOnAwake = true;
 
     private void Awake()
     {
@@ -24,12 +25,16 @@ public class GameManager : MonoBehaviour
         _loadingBar?.SetValues(0f, max: 100f, min: 0f);
         _loadingScreen.SetActive(false);
 
-        // Clear all scenes but this.
-        ClearActiveScenes();
 
-        // Load the Title Screen additively.
-        SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE_SCREEN, LoadSceneMode.Additive);
-        _activeSceneBuildIndex = (int)SceneIndexes.TITLE_SCREEN;
+        if (_loadTitleOnAwake)
+        {
+            // Clear all scenes but this.
+            ClearActiveScenes();
+
+            // Load the Title Screen additively.
+            SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE_SCREEN, LoadSceneMode.Additive);
+            _activeSceneBuildIndex = (int)SceneIndexes.TITLE_SCREEN;
+        }
     }
     private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
     private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;

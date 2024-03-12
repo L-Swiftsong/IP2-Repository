@@ -44,6 +44,12 @@ public class PlayerAttacks : MonoBehaviour
     public static System.Action<Weapon> OnSecondaryWeaponChanged; // Called when the primaryWeapon is assigned.
 
 
+    [Header("Abilities")]
+    [SerializeField] private Ability _currentAbility; // Temp?
+    private bool _useAbilityHeld; // Temp?
+    private float _abilityCooldownTime; // Temp.
+
+
     [Header("AoE Test")]
     [SerializeField] private bool _throwToMouse;
     private Camera _playerCam;
@@ -57,25 +63,26 @@ public class PlayerAttacks : MonoBehaviour
 
 
 
-    public void OnSecondaryAttack(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            _secondaryAttackHeld = true;
-            
-        }
-        else if (context.canceled)
-            _secondaryAttackHeld = false;
-    }
     public void OnPrimaryAttack(InputAction.CallbackContext context)
     {
         if (context.started)
-        {
             _primaryAttackHeld = true;
-            
-        }
         else if (context.canceled)
             _primaryAttackHeld = false;
+    }
+    public void OnSecondaryAttack(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            _secondaryAttackHeld = true;
+        else if (context.canceled)
+            _secondaryAttackHeld = false;
+    }
+    public void OnAbilityPressed(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            _useAbilityHeld = true;
+        else if (context.canceled)
+            _useAbilityHeld = false;
     }
 
     
@@ -109,15 +116,11 @@ public class PlayerAttacks : MonoBehaviour
         {
             AttemptAttack(_secondaryWeapon);
         }
-	// Check if the primary attack button is held (Lowest Priority).
-	else if (_primaryAttackHeld)
-	{
+	    // Check if the primary attack button is held (Lowest Priority).
+	    else if (_primaryAttackHeld)
+	    {
             AttemptAttack(_primaryWeaponProperty);
-	}
-
-
-        // To-Do: Replace in a way that removes this dependency.
-        Coolbar.fillAmount = _secondaryWeapon.RechargePercentage;
+	    }
 
 
         // Call Events for UI (Currently occuring every frame. We can optimise this by reducing the number of calls).
@@ -150,6 +153,13 @@ public class PlayerAttacks : MonoBehaviour
             _secondaryWeaponProperty = newWrapper;
     }
 
+
+    private bool CanUseAbility() => Time.time >= _abilityCooldownTime;
+    private void UseAbility()
+    {
+        Debug.Log("Used Ability: " + _currentAbility.name);
+        _abilityCooldownTime = Time.time + _currentAbility.GetCooldownTime();
+    }
 
 
     //private void OnDrawGizmos()

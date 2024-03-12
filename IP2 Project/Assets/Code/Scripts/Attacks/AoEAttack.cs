@@ -43,14 +43,6 @@ public class AoEAttack : Attack
         if (!CanHitAllies && attackingTransform.TryGetComponentThroughParents<EntityFaction>(out EntityFaction entityFaction))
             ignoredFactions = entityFaction.Faction;
 
-        if (attackingTransform.TryGetComponentThroughParents<EntityFaction>(out EntityFaction faction))
-        {
-            if(faction.IsAlly(Factions.Yakuza))
-            {
-                ComboMultiplier++;
-                Timer = true;
-            }
-        }
 
         ExplosiveProjectile projectile = Instantiate<GameObject>(_explosivePrefab.gameObject, attackingTransform.position, Quaternion.identity).GetComponent<ExplosiveProjectile>();
         projectile.Init(
@@ -130,6 +122,4 @@ public class AoEAttack : Attack
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(gizmosOrigin.position, _aoeRadius);
     }
-
-    
 }

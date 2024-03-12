@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,19 +13,13 @@ public class PlayerCombo : MonoBehaviour
     [Header("Combo Values")]
     [SerializeField] private float _maxCombo;
     [SerializeField, ReadOnly] private float _currentCombo;
-    public Text ComboText;
-
-
-    private void Start()
-    {
-        ComboText.text = "x 0";
-    }
     private float _currentComboProperty
     {
         get => _currentCombo;
         set
         {
             _currentCombo = Mathf.Clamp(value, 0f, _maxCombo);
+            OnComboChanged?.Invoke(value);
 
             if (value != 0)
             {
@@ -39,6 +34,7 @@ public class PlayerCombo : MonoBehaviour
     [SerializeField, ReadOnly] private float _comboResetTimeRemaining;
     private Coroutine _comboResetCoroutine;
 
+    public static Action<float> OnComboChanged;
 
 
     private void Awake() => _playerTransform = this.transform;
@@ -60,8 +56,6 @@ public class PlayerCombo : MonoBehaviour
 
         // Increment the combo.
         _currentComboProperty += 1f;
-
-        ComboText.text = "x " + _currentCombo;
     }
     private IEnumerator ResetCombo()
     {
@@ -74,7 +68,6 @@ public class PlayerCombo : MonoBehaviour
         }
 
         // Reset the combo.
-        _currentCombo = 0f;
-        ComboText.text = "x " + _currentCombo;
+        _currentComboProperty = 0f;
     }
 }
