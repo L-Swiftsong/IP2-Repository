@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -92,19 +93,27 @@ public class GameManager : MonoBehaviour
     {
         // Unload the Main Menu & Load the Tutorial Scene.
         LoadScenesAsync(
-            scenesToUnload: new int[] { (int)SceneIndexes.TITLE_SCREEN },
-            scenesToLoad: new int[] { (int)SceneIndexes.TUTORIAL_SCENE },
-            newActiveScene: (int)SceneIndexes.TUTORIAL_SCENE);
+            scenesToUnload: new SceneIndexes[] { SceneIndexes.TITLE_SCREEN },
+            scenesToLoad: new SceneIndexes[] { SceneIndexes.TUTORIAL_SCENE },
+            newActiveScene: SceneIndexes.TUTORIAL_SCENE);
     }
     public void LoadFirstSceneFromMenu()
     {
         // Unload the Main Menu & Load the First Scene.
         LoadScenesAsync(
-            scenesToUnload: new int[] { (int)SceneIndexes.TITLE_SCREEN },
-            scenesToLoad: new int[] { (int)SceneIndexes.FIRST_LEVEL },
-            newActiveScene: (int)SceneIndexes.FIRST_LEVEL);
+            scenesToUnload: new SceneIndexes[] { SceneIndexes.TITLE_SCREEN },
+            scenesToLoad: new SceneIndexes[] { SceneIndexes.FIRST_LEVEL },
+            newActiveScene: SceneIndexes.FIRST_LEVEL);
     }
-    public void LoadScenesAsync(int[] scenesToUnload, int[] scenesToLoad, int newActiveScene = (int)SceneIndexes.PERSISTENT_SCENE)
+    public void CommenceTransition(SceneTransitionSO transition)
+    {
+        LoadScenesAsync(
+            scenesToUnload: transition.ScenesToUnload,
+            scenesToLoad: transition.ScenesToLoad,
+            newActiveScene: transition.ScenesToLoad[0]);
+    }
+
+    public void LoadScenesAsync(SceneIndexes[] scenesToUnload, SceneIndexes[] scenesToLoad, SceneIndexes newActiveScene = SceneIndexes.PERSISTENT_SCENE)
     {
         // Enable the Loading Screen.
         _loadingScreen.SetActive(true);
@@ -114,7 +123,7 @@ public class GameManager : MonoBehaviour
         _loadingCompletedGO.SetActive(false);
 
 
-        _activeSceneBuildIndex = newActiveScene;
+        _activeSceneBuildIndex = (int)newActiveScene;
 
         // Start unloading & loading scenes.
         foreach (int sceneToUnload in scenesToUnload)
@@ -185,13 +194,14 @@ public class GameManager : MonoBehaviour
         // Unload all open scenes except the persistent scene.
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
-            int sceneBuildIndex = SceneManager.GetSceneAt(i).buildIndex;
+            Scene sceneToUnload = SceneManager.GetSceneAt(i);
+            int sceneBuildIndex = sceneToUnload.buildIndex;
 
             // Don't unload the persistent scene.
-            if (sceneBuildIndex == (int)SceneIndexes.PERSISTENT_SCENE)
+            if (sceneToUnload.IsValid() && sceneBuildIndex == (int)SceneIndexes.PERSISTENT_SCENE)
                 continue;
 
-            SceneManager.UnloadSceneAsync(sceneBuildIndex);
+            SceneManager.UnloadSceneAsync(sceneToUnload);
         }
     }
 
