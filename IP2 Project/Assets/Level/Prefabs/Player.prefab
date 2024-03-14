@@ -193,14 +193,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4425986093263550713}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2017937973843698510}
   m_Father: {fileID: 8067092537380572294}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6088689309337020908
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,13 +226,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6088689309337020908}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5725950586333644357}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!114 &7177944358182171851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,6 +531,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 915ce742a732019438b68b854685f01b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rotationPivot: {fileID: 5725950586333644357}
+  _angleCount: 4
 --- !u!114 &2928679218508242623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -543,6 +545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c9e1b2bbe9c48f41ba1ca81996a4af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerController: {fileID: 5346638156322135009}
   moveSpeed: 5
   rb: {fileID: 9067624589833551237}
   _dashSpeed: 25
@@ -567,10 +570,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09719135b5ef98740b540725cbf246f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerController: {fileID: 5346638156322135009}
   _primaryWeapon:
     _weapon: {fileID: 11400000, guid: 01ece5847bf07be4ea69247f6114148b, type: 2}
+    _drawGizmos: 1
+    _attackToDebug: 0
   _secondaryWeapon:
     _weapon: {fileID: 11400000, guid: 957461238b332b641a845fb881175d4d, type: 2}
+    _drawGizmos: 0
+    _attackToDebug: 0
   _currentAbility: {fileID: 0}
   _throwToMouse: 1
   _weaponAnimator: {fileID: 7177944358182171851}
@@ -649,4 +657,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerInput: {fileID: 3289976143937181819}
+  _rotationPivot: {fileID: 5725950586333644357}
   _rotationSpeed: 720

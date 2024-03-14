@@ -22,11 +22,11 @@ public class AoEAttack : Attack
     [SerializeField] private float _throwSpeed;
 
 
-    public override void MakeAttack(Transform attackingTransform) => ProcessAttack(attackingTransform, attackingTransform.up, _defaultThrowDistance);
-    public override void MakeAttack(Transform attackingTransform, Vector2 targetPos)
+    public override void MakeAttack(Transform attackingTransform, Vector2 up) => ProcessAttack(attackingTransform, up, _defaultThrowDistance);
+    public override void MakeAttack(Transform attackingTransform, Vector3 targetPos)
     {
         float throwDistance = Vector2.Distance(attackingTransform.position, targetPos);
-        Vector2 throwDirection = (targetPos - (Vector2)attackingTransform.position).normalized;
+        Vector2 throwDirection = (targetPos - attackingTransform.position).normalized;
 
         ProcessAttack(attackingTransform, throwDirection, throwDistance);
     }

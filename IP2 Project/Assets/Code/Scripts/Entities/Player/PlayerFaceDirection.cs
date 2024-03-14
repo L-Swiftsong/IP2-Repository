@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerFaceDirection : MonoBehaviour
 {
     [SerializeField] private PlayerInput _playerInput;
+    [SerializeField] private Transform _rotationPivot;
     private Camera _playerCam;
 
     [SerializeField] private float _rotationSpeed;
@@ -62,6 +63,7 @@ public class PlayerFaceDirection : MonoBehaviour
 
 
         // Rotate to face the target direction.
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(Vector3.forward, _targetDirection), _rotationSpeed * Time.deltaTime);
+        //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(Vector3.forward, _targetDirection), _rotationSpeed * Time.deltaTime);
+        _rotationPivot.rotation = Quaternion.RotateTowards(_rotationPivot.rotation, Quaternion.LookRotation(Vector3.forward, _targetDirection), _rotationSpeed * Time.deltaTime);
     }
 }

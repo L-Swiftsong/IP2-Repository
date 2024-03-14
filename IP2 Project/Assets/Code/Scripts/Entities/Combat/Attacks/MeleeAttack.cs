@@ -26,10 +26,10 @@ public class MeleeAttack : Attack
     
   
 
-    public override void MakeAttack(Transform attackingTransform) => ProcessAttack(attackingTransform, attackingTransform.up);
-    public override void MakeAttack(Transform attackingTransform, Vector2 targetPos)
+    public override void MakeAttack(Transform attackingTransform, Vector2 up) => ProcessAttack(attackingTransform, up);
+    public override void MakeAttack(Transform attackingTransform, Vector3 targetPos)
     {
-        Vector2 attackDirection = (targetPos - (Vector2)attackingTransform.position).normalized;
+        Vector2 attackDirection = (targetPos - attackingTransform.position).normalized;
 
         ProcessAttack(attackingTransform, attackDirection);
     }

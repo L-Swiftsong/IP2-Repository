@@ -24,8 +24,8 @@ public abstract class Attack : ScriptableObject
 
 
 
-    public abstract void MakeAttack(Transform attackingTransform);
-    public abstract void MakeAttack(Transform attackingTransform, Vector2 targetPos);
+    public abstract void MakeAttack(Transform attackingTransform, Vector2 attackingUp);
+    public abstract void MakeAttack(Transform attackingTransform, Vector3 targetPos);
 
     public abstract Vector2? CalculateInterceptionPosition(Vector2 startPos, Vector2 targetPos, Vector2 targetVelocity);
     public abstract void DrawGizmos(Transform gizmosOrigin);

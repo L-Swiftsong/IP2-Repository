@@ -14,6 +14,7 @@ public class EntitySenses : MonoBehaviour
 
 
     [Header("Sight")]
+    [SerializeField] private Transform _rotationPivot;
     [SerializeField] private float _visionRadius = 7.5f;
     [SerializeField] private float _visionAngle = 225f;
 
@@ -55,7 +56,7 @@ public class EntitySenses : MonoBehaviour
 
 
             // Discount targets out of viewcone.
-            float angleToTarget = Vector2.Angle(transform.up, potentialTarget.transform.position - transform.position);
+            float angleToTarget = Vector2.Angle(_rotationPivot.up, potentialTarget.transform.position - transform.position);
             if (angleToTarget > _visionAngle / 2f)
                 continue;
 
@@ -94,8 +95,8 @@ public class EntitySenses : MonoBehaviour
         Gizmos.color = _visionGizmosColour;
         Gizmos.DrawWireSphere(transform.position, _visionRadius);
 
-        Vector2 rightDir = Quaternion.AngleAxis(_visionAngle / 2f, Vector3.forward) * transform.up * _visionRadius;
-        Vector2 leftDir = Quaternion.AngleAxis(-_visionAngle / 2f, Vector3.forward) * transform.up * _visionRadius;
+        Vector2 rightDir = Quaternion.AngleAxis(_visionAngle / 2f, Vector3.forward) * _rotationPivot.up * _visionRadius;
+        Vector2 leftDir = Quaternion.AngleAxis(-_visionAngle / 2f, Vector3.forward) * _rotationPivot.up * _visionRadius;
         Gizmos.DrawLine(transform.position, (Vector2)transform.position + rightDir);
         Gizmos.DrawLine(transform.position, (Vector2)transform.position + leftDir);
     }

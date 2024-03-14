@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class PlayerAttacks : MonoBehaviour
 {
+    [SerializeField] private PlayerController _playerController;
+
+    
     [Header("Primary Attacks")]
     [SerializeField] private WeaponWrapper _primaryWeapon;
     private WeaponWrapper _primaryWeaponProperty
@@ -162,12 +165,11 @@ public class PlayerAttacks : MonoBehaviour
     }
 
 
-    //private void OnDrawGizmos()
-    //{
-    //    if (_primaryWeapon.Weapon != null && _attackToDebug < _primaryWeapon.Weapon.Attacks.Length)
-    //        _primaryWeapon.Weapon.Attacks[_attackToDebug].DrawGizmos(this.transform);
-
-    //    else if (_secondaryWeapon.Weapon != null && _attackToDebug < _secondaryWeapon.Weapon.Attacks.Length)
-    //        _secondaryWeapon.Weapon.Attacks[_attackToDebug].DrawGizmos(this.transform);
-    //}
+    private void OnDrawGizmos()
+    {
+        if (_primaryWeapon.Weapon != null)
+            _primaryWeapon.DrawGizmos(_playerController.GetRotationPivot());
+        if (_secondaryWeapon.Weapon != null)
+            _secondaryWeapon.DrawGizmos(_playerController.GetRotationPivot());
+    }
 }

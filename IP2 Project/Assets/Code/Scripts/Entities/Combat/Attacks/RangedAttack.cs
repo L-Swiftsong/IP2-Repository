@@ -19,10 +19,10 @@ public class RangedAttack : Attack
         [SerializeField] private bool _individualAccuracy;
 
     
-    public override void MakeAttack(Transform attackingTransform) => ProcessAttack(attackingTransform, attackingTransform.up);
-    public override void MakeAttack(Transform attackingTransform, Vector2 targetPos)
+    public override void MakeAttack(Transform attackingTransform, Vector2 up) => ProcessAttack(attackingTransform, up);
+    public override void MakeAttack(Transform attackingTransform, Vector3 targetPos)
     {
-        Vector2 targetDirection = (targetPos - (Vector2)attackingTransform.position).normalized;
+        Vector2 targetDirection = (targetPos - attackingTransform.position).normalized;
         
         ProcessAttack(attackingTransform, targetDirection);
     }

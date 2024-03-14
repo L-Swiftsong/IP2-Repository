@@ -20,6 +20,11 @@ public class WeaponWrapper
     private float _rechargeTimeRemaining = 0f;
 
 
+    [Header("Debug")]
+    [SerializeField] private bool _drawGizmos;
+    [SerializeField] private int _attackToDebug;
+
+
     #region Accessors.
     public Weapon Weapon => _weapon;
     public int WeaponAttackIndex => _weaponAttackIndex;
@@ -32,7 +37,7 @@ public class WeaponWrapper
             // Ensures that we don't get an error from weapons with no recharge time (E.g. Unlimited Uses).
             if (_weapon.TimeToRecharge <= 0)
                 return 1f;
-            
+
             // Return the percentage of how far through recharging this weapon is.
             return 1f - (_rechargeTimeRemaining / _weapon.TimeToRecharge);
         }
@@ -70,7 +75,7 @@ public class WeaponWrapper
         this._usesRemaining = _weapon.UsesBeforeRecharge;
     }
 
-    public bool MakeAttack(Vector2? targetPos = null, bool throwToTarget = false)
+    public bool MakeAttack(Vector2 up, Vector2? targetPos = null, bool throwToTarget = false)
     {
         // Ensure this wrapper has been set up.
         if (_linkedScript == null)
@@ -84,10 +89,10 @@ public class WeaponWrapper
 
 
         // We can attack.
-        _linkedScript.StartCoroutine(TriggerAttack(targetPos, throwToTarget));
+        _linkedScript.StartCoroutine(TriggerAttack(up, targetPos, throwToTarget));
         return true;
     }
-    private IEnumerator TriggerAttack(Vector2? targetPos, bool throwToTarget)
+    private IEnumerator TriggerAttack(Vector2 up, Vector2? targetPos, bool throwToTarget)
     {
         Attack attack = _weapon.Attacks[_weaponAttackIndex];
         _nextReadyTime = Time.time + attack.GetTotalAttackTime();
@@ -96,19 +101,19 @@ public class WeaponWrapper
         // Windup.
         yield return new WaitForSeconds(attack.GetWindupTime());
         Debug.Log("Make Attack");
-        
+
         // Make the attack.
         switch (attack)
         {
             case AoEAttack:
                 if (targetPos.HasValue && throwToTarget)
-                    attack.MakeAttack(_linkedScript.transform, targetPos.Value);
+                    attack.MakeAttack(_linkedScript.transform, targetPos: targetPos.Value);
                 else
-                    attack.MakeAttack(_linkedScript.transform);
+                    attack.MakeAttack(_linkedScript.transform, attackingUp: up);
 
                 break;
             default:
-                attack.MakeAttack(_linkedScript.transform);
+                attack.MakeAttack(_linkedScript.transform, attackingUp: up);
                 break;
         }
 
@@ -176,8 +181,18 @@ public class WeaponWrapper
             _rechargeTimeRemaining -= Time.deltaTime;
             yield return null;
         }
-        
+
         // Reset the uses.
         _usesRemaining = _weapon.UsesBeforeRecharge;
+    }
+
+
+    public void DrawGizmos(Transform gizmosOrigin)
+    {
+        if (!_drawGizmos)
+            return;
+
+        if (_weapon != null)
+            _weapon.Attacks[_attackToDebug].DrawGizmos(gizmosOrigin);
     }
 }

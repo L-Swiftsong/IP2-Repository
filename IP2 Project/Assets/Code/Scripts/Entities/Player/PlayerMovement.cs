@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private PlayerController _playerController;
+
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private Rigidbody2D rb;
@@ -96,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
 
         
         // Start Dashing.
-        Vector2 dashDirection = (movementInput != Vector2.zero ? movementInput : (Vector2)transform.up).normalized;
+        Vector2 dashDirection = (movementInput != Vector2.zero ? movementInput : _playerController.GetUp()).normalized;
         rb.velocity = dashDirection * _dashSpeed;
 
         _dashDurationRemaining = _dashDistance / _dashSpeed; // From physics: 't = d/v'.
@@ -142,6 +144,6 @@ public class PlayerMovement : MonoBehaviour
             return;
 
         Gizmos.color = _dashGizmoColour;
-        Gizmos.DrawRay(transform.position, transform.up * _dashDistance);
+        Gizmos.DrawRay(transform.position, _playerController.GetUp() * _dashDistance);
     }
 }

@@ -15,9 +15,11 @@ public class ComplexAttackEnemy : MonoBehaviour, IEntityBrain
     [SerializeField, ReadOnly] private Vector2? _investigatePosition;
 
 
+    [Space(5)]
     private EntitySenses _entitySenses;
     private EntityMovement _movementScript;
     private HealthComponent _healthComponent;
+    [SerializeField] private Transform _rotationPivot;
 
     private Action OnStunned;
     private Action OnDied;
@@ -71,7 +73,7 @@ public class ComplexAttackEnemy : MonoBehaviour, IEntityBrain
         _investigateState.InitialiseValues(_movementScript, () => _investigatePosition.Value);
 
         _chaseState.InitialiseValues(_movementScript, () => _entitySenses.CurrentTarget.position);
-        _attackingState.InitialiseValues(_movementScript, () => _entitySenses.CurrentTarget.position);
+        _attackingState.InitialiseValues(_movementScript, _rotationPivot, () => _entitySenses.CurrentTarget.position);
 
 
         #region Root FSM Setup

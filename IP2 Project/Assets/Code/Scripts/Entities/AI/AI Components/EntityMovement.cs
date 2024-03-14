@@ -7,8 +7,10 @@ public class EntityMovement : MonoBehaviour, IMoveable
 {
     private Rigidbody2D _rb2D;
     private ContextMerger _ctxMerger;
+    [SerializeField] private Transform _rotationPivot;
 
-    
+
+    [Space(5)]
     [SerializeField] private float _movementSpeed = 3f;
     [SerializeField] private float _acceleration = 15f;
     [SerializeField] private float _rotationSpeed = 270f;
@@ -41,9 +43,9 @@ public class EntityMovement : MonoBehaviour, IMoveable
                 targetRot = Quaternion.LookRotation(Vector3.forward, targetDir);
                 break;
         };
-        
+
         // Commence rotation.
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, _rotationSpeed * Time.deltaTime);
+        _rotationPivot.rotation = Quaternion.RotateTowards(_rotationPivot.rotation, targetRot, _rotationSpeed * Time.deltaTime);
     }
 }
 

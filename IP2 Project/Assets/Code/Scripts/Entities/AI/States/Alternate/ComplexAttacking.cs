@@ -15,6 +15,7 @@ namespace States.Alternative
 
         private Func<Vector2> _targetPos;
         private EntityMovement _movementScript;
+        private Transform _rotationPivot;
 
 
         [Header("Attacks")]
@@ -54,9 +55,10 @@ namespace States.Alternative
         [SerializeField] private int _attackToDispay;
 
 
-        public void InitialiseValues(EntityMovement movementScript, Func<Vector2> target)
+        public void InitialiseValues(EntityMovement movementScript, Transform rotationPivot, Func<Vector2> target)
         {
             this._movementScript = movementScript;
+            this._rotationPivot = rotationPivot;
             this._targetPos = target;
 
             // Setup the Weapon Wrappers.
@@ -138,7 +140,7 @@ namespace States.Alternative
             // If we are within range to attack, and our cooldown has elapsed, then make the attack.
             if (distanceToTarget < _maxAttackRange)
             {
-                weaponWrapper.MakeAttack(estimatedTargetPos, true);
+                weaponWrapper.MakeAttack(_rotationPivot.up, estimatedTargetPos, true);
             }
 
 
