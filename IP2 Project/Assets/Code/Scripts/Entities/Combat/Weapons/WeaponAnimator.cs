@@ -46,8 +46,8 @@ public class WeaponAnimator : MonoBehaviour
         Animator weaponAnim = _weaponInstances[weaponIndex].GetComponent<Animator>();
         if (weaponAnim != null)
         {
-            weaponAnim.SetBool("FacingRight", _rotationPivot.eulerAngles.z > 180f);
-            weaponAnim.SetInteger("Combo Index", comboIndex);
+            //weaponAnim.SetBool("FacingRight", _rotationPivot.eulerAngles.z > 180f);
+            weaponAnim.SetInteger("ComboIndex", comboIndex);
             weaponAnim.SetTrigger("Attack");
         }
     }
