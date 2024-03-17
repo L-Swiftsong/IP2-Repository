@@ -15,8 +15,11 @@ MonoBehaviour:
   Attacks:
   - {fileID: 11400000, guid: 75ec767df792f5b4fba90cd2ebfe937a, type: 2}
   ComboResetTime: 0
+  WeaponSprite: {fileID: -1724321144, guid: aaae8f73bc7a5fb4b818937c74716a89, type: 3}
+  WeaponPrefab: {fileID: 8988107636057801283, guid: da75fd0f01138d643bad5d5824524245, type: 3}
   IgnoreUses: 0
   TickUseOnFirstAttackOnly: 0
   RechargeOnlyWhenOut: 1
   UsesBeforeRecharge: 6
   TimeToRecharge: 1.2
+  Combomultiplier: 0

@@ -247,6 +247,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _subscribeToPlayer: 1
   _rotationPivot: {fileID: 8067092537380572294}
+  _facingRightLowerThreshold: 0
+  _facingRightUpperThreshold: 180
   _weaponParent: {fileID: 2017937973843698510}
 --- !u!1 &9144251323198861198
 GameObject:
@@ -569,8 +571,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _primaryWeapon:
     _weapon: {fileID: 11400000, guid: 01ece5847bf07be4ea69247f6114148b, type: 2}
+    _drawGizmos: 0
+    _attackToDebug: 0
   _secondaryWeapon:
     _weapon: {fileID: 11400000, guid: 957461238b332b641a845fb881175d4d, type: 2}
+    _drawGizmos: 0
+    _attackToDebug: 0
   _currentAbility: {fileID: 0}
   _throwToMouse: 1
   _weaponAnimator: {fileID: 7177944358182171851}
