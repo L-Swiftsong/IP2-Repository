@@ -7,6 +7,14 @@ using UnityEngine;
 public class PlayerHealthSubscriber : MonoBehaviour
 {
     // Subscribe the PlayerHealthUI's UpdateHealth function to the player's HealthComponent's OnHealthChanged UnityEvent.
-    private void Start() => GetComponent<HealthComponent>().OnHealthChanged.AddListener(FindObjectOfType<PlayerHealthUI>().UpdateHealth);
-    
+    private void Start()
+    {
+        // Find Components.
+        HealthComponent playerHealth = GetComponent<HealthComponent>();
+        PlayerHealthUI healthUI = FindObjectOfType<PlayerHealthUI>();
+
+        // Subscribe to events.
+        playerHealth.OnDamageTaken.AddListener(healthUI.UpdateHealth);
+        playerHealth.OnHealingReceived.AddListener(healthUI.UpdateHealth);
+    }
 }

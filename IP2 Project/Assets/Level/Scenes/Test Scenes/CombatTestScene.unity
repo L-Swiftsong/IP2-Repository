@@ -603,7 +603,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 999
   _currentHealth: 0
-  OnHealthChanged:
+  OnHealingRecieved:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamageTaken:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 502937567}
