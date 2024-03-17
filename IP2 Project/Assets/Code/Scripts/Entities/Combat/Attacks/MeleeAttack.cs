@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(menuName = "Attacks/Melee Attack", fileName = "New Melee Attack")]
+[CreateAssetMenu(menuName = "Attacks/Melee Attack", fileName = "New Melee Attack", order = 1)]
 public class MeleeAttack : Attack
 {
     [Header("Melee")]

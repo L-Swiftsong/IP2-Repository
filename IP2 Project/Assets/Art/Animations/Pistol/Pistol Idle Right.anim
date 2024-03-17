@@ -36,7 +36,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.75, y: -0.125, z: 0}
+        value: {x: 0.6, y: -0.125, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -46,7 +46,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Pistol Sprite
+    path: Weapon Sprite
   m_ScaleCurves: []
   m_FloatCurves:
   - serializedVersion: 2
@@ -66,7 +66,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_FlipY
-    path: Pistol Sprite
+    path: Weapon Sprite
     classID: 212
     script: {fileID: 0}
     flags: 0
@@ -79,7 +79,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 1664606060
+      path: 2786741944
       attribute: 1444465954
       script: {fileID: 0}
       typeID: 212
@@ -88,7 +88,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1664606060
+      path: 2786741944
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -196,28 +196,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0
-        inSlope: Infinity
-        outSlope: Infinity
-        tangentMode: 103
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_FlipY
-    path: Pistol Sprite
-    classID: 212
-    script: {fileID: 0}
-    flags: 0
-  - serializedVersion: 2
-    curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0.75
+        value: 0.6
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -228,7 +207,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Pistol Sprite
+    path: Weapon Sprite
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -249,7 +228,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Pistol Sprite
+    path: Weapon Sprite
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -270,8 +249,29 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Pistol Sprite
+    path: Weapon Sprite
     classID: 4
+    script: {fileID: 0}
+    flags: 0
+  - serializedVersion: 2
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_FlipY
+    path: Weapon Sprite
+    classID: 212
     script: {fileID: 0}
     flags: 0
   m_EulerEditorCurves:

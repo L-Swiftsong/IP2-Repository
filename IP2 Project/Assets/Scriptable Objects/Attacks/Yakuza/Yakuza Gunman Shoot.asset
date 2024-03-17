@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Yakuza Gunman Shoot
   m_EditorClassIdentifier: 
   CanHitSelf: 0
-  CanHitAllies: 1
+  CanHitAllies: 0
   HitMask:
     serializedVersion: 2
     m_Bits: 329
+  WindupTime: 0
   RecoveryTime: 0.45
   DealsDamage: 1
   _projectilePrefab: {fileID: 4263343964843693753, guid: 4232e69a6a3234a4ebe4dad5a4a8e5f2, type: 3}

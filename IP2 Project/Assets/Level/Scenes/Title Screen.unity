@@ -961,7 +961,7 @@ MonoBehaviour:
   _resolutionDropdown: {fileID: 1354063118}
   _fullscreenDropdown: {fileID: 1208057098}
   _mixer: {fileID: 24100000, guid: 9fa6385635acadf4386321546bd0f14b, type: 2}
-  _playerOutline: {fileID: 0}
+  _playerOutline: {fileID: 2100000, guid: d81b5646c5d7d54439c3d4e47ce841a4, type: 2}
   _currentPlayerOutlineColour: {fileID: 430101032}
   _enemyOutline: {fileID: 0}
   _currentEnemyOutlineColour: {fileID: 1261186501}
@@ -1890,6 +1890,10 @@ PrefabInstance:
     - target: {fileID: 6280505797763274808, guid: f5bd885cbf4a5fe418d67cdc89f419c1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6280505797763274809, guid: f5bd885cbf4a5fe418d67cdc89f419c1, type: 3}
+      propertyPath: advancedSettings.a.range.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6280505797763274811, guid: f5bd885cbf4a5fe418d67cdc89f419c1, type: 3}
       propertyPath: m_Name

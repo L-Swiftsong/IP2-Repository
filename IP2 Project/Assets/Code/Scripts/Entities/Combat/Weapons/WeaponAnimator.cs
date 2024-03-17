@@ -25,7 +25,11 @@ public class WeaponAnimator : MonoBehaviour
 
 
 
-    private void Awake() => _weaponInstances = new GameObject[0];
+    private void Awake()
+    {
+        if (_weaponInstances == null)
+            _weaponInstances = new GameObject[0];
+    }
     private void OnEnable()
     {
         if (_subscribeToPlayer)
@@ -119,6 +123,10 @@ public class WeaponAnimator : MonoBehaviour
     }
     public void OnWeaponChanged(Weapon newWeapon, int index, bool makeShownWeapon)
     {
+        // Ensure weaponInstances has been initialised.
+        if (_weaponInstances == null)
+            _weaponInstances = new GameObject[1];
+
         // If the _weaponInstances array is too small to fit the index, resize it to fit.
         if (_weaponInstances.Length < (index + 1))
             System.Array.Resize(ref _weaponInstances, index + 1);

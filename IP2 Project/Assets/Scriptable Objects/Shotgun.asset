@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dc7a647c32d63e48bbc0744c6ea2443, type: 3}
+  m_Name: Shotgun
+  m_EditorClassIdentifier: 
+  Attacks:
+  - {fileID: 11400000, guid: d01231d5e8c91f5458ebc89d29fd485d, type: 2}
+  ComboResetTime: 0
+  WeaponSprite: {fileID: -1758304667, guid: aaae8f73bc7a5fb4b818937c74716a89, type: 3}
+  WeaponPrefab: {fileID: 8988107636057801283, guid: d56ae910e08e6864bb91b8120894f46c, type: 3}
+  IgnoreUses: 0
+  TickUseOnFirstAttackOnly: 0
+  RechargeOnlyWhenOut: 1
+  UsesBeforeRecharge: 6
+  TimeToRecharge: 1.2
+  Combomultiplier: 0

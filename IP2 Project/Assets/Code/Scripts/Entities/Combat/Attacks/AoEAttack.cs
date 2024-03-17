@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[CreateAssetMenu(menuName = "Attacks/AoE Attack", fileName = "New AoE Attack")]
+[CreateAssetMenu(menuName = "Attacks/AoE Attack", fileName = "New AoE Attack", order = 3)]
 public class AoEAttack : Attack
 {
     [Header("AoE Variables")]
