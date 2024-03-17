@@ -50,7 +50,6 @@ public class WeaponAnimator : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(_rotationPivot.eulerAngles.z);
         if (_activeWeaponAnimator != null)
         {
             _activeWeaponAnimator.SetBool("FacingRight", _isFacingRight);

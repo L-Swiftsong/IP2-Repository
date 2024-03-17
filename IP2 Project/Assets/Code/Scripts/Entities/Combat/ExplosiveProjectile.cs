@@ -25,6 +25,11 @@ public class ExplosiveProjectile : Projectile
     private AoERadiusViewer _radiusViewerInstance;
 
 
+    [Header("Explosion Effect")]
+    [SerializeField] private GameObject _explosionEffect;
+    [SerializeField] private float _explosionEffectLifetime;
+
+
     [Header("Environmental Collisions")]
     [SerializeField] private LayerMask _environmentMask;
     [SerializeField] private bool _reflectOnEnvironmentCollision;
@@ -131,7 +136,7 @@ public class ExplosiveProjectile : Projectile
     {
         // Calculate the radius to be used for the explosion.
         float radiusLerp = _earlyExplosionReducesSize ? (Time.time - _creationTime) / _explosiveDelay : 1f;
-        float radius = Mathf.Lerp(radiusLerp, 0f, _explosionRadius);
+        float radius = Mathf.Lerp(a: 0f, b: _explosionRadius, t: radiusLerp);
         
         
         // Get all valid (Unique) transforms within the explosion radius.
@@ -140,17 +145,24 @@ public class ExplosiveProjectile : Projectile
         {
             // Ignore factions allied with one of the IgnoredFactions.
             if (collider.TryGetComponentThroughParents<EntityFaction>(out EntityFaction entityFaction))
+            {
                 if (entityFaction.IsAlly(IgnoredFactions))
                     return;
+            }
 
-
-            // Explosion Callback.
+            // Mark as valid for the _explosionCallback.
             validTargets.Add(collider.transform);
         }
 
 
         // Trigger the explosion callback.
         _explosionCallback?.Invoke(validTargets.ToArray());
+
+        if (_explosionEffect != null)
+        {
+            // Create the explosion effect & destroy it after '_explosionEffectLifetime' seconds.
+            Destroy(Instantiate<GameObject>(_explosionEffect, transform.position, Quaternion.identity), _explosionEffectLifetime);
+        }
 
         // Destroy this projectile.
         DestroyProjectile();

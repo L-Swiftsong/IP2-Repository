@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ad4fdcedac66c254c88a872b56e553f6, type: 3}
-  m_Name: Player Slash 2
+  m_Name: Baton Swipe 2
   m_EditorClassIdentifier: 
   CanHitSelf: 0
   CanHitAllies: 0
@@ -18,9 +18,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 393
   WindupTime: 0.1
-  RecoveryTime: 0.33
+  RecoveryTime: 0.4
   DealsDamage: 1
-  _extents: {x: 1.75, y: 1.5}
+  _extents: {x: 1.25, y: 1.5}
   _offset: {x: 0, y: 1.125}
-  _attackDuration: 0.25
-  _reflectProjectiles: 1
+  _attackDuration: 0.2
+  _reflectProjectiles: 0
