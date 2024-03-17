@@ -18,6 +18,7 @@ public class EntitySenses : MonoBehaviour
     [SerializeField] private float _visionAngle = 225f;
 
     [SerializeField] private LayerMask _visibleLayers = 1 << 3 | 1 << 8; // Default Value: Player, Entity.
+    [SerializeField] private LayerMask _obstructionLayers = 1 << 6; // Default Value: Level.
 
 
     [Header("Gizmos")]
@@ -57,6 +58,11 @@ public class EntitySenses : MonoBehaviour
             // Discount targets out of viewcone.
             float angleToTarget = Vector2.Angle(transform.up, potentialTarget.transform.position - transform.position);
             if (angleToTarget > _visionAngle / 2f)
+                continue;
+
+
+            // Discount targets that are obstructed.
+            if (Physics2D.Linecast(transform.position, potentialTarget.transform.position, _obstructionLayers))
                 continue;
 
 
