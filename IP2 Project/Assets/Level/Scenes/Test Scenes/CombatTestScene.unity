@@ -131,10 +131,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1732378579}
     m_Modifications:
-    - target: {fileID: 2481328967523240182, guid: 860622394b8dba14882e815b68f0a418, type: 3}
-      propertyPath: _attackingState._maxAttackRange
-      value: 2.5
-      objectReference: {fileID: 0}
     - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -603,7 +599,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 999
   _currentHealth: 0
-  OnHealingRecieved:
+  OnHealingReceived:
     m_PersistentCalls:
       m_Calls: []
   OnDamageTaken:
