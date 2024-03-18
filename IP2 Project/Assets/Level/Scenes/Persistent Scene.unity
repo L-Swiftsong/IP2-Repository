@@ -1023,7 +1023,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7241e6b4dc84544d96d5c9fefbc2699, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _loadTitleOnAwake: 1
   _mainCamera: {fileID: 1799772338}
+  _tutorialFromMMTransition: {fileID: 11400000, guid: ebacb089723d43445b3fb27ec9793a7d, type: 2}
+  _firstLevelFromMMTransition: {fileID: 11400000, guid: 2979b67d4a59e4248843cd867b2a6009, type: 2}
   _loadingScreen: {fileID: 397528372}
   _loadingBar: {fileID: 2000170240}
   _loadingText: {fileID: 348226126}

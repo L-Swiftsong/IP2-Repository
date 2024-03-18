@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Level/Scenes/Persistent Scene.unity
     guid: ff2afb890e5d43f44adce0ec649dcb64
   - enabled: 1
+    path: Assets/Level/Scenes/Player Scene.unity
+    guid: f3174dbe6640ff14285c716cce01160a
+  - enabled: 1
     path: Assets/Level/Scenes/Title Screen.unity
     guid: 9adfd2cbebf8ad646806d7733d5f9942
   - enabled: 1

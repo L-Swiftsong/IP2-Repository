@@ -29,12 +29,7 @@ public class GameManager : MonoBehaviour
 
         if (_loadTitleOnAwake)
         {
-            // Clear all scenes but this.
-            ClearActiveScenes();
-
-            // Load the Title Screen additively.
-            SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE_SCREEN, LoadSceneMode.Additive);
-            _activeSceneBuildIndex = (int)SceneIndexes.TITLE_SCREEN;
+            LoadInitialScenes();
         }
     }
     private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
@@ -56,6 +51,11 @@ public class GameManager : MonoBehaviour
                 return GameManager.Instance._mainCamera;
         }
     }
+
+
+    [Header("Scene Loading From Main Menu")]
+    [SerializeField] private SceneTransitionFromMainSO _tutorialFromMMTransition;
+    [SerializeField] private SceneTransitionFromMainSO _firstLevelFromMMTransition;
 
 
     [Header("Scene Loading")]
@@ -89,31 +89,31 @@ public class GameManager : MonoBehaviour
 
 
 
-    public void LoadTutorialSceneFromMenu()
+    private void LoadInitialScenes()
     {
-        // Unload the Main Menu & Load the Tutorial Scene.
-        LoadScenesAsync(
-            scenesToUnload: new SceneIndexes[] { SceneIndexes.TITLE_SCREEN },
-            scenesToLoad: new SceneIndexes[] { SceneIndexes.TUTORIAL_SCENE },
-            newActiveScene: SceneIndexes.TUTORIAL_SCENE);
+        // Clear all scenes but the Persistent Scene.
+        ClearActiveScenes();
+
+        // Load the Title Screen additively.
+        SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE_SCREEN, LoadSceneMode.Additive);
+        _activeSceneBuildIndex = (int)SceneIndexes.TITLE_SCREEN;
     }
-    public void LoadFirstSceneFromMenu()
-    {
-        // Unload the Main Menu & Load the First Scene.
-        LoadScenesAsync(
-            scenesToUnload: new SceneIndexes[] { SceneIndexes.TITLE_SCREEN },
-            scenesToLoad: new SceneIndexes[] { SceneIndexes.FIRST_LEVEL },
-            newActiveScene: SceneIndexes.FIRST_LEVEL);
-    }
-    public void CommenceTransition(SceneTransitionSO transition)
+    
+    public void LoadTutorialSceneFromMenu() => CommenceTransition(_tutorialFromMMTransition);
+    public void LoadFirstSceneFromMenu() => CommenceTransition(_firstLevelFromMMTransition);
+    public void ReturnToMenu() => LoadInitialScenes();
+    
+
+    public void CommenceTransition(ISceneTransition transition)
     {
         LoadScenesAsync(
             scenesToUnload: transition.ScenesToUnload,
             scenesToLoad: transition.ScenesToLoad,
-            newActiveScene: transition.ScenesToLoad[0]);
+            newActiveScene: transition.NewActiveScene,
+            playerSpawnPosition: transition.UseCustomEntrancePos ? transition.EntrancePosition : null);
     }
 
-    public void LoadScenesAsync(SceneIndexes[] scenesToUnload, SceneIndexes[] scenesToLoad, SceneIndexes newActiveScene = SceneIndexes.PERSISTENT_SCENE)
+    public void LoadScenesAsync(SceneIndexes[] scenesToUnload, SceneIndexes[] scenesToLoad, SceneIndexes newActiveScene = SceneIndexes.PERSISTENT_SCENE, Vector2? playerSpawnPosition = null)
     {
         // Enable the Loading Screen.
         _loadingScreen.SetActive(true);
@@ -132,11 +132,11 @@ public class GameManager : MonoBehaviour
             _scenesLoading.Add(SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive));
 
         // Show loading progress.
-        StartCoroutine(GetSceneLoadProgress());
+        StartCoroutine(GetSceneLoadProgress(playerSpawnPosition));
     }
 
     float _totalSceneProgress;
-    private IEnumerator GetSceneLoadProgress()
+    private IEnumerator GetSceneLoadProgress(Vector2? playerSpawnPosition)
     {
         // Loop through each async operation.
         for (int i = 0; i < _scenesLoading.Count; i++)
@@ -167,6 +167,14 @@ public class GameManager : MonoBehaviour
         float previousDeltaTime = Time.timeScale;
         Time.timeScale = 0f;
 
+
+        // Set the player's position if the PlayerManager Singleton has been loaded (Therefore the PlayerScene should be loaded).
+        if (PlayerManager.IsInitialised && playerSpawnPosition.HasValue)
+        {
+            PlayerManager.Instance.SetPlayerPosition(playerSpawnPosition.Value);
+        }
+
+        // Wait a half second to allow for initialisation of scripts.
         yield return new WaitForSecondsRealtime(0.5f);
 
         // Show the loading completed text.
