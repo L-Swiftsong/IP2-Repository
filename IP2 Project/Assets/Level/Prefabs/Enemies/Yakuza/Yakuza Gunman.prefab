@@ -413,6 +413,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _subscribeToPlayer: 0
   _rotationPivot: {fileID: 403962996620243261}
+  _facingRightLowerThreshold: 90
+  _facingRightUpperThreshold: 270
   _weaponParent: {fileID: 1543841911881135555}
 --- !u!1 &8285081131067819033
 GameObject:

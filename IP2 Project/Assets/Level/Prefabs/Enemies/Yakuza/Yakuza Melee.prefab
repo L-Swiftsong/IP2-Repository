@@ -78,6 +78,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _subscribeToPlayer: 0
   _rotationPivot: {fileID: 885724994905786606}
+  _facingRightLowerThreshold: 90
+  _facingRightUpperThreshold: 270
   _weaponParent: {fileID: 1208389400388008207}
 --- !u!1 &5767130681184777734
 GameObject:
@@ -340,7 +342,7 @@ MonoBehaviour:
     _attackPredictionMask:
       serializedVersion: 2
       m_Bits: 0
-    _maxAttackRange: 2
+    _maxAttackRange: 3.5
     _movementBehaviours:
     - {fileID: 11400000, guid: c2e5b8d87ca87374ca0c074f5e769309, type: 2}
     - {fileID: 11400000, guid: df67848c8429e094fb78d898899a80fb, type: 2}
@@ -398,7 +400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef112ba69d8367f42928fc453f7771da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 5
+  _maxHealth: 3
   _currentHealth: 0
   OnHealthChanged:
     m_PersistentCalls:

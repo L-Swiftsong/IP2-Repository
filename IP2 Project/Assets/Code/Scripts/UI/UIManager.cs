@@ -86,7 +86,8 @@ public class UIManager : MonoBehaviour
         }
 
         // Connect the Boss's Health Bar to the passed in healthComponent's events.
-        connectedComponent.OnHealthChanged.AddListener(bossBarInstance.UpdateHealth);
+        connectedComponent.OnDamageTaken.AddListener(bossBarInstance.UpdateHealth);
+        connectedComponent.OnHealingReceived.AddListener(bossBarInstance.UpdateHealth);
         connectedComponent.OnDeath.AddListener(bossBarInstance.OnDead);
     }
 }

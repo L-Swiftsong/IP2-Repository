@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Attacks/Ranged Attack", fileName = "New Ranged Attack")]
+[CreateAssetMenu(menuName = "Attacks/Ranged Attack", fileName = "New Ranged Attack", order = 2)]
 public class RangedAttack : Attack
 {
     [Header("Ranged Attack Variables")]
