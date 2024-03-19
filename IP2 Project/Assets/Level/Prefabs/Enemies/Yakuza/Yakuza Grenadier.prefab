@@ -305,6 +305,7 @@ GameObject:
   - component: {fileID: 4521503092158291485}
   - component: {fileID: 9064384603405691359}
   - component: {fileID: 5413639799772889080}
+  - component: {fileID: 1429424283101904468}
   m_Layer: 8
   m_Name: Yakuza Grenadier
   m_TagString: Untagged
@@ -407,6 +408,9 @@ MonoBehaviour:
   _visibleLayers:
     serializedVersion: 2
     m_Bits: 264
+  _obstructionLayers:
+    serializedVersion: 2
+    m_Bits: 64
   _drawGizmos: 0
   _visionGizmosColour: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &4028336450465363451
@@ -438,9 +442,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 1
   _currentHealth: 0
-  OnHealthChanged:
+  OnHealingReceived:
     m_PersistentCalls:
       m_Calls: []
+  OnDamageTaken:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1429424283101904468}
+        m_TargetAssemblyTypeName: ColourFlasher, Assembly-CSharp
+        m_MethodName: StartFlash
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _iFrameDuration: 0
   OnDeath:
     m_PersistentCalls:
@@ -538,6 +557,22 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &1429424283101904468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7471673864842939757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87d2b6c4438b47e4bb95e9d2c20ab25b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 8114786137443438558}
+  _flashDuration: 0.1
+  _defaultColour: {r: 1, g: 1, b: 1, a: 1}
+  _flashColour: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &8143751797276665034
 GameObject:
   m_ObjectHideFlags: 0
