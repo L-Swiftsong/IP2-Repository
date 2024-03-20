@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 4288072692580704708}
   - component: {fileID: 807951062696995824}
   - component: {fileID: 6774697005232851021}
+  - component: {fileID: -6848254517886317955}
   m_Layer: 8
   m_Name: Yakuza Melee
   m_TagString: Untagged
@@ -404,6 +405,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _iFrameDuration: 0
+  _iFrameEndTime: 0
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -500,6 +502,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &-6848254517886317955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6247969682163517113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4274a16222c5540478869e3499337cf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 9144251323198861198, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
 --- !u!1 &8185623834752459754
 GameObject:
   m_ObjectHideFlags: 0

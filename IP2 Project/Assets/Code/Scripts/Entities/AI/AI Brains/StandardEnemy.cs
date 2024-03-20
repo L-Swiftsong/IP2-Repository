@@ -204,6 +204,9 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
         _currentStatePath = _rootFSM.GetActiveHierarchyPath();
 
 
+      
+
+
     }
     private void FixedUpdate() 
     {

@@ -95,26 +95,26 @@ public class AbilityHolder : MonoBehaviour
         }
 
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         
         if (ability.name == "TigerRush" && activeTime > 0)
         {
             
 
-            if (collision.collider.TryGetComponent<EntityFaction>(out EntityFaction faction))
+            if (collision.TryGetComponent<EntityFaction>(out EntityFaction faction))
             {
 
 
                 if(faction.IsAlly(Factions.Yakuza))
                 {
-                    collision.collider.isTrigger = true;
+                    
 
-                    if(collision.collider.TryGetComponent<HealthComponent>(out HealthComponent health))
+                    if(collision.TryGetComponent<HealthComponent>(out HealthComponent health))
                     {   
                         
                         health.TakeDamage();
-                        collision.collider.isTrigger = false;
+                        
                         
                        
                         
@@ -124,12 +124,7 @@ public class AbilityHolder : MonoBehaviour
 
             
         }
-    
-        
-    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
         if (ability.name == "DragonBreath" && activeTime > 0)
         {
             if (collision.TryGetComponent<EntityFaction>(out EntityFaction faction))
@@ -142,14 +137,18 @@ public class AbilityHolder : MonoBehaviour
                     if (collision.TryGetComponent<HealthComponent>(out HealthComponent health))
                     {
 
-                        health.TakeDamage();                        
+                        health.TakeDamage();
 
 
                     }
                 }
             }
         }
+
+
     }
+
+   
 
 
 }
