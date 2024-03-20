@@ -6,9 +6,9 @@ using UnityEngine.Events;
 public class HealthComponent : MonoBehaviour
 {
     [Header("Health")]
-    [SerializeField] private int _maxHealth = 1;
-    [SerializeField, ReadOnly] private int _currentHealth;
-    private int _maxHealthProperty
+    [SerializeField] public int _maxHealth = 1;
+    [SerializeField, ReadOnly] public int _currentHealth;
+    public int _maxHealthProperty
     {
         get => _maxHealth;
         set
@@ -30,7 +30,7 @@ public class HealthComponent : MonoBehaviour
                 OnHealthChanged?.Invoke(new HealthChangedValues(_currentHealthProperty, value));
         }
     }
-    private int _currentHealthProperty
+    public int _currentHealthProperty
     {
         get => _currentHealth;
         set
@@ -55,7 +55,7 @@ public class HealthComponent : MonoBehaviour
 
     [Header("Invulnerability Frames")]
     [SerializeField] private float _iFrameDuration = 0f;
-    private float _iFrameEndTime;
+    public float _iFrameEndTime;
 
 
     [Header("Death")]
@@ -65,7 +65,7 @@ public class HealthComponent : MonoBehaviour
 
 
 
-    private void Start()
+    public void Start()
     {
         _currentHealthProperty = _maxHealthProperty;
         _iFrameEndTime = 0f;

@@ -7,8 +7,9 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
-    [SerializeField] private Rigidbody2D rb;
-    private Vector2 movementInput;
+    [SerializeField] public Rigidbody2D rb;
+    [HideInInspector]public Vector2 movementInput;
+    
 
     public static System.Action<float> OnStaminaChanged; // <float staminaPercentage>
     public static System.Action<float, float> OnStaminaValuesChanged; // <float maxStamina, float dashCost>
@@ -79,12 +80,24 @@ public class PlayerMovement : MonoBehaviour
 
     void Move()
     {
+
         // Don't process movement if we are dashing.
         if (_isDashing)
             return;
+      
+        if (gameObject.GetComponent<AbilityHolder>().activeTime <= 0 && gameObject.GetComponent<AbilityHolder>().ability.name == "TigerRush")
+        {
+            rb.velocity = movementInput * moveSpeed;
+        }
+
+        if(gameObject.GetComponent<AbilityHolder>().ability.name != "TigerRush")
+        {
+            rb.velocity = movementInput * moveSpeed;
+        }
+
 
         // Move by setting the player's velocity.
-        rb.velocity = movementInput * moveSpeed;
+
     }
 
 

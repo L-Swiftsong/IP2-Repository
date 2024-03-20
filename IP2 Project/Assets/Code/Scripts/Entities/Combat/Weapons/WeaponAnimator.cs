@@ -17,7 +17,7 @@ public class WeaponAnimator : MonoBehaviour
 
 
 
-    private void Awake() => _weaponInstances = new GameObject[0];
+    public void Awake() => _weaponInstances = new GameObject[0];
     private void OnEnable()
     {
         if (_subscribeToPlayer)

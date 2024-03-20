@@ -9,7 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f5f22a8ad8dbc34caad5664e1fc9702, type: 3}
-  m_Name: Test Ability
+  m_Script: {fileID: 11500000, guid: aaf2e5241af733940b0aec5204073ad5, type: 3}
+  m_Name: Dragon Breath
   m_EditorClassIdentifier: 
-  CooldownTime: 3
+  name: DragonBreath
+  cooldownTime: 5
+  activeTime: 5
+  HitMask:
+    serializedVersion: 2
+    m_Bits: 329
+  CanHitSelf: 0
+  CanHitAllies: 0
