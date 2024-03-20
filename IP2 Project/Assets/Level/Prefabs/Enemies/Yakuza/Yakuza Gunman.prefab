@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 1533529494370709779}
   - component: {fileID: 1528261858079413841}
   - component: {fileID: 4756210057750648547}
+  - component: {fileID: -2413720616814429919}
   m_Layer: 8
   m_Name: Yakuza Gunman
   m_TagString: Untagged
@@ -271,6 +272,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _iFrameDuration: 0
+  _iFrameEndTime: 0
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -367,6 +369,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &-2413720616814429919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4742427026341985352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4274a16222c5540478869e3499337cf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 9144251323198861198, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
 --- !u!1 &7661899341484432779
 GameObject:
   m_ObjectHideFlags: 0
