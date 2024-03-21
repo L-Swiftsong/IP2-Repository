@@ -58,9 +58,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7526c8025a0ec1c4e96325fc9d74eeba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fullHeartSprite: {fileID: 7482667652216324306, guid: 9060fe503302dc740a9e0da47eb8ae02, type: 3}
-  _halfHeartSprite: {fileID: -2413806693520163455, guid: 179c7b438452c7f46819374a9039d293, type: 3}
-  _emptyHeartSprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  _fullHeartSprite: {fileID: -684057681, guid: 751678c6f4ef9594e88bfc81b759c2a6, type: 3}
+  _halfHeartSprite: {fileID: -98288217, guid: 751678c6f4ef9594e88bfc81b759c2a6, type: 3}
+  _emptyHeartSprite: {fileID: 1364040116, guid: 751678c6f4ef9594e88bfc81b759c2a6, type: 3}
   _heartImage: {fileID: 2293453737818959737}
 --- !u!114 &2293453737818959737
 MonoBehaviour:
@@ -82,9 +82,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -684057681, guid: 751678c6f4ef9594e88bfc81b759c2a6, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1

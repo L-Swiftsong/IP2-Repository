@@ -107,12 +107,12 @@ public class EternallyAwareEnemy : MonoBehaviour, IEntityBrain
 
     private void OnEnable()
     {
-        _healthComponent.OnHealthChanged.AddListener(HealthChanged);
+        _healthComponent.OnDamageTaken.AddListener(DamageTaken);
         _healthComponent.OnDeath.AddListener(Dead);
     }
     private void OnDisable()
     {
-        _healthComponent.OnHealthChanged.RemoveListener(HealthChanged);
+        _healthComponent.OnDamageTaken.RemoveListener(DamageTaken);
         _healthComponent.OnDeath.RemoveListener(Dead);
     }
 
@@ -129,13 +129,12 @@ public class EternallyAwareEnemy : MonoBehaviour, IEntityBrain
     private void FixedUpdate() => _rootFSM.OnFixedTick(); // Notify the Root State Machine to run OnFixedLogic.
 
 
-    private void HealthChanged(HealthChangedValues changedValues)
+    private void DamageTaken(HealthChangedValues changedValues)
     {
         // Calculate the damage taken.
         float damageTaken = changedValues.OldHealth - changedValues.NewHealth;
-        Debug.Log("Stunned: " + damageTaken);
 
-        // If the damage taken is greater than or equal to the stunned state's stun threshold, then be stunned.
+        // If the damage taken is greater than or equal to the stunned state's stun threshold, and we don't resist it, then trigger the stun.
         if (damageTaken >= _stunnedState.StunThreshold)
             OnStunned?.Invoke();
     }
