@@ -16,4 +16,4 @@ MonoBehaviour:
   _scenesToLoad: 04000000
   _newActiveScene: 4
   _useCustomEntrancePos: 1
-  _entrancePosition: {x: -57.5, y: -80}
+  _entrancePosition: {x: -54, y: -67}
