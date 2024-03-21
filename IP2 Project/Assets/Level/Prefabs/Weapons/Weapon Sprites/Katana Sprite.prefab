@@ -134,7 +134,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -4981,6 +4981,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1939949577853073210}
   - component: {fileID: 2845273745865587696}
+  - component: {fileID: 8121709752051765375}
   m_Layer: 3
   m_Name: Katana Sprite
   m_TagString: Untagged
@@ -5026,3 +5027,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8121709752051765375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9138060507205573344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5814379d23ae7704bb847cf6db8d917b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particleSystem: {fileID: 4798828946695278420}
