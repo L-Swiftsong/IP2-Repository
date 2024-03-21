@@ -31,7 +31,7 @@ public class ExplosiveProjectile : Projectile
 
 
     [Header("Environmental Collisions")]
-    [SerializeField] private LayerMask _environmentMask;
+    [SerializeField] private LayerMask _environmentMask = 1 << 6;
     [SerializeField] private bool _reflectOnEnvironmentCollision;
     [SerializeField] private float _environmentReflectionMultiplier;
 
@@ -145,10 +145,12 @@ public class ExplosiveProjectile : Projectile
         {
             // Ignore factions allied with one of the IgnoredFactions.
             if (collider.TryGetComponentThroughParents<EntityFaction>(out EntityFaction entityFaction))
-            {
                 if (entityFaction.IsAlly(IgnoredFactions))
                     return;
-            }
+
+            // Ensure that we don't hit entities that are obstructed.
+            if (Physics2D.Linecast(transform.position, collider.transform.position, _environmentMask))
+                return;
 
             // Mark as valid for the _explosionCallback.
             validTargets.Add(collider.transform);

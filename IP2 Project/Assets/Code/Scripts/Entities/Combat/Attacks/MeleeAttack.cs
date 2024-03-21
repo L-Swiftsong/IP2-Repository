@@ -13,8 +13,12 @@ public class MeleeAttack : Attack
 
     [Space(5)]
     [SerializeField] private bool _reflectProjectiles = false;
+    [SerializeField] private float _knockbackStrength = 0f;
 
-  
+    [Space(5)]
+    [SerializeField] private LayerMask _environmentMask = 1 << 6;
+
+
 
     public override void MakeAttack(Transform attackingTransform) => attackingTransform.GetComponent<MonoBehaviour>().StartCoroutine(ProcessAttack(attackingTransform, attackingTransform.up));
     public override void MakeAttack(Transform attackingTransform, Vector2 targetPos)
@@ -47,26 +51,25 @@ public class MeleeAttack : Attack
             // Loop through each hit collider.
             foreach (Collider2D target in Physics2D.OverlapBoxAll(attackOrigin, _extents, attackAngle, HitMask))
             {
-
                 // Don't hit allies (If CanHitAllies is true, this should always return false due to allyFactions being set to Factions.Unaligned).
                 if (target.TryGetComponentThroughParents<EntityFaction>(out entityFaction))
                     if (entityFaction.IsAlly(allyFactions))
                         continue;
 
+                // Don't hit obstructed targets.
+                if (Physics2D.Linecast(attackOrigin, target.transform.position, _environmentMask))
+                    continue;
 
-                // Get the HealthComponent and Target's Transform.
+                // Get the Target's Transform.
                 Transform targetTransform = target.transform;
-                HealthComponent healthComponent;
-                if (targetTransform.TryGetComponentThroughParents<HealthComponent>(out healthComponent))
-                    targetTransform = healthComponent.transform;
-
                 // If we have already hit this transform, skip over it.
                 if (hitTargets.Contains(targetTransform))
                     continue;
 
-
-                // This collider is a valid target.
-                Debug.Log("Hit: " + target.name);
+                // Get the target's HealthComponent.
+                HealthComponent healthComponent;
+                if (targetTransform.TryGetComponentThroughParents<HealthComponent>(out healthComponent))
+                    targetTransform = healthComponent.transform;
 
 
                 // Deal damage.
@@ -78,6 +81,13 @@ public class MeleeAttack : Attack
                 if (_reflectProjectiles && targetTransform.TryGetComponent<Projectile>(out Projectile projectile))
                     projectile.Reflect(attackingTransform);
 
+
+                // Knockback Entities with Rigidbodies.
+                if (targetTransform.TryGetComponentThroughParents<Rigidbody2D>(out Rigidbody2D rb2D))
+                {
+                    Vector2 force = ((Vector2)targetTransform.position - attackOrigin).normalized * _knockbackStrength;
+                    rb2D.AddForce(force, ForceMode2D.Impulse);
+                }
 
                 // Add this transform to the list of already hit transforms.
                 hitTargets.Add(targetTransform);
