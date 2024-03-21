@@ -85,12 +85,14 @@ public class AbilityHolder : MonoBehaviour
         if(activeTime <= 0 && ability.name == "DragonBreath")
         {
             transform.GetChild(0).gameObject.SetActive(false);
+            transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = false;
             transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(255,255,255,1);
         }
 
         if(activeTime > 0 && ability.name == "DragonBreath")
         {
             transform.GetChild(0).gameObject.SetActive(true);
+            transform.GetChild(0).GetComponent<CircleCollider2D>().enabled = true;
             transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(183, 0, 0, 1);
         }
 
