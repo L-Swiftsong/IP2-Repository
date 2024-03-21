@@ -58,9 +58,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7526c8025a0ec1c4e96325fc9d74eeba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fullHeartSprite: {fileID: -684057681, guid: 751678c6f4ef9594e88bfc81b759c2a6, type: 3}
-  _halfHeartSprite: {fileID: -98288217, guid: 751678c6f4ef9594e88bfc81b759c2a6, type: 3}
-  _emptyHeartSprite: {fileID: 1364040116, guid: 751678c6f4ef9594e88bfc81b759c2a6, type: 3}
+  _fullHeartSprite: {fileID: -527864286, guid: 9025e2cb1392a944894b0406485cb17b, type: 3}
+  _halfHeartSprite: {fileID: -414739987, guid: 9025e2cb1392a944894b0406485cb17b, type: 3}
+  _emptyHeartSprite: {fileID: -1681534096, guid: 9025e2cb1392a944894b0406485cb17b, type: 3}
   _heartImage: {fileID: 2293453737818959737}
 --- !u!114 &2293453737818959737
 MonoBehaviour:
