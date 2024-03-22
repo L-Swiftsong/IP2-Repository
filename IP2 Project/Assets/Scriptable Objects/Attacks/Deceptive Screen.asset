@@ -21,4 +21,4 @@ MonoBehaviour:
   CanHitSelf: 0
   CanHitAllies: 0
   Clone: {fileID: 6247969682163517113, guid: b76136dc085293f4697f17d2b50db182, type: 3}
-  AmountOfClones: 2
+  AmountOfClones: 3

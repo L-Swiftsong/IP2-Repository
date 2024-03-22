@@ -334,7 +334,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 7095d4cea1ee19d4597e688bbfa3ed6d, type: 2}
     _faceTarget: 0
   _attackingState:
-    _weapon: {fileID: 11400000, guid: 01ece5847bf07be4ea69247f6114148b, type: 2}
+    _weapon: {fileID: 11400000, guid: 0c600d6b57b4bd2418a47852002c9f50, type: 2}
     _weaponAnimator: {fileID: 3921590130617387179}
     _predictTargetPosition: 0
     _attackPredictionMask:

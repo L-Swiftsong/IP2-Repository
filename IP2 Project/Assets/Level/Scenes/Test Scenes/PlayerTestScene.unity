@@ -151,7 +151,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1850241145}
@@ -215,7 +215,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 137769634}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -318,6 +318,70 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 180692884}
   m_CullTransparentMesh: 1
+--- !u!1001 &181743735
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -6848254517886317955, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 367659370}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.5688267
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5661297
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6247969682163517113, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_Name
+      value: Yakuza Melee (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5767130681184777734, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+  m_SourcePrefab: {fileID: 100100000, guid: 860622394b8dba14882e815b68f0a418, type: 3}
 --- !u!1 &211531545
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,7 +600,7 @@ Transform:
   m_GameObject: {fileID: 262751713}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.1, z: -10}
+  m_LocalPosition: {x: 0, y: -1.44, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -678,6 +742,134 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 9144251323198861198, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
   m_PrefabInstance: {fileID: 1634352837}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &384073638
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -6848254517886317955, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 367659370}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7.0542126
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.54273456
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6247969682163517113, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_Name
+      value: Yakuza Melee
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5767130681184777734, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+  m_SourcePrefab: {fileID: 100100000, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+--- !u!1001 &445693911
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -6848254517886317955, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 367659370}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.907111
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.2426982
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6247969682163517113, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_Name
+      value: Yakuza Melee (3)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5767130681184777734, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+  m_SourcePrefab: {fileID: 100100000, guid: 860622394b8dba14882e815b68f0a418, type: 3}
 --- !u!1 &618227765
 GameObject:
   m_ObjectHideFlags: 0
@@ -1375,7 +1567,7 @@ Transform:
   m_GameObject: {fileID: 905702027}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.1, z: -10}
+  m_LocalPosition: {x: 0, y: -1.44, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2762,7 +2954,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8067092537380572294, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.1
+      value: -1.44
       objectReference: {fileID: 0}
     - target: {fileID: 8067092537380572294, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2886,78 +3078,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1725332272}
   m_CullTransparentMesh: 1
---- !u!1001 &1750195388
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -2413720616814429919, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
-      propertyPath: Player
-      value: 
-      objectReference: {fileID: 367659370}
-    - target: {fileID: 2349445766821417101, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3070794640676433747, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4742427026341985352, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
-      propertyPath: m_Name
-      value: Yakuza Gunman
-      objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -5.8324237
-      objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.1464942
-      objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8285081131067819033, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-  m_SourcePrefab: {fileID: 100100000, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
 --- !u!1 &1780053992
 GameObject:
   m_ObjectHideFlags: 0
@@ -3344,9 +3464,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pressed: 0
-  ability: {fileID: 11400000, guid: cf3f529310ed6e04db7f58fe0fcc97f9, type: 2}
+  ability: {fileID: 11400000, guid: de3a06fa4596ed44090b925c3e2c2f24, type: 2}
   cooldownTime: 0
   activeTime: 0
+  time: 0
 --- !u!1 &1914026781
 GameObject:
   m_ObjectHideFlags: 0
@@ -3477,7 +3598,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!1001 &1950230691
+--- !u!1001 &1991793598
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -3485,66 +3606,62 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -2413720616814429919, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
+    - target: {fileID: -6848254517886317955, guid: 860622394b8dba14882e815b68f0a418, type: 3}
       propertyPath: Player
       value: 
       objectReference: {fileID: 367659370}
-    - target: {fileID: 2349445766821417101, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4742427026341985352, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
-      propertyPath: m_Name
-      value: Yakuza Gunman (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.83
+      value: -7.7424736
       objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.2
+      value: -2.2485442
       objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7378653741394558028, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
+    - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6247969682163517113, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: m_Name
+      value: Yakuza Melee (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8285081131067819033, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 5767130681184777734, guid: 860622394b8dba14882e815b68f0a418, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
-  m_SourcePrefab: {fileID: 100100000, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 860622394b8dba14882e815b68f0a418, type: 3}
 --- !u!1 &2009098793
 GameObject:
   m_ObjectHideFlags: 3
@@ -3727,5 +3844,7 @@ SceneRoots:
   - {fileID: 1076686381}
   - {fileID: 2021097561}
   - {fileID: 905702030}
-  - {fileID: 1750195388}
-  - {fileID: 1950230691}
+  - {fileID: 384073638}
+  - {fileID: 1991793598}
+  - {fileID: 181743735}
+  - {fileID: 445693911}

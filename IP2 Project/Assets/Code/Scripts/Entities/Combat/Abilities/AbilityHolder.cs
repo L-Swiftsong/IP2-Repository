@@ -10,6 +10,7 @@ public class AbilityHolder : MonoBehaviour
     public Ability ability;
     public float cooldownTime;
     public float activeTime;
+    [SerializeField]private float time = 0;
     DecptiveScreen clones;
     public enum AbilityState
     {
@@ -96,6 +97,9 @@ public class AbilityHolder : MonoBehaviour
             transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(183, 0, 0, 1);
         }
 
+        
+       
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -127,30 +131,39 @@ public class AbilityHolder : MonoBehaviour
             
         }
 
-        if (ability.name == "DragonBreath" && activeTime > 0)
-        {
-            if (collision.TryGetComponent<EntityFaction>(out EntityFaction faction))
-            {
-
-
-                if (faction.IsAlly(Factions.Yakuza))
-                {
-
-                    if (collision.TryGetComponent<HealthComponent>(out HealthComponent health))
-                    {
-
-                        health.TakeDamage();
-
-
-                    }
-                }
-            }
-        }
 
 
     }
 
-   
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        time += Time.deltaTime;
+        
+        if (ability.name == "DragonBreath" && activeTime > 0)
+        {
+            if (other.TryGetComponent<EntityFaction>(out EntityFaction faction))
+            {
+
+                
+                if (faction.IsAlly(Factions.Yakuza))
+                {
+                    if (time >= 1)
+                    {
+                        if (other.TryGetComponent<HealthComponent>(out HealthComponent health))
+                        {
+
+                            health.TakeDamage();
+                            time = 0;
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
 
 
 }
