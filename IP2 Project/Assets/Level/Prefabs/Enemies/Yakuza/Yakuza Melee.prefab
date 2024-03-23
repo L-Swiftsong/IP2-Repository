@@ -78,6 +78,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _subscribeToPlayer: 0
   _rotationPivot: {fileID: 885724994905786606}
+  _facingRightLowerThreshold: 90
+  _facingRightUpperThreshold: 270
   _weaponParent: {fileID: 1208389400388008207}
 --- !u!1 &5767130681184777734
 GameObject:
@@ -267,7 +269,7 @@ GameObject:
   - component: {fileID: 4288072692580704708}
   - component: {fileID: 807951062696995824}
   - component: {fileID: 6774697005232851021}
-  - component: {fileID: -6848254517886317955}
+  - component: {fileID: 1498351718949900103}
   m_Layer: 8
   m_Name: Yakuza Melee
   m_TagString: Untagged
@@ -341,7 +343,7 @@ MonoBehaviour:
     _attackPredictionMask:
       serializedVersion: 2
       m_Bits: 0
-    _maxAttackRange: 2
+    _maxAttackRange: 3.5
     _movementBehaviours:
     - {fileID: 11400000, guid: c2e5b8d87ca87374ca0c074f5e769309, type: 2}
     - {fileID: 11400000, guid: df67848c8429e094fb78d898899a80fb, type: 2}
@@ -370,6 +372,9 @@ MonoBehaviour:
   _visibleLayers:
     serializedVersion: 2
     m_Bits: 264
+  _obstructionLayers:
+    serializedVersion: 2
+    m_Bits: 64
   _drawGizmos: 0
   _visionGizmosColour: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &7235852170073016053
@@ -399,11 +404,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef112ba69d8367f42928fc453f7771da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 5
+  _maxHealth: 3
   _currentHealth: 0
-  OnHealthChanged:
+  OnHealingReceived:
     m_PersistentCalls:
       m_Calls: []
+  OnDamageTaken:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1498351718949900103}
+        m_TargetAssemblyTypeName: ColourFlasher, Assembly-CSharp
+        m_MethodName: StartFlash
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _iFrameDuration: 0
   _iFrameEndTime: 0
   OnDeath:
@@ -502,7 +522,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &-6848254517886317955
+--- !u!114 &1498351718949900103
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -511,10 +531,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6247969682163517113}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4274a16222c5540478869e3499337cf0, type: 3}
+  m_Script: {fileID: 11500000, guid: 87d2b6c4438b47e4bb95e9d2c20ab25b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 9144251323198861198, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
+  _spriteRenderer: {fileID: 6349573433153762559}
+  _flashDuration: 0.1
+  _defaultColour: {r: 1, g: 1, b: 1, a: 1}
+  _flashColour: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &8185623834752459754
 GameObject:
   m_ObjectHideFlags: 0

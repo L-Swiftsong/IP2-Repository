@@ -20,6 +20,11 @@ public class WeaponWrapper
     private float _rechargeTimeRemaining = 0f;
 
 
+    [Header("Debug")]
+    [SerializeField] private bool _drawGizmos;
+    [SerializeField] private int _attackToDebug;
+
+
     #region Accessors.
     public Weapon Weapon => _weapon;
     public int WeaponAttackIndex => _weaponAttackIndex;
@@ -179,5 +184,18 @@ public class WeaponWrapper
         
         // Reset the uses.
         _usesRemaining = _weapon.UsesBeforeRecharge;
+    }
+
+
+    public void DrawGizmos(Transform gizmosOrigin)
+    {
+        if (!_drawGizmos)
+            return;
+
+        if (_weapon != null)
+        {
+            _attackToDebug = Mathf.Clamp(_attackToDebug, 0, _weapon.Attacks.Length - 1);
+            _weapon.Attacks[_attackToDebug].DrawGizmos(gizmosOrigin);
+        }
     }
 }

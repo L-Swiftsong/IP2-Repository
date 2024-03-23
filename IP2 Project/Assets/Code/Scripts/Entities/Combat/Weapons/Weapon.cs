@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Player/New Weapon")]
+[CreateAssetMenu(menuName = "Attacks/New Weapon", order = 0)]
 public class Weapon : ScriptableObject
 {
     public Attack[] Attacks;

@@ -162,12 +162,12 @@ public class PlayerAttacks : MonoBehaviour
     //}
 
 
-    //private void OnDrawGizmos()
-    //{
-    //    if (_primaryWeapon.Weapon != null && _attackToDebug < _primaryWeapon.Weapon.Attacks.Length)
-    //        _primaryWeapon.Weapon.Attacks[_attackToDebug].DrawGizmos(this.transform);
-
-    //    else if (_secondaryWeapon.Weapon != null && _attackToDebug < _secondaryWeapon.Weapon.Attacks.Length)
-    //        _secondaryWeapon.Weapon.Attacks[_attackToDebug].DrawGizmos(this.transform);
-    //}
+    // Remove and replace with the version on the 'Animations' branch.
+    private void OnDrawGizmos()
+    {
+        if (_primaryWeaponProperty != null)
+            _primaryWeaponProperty.DrawGizmos(this.transform);
+        if (_secondaryWeaponProperty != null)
+            _secondaryWeaponProperty.DrawGizmos(this.transform);
+    }
 }
