@@ -271,7 +271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pauseActions:
   - {fileID: -6887697180747686964, guid: fd73c26c90be04541ae5c1ab1eb8ba9b, type: 3}
-  - {fileID: 192760283336788148, guid: fd73c26c90be04541ae5c1ab1eb8ba9b, type: 3}
+  - {fileID: -7354811417068718271, guid: fd73c26c90be04541ae5c1ab1eb8ba9b, type: 3}
   _playerInput: {fileID: 0}
   _pauseMenuHolder: {fileID: 2035004094176827026}
 --- !u!1 &1070168477105081702
