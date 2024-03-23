@@ -57,7 +57,7 @@ public class MeleeAttack : Attack
                         continue;
 
                 // Don't hit obstructed targets.
-                if (Physics2D.Linecast(attackOrigin, target.transform.position, _environmentMask))
+                if (Physics2D.Linecast(attackingTransform.position, target.transform.position, _environmentMask).transform != null)
                     continue;
 
                 // Get the Target's Transform.
