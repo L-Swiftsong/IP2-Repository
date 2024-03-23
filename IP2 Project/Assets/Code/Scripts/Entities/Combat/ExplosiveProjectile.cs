@@ -85,7 +85,7 @@ public class ExplosiveProjectile : Projectile
             _radiusViewerInstance = Instantiate<GameObject>(_radiusViewerPrefab, transform).GetComponent<AoERadiusViewer>();
             _radiusViewerInstance.Init(_explosionRadius, _explosiveDelay);
         }
-        
+
 
         // Trigger the Automatic Explosion (Replace with a float that ticks down if we want to be able to reset the timer).
         Invoke(nameof(Explode), _explosiveDelay);
@@ -138,7 +138,6 @@ public class ExplosiveProjectile : Projectile
         float radiusLerp = _earlyExplosionReducesSize ? (Time.time - _creationTime) / _explosiveDelay : 1f;
         float radius = Mathf.Lerp(a: 0f, b: _explosionRadius, t: radiusLerp);
         
-        
         // Get all valid (Unique) transforms within the explosion radius.
         HashSet<Transform> validTargets = new HashSet<Transform>();
         foreach (Collider2D collider in Physics2D.OverlapCircleAll(transform.position, radius, HitMask))
@@ -146,11 +145,11 @@ public class ExplosiveProjectile : Projectile
             // Ignore factions allied with one of the IgnoredFactions.
             if (collider.TryGetComponentThroughParents<EntityFaction>(out EntityFaction entityFaction))
                 if (entityFaction.IsAlly(IgnoredFactions))
-                    return;
+                    continue;
 
             // Ensure that we don't hit entities that are obstructed.
             if (Physics2D.Linecast(transform.position, collider.transform.position, _environmentMask))
-                return;
+                continue;
 
             // Mark as valid for the _explosionCallback.
             validTargets.Add(collider.transform);
