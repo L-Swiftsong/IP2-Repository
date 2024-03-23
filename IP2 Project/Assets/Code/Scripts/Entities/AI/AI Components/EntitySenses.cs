@@ -32,7 +32,7 @@ public class EntitySenses : MonoBehaviour
             _updateTargetCoroutine = StartCoroutine(UpdateTarget());
     }
 
-
+    
     private IEnumerator UpdateTarget()
     {
         while (true)
@@ -54,6 +54,8 @@ public class EntitySenses : MonoBehaviour
                 if (_thisFaction.IsAlly(faction))
                     continue;
 
+            
+            
 
             // Discount targets out of viewcone.
             float angleToTarget = Vector2.Angle(transform.up, potentialTarget.transform.position - transform.position);

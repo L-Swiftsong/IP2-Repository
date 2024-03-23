@@ -17,6 +17,8 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
     private EntitySenses _entitySenses;
     private EntityMovement _movementScript;
     private HealthComponent _healthComponent;
+    private AbilityHolder abilityHolder;
+    private EntityFaction faction;
 
     private Action OnStunned;
     private Action OnDied;
@@ -47,18 +49,20 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
     [SerializeField] private bool _drawCBSBehaviourGizmos;
 
     [SerializeField] private bool _drawInvestigatePosition;
-    
+
     [Space(5)]
     [SerializeField] private bool _drawAttackingStateGizmos;
-    
 
 
 
-    private void Awake()
+
+    public void Awake()
     {
         _entitySenses = GetComponent<EntitySenses>();
         _movementScript = GetComponent<EntityMovement>();
         _healthComponent = GetComponent<HealthComponent>();
+        abilityHolder = gameObject.GetComponent<AbilityHolder>();
+        faction = gameObject.GetComponent<EntityFaction>();
 
         #region Setup FSM
         // Create the Root FSM.
@@ -181,6 +185,7 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
     {
         _healthComponent.OnDamageTaken.RemoveListener(DamageTaken);
         _healthComponent.OnDeath.RemoveListener(Dead);
+
     }
 
 
@@ -198,8 +203,8 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
         // Debug Stuff.
         _currentStatePath = _rootFSM.GetActiveHierarchyPath();
     }
+    
     private void FixedUpdate() => _rootFSM.OnFixedTick(); // Notify the Root State Machine to run OnFixedLogic.
-
 
     private void DamageTaken(HealthChangedValues changedValues)
     {

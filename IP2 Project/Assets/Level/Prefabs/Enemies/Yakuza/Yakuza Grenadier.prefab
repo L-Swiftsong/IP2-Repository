@@ -305,7 +305,7 @@ GameObject:
   - component: {fileID: 4521503092158291485}
   - component: {fileID: 9064384603405691359}
   - component: {fileID: 5413639799772889080}
-  - component: {fileID: 1429424283101904468}
+  - component: {fileID: 675487975251576903}
   m_Layer: 8
   m_Name: Yakuza Grenadier
   m_TagString: Untagged
@@ -461,6 +461,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _iFrameDuration: 0
+  _iFrameEndTime: 0
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -557,7 +558,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &1429424283101904468
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

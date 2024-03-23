@@ -76,10 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f23155347c180444b5b8b406f02a5e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _subscribeToPlayer: 0
+  _subscribeToPlayer: 1
   _rotationPivot: {fileID: 885724994905786606}
-  _facingRightLowerThreshold: 90
-  _facingRightUpperThreshold: 270
   _weaponParent: {fileID: 1208389400388008207}
 --- !u!1 &5767130681184777734
 GameObject:
@@ -92,7 +90,7 @@ GameObject:
   - component: {fileID: 8938444742628799798}
   - component: {fileID: 2842276552299605977}
   - component: {fileID: 4392745698101041437}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Identification Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +178,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: YM
+  m_text: Cl
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -269,9 +267,8 @@ GameObject:
   - component: {fileID: 4288072692580704708}
   - component: {fileID: 807951062696995824}
   - component: {fileID: 6774697005232851021}
-  - component: {fileID: 1498351718949900103}
-  m_Layer: 8
-  m_Name: Yakuza Melee
+  m_Layer: 3
+  m_Name: Clone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -337,13 +334,13 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 7095d4cea1ee19d4597e688bbfa3ed6d, type: 2}
     _faceTarget: 0
   _attackingState:
-    _weapon: {fileID: 11400000, guid: 5400f91e85382b540951e87820617dc7, type: 2}
+    _weapon: {fileID: 11400000, guid: 0c600d6b57b4bd2418a47852002c9f50, type: 2}
     _weaponAnimator: {fileID: 3921590130617387179}
     _predictTargetPosition: 0
     _attackPredictionMask:
       serializedVersion: 2
       m_Bits: 0
-    _maxAttackRange: 3.5
+    _maxAttackRange: 2
     _movementBehaviours:
     - {fileID: 11400000, guid: c2e5b8d87ca87374ca0c074f5e769309, type: 2}
     - {fileID: 11400000, guid: df67848c8429e094fb78d898899a80fb, type: 2}
@@ -372,10 +369,7 @@ MonoBehaviour:
   _visibleLayers:
     serializedVersion: 2
     m_Bits: 264
-  _obstructionLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  _drawGizmos: 0
+  _drawGizmos: 1
   _visionGizmosColour: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &7235852170073016053
 MonoBehaviour:
@@ -404,26 +398,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef112ba69d8367f42928fc453f7771da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 3
-  _currentHealth: 0
-  OnHealingReceived:
+  _maxHealth: 1
+  _currentHealth: 1
+  OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
-  OnDamageTaken:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1498351718949900103}
-        m_TargetAssemblyTypeName: ColourFlasher, Assembly-CSharp
-        m_MethodName: StartFlash
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   _iFrameDuration: 0
   _iFrameEndTime: 0
   OnDeath:
@@ -441,7 +420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ede55f636badd14cb6d49017052621b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _faction: 2
+  _faction: 1
 --- !u!50 &4288072692580704708
 Rigidbody2D:
   serializedVersion: 4
@@ -466,7 +445,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!114 &807951062696995824
@@ -522,22 +501,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &1498351718949900103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6247969682163517113}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87d2b6c4438b47e4bb95e9d2c20ab25b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spriteRenderer: {fileID: 6349573433153762559}
-  _flashDuration: 0.1
-  _defaultColour: {r: 1, g: 1, b: 1, a: 1}
-  _flashColour: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &8185623834752459754
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,7 +511,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6765133150677099472}
   - component: {fileID: 6349573433153762559}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Temp GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}

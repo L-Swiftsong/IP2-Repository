@@ -24,7 +24,6 @@ public class WeaponAnimator : MonoBehaviour
     private Animator _activeWeaponAnimator;
 
 
-
     private void Awake()
     {
         if (_weaponInstances == null)
