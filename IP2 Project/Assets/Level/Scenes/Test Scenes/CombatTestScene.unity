@@ -804,6 +804,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 728810112589049453, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
+      propertyPath: _primaryWeapon._weapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 01ece5847bf07be4ea69247f6114148b, type: 2}
+    - target: {fileID: 728810112589049453, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
+      propertyPath: _primaryWeapon._drawGizmos
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 728810112589049453, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
+      propertyPath: _primaryWeapon._attackToDebug
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8067092537380572294, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

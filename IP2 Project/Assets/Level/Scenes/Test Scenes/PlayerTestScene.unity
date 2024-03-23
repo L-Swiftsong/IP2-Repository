@@ -1193,7 +1193,7 @@ PrefabInstance:
     - target: {fileID: 728810112589049453, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
       propertyPath: _primaryWeapon._weapon
       value: 
-      objectReference: {fileID: 11400000, guid: 01ece5847bf07be4ea69247f6114148b, type: 2}
+      objectReference: {fileID: 11400000, guid: cce453e3b50ea69409cf68ba58508d0f, type: 2}
     - target: {fileID: 728810112589049453, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
       propertyPath: _primaryWeapon._drawGizmos
       value: 0
