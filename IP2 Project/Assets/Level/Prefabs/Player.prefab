@@ -264,13 +264,13 @@ GameObject:
   - component: {fileID: 5105271914488588321}
   - component: {fileID: 5346638156322135009}
   - component: {fileID: 2928679218508242623}
-  - component: {fileID: 728810112589049453}
-  - component: {fileID: 8073621126214152092}
-  - component: {fileID: 1382203755656598338}
-  - component: {fileID: 6812040678532771438}
   - component: {fileID: 2659672840177048775}
-  - component: {fileID: 5555563548327533289}
+  - component: {fileID: 728810112589049453}
   - component: {fileID: 5083970067064985043}
+  - component: {fileID: 6812040678532771438}
+  - component: {fileID: 1382203755656598338}
+  - component: {fileID: 5555563548327533289}
+  - component: {fileID: 8073621126214152092}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -583,19 +583,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c9e1b2bbe9c48f41ba1ca81996a4af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  rb: {fileID: 9067624589833551237}
-  movementInput: {x: 0, y: 0}
+  _moveSpeed: 5
+  _rb2D: {fileID: 9067624589833551237}
   _dashSpeed: 30
   _dashDistance: 6
   dashCooldown: 0.25
-  DashCost: 50
-  Stamina: 100
-  MaxStamina: 100
-  ChargeRate: 33
-  staminaRegenerationDelay: 1
+  _dashCount: 2
+  _maxStamina: 100
+  _dashRechargeRate: 33
+  _dashRechargeDelay: 1
   _drawGizmos: 0
   _dashGizmoColour: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &2659672840177048775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9144251323198861198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 085e25fde36f6344fad8d5bc99a89cc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerInput: {fileID: 3289976143937181819}
+  _rotationSpeed: 720
 --- !u!114 &728810112589049453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -618,7 +630,7 @@ MonoBehaviour:
     _attackToDebug: 0
   _throwToMouse: 0
   _weaponAnimator: {fileID: 7177944358182171851}
---- !u!114 &8073621126214152092
+--- !u!114 &5083970067064985043
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -627,26 +639,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 9144251323198861198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b96925205d3b76c4c95f5ed4b92a408e, type: 3}
+  m_Script: {fileID: 11500000, guid: 472f27744a4eb7a4fa21ab9bc1af167d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxCombo: 5
-  _currentCombo: 0
-  _comboResetTime: 3
-  _comboResetTimeRemaining: 0
---- !u!114 &1382203755656598338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9144251323198861198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ede55f636badd14cb6d49017052621b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _faction: 1
+  pressed: 0
+  ability: {fileID: 11400000, guid: de3a06fa4596ed44090b925c3e2c2f24, type: 2}
+  cooldownTime: 0
+  activeTime: 0
+  time: 0
 --- !u!114 &6812040678532771438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -684,7 +684,7 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2659672840177048775
+--- !u!114 &1382203755656598338
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -693,11 +693,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 9144251323198861198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 085e25fde36f6344fad8d5bc99a89cc9, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ede55f636badd14cb6d49017052621b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerInput: {fileID: 3289976143937181819}
-  _rotationSpeed: 720
+  _faction: 1
 --- !u!114 &5555563548327533289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -714,7 +713,7 @@ MonoBehaviour:
   _flashDuration: 0.1
   _defaultColour: {r: 1, g: 1, b: 1, a: 1}
   _flashColour: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &5083970067064985043
+--- !u!114 &8073621126214152092
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -723,11 +722,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 9144251323198861198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 472f27744a4eb7a4fa21ab9bc1af167d, type: 3}
+  m_Script: {fileID: 11500000, guid: b96925205d3b76c4c95f5ed4b92a408e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressed: 0
-  ability: {fileID: 11400000, guid: de3a06fa4596ed44090b925c3e2c2f24, type: 2}
-  cooldownTime: 0
-  activeTime: 0
-  time: 0
+  _maxCombo: 5
+  _currentCombo: 0
+  _comboResetTime: 3
+  _comboResetTimeRemaining: 0

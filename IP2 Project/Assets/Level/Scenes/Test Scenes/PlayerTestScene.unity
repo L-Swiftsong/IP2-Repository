@@ -2097,6 +2097,10 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[18].m_ActionName
       value: UI/TrackedDeviceOrientation
       objectReference: {fileID: 0}
+    - target: {fileID: 5083970067064985043, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
+      propertyPath: ability
+      value: 
+      objectReference: {fileID: 11400000, guid: cf3f529310ed6e04db7f58fe0fcc97f9, type: 2}
     - target: {fileID: 8067092537380572294, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

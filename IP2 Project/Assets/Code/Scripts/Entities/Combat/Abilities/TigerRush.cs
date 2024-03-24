@@ -6,8 +6,6 @@ using UnityEngine;
 [CreateAssetMenu]
 public class TigerRush : Ability
 {
-
-
     [SerializeField] private Vector2 _extents;
     [SerializeField] private Vector2 _offset;
     public float rushVelocity;
@@ -19,22 +17,10 @@ public class TigerRush : Ability
         PlayerMovement movement = parent.GetComponent<PlayerMovement>();
         Rigidbody2D rigidbody = parent.GetComponent<Rigidbody2D>();
         Collider2D collider = parent.GetComponent<Collider2D>();
-
-        
-
         if (activeTime > 0)
         {
-            rigidbody.velocity = movement.movementInput.normalized * rushVelocity;
-
-            
+            rigidbody.velocity = movement.GetDashDirection() * rushVelocity;
         }
-
-
-
-
     }
-
-    
-   
 }
 
