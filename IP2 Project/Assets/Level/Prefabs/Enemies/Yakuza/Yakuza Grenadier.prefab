@@ -306,9 +306,10 @@ GameObject:
   - component: {fileID: 9064384603405691359}
   - component: {fileID: 5413639799772889080}
   - component: {fileID: 3970293039558261572}
+  - component: {fileID: 8097597988475185690}
   m_Layer: 8
   m_Name: Yakuza Grenadier
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -574,6 +575,19 @@ MonoBehaviour:
   _flashDuration: 0.1
   _defaultColour: {r: 1, g: 1, b: 1, a: 1}
   _flashColour: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &8097597988475185690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7471673864842939757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4274a16222c5540478869e3499337cf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 0}
 --- !u!1 &8143751797276665034
 GameObject:
   m_ObjectHideFlags: 0

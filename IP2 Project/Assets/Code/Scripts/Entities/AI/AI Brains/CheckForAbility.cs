@@ -6,6 +6,13 @@ public class CheckForAbility : MonoBehaviour
 {
     public GameObject Player;
 
+
+
+    private void Start()
+    {
+        Player = GameObject.Find("Player");
+    }
+
     // Update is called once per frame
     void Update()
     {
