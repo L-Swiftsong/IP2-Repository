@@ -29,6 +29,20 @@ public class ConversationUI : MonoBehaviour
     [SerializeField] private int _mainBodyCharactersPerSecond;
 
 
+    public void InitialiseConversation(Sprite leftSprite, string leftName, Sprite rightSprite, string rightName, bool firstIsLeft)
+    {
+        // Set the speaker names & sprites.
+        _leftSpeakerImage.sprite = leftSprite;
+        _rightSpeakerImage.sprite = rightSprite;
+
+        _leftSpeakerName.text = leftName;
+        _rightSpeakerName.text = rightName;
+
+
+        // Set the first to blur.
+        _leftSpeakerBlur.SetActive(firstIsLeft);
+        _rightSpeakerBlur.SetActive(!firstIsLeft);
+    }
     public void DisplayDialogue(Dialogue dialogue)
     {
         // Stop previous text writing,
@@ -41,7 +55,7 @@ public class ConversationUI : MonoBehaviour
         {
             // Set the speaker name & sprite.
             _leftSpeakerName.text = dialogue.SpeakerName;
-            _leftSpeakerImage.sprite = dialogue.SpeakerImage;
+            _leftSpeakerImage.sprite = dialogue.SpeakerSprite;
 
             // Enable & Disable Blur.
             _leftSpeakerBlur.SetActive(false);
@@ -51,7 +65,7 @@ public class ConversationUI : MonoBehaviour
         {
             // Set the speaker name & sprite.
             _rightSpeakerName.text = dialogue.SpeakerName;
-            _rightSpeakerImage.sprite = dialogue.SpeakerImage;
+            _rightSpeakerImage.sprite = dialogue.SpeakerSprite;
 
             // Enable & Disable Blur.
             _rightSpeakerBlur.SetActive(false);

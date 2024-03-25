@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _conversation:
   - SpeakerName: Player
-    SpeakerImage: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+    SpeakerSprite: {fileID: 21300000, guid: f609c9b3b1675f947a865ec558b5ad90, type: 3}
     Text: This is the first element of text, displayed on the left of the screen.
     DisplayOnLeft: 1
   - SpeakerName: Enemy
-    SpeakerImage: {fileID: 21300000, guid: 17fd7d74524d4cc4ea612a100880d012, type: 3}
+    SpeakerSprite: {fileID: 21300000, guid: 17fd7d74524d4cc4ea612a100880d012, type: 3}
     Text: The second element of text, spoken by the enemy.
     DisplayOnLeft: 0

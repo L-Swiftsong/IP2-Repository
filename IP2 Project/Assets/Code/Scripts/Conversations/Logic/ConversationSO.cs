@@ -16,7 +16,7 @@ public class ConversationSO : ScriptableObject
 public struct Dialogue
 {
     public string SpeakerName;
-    public Sprite SpeakerImage;
+    public Sprite SpeakerSprite;
     [TextArea(minLines: 3, maxLines: 10)] public string Text;
 
     [Space(5)]
