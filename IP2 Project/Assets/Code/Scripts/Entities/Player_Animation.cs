@@ -20,31 +20,13 @@ public class Player_Animation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Look up
-        if (rotationPivot.transform.rotation.z > -0.5f && rotationPivot.transform.rotation.z < 0.5f)
-        {
-            playerAnim.SetFloat("YInput", 1);
-        }
+        Vector2 cursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = new Vector2(cursorPos.x, cursorPos.y);
 
-        // Look right
-        if (rotationPivot.transform.rotation.z > -0.7f && rotationPivot.transform.rotation.z < -0.5f)
-        {
-            playerAnim.SetFloat("XInput", 1);
-        }
-        
-        // Look down
-        if (rotationPivot.transform.rotation.z > 0.3f && rotationPivot.transform.rotation.z < 0.7f)
-        {
-            playerAnim.SetFloat("YInput", -1);
-        }
+        Vector2 direction = new Vector2(cursorPos.x - transform.position.x, cursorPos.y - transform.position.y);
 
-        // Look left
-        if (rotationPivot.transform.rotation.z > 0.5f && rotationPivot.transform.rotation.z < -0.5f)
-        {
-            playerAnim.SetFloat("XInput", -1);
-        }
-
-        Debug.Log(rotationPivot.transform.rotation.z);
+        playerAnim.SetFloat("XInput", direction.x);
+        playerAnim.SetFloat("YInput", direction.y);
     }
 
     /*public void OnMovementInput(InputAction.CallbackContext context)
@@ -57,5 +39,6 @@ public class Player_Animation : MonoBehaviour
 
     }*/
 
+    
 
 }
