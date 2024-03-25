@@ -78,6 +78,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _subscribeToPlayer: 1
   _rotationPivot: {fileID: 885724994905786606}
+  _facingRightLowerThreshold: 90
+  _facingRightUpperThreshold: 270
   _weaponParent: {fileID: 1208389400388008207}
 --- !u!1 &5767130681184777734
 GameObject:
@@ -259,7 +261,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4962686353195108554}
-  - component: {fileID: 2481328967523240182}
+  - component: {fileID: 7840635071522499458}
   - component: {fileID: 2051473795482390033}
   - component: {fileID: 7235852170073016053}
   - component: {fileID: 8841466412980378394}
@@ -291,7 +293,7 @@ Transform:
   - {fileID: 885724994905786606}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2481328967523240182
+--- !u!114 &7840635071522499458
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -300,56 +302,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 6247969682163517113}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5b17a54fd16f2d4997947267ce485b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e3934c116b01114a84c5f382b727c02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _currentStatePath: 
-  _stunnedState:
-    _stunThreshold: 1
-    _stunResistance: 0
-    _stunDuration: 0.35
-  _deadState:
-    _objectToDestroy: {fileID: 6247969682163517113}
-    _destroyDelay: 0.5
   _idleState:
-    _minIdleDelay: 1
-    _maxIdleDelay: 3
+    _minIdleDelay: 0
+    _maxIdleDelay: 0
     _idleDelayComplete: 0
-  _patrolState:
-    _patrolPoints: []
-    _pointTransitionDelay: 0
-    _delayOnlyOnFinal: 0
-    _movementBehaviours:
-    - {fileID: 11400000, guid: 65909a3e9b4efa04b9e4be7c87b87b2b, type: 2}
-    - {fileID: 11400000, guid: 7095d4cea1ee19d4597e688bbfa3ed6d, type: 2}
-    _chooseRandomPoints: 0
-  _investigateState:
-    _movementBehaviours:
-    - {fileID: 11400000, guid: 65909a3e9b4efa04b9e4be7c87b87b2b, type: 2}
-    - {fileID: 11400000, guid: 7095d4cea1ee19d4597e688bbfa3ed6d, type: 2}
-    _investigationRadius: 0.75
   _chaseState:
     _movementBehaviours:
     - {fileID: 11400000, guid: 65909a3e9b4efa04b9e4be7c87b87b2b, type: 2}
     - {fileID: 11400000, guid: 7095d4cea1ee19d4597e688bbfa3ed6d, type: 2}
     _faceTarget: 0
-  _attackingState:
-    _weapon: {fileID: 11400000, guid: 0c600d6b57b4bd2418a47852002c9f50, type: 2}
-    _weaponAnimator: {fileID: 3921590130617387179}
-    _predictTargetPosition: 0
-    _attackPredictionMask:
-      serializedVersion: 2
-      m_Bits: 0
-    _maxAttackRange: 2
-    _movementBehaviours:
-    - {fileID: 11400000, guid: c2e5b8d87ca87374ca0c074f5e769309, type: 2}
-    - {fileID: 11400000, guid: df67848c8429e094fb78d898899a80fb, type: 2}
-    - {fileID: 11400000, guid: 7095d4cea1ee19d4597e688bbfa3ed6d, type: 2}
-    _attackToDispay: 0
-  _drawGizmos: 0
-  _drawCBSBehaviourGizmos: 0
-  _drawInvestigatePosition: 0
-  _drawAttackingStateGizmos: 0
+  _deadState:
+    _objectToDestroy: {fileID: 6247969682163517113}
+    _destroyDelay: 0.5
 --- !u!114 &2051473795482390033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,6 +337,9 @@ MonoBehaviour:
   _visibleLayers:
     serializedVersion: 2
     m_Bits: 264
+  _obstructionLayers:
+    serializedVersion: 2
+    m_Bits: 64
   _drawGizmos: 1
   _visionGizmosColour: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &7235852170073016053
@@ -400,7 +371,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxHealth: 1
   _currentHealth: 1
-  OnHealthChanged:
+  OnHealingReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
   _iFrameDuration: 0

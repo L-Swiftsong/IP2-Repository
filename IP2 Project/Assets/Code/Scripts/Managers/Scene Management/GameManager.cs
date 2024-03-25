@@ -71,6 +71,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _loadingCompletedGO;
 
 
+    [Header("Game Pausing")]
+    public static Action OnHaultLogic;
+    public static Action OnResumeLogic;
+
+
     private List<AsyncOperation> _scenesLoading = new List<AsyncOperation>();
 
     [Header("Rendering")]
@@ -89,6 +94,7 @@ public class GameManager : MonoBehaviour
 
 
 
+    #region Scene Loading
     private void LoadInitialScenes()
     {
         // Clear all scenes but the Persistent Scene.
@@ -219,5 +225,25 @@ public class GameManager : MonoBehaviour
         // Set this scene to be the active scene if it is the one we are looking to have set.
         if (loadedScene.buildIndex == _activeSceneBuildIndex)
             SceneManager.SetActiveScene(loadedScene);
+    }
+    #endregion
+
+
+
+    public void PauseLogic()
+    {
+        // Revoke Player Control.
+        PlayerManager.Instance.RevokePlayerControl();
+
+        // Tell things like enemies to stop.
+        OnHaultLogic?.Invoke();
+    }
+    public void ResumeLogic()
+    {
+        // Regain Player Control.
+        PlayerManager.Instance.RegainPlayerControl();
+
+        // Tell things like entities to resume.
+        OnResumeLogic?.Invoke();
     }
 }

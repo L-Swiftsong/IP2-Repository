@@ -7,7 +7,6 @@ public class PauseMenu : MonoBehaviour
 {
     private bool _isPaused;
     [SerializeField] private InputActionReference[] _pauseActions;
-    [SerializeField] private PlayerInput _playerInput;
 
     private const string DEFAULT_ACTION_MAP = "Player";
     private const string PAUSE_MENU_ACTION_MAP = "UI";
@@ -18,9 +17,6 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
-        if (_playerInput == null && PlayerManager.IsInitialised)
-            _playerInput = PlayerManager.Instance.Player.GetComponent<PlayerInput>();
-
         foreach (InputActionReference pauseAction in _pauseActions)
             pauseAction.action.performed += OnPausePressed;
 
@@ -46,11 +42,9 @@ public class PauseMenu : MonoBehaviour
     private void Pause()
     {
         // Pause the Game.
-        _playerInput.SwitchCurrentActionMap(PAUSE_MENU_ACTION_MAP);
+        PlayerManager.Instance.PlayerInput.SwitchCurrentActionMap(PAUSE_MENU_ACTION_MAP);
         Time.timeScale = 0f;
         _isPaused = true;
-
-        Debug.Log(_playerInput.currentActionMap.name);
 
         // Show the Pause Menu.
         _pauseMenuHolder.SetActive(true);
@@ -61,7 +55,7 @@ public class PauseMenu : MonoBehaviour
         _pauseMenuHolder.SetActive(false);
 
         // Unpause the Game.
-        _playerInput.SwitchCurrentActionMap(DEFAULT_ACTION_MAP);
+        PlayerManager.Instance.PlayerInput.SwitchCurrentActionMap(DEFAULT_ACTION_MAP);
         Time.timeScale = 1f;
         _isPaused = false;
     }
@@ -69,8 +63,8 @@ public class PauseMenu : MonoBehaviour
 
     public void ExitToMainMenu()
     {
-        _playerInput.SwitchCurrentActionMap(DEFAULT_ACTION_MAP);
-        Time.timeScale = 1f;
+        Unpause();
+
         GameManager.Instance.ReturnToMenu();
     }
 

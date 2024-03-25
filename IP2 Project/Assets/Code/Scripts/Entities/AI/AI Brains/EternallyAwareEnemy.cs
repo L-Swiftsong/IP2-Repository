@@ -10,7 +10,7 @@ public class EternallyAwareEnemy : MonoBehaviour, IEntityBrain
 {
     [SerializeField, ReadOnly] private string _currentStatePath;
     private StateMachine _rootFSM;
-
+    private bool _processLogic = true;
 
     [SerializeField] private Position _targetPosition;
     private EntityMovement _movementScript;
@@ -105,20 +105,31 @@ public class EternallyAwareEnemy : MonoBehaviour, IEntityBrain
     }
 
 
+    #region Event Subscription
     private void OnEnable()
     {
         _healthComponent.OnDamageTaken.AddListener(DamageTaken);
         _healthComponent.OnDeath.AddListener(Dead);
+
+        GameManager.OnHaultLogic += () => _processLogic = false;
+        GameManager.OnResumeLogic += () => _processLogic = true;
     }
     private void OnDisable()
     {
         _healthComponent.OnDamageTaken.RemoveListener(DamageTaken);
         _healthComponent.OnDeath.RemoveListener(Dead);
+
+        GameManager.OnHaultLogic += () => _processLogic = false;
+        GameManager.OnResumeLogic += () => _processLogic = true;
     }
+    #endregion
 
 
     private void Update()
     {
+        if (!_processLogic)
+            return;
+        
         // Notify the Root State Machine to run OnLogic.
         _rootFSM.OnTick();
 
@@ -126,8 +137,14 @@ public class EternallyAwareEnemy : MonoBehaviour, IEntityBrain
         // Debug Stuff.
         _currentStatePath = _rootFSM.GetActiveHierarchyPath();
     }
-    private void FixedUpdate() => _rootFSM.OnFixedTick(); // Notify the Root State Machine to run OnFixedLogic.
+    private void FixedUpdate()
+    {
+        if (!_processLogic)
+            return;
 
+        // Notify the Root State Machine to run OnFixedLogic.
+        _rootFSM.OnFixedTick(); 
+    }
 
     private void DamageTaken(HealthChangedValues changedValues)
     {
