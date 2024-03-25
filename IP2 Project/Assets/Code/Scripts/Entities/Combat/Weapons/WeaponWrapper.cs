@@ -10,6 +10,22 @@ public class WeaponWrapper
 
     [SerializeField] private Weapon _weapon;
     private int _weaponAttackIndex = 0; // An index for referencing what part of the combo we are in.
+    private int _weaponAttackIndexProperty
+    {
+        get => _weaponAttackIndex;
+        set
+        {
+            // Constraint the value
+            if (value >= _weapon.Attacks.Length)
+                value = 0;
+            else if (value < 0)
+                value = _weapon.Attacks.Length - 1;
+
+            // Set the index.
+            _weaponAttackIndex = value;
+        }
+    }
+
     private Coroutine _resetComboCoroutine;
 
     private float _nextReadyTime = 0f; // The time when this weapon can be used again.
@@ -27,7 +43,7 @@ public class WeaponWrapper
 
     #region Accessors.
     public Weapon Weapon => _weapon;
-    public int WeaponAttackIndex => _weaponAttackIndex;
+    public int WeaponAttackIndex => _weaponAttackIndexProperty;
     public int UsesRemaining => _usesRemaining;
     public float RechargeTimeRemaining => _rechargeTimeRemaining;
     public float RechargePercentage
@@ -70,7 +86,7 @@ public class WeaponWrapper
         this._linkedScript = linkedScript;
 
         // Set Initial Values.
-        this._weaponAttackIndex = 0;
+        this._weaponAttackIndexProperty = 0;
         this._nextReadyTime = 0f;
         this._usesRemaining = _weapon.UsesBeforeRecharge;
     }
@@ -94,7 +110,7 @@ public class WeaponWrapper
     }
     private IEnumerator TriggerAttack(Vector2? targetPos, bool throwToTarget)
     {
-        Attack attack = _weapon.Attacks[_weaponAttackIndex];
+        Attack attack = _weapon.Attacks[_weaponAttackIndexProperty];
         _nextReadyTime = Time.time + attack.GetTotalAttackTime();
         Debug.Log("Start Attack");
 
@@ -137,10 +153,7 @@ public class WeaponWrapper
     private void IncrementAttackIndex()
     {
         // Increment the attack index
-        if (_weaponAttackIndex < _weapon.Attacks.Length - 1)
-            _weaponAttackIndex++;
-        else
-            _weaponAttackIndex = 0;
+        _weaponAttackIndexProperty++;
 
         // Reset Combo Coroutine.
         if (_resetComboCoroutine != null)

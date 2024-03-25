@@ -10,6 +10,7 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
 {
     [SerializeField, ReadOnly] private string _currentStatePath;
     private StateMachine _rootFSM;
+    private bool _processLogic = true;
 
     [SerializeField, ReadOnly] private Vector2? _investigatePosition;
 
@@ -18,7 +19,6 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
     private EntityMovement _movementScript;
     private HealthComponent _healthComponent;
     private AbilityHolder abilityHolder;
-    private EntityFaction faction;
 
     private Action OnStunned;
     private Action OnDied;
@@ -62,7 +62,6 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
         _movementScript = GetComponent<EntityMovement>();
         _healthComponent = GetComponent<HealthComponent>();
         abilityHolder = gameObject.GetComponent<AbilityHolder>();
-        faction = gameObject.GetComponent<EntityFaction>();
 
         #region Setup FSM
         // Create the Root FSM.
@@ -176,21 +175,31 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
     }
 
 
+    #region Event Subscription
     private void OnEnable()
     {
         _healthComponent.OnDamageTaken.AddListener(DamageTaken);
         _healthComponent.OnDeath.AddListener(Dead);
+
+        GameManager.OnHaultLogic += () => _processLogic = false;
+        GameManager.OnResumeLogic += () => _processLogic = true;
     }
     private void OnDisable()
     {
         _healthComponent.OnDamageTaken.RemoveListener(DamageTaken);
         _healthComponent.OnDeath.RemoveListener(Dead);
 
+        GameManager.OnHaultLogic -= () => _processLogic = false;
+        GameManager.OnResumeLogic -= () => _processLogic = true;
     }
+    #endregion
 
 
     private void Update()
     {
+        if (!_processLogic)
+            return;
+        
         // Notify the Root State Machine to run OnLogic.
         _rootFSM.OnTick();
 
@@ -203,8 +212,14 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
         // Debug Stuff.
         _currentStatePath = _rootFSM.GetActiveHierarchyPath();
     }
-    
-    private void FixedUpdate() => _rootFSM.OnFixedTick(); // Notify the Root State Machine to run OnFixedLogic.
+    private void FixedUpdate()
+    {
+        if (!_processLogic)
+            return;
+
+        _rootFSM.OnFixedTick(); // Notify the Root State Machine to run OnFixedLogic.
+    }
+
 
     private void DamageTaken(HealthChangedValues changedValues)
     {

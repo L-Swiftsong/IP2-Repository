@@ -60,12 +60,12 @@ public class HealthComponent : MonoBehaviour
 
     [Header("Invulnerability Frames")]
     [SerializeField] private float _iFrameDuration = 0f;
-    public float _iFrameEndTime;
+    [SerializeField, ReadOnly] private float _iFrameEndTime;
 
 
     [Header("Death")]
     public UnityEvent OnDeath;
-    public static System.Action<Transform> OnDead;
+    public static System.Action<Transform> OnDead; // Transform = this.
     private bool _isDead = false;
 
 
