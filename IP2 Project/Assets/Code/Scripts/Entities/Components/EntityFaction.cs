@@ -9,6 +9,7 @@ public class EntityFaction : MonoBehaviour
 {
     [SerializeField] private Factions _faction;
     public Factions Faction => _faction;
+    public void SetFaction(Factions newFaction) => _faction = newFaction;
 
 
     public bool IsAlly(EntityFaction entityFaction) => _faction.IsAlly(entityFaction.Faction);
