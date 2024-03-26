@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e8de86a064867e419fc72df317901d9, type: 3}
-  m_Name: Grenade Throw
+  m_Name: Jiro Grenade Throw
   m_EditorClassIdentifier: 
-  CanHitSelf: 1
+  CanHitSelf: 0
   CanHitAllies: 1
   HitMask:
     serializedVersion: 2
     m_Bits: 841
   WindupTime: 0
-  RecoveryTime: 1.25
-  CooldownTime: 0
+  RecoveryTime: 0.5
+  CooldownTime: 1.25
   DealsDamage: 0
   _aoeRadius: 2
   _aoeDelay: 1

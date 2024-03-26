@@ -408,7 +408,7 @@ MonoBehaviour:
   _visionAngle: 225
   _visibleLayers:
     serializedVersion: 2
-    m_Bits: 264
+    m_Bits: 776
   _obstructionLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -587,7 +587,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4274a16222c5540478869e3499337cf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
 --- !u!1 &8143751797276665034
 GameObject:
   m_ObjectHideFlags: 0

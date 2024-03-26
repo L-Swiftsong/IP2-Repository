@@ -28,6 +28,7 @@ public class WeaponWrapper
 
     private Coroutine _resetComboCoroutine;
 
+    private float _attackCompleteTime = 0f; // The time when the current attack will be complete.
     private float _nextReadyTime = 0f; // The time when this weapon can be used again.
 
 
@@ -111,7 +112,8 @@ public class WeaponWrapper
     private IEnumerator TriggerAttack(Vector2? targetPos, bool throwToTarget)
     {
         Attack attack = _weapon.Attacks[_weaponAttackIndexProperty];
-        _nextReadyTime = Time.time + attack.GetTotalAttackTime();
+        _attackCompleteTime = Time.time + attack.GetWindupTime() + attack.GetDuration();
+        _nextReadyTime = Time.time + attack.GetTotalTimeTillNextReady();
         Debug.Log("Start Attack");
 
         // Windup.
@@ -139,6 +141,7 @@ public class WeaponWrapper
     }
 
 
+    public bool IsAttacking() => Time.time < _attackCompleteTime;
     public bool CanAttack()
     {
         // Ensure we can attack pt1 (Ready Time).

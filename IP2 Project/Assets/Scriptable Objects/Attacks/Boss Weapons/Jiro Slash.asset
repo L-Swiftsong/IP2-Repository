@@ -9,20 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e1239ec5c5f3d844a22e5107560bc9a, type: 3}
-  m_Name: Pistol Shoot
+  m_Script: {fileID: 11500000, guid: ad4fdcedac66c254c88a872b56e553f6, type: 3}
+  m_Name: Jiro Slash
   m_EditorClassIdentifier: 
   CanHitSelf: 0
   CanHitAllies: 0
   HitMask:
     serializedVersion: 2
-    m_Bits: 841
-  WindupTime: 0
-  RecoveryTime: 0.45
+    m_Bits: 905
+  WindupTime: 0.2
+  RecoveryTime: 1
   CooldownTime: 0
   DealsDamage: 1
-  _projectilePrefab: {fileID: 4263343964843693753, guid: 876fe0cba1648e64c87d7496c1c962fd, type: 3}
-  _projectileCount: 1
-  _angleBetweenProjectiles: 0
-  _projectileAccuracy: 5
-  _individualAccuracy: 0
+  _extents: {x: 1.25, y: 1.3}
+  _offset: {x: 0, y: 1.1}
+  _attackDuration: 0.15
+  _reflectProjectiles: 1
+  _knockbackStrength: 0
+  _environmentMask:
+    serializedVersion: 2
+    m_Bits: 64

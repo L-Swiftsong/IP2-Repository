@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class CheckForAbility : MonoBehaviour
 {
-    public GameObject Player;
-
-
+    private GameObject Player;
 
     private void Start()
     {
-        Player = GameObject.Find("Player");
+        if (PlayerManager.IsInitialised)
+            Player = PlayerManager.Instance.Player;
     }
 
     // Update is called once per frame

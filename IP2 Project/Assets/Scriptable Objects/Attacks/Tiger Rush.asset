@@ -17,10 +17,11 @@ MonoBehaviour:
   activeTime: 0.3
   HitMask:
     serializedVersion: 2
-    m_Bits: 329
+    m_Bits: 841
   CanHitSelf: 0
   CanHitAllies: 0
   _extents: {x: 0, y: 0}
   _offset: {x: 0, y: 0}
   rushVelocity: 30
   rushTime: -0.31583
+  circleRadius: 6

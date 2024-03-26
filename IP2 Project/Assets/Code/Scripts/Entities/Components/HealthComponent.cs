@@ -6,8 +6,8 @@ using UnityEngine.Events;
 public class HealthComponent : MonoBehaviour
 {
     [Header("Health")]
-    [SerializeField] public int _maxHealth = 1;
-    [SerializeField, ReadOnly] public int _currentHealth;
+    [SerializeField] private int _maxHealth = 1;
+    [SerializeField, ReadOnly] private int _currentHealth;
     public int _maxHealthProperty
     {
         get => _maxHealth;
@@ -30,7 +30,7 @@ public class HealthComponent : MonoBehaviour
                 OnHealingReceived?.Invoke(new HealthChangedValues(_currentHealthProperty, value));
         }
     }
-    public int _currentHealthProperty
+    private int _currentHealthProperty
     {
         get => _currentHealth;
         set
@@ -122,6 +122,9 @@ public class HealthComponent : MonoBehaviour
         OnDead?.Invoke(this.transform);
     }
     #endregion
+
+
+    public float GetHealthPercentage() => (float)_currentHealthProperty / (float)_maxHealthProperty;
 }
 
 public struct HealthChangedValues

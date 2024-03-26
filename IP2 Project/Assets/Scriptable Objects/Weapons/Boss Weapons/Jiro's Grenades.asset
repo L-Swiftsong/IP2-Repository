@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3dc7a647c32d63e48bbc0744c6ea2443, type: 3}
-  m_Name: CloneTanto
+  m_Name: Jiro's Grenades
   m_EditorClassIdentifier: 
-  Attacks: []
+  Attacks:
+  - {fileID: 11400000, guid: 071bbfc4170ccd74a8dbee148aae87c3, type: 2}
   ComboResetTime: 0
   WeaponSprite: {fileID: 0}
-  WeaponPrefab: {fileID: 3524722182848735664, guid: c8980112a09c2424fa95b6a12a8b4b76, type: 3}
-  IgnoreUses: 1
+  WeaponPrefab: {fileID: 0}
+  IgnoreUses: 0
   TickUseOnFirstAttackOnly: 0
-  RechargeOnlyWhenOut: 0
-  UsesBeforeRecharge: 0
-  TimeToRecharge: 0
+  RechargeOnlyWhenOut: 1
+  UsesBeforeRecharge: 3
+  TimeToRecharge: 6
   Combomultiplier: 0
