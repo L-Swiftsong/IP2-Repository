@@ -7,7 +7,7 @@ using HFSM;
 using States.Base;
 using States.Alternative;
 
-public class BossEnemy : MonoBehaviour
+public class BossEnemy : MonoBehaviour, IEntityBrain
 {
     [SerializeField, ReadOnly] private string _currentStatePath;
     private StateMachine _rootFSM;
