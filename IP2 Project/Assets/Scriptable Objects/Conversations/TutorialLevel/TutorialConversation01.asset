@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19ff35e904edc70469d14999c1e32440, type: 3}
+  m_Name: TutorialConversation01
+  m_EditorClassIdentifier: 
+  _conversation:
+  - SpeakerName: Drunk Yakuza
+    SpeakerSprite: {fileID: -2413806693520163455, guid: 179c7b438452c7f46819374a9039d293, type: 3}
+    Text: Hey *Hic* you. Yeah you why you glaring at me like that.
+    DisplayOnLeft: 0
+  - SpeakerName: Drunk Yakuza
+    SpeakerSprite: {fileID: -2413806693520163455, guid: 179c7b438452c7f46819374a9039d293, type: 3}
+    Text: What you think your tough huh?
+    DisplayOnLeft: 0
+  - SpeakerName: Drunk Yakuza's Friend
+    SpeakerSprite: {fileID: -2413806693520163455, guid: 179c7b438452c7f46819374a9039d293, type: 3}
+    Text: Lets kick the shit outta them!
+    DisplayOnLeft: 0
