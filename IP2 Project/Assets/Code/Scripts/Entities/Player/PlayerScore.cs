@@ -11,7 +11,11 @@ public class PlayerScore : MonoBehaviour
     private int score;
     public GameObject Player;
     [ReadOnly] public string Grade;
-    
+
+    [Header("Parameters For an S")]
+    public int ScoreForS;
+    public int AbilityUsesForS;
+
     [Header("Parameters For an A")]
     public int ScoreForA;
     public int AbilityUsesForA;
@@ -63,6 +67,11 @@ public class PlayerScore : MonoBehaviour
         if (score >= ScoreForA && abilitieUses >= AbilityUsesForA)
         {
             Grade = "A";
+        }
+
+        if (score >= ScoreForS && abilitieUses >= AbilityUsesForS)
+        {
+            Grade = "S";
         }
     }
 }
