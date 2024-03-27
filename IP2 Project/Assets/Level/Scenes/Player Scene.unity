@@ -455,6 +455,34 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -50
       objectReference: {fileID: 0}
+    - target: {fileID: 4863533781979510156, guid: da5dd9f7c277b034bae4fb18593e06bc, type: 3}
+      propertyPath: TimeForA
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863533781979510156, guid: da5dd9f7c277b034bae4fb18593e06bc, type: 3}
+      propertyPath: TimeForB
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863533781979510156, guid: da5dd9f7c277b034bae4fb18593e06bc, type: 3}
+      propertyPath: TimeForC
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863533781979510156, guid: da5dd9f7c277b034bae4fb18593e06bc, type: 3}
+      propertyPath: TimeForD
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863533781979510156, guid: da5dd9f7c277b034bae4fb18593e06bc, type: 3}
+      propertyPath: TimeForS
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863533781979510156, guid: da5dd9f7c277b034bae4fb18593e06bc, type: 3}
+      propertyPath: ScoreForA
+      value: 8000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863533781979510156, guid: da5dd9f7c277b034bae4fb18593e06bc, type: 3}
+      propertyPath: ScoreForS
+      value: 9000
+      objectReference: {fileID: 0}
     - target: {fileID: 5788346932128988016, guid: da5dd9f7c277b034bae4fb18593e06bc, type: 3}
       propertyPath: m_Name
       value: Player Canvas
