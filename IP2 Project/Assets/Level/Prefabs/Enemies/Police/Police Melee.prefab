@@ -457,7 +457,7 @@ MonoBehaviour:
   _visionAngle: 225
   _visibleLayers:
     serializedVersion: 2
-    m_Bits: 264
+    m_Bits: 776
   _obstructionLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -511,6 +511,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _iFrameDuration: 0.1
+  _iFrameEndTime: 0
   OnDeath:
     m_PersistentCalls:
       m_Calls: []

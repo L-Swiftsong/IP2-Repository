@@ -16,11 +16,16 @@ MonoBehaviour:
   CanHitAllies: 0
   HitMask:
     serializedVersion: 2
-    m_Bits: 393
+    m_Bits: 905
   WindupTime: 0.1
   RecoveryTime: 0.4
+  CooldownTime: 0
   DealsDamage: 1
   _extents: {x: 1, y: 1.25}
   _offset: {x: 0, y: 1}
   _attackDuration: 0.2
   _reflectProjectiles: 0
+  _knockbackStrength: 0
+  _environmentMask:
+    serializedVersion: 2
+    m_Bits: 64
