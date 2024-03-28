@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -28,12 +29,7 @@ public class GameManager : MonoBehaviour
 
         if (_loadTitleOnAwake)
         {
-            // Clear all scenes but this.
-            ClearActiveScenes();
-
-            // Load the Title Screen additively.
-            SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE_SCREEN, LoadSceneMode.Additive);
-            _activeSceneBuildIndex = (int)SceneIndexes.TITLE_SCREEN;
+            LoadInitialScenes();
         }
     }
     private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
@@ -57,6 +53,11 @@ public class GameManager : MonoBehaviour
     }
 
 
+    [Header("Scene Loading From Main Menu")]
+    [SerializeField] private SceneTransitionFromMainSO _tutorialFromMMTransition;
+    [SerializeField] private SceneTransitionFromMainSO _firstLevelFromMMTransition;
+
+
     [Header("Scene Loading")]
     [SerializeField] private GameObject _loadingScreen;
     private int _activeSceneBuildIndex;
@@ -68,6 +69,11 @@ public class GameManager : MonoBehaviour
     [Space(5)]
     [SerializeField] private GameObject _loadingProgressGO;
     [SerializeField] private GameObject _loadingCompletedGO;
+
+
+    [Header("Game Pausing")]
+    public static Action OnHaultLogic;
+    public static Action OnResumeLogic;
 
 
     private List<AsyncOperation> _scenesLoading = new List<AsyncOperation>();
@@ -88,23 +94,32 @@ public class GameManager : MonoBehaviour
 
 
 
-    public void LoadTutorialSceneFromMenu()
+    #region Scene Loading
+    private void LoadInitialScenes()
     {
-        // Unload the Main Menu & Load the Tutorial Scene.
-        LoadScenesAsync(
-            scenesToUnload: new int[] { (int)SceneIndexes.TITLE_SCREEN },
-            scenesToLoad: new int[] { (int)SceneIndexes.TUTORIAL_SCENE },
-            newActiveScene: (int)SceneIndexes.TUTORIAL_SCENE);
+        // Clear all scenes but the Persistent Scene.
+        ClearActiveScenes();
+
+        // Load the Title Screen additively.
+        SceneManager.LoadSceneAsync((int)SceneIndexes.TITLE_SCREEN, LoadSceneMode.Additive);
+        _activeSceneBuildIndex = (int)SceneIndexes.TITLE_SCREEN;
     }
-    public void LoadFirstSceneFromMenu()
+    
+    public void LoadTutorialSceneFromMenu() => CommenceTransition(_tutorialFromMMTransition);
+    public void LoadFirstSceneFromMenu() => CommenceTransition(_firstLevelFromMMTransition);
+    public void ReturnToMenu() => LoadInitialScenes();
+    
+
+    public void CommenceTransition(ISceneTransition transition)
     {
-        // Unload the Main Menu & Load the First Scene.
         LoadScenesAsync(
-            scenesToUnload: new int[] { (int)SceneIndexes.TITLE_SCREEN },
-            scenesToLoad: new int[] { (int)SceneIndexes.FIRST_LEVEL },
-            newActiveScene: (int)SceneIndexes.FIRST_LEVEL);
+            scenesToUnload: transition.ScenesToUnload,
+            scenesToLoad: transition.ScenesToLoad,
+            newActiveScene: transition.NewActiveScene,
+            playerSpawnPosition: transition.UseCustomEntrancePos ? transition.EntrancePosition : null);
     }
-    public void LoadScenesAsync(int[] scenesToUnload, int[] scenesToLoad, int newActiveScene = (int)SceneIndexes.PERSISTENT_SCENE)
+
+    public void LoadScenesAsync(SceneIndexes[] scenesToUnload, SceneIndexes[] scenesToLoad, SceneIndexes newActiveScene = SceneIndexes.PERSISTENT_SCENE, Vector2? playerSpawnPosition = null)
     {
         // Enable the Loading Screen.
         _loadingScreen.SetActive(true);
@@ -114,7 +129,7 @@ public class GameManager : MonoBehaviour
         _loadingCompletedGO.SetActive(false);
 
 
-        _activeSceneBuildIndex = newActiveScene;
+        _activeSceneBuildIndex = (int)newActiveScene;
 
         // Start unloading & loading scenes.
         foreach (int sceneToUnload in scenesToUnload)
@@ -123,11 +138,11 @@ public class GameManager : MonoBehaviour
             _scenesLoading.Add(SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive));
 
         // Show loading progress.
-        StartCoroutine(GetSceneLoadProgress());
+        StartCoroutine(GetSceneLoadProgress(playerSpawnPosition));
     }
 
     float _totalSceneProgress;
-    private IEnumerator GetSceneLoadProgress()
+    private IEnumerator GetSceneLoadProgress(Vector2? playerSpawnPosition)
     {
         // Loop through each async operation.
         for (int i = 0; i < _scenesLoading.Count; i++)
@@ -158,6 +173,14 @@ public class GameManager : MonoBehaviour
         float previousDeltaTime = Time.timeScale;
         Time.timeScale = 0f;
 
+
+        // Set the player's position if the PlayerManager Singleton has been loaded (Therefore the PlayerScene should be loaded).
+        if (PlayerManager.IsInitialised && playerSpawnPosition.HasValue)
+        {
+            PlayerManager.Instance.SetPlayerPosition(playerSpawnPosition.Value);
+        }
+
+        // Wait a half second to allow for initialisation of scripts.
         yield return new WaitForSecondsRealtime(0.5f);
 
         // Show the loading completed text.
@@ -185,13 +208,14 @@ public class GameManager : MonoBehaviour
         // Unload all open scenes except the persistent scene.
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
-            int sceneBuildIndex = SceneManager.GetSceneAt(i).buildIndex;
+            Scene sceneToUnload = SceneManager.GetSceneAt(i);
+            int sceneBuildIndex = sceneToUnload.buildIndex;
 
             // Don't unload the persistent scene.
-            if (sceneBuildIndex == (int)SceneIndexes.PERSISTENT_SCENE)
+            if (sceneToUnload.IsValid() && sceneBuildIndex == (int)SceneIndexes.PERSISTENT_SCENE)
                 continue;
 
-            SceneManager.UnloadSceneAsync(sceneBuildIndex);
+            SceneManager.UnloadSceneAsync(sceneToUnload);
         }
     }
 
@@ -201,5 +225,25 @@ public class GameManager : MonoBehaviour
         // Set this scene to be the active scene if it is the one we are looking to have set.
         if (loadedScene.buildIndex == _activeSceneBuildIndex)
             SceneManager.SetActiveScene(loadedScene);
+    }
+    #endregion
+
+
+
+    public void PauseLogic()
+    {
+        // Revoke Player Control.
+        PlayerManager.Instance.RevokePlayerControl();
+
+        // Tell things like enemies to stop.
+        OnHaultLogic?.Invoke();
+    }
+    public void ResumeLogic()
+    {
+        // Regain Player Control.
+        PlayerManager.Instance.RegainPlayerControl();
+
+        // Tell things like entities to resume.
+        OnResumeLogic?.Invoke();
     }
 }

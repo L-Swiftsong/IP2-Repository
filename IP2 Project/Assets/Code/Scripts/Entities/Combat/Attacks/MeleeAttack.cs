@@ -3,101 +3,101 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(menuName = "Attacks/Melee Attack", fileName = "New Melee Attack")]
+[CreateAssetMenu(menuName = "Attacks/Melee Attack", fileName = "New Melee Attack", order = 1)]
 public class MeleeAttack : Attack
 {
     [Header("Melee")]
     [SerializeField] private Vector2 _extents;
     [SerializeField] private Vector2 _offset;
+    [SerializeField] private float _attackDuration = 0f;
 
     [Space(5)]
     [SerializeField] private bool _reflectProjectiles = false;
+    [SerializeField] private float _knockbackStrength = 0f;
 
-    public int ComboMultiplier = 0;
-    public float ComboWaitTime;
-
-    public bool Timer;
-    
+    [Space(5)]
+    [SerializeField] private LayerMask _environmentMask = 1 << 6;
 
 
+    public override float GetDuration() => _attackDuration;
 
 
-
-    
-  
-
-    public override void MakeAttack(Transform attackingTransform) => ProcessAttack(attackingTransform, attackingTransform.up);
+    public override void MakeAttack(Transform attackingTransform) => attackingTransform.GetComponent<MonoBehaviour>().StartCoroutine(ProcessAttack(attackingTransform, attackingTransform.up));
     public override void MakeAttack(Transform attackingTransform, Vector2 targetPos)
     {
         Vector2 attackDirection = (targetPos - (Vector2)attackingTransform.position).normalized;
 
-        ProcessAttack(attackingTransform, attackDirection);
+        attackingTransform.GetComponent<MonoBehaviour>().StartCoroutine(ProcessAttack(attackingTransform, attackDirection));
     }
 
 
-    private void ProcessAttack(Transform attackingTransform, Vector2 attackDirection)
+    private IEnumerator ProcessAttack(Transform attackingTransform, Vector2 attackDirection)
     {
         // Calculate ally factions.
-        
         Factions allyFactions = Factions.Unaligned;
         if (!CanHitAllies && attackingTransform.TryGetComponent<EntityFaction>(out EntityFaction entityFaction))
             allyFactions = entityFaction.Faction;
-
-        // Calculate variables needed for OverlapBoxAll.
-        Vector2 attackOrigin = attackingTransform.TransformPoint(_offset);
-        float attackAngle = Vector2.Angle(Vector2.up, attackDirection);
-
 
         // Create a list that will be used for our already hit targets.
         List<Transform> hitTargets = new List<Transform>();
         if (CanHitSelf == false)
             hitTargets.Add(attackingTransform);
 
-        // Loop through each hit collider.
-        foreach (Collider2D target in Physics2D.OverlapBoxAll(attackOrigin, _extents, attackAngle, HitMask))
+        float durationRemaining = _attackDuration;
+        do
         {
+            // Calculate/Update variables needed for OverlapBoxAll.
+            Vector2 attackOrigin = attackingTransform.TransformPoint(_offset);
+            float attackAngle = Vector2.Angle(Vector2.up, attackDirection);
 
-            // Don't hit allies (If CanHitAllies is true, this should always return false due to allyFactions being set to Factions.Unaligned).
-            if (target.TryGetComponentThroughParents<EntityFaction>(out entityFaction))
+            // Loop through each hit collider.
+            foreach (Collider2D target in Physics2D.OverlapBoxAll(attackOrigin, _extents, attackAngle, HitMask))
             {
-                if (entityFaction.IsAlly(allyFactions))
+                // Don't hit allies (If CanHitAllies is true, this should always return false due to allyFactions being set to Factions.Unaligned).
+                if (target.TryGetComponentThroughParents<EntityFaction>(out entityFaction))
+                    if (entityFaction.IsAlly(allyFactions))
+                        continue;
+
+                // Don't hit obstructed targets.
+                if (Physics2D.Linecast(attackingTransform.position, target.transform.position, _environmentMask).transform != null)
                     continue;
-                if (entityFaction.IsAlly(Factions.Yakuza))
+
+                // Get the Target's Transform.
+                Transform targetTransform = target.transform;
+                // If we have already hit this transform, skip over it.
+                if (hitTargets.Contains(targetTransform))
+                    continue;
+
+                // Get the target's HealthComponent.
+                HealthComponent healthComponent;
+                if (targetTransform.TryGetComponentThroughParents<HealthComponent>(out healthComponent))
+                    targetTransform = healthComponent.transform;
+
+
+                // Deal damage.
+                if (healthComponent != null)
+                    healthComponent.TakeDamage();
+
+
+                // Reflect Projectiles.
+                if (_reflectProjectiles && targetTransform.TryGetComponent<Projectile>(out Projectile projectile))
+                    projectile.Reflect(attackingTransform);
+
+
+                // Knockback Entities with Rigidbodies.
+                if (targetTransform.TryGetComponentThroughParents<Rigidbody2D>(out Rigidbody2D rb2D))
                 {
-                    ComboMultiplier++;
-                    Timer = true;
+                    Vector2 force = ((Vector2)targetTransform.position - attackOrigin).normalized * _knockbackStrength;
+                    rb2D.AddForce(force, ForceMode2D.Impulse);
                 }
+
+                // Add this transform to the list of already hit transforms.
+                hitTargets.Add(targetTransform);
             }
 
-
-            // Get the HealthComponent and Target's Transform.
-            Transform targetTransform = target.transform;
-            HealthComponent healthComponent;
-            if (targetTransform.TryGetComponentThroughParents<HealthComponent>(out healthComponent))
-                targetTransform = healthComponent.transform;
-
-            // If we have already hit this transform, skip over it.
-            if (hitTargets.Contains(targetTransform))
-                continue;
-
-
-            // This collider is a valid target.
-            Debug.Log("Hit: " + target.name);
-
-
-            // Deal damage.
-            if (healthComponent != null)
-                healthComponent.TakeDamage();
-
-
-            // Reflect Projectiles.
-            if (_reflectProjectiles && targetTransform.TryGetComponent<Projectile>(out Projectile projectile))
-                projectile.Reflect(attackingTransform);
-
-
-            // Add this transform to the list of already hit transforms.
-            hitTargets.Add(targetTransform);
-        }
+            yield return null;
+            durationRemaining -= Time.deltaTime;
+        } while (durationRemaining > 0f);
     }
 
 

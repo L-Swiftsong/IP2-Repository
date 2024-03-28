@@ -10,8 +10,25 @@ public class WeaponWrapper
 
     [SerializeField] private Weapon _weapon;
     private int _weaponAttackIndex = 0; // An index for referencing what part of the combo we are in.
+    private int _weaponAttackIndexProperty
+    {
+        get => _weaponAttackIndex;
+        set
+        {
+            // Constraint the value
+            if (value >= _weapon.Attacks.Length)
+                value = 0;
+            else if (value < 0)
+                value = _weapon.Attacks.Length - 1;
+
+            // Set the index.
+            _weaponAttackIndex = value;
+        }
+    }
+
     private Coroutine _resetComboCoroutine;
 
+    private float _attackCompleteTime = 0f; // The time when the current attack will be complete.
     private float _nextReadyTime = 0f; // The time when this weapon can be used again.
 
 
@@ -20,9 +37,14 @@ public class WeaponWrapper
     private float _rechargeTimeRemaining = 0f;
 
 
+    [Header("Debug")]
+    [SerializeField] private bool _drawGizmos;
+    [SerializeField] private int _attackToDebug;
+
+
     #region Accessors.
     public Weapon Weapon => _weapon;
-    public int WeaponAttackIndex => _weaponAttackIndex;
+    public int WeaponAttackIndex => _weaponAttackIndexProperty;
     public int UsesRemaining => _usesRemaining;
     public float RechargeTimeRemaining => _rechargeTimeRemaining;
     public float RechargePercentage
@@ -65,7 +87,7 @@ public class WeaponWrapper
         this._linkedScript = linkedScript;
 
         // Set Initial Values.
-        this._weaponAttackIndex = 0;
+        this._weaponAttackIndexProperty = 0;
         this._nextReadyTime = 0f;
         this._usesRemaining = _weapon.UsesBeforeRecharge;
     }
@@ -89,8 +111,9 @@ public class WeaponWrapper
     }
     private IEnumerator TriggerAttack(Vector2? targetPos, bool throwToTarget)
     {
-        Attack attack = _weapon.Attacks[_weaponAttackIndex];
-        _nextReadyTime = Time.time + attack.GetTotalAttackTime();
+        Attack attack = _weapon.Attacks[_weaponAttackIndexProperty];
+        _attackCompleteTime = Time.time + attack.GetWindupTime() + attack.GetDuration();
+        _nextReadyTime = Time.time + attack.GetTotalTimeTillNextReady();
         Debug.Log("Start Attack");
 
         // Windup.
@@ -118,6 +141,7 @@ public class WeaponWrapper
     }
 
 
+    public bool IsAttacking() => Time.time < _attackCompleteTime;
     public bool CanAttack()
     {
         // Ensure we can attack pt1 (Ready Time).
@@ -132,10 +156,7 @@ public class WeaponWrapper
     private void IncrementAttackIndex()
     {
         // Increment the attack index
-        if (_weaponAttackIndex < _weapon.Attacks.Length - 1)
-            _weaponAttackIndex++;
-        else
-            _weaponAttackIndex = 0;
+        _weaponAttackIndexProperty++;
 
         // Reset Combo Coroutine.
         if (_resetComboCoroutine != null)
@@ -179,5 +200,18 @@ public class WeaponWrapper
         
         // Reset the uses.
         _usesRemaining = _weapon.UsesBeforeRecharge;
+    }
+
+
+    public void DrawGizmos(Transform gizmosOrigin)
+    {
+        if (!_drawGizmos)
+            return;
+
+        if (_weapon != null)
+        {
+            _attackToDebug = Mathf.Clamp(_attackToDebug, 0, _weapon.Attacks.Length - 1);
+            _weapon.Attacks[_attackToDebug].DrawGizmos(gizmosOrigin);
+        }
     }
 }

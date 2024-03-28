@@ -6,35 +6,47 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private Rigidbody2D rb;
-    private Vector2 movementInput;
+    [SerializeField] private float _moveSpeed;
+    [SerializeField] private Rigidbody2D _rb2D;
+    private Vector2 _movementInput;
+    
 
     public static System.Action<float> OnStaminaChanged; // <float staminaPercentage>
     public static System.Action<float, float> OnStaminaValuesChanged; // <float maxStamina, float dashCost>
 
 
     [Header("Dashing")]
-    [SerializeField] private float _dashSpeed;
-    [SerializeField] private float _dashDistance;
+    [Tooltip("How fast the player travels when they dash.")]
+        [SerializeField] private float _dashSpeed;
+    [Tooltip("How far the player travels when they dash.")]
+        [SerializeField] private float _dashDistance;
     private float _dashDurationRemaining;
 
-    [SerializeField] private float dashCooldown = 0.25f;
+    [Tooltip("How long the playuer needs to wait after their previous dash before they can dash again.")]
+        [SerializeField] private float dashCooldown = 0.25f;
     private float dashCooldownRemaining;
-    [SerializeField] private float DashCost;
+
+    [Tooltip("How many times the player can dash if they started at full stamina.")]
+        [SerializeField] private int _dashCount;
+    private float _dashCost
+    {
+        get => _maxStamina / (float)_dashCount;
+    }
 
     private bool _isDashing;
 
 
-    [Header("Stamina")]
-    [SerializeField] private float Stamina;
-    [SerializeField] private float MaxStamina;
+    [Header("Dash Cost & Recharge")]
+    [Tooltip("The player's maximum stamina (Used for Dashing).")]
+        [SerializeField] private float _maxStamina = 100f;
+    private float _stamina;
 
-    [Space(5)]
-    [SerializeField] private float ChargeRate;
+    [Tooltip("How much stamina the player regenerates in 1 second.")]
+       [SerializeField] private float _dashRechargeRate;
     private Coroutine dashRechargeCoroutine;
 
-    [SerializeField] private float staminaRegenerationDelay = 1f;
+    [Tooltip("How long after the player dashes until their stamina starts regenerating")]
+        [SerializeField] private float _dashRechargeDelay = 1f;
     private float staminaRegenerationDelayRemaining;
 
 
@@ -44,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-    public void OnMovementInput(InputAction.CallbackContext context) => movementInput = context.ReadValue<Vector2>().normalized;
+    public void OnMovementInput(InputAction.CallbackContext context) => _movementInput = context.ReadValue<Vector2>().normalized;
     
     public void OnDashPressed(InputAction.CallbackContext context)
     {
@@ -53,7 +65,11 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private void Start() => OnStaminaValuesChanged?.Invoke(MaxStamina, DashCost);
+    private void Start()
+    {
+        _stamina = _maxStamina;
+        OnStaminaValuesChanged?.Invoke(_maxStamina, _dashCost);
+    }
 
     void Update()
     {
@@ -79,33 +95,45 @@ public class PlayerMovement : MonoBehaviour
 
     void Move()
     {
+
         // Don't process movement if we are dashing.
         if (_isDashing)
             return;
+      
+        if (gameObject.GetComponent<AbilityHolder>().activeTime <= 0 && gameObject.GetComponent<AbilityHolder>().ability.name == "TigerRush")
+        {
+            _rb2D.velocity = _movementInput * _moveSpeed;
+        }
+
+        if(gameObject.GetComponent<AbilityHolder>().ability.name != "TigerRush")
+        {
+            _rb2D.velocity = _movementInput * _moveSpeed;
+        }
+
 
         // Move by setting the player's velocity.
-        rb.velocity = movementInput * moveSpeed;
+
     }
 
 
     private void AttemptDash()
     {
         // If we cannot dash for whatever reason, stop here.
-        if (_isDashing || dashCooldownRemaining > 0 || Stamina < DashCost)
+        if (_isDashing || dashCooldownRemaining > 0 || _stamina < _dashCost)
             return;
 
         
         // Start Dashing.
-        Vector2 dashDirection = (movementInput != Vector2.zero ? movementInput : (Vector2)transform.up).normalized;
-        rb.velocity = dashDirection * _dashSpeed;
+        Vector2 dashDirection = GetDashDirection();
+        _rb2D.velocity = dashDirection * _dashSpeed;
 
         _dashDurationRemaining = _dashDistance / _dashSpeed; // From physics: 't = d/v'.
         _isDashing = true;
 
 
         // Update Stamina.
-        Stamina -= DashCost;
-        OnStaminaChanged?.Invoke(Stamina / MaxStamina);
+        _stamina -= _dashCost;
+        OnStaminaChanged?.Invoke(_stamina / _maxStamina);
 
         // Recharge the player's stamina.
         if (dashRechargeCoroutine != null)
@@ -115,26 +143,29 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator RechargeStamina()
     {
         // Don't start regenerating stamina for staminaRegenerationDelay seconds.
-        yield return new WaitForSeconds(staminaRegenerationDelay);
+        yield return new WaitForSeconds(_dashRechargeDelay);
 
         // Loop until we have fully regenerated our stamina.
-        while (Stamina < MaxStamina)
+        while (_stamina < _maxStamina)
         {
             // Increase our stamina, clamping to prevent exceeding our maximum.
-            Stamina += ChargeRate * Time.deltaTime;
-            if (Stamina > MaxStamina)
+            _stamina += _dashRechargeRate * Time.deltaTime;
+            if (_stamina > _maxStamina)
             {
-                Stamina = MaxStamina;
+                _stamina = _maxStamina;
             }
 
             // Notify listeners that the stamina has changed.
-            OnStaminaChanged?.Invoke(Stamina / MaxStamina);
+            OnStaminaChanged?.Invoke(_stamina / _maxStamina);
 
             // Wait until the next frame.
             yield return null;
         }
     }
 
+
+    // Used for TigerRush (To-Do: If we have time, find a better way).
+    public Vector2 GetDashDirection() => (_movementInput != Vector2.zero ? _movementInput : (Vector2)transform.up).normalized;
 
     private void OnDrawGizmosSelected()
     {

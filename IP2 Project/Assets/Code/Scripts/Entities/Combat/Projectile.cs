@@ -8,6 +8,9 @@ using UnityEngine.UIElements;
 
 public class Projectile : MonoBehaviour
 {
+    [SerializeField] private EntityFaction _faction;
+
+
     [Header("Projectile Movement")]
     [SerializeField] protected float Speed;
     public float ProjectileSpeed => Speed;
@@ -27,7 +30,17 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float _detectionOffset; 
     
     [SerializeField] protected LayerMask HitMask;
-    [SerializeField] protected Factions IgnoredFactions;
+    [SerializeField] private Factions _ignoredFactions;
+    protected Factions IgnoredFactions
+    {
+        get => _ignoredFactions;
+        set
+        {
+            _ignoredFactions = value;
+            if (_faction != null)
+                _faction.SetFaction(value);
+        }
+    }
     
     private List<Transform> _ignoredTransforms;
 
@@ -53,6 +66,8 @@ public class Projectile : MonoBehaviour
 
         // Set allied factions.
         this.IgnoredFactions = ignoredFactions;
+        if (_faction != null)
+            _faction.SetFaction(IgnoredFactions);
 
 
         // Initialize the contact filter.
@@ -129,7 +144,28 @@ public class Projectile : MonoBehaviour
         if (reflectInFacingDirection)
             newUp = reflectionTransform.up;
         else
-            newUp = Vector2.Reflect(transform.up, reflectionTransform.up);
+        {
+            // Set the reflection direction (In the case that we don't get the normal of the reflection transform.
+            Vector2 reflectionDirection = reflectionTransform.up;
+
+
+            // Calculate values for the linecast to find the normal of the reflectionTransform.
+            Vector2 lineOrigin = transform.position - (transform.up * 2f * Time.deltaTime);
+            ContactFilter2D filter = new ContactFilter2D();
+            filter.layerMask = reflectionTransform.gameObject.layer;
+
+            // Find the normal of the reflection transform.
+            RaycastHit2D[] outHits = new RaycastHit2D[10];
+            if (Physics2D.Linecast(lineOrigin, reflectionTransform.position, filter, outHits) > 0)
+            {
+                // If one of the hit objects is the reflectionTransform, use its normal as the reflection direction.
+                Vector2 normal = outHits.First(t => t.transform == reflectionTransform).normal;
+                reflectionDirection = normal != Vector2.zero ? normal : reflectionDirection;
+            }
+
+            // Reflect along the reflection direction.
+            newUp = Vector2.Reflect(transform.up, reflectionDirection);
+        }
 
         // Set the new up.
         transform.up = newUp;

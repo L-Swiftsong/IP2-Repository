@@ -39,6 +39,8 @@ public class OptionsMenu : MonoBehaviour
     [Space(5)]
     [SerializeField] private OutlineEditorUI _outlineEditor;
     private ShaderType _selectedShaderType;
+    private const string OUTLINE_COLOR_IDENTIFIER = "_Outline_Colour";
+    private const string OUTLINE_THICKNESS_IDENTIFIER = "_Offset";
 
 
     [Space(10)]
@@ -142,22 +144,26 @@ public class OptionsMenu : MonoBehaviour
     #region Outline Shader Colour and Thickness
     public void SetSelectedOutlineColour(Color newColour)
     {
+        // Ensure that we never set the outline to a colour with a non-one alpha.
+        Color newColorDefaultAlpha = new Color(newColour.r, newColour.g, newColour.b);
+        
+        // Set the colour of the selected shader.
         switch (_selectedShaderType)
         {
             case ShaderType.Player:
                 if (_playerOutline != null)
-                    _playerOutline.SetColor("_Outline_Colour", newColour);
-                _currentPlayerOutlineColour.color = newColour;
+                    _playerOutline.SetColor(OUTLINE_COLOR_IDENTIFIER, newColorDefaultAlpha);
+                _currentPlayerOutlineColour.color = newColorDefaultAlpha;
                 break;
             case ShaderType.Enemy:
                 if (_enemyOutline != null)
-                    _enemyOutline.SetColor("_Outline_Colour", newColour);
-                _currentEnemyOutlineColour.color = newColour;
+                    _enemyOutline.SetColor(OUTLINE_COLOR_IDENTIFIER, newColorDefaultAlpha);
+                _currentEnemyOutlineColour.color = newColorDefaultAlpha;
                 break;
             case ShaderType.Interactable:
                 if (_interactableOutline != null)
-                    _interactableOutline.SetColor("_Outline_Colour", newColour);
-                _currentInteractableOutlineColour.color = newColour;
+                    _interactableOutline.SetColor(OUTLINE_COLOR_IDENTIFIER, newColorDefaultAlpha);
+                _currentInteractableOutlineColour.color = newColorDefaultAlpha;
                 break;
         };
     }
@@ -167,15 +173,15 @@ public class OptionsMenu : MonoBehaviour
         {
             case ShaderType.Player:
                 if (_playerOutline != null)
-                    _playerOutline.SetFloat("_Outline_Thickness", newThickness);
+                    _playerOutline.SetFloat(OUTLINE_THICKNESS_IDENTIFIER, newThickness);
                 break;
             case ShaderType.Enemy:
                 if (_enemyOutline != null)
-                    _enemyOutline.SetFloat("_Outline_Thickness", newThickness);
+                    _enemyOutline.SetFloat(OUTLINE_THICKNESS_IDENTIFIER, newThickness);
                 break;
             case ShaderType.Interactable:
                 if (_interactableOutline != null)
-                    _interactableOutline.SetFloat("_Outline_Thickness", newThickness);
+                    _interactableOutline.SetFloat(OUTLINE_THICKNESS_IDENTIFIER, newThickness);
                 break;
         }
     }
@@ -190,10 +196,11 @@ public class OptionsMenu : MonoBehaviour
         // Set the current colour & thickness of the outline editor to that of the selected outline.
         (Color Colour, float Thickness)? currentShaderValues = _selectedShaderType switch
         {
-            ShaderType.Enemy => _enemyOutline != null ? (_enemyOutline.GetColor("_Outline_Colour"), _enemyOutline.GetFloat("_Outline_Colour")) : null,
-            ShaderType.Interactable => _interactableOutline != null ? (_interactableOutline.GetColor("_Outline_Colour"), _interactableOutline.GetFloat("_Outline_Colour")) : null,
-            _ => _playerOutline != null ? (_playerOutline.GetColor("_Outline_Colour"), _playerOutline.GetFloat("_Outline_Colour")) : null
+            ShaderType.Enemy => _enemyOutline != null ? (_enemyOutline.GetColor(OUTLINE_COLOR_IDENTIFIER), _enemyOutline.GetFloat(OUTLINE_THICKNESS_IDENTIFIER)) : null,
+            ShaderType.Interactable => _interactableOutline != null ? (_interactableOutline.GetColor(OUTLINE_COLOR_IDENTIFIER), _interactableOutline.GetFloat(OUTLINE_THICKNESS_IDENTIFIER)) : null,
+            _ => _playerOutline != null ? (_playerOutline.GetColor(OUTLINE_COLOR_IDENTIFIER), _playerOutline.GetFloat(OUTLINE_THICKNESS_IDENTIFIER)) : null
         };
+
         _outlineEditor.SetColour(currentShaderValues.HasValue ? currentShaderValues.Value.Colour : Color.white);
         _outlineEditor.SetThickness(currentShaderValues.HasValue ? currentShaderValues.Value.Thickness : 1.0f);
     }

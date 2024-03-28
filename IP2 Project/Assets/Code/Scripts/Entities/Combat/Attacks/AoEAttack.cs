@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[CreateAssetMenu(menuName = "Attacks/AoE Attack", fileName = "New AoE Attack")]
+[CreateAssetMenu(menuName = "Attacks/AoE Attack", fileName = "New AoE Attack", order = 3)]
 public class AoEAttack : Attack
 {
     [Header("AoE Variables")]
@@ -18,7 +18,8 @@ public class AoEAttack : Attack
 
     [Space(5)]
     [SerializeField] private GameObject _explosivePrefab;
-    [SerializeField] private float _defaultThrowDistance;
+    [Tooltip("The default distance for the explosive to be thrown. Leave 0 for the projectile to not stop early")]
+        [SerializeField] private float _defaultThrowDistance = 0f;
     [SerializeField] private float _throwSpeed;
 
 
@@ -34,7 +35,7 @@ public class AoEAttack : Attack
 
     private void ProcessAttack(Transform attackingTransform, Vector2 attackDirection, float throwDistance)
     {
-        Vector2 targetPosition = (Vector2)attackingTransform.position + (attackDirection * throwDistance);
+        Vector2? targetPosition = throwDistance > 0f ? (Vector2)attackingTransform.position + (attackDirection * throwDistance) : null;
 
         
         // Calculate ignored values.
@@ -44,7 +45,7 @@ public class AoEAttack : Attack
             ignoredFactions = entityFaction.Faction;
 
 
-        ExplosiveProjectile projectile = Instantiate<GameObject>(_explosivePrefab.gameObject, attackingTransform.position, Quaternion.identity).GetComponent<ExplosiveProjectile>();
+        ExplosiveProjectile projectile = Instantiate<GameObject>(_explosivePrefab.gameObject, attackingTransform.position, Quaternion.LookRotation(Vector3.forward, attackDirection)).GetComponent<ExplosiveProjectile>();
         projectile.Init(
             ignoreTransform: ignoredTransform,
             callback: OnProjectileHit,

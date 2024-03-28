@@ -5,7 +5,8 @@ using UnityEngine;
 public class EntitySenses : MonoBehaviour
 {
     [SerializeField, ReadOnly] private Transform _currentTarget;
-    public Transform CurrentTarget => _currentTarget;
+    [SerializeField, ReadOnly] private Transform _secondaryTarget; // E.g. Projectiles.
+    public Transform CurrentTarget => _secondaryTarget == null ? _currentTarget : _secondaryTarget;
     [SerializeField] private EntityFaction _thisFaction;
 
 
@@ -17,7 +18,18 @@ public class EntitySenses : MonoBehaviour
     [SerializeField] private float _visionRadius = 7.5f;
     [SerializeField] private float _visionAngle = 225f;
 
-    [SerializeField] private LayerMask _visibleLayers = 1 << 3 | 1 << 8; // Default Value: Player, Entity.
+    [SerializeField] private LayerMask _visibleLayers = 1 << 3 | 1 << 8 | 1 << 9; // Default Value: Player, Entity, Clone.
+    [SerializeField] private LayerMask _obstructionLayers = 1 << 6; // Default Value: Level.
+
+
+    [Header("Secondary Vision")]
+    [SerializeField] private bool _useSecondaryVision = false;
+
+    [Space(5)]
+    [SerializeField] private float _secondaryVisionRadius = 4f;
+    [SerializeField] private float _secondaryVisionAngle = 90f;
+    [SerializeField] private LayerMask _secondaryTargetLayers = 1 << 7; // Default Value: Projectile.
+
 
 
     [Header("Gizmos")]
@@ -31,14 +43,59 @@ public class EntitySenses : MonoBehaviour
             _updateTargetCoroutine = StartCoroutine(UpdateTarget());
     }
 
-
+    
     private IEnumerator UpdateTarget()
     {
         while (true)
         {
-            CheckForTarget();
+            if (_useSecondaryVision == false || !CheckForSecondaryTarget())
+                CheckForTarget();
+
             yield return new WaitForSeconds(UPDATE_TARGET_DELAY);
         }
+    }
+
+    private bool CheckForSecondaryTarget()
+    {
+        // Find nearby targets.
+        Transform closestTarget = null;
+        float minDistance = float.MaxValue;
+        bool selfHasFaction = _thisFaction != null;
+        foreach (Collider2D potentialTarget in Physics2D.OverlapCircleAll(transform.position, _secondaryVisionRadius, _secondaryTargetLayers))
+        {
+            // Discount allies.
+            if (selfHasFaction && potentialTarget.TryGetComponent<EntityFaction>(out EntityFaction faction))
+                if (_thisFaction.IsAlly(faction))
+                    continue;
+
+            // Discount targets out of viewcone.
+            float angleToTarget = Vector2.Angle(transform.up, potentialTarget.transform.position - transform.position);
+            if (angleToTarget > _secondaryVisionAngle / 2f)
+                continue;
+
+
+            // Discount targets that are obstructed.
+            if (Physics2D.Linecast(transform.position, potentialTarget.transform.position, _obstructionLayers))
+                continue;
+
+
+            // Choose closest valid target.
+            DrawDebugCross(potentialTarget.transform.position, Color.red);
+            float distanceToTarget = Vector2.Distance(transform.position, potentialTarget.transform.position);
+            if (distanceToTarget < minDistance)
+            {
+                minDistance = distanceToTarget;
+                closestTarget = potentialTarget.transform;
+            }
+        }
+
+
+        // Update the secondary target.
+        _secondaryTarget = closestTarget;
+        if (closestTarget != null)
+            DrawDebugCross(closestTarget.position, Color.green);
+
+        return closestTarget != null;
     }
     private void CheckForTarget()
     {
@@ -53,10 +110,14 @@ public class EntitySenses : MonoBehaviour
                 if (_thisFaction.IsAlly(faction))
                     continue;
 
-
             // Discount targets out of viewcone.
             float angleToTarget = Vector2.Angle(transform.up, potentialTarget.transform.position - transform.position);
             if (angleToTarget > _visionAngle / 2f)
+                continue;
+
+
+            // Discount targets that are obstructed.
+            if (Physics2D.Linecast(transform.position, potentialTarget.transform.position, _obstructionLayers))
                 continue;
 
 

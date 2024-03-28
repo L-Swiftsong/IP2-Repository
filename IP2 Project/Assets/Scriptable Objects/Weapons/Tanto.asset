@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dc7a647c32d63e48bbc0744c6ea2443, type: 3}
+  m_Name: Tanto
+  m_EditorClassIdentifier: 
+  Attacks:
+  - {fileID: 11400000, guid: 4a0e6173810ce4640b5cf9d50c4a9be3, type: 2}
+  ComboResetTime: 0
+  WeaponSprite: {fileID: 1359634733, guid: aaae8f73bc7a5fb4b818937c74716a89, type: 3}
+  WeaponPrefab: {fileID: 9138060507205573344, guid: dc384775696d6624ca29e0e67002be16, type: 3}
+  IgnoreUses: 1
+  TickUseOnFirstAttackOnly: 0
+  RechargeOnlyWhenOut: 0
+  UsesBeforeRecharge: 0
+  TimeToRecharge: 0
+  Combomultiplier: 0

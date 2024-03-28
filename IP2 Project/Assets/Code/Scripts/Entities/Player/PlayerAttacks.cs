@@ -44,10 +44,10 @@ public class PlayerAttacks : MonoBehaviour
     public static System.Action<Weapon> OnSecondaryWeaponChanged; // Called when the primaryWeapon is assigned.
 
 
-    [Header("Abilities")]
-    [SerializeField] private Ability _currentAbility; // Temp?
-    private bool _useAbilityHeld; // Temp?
-    private float _abilityCooldownTime; // Temp.
+    //[Header("Abilities")]
+    //[SerializeField] private Ability _currentAbility; // Temp?
+    //private bool _useAbilityHeld; // Temp?
+    //private float _abilityCooldownTime; // Temp.
 
 
     [Header("AoE Test")]
@@ -77,13 +77,13 @@ public class PlayerAttacks : MonoBehaviour
         else if (context.canceled)
             _secondaryAttackHeld = false;
     }
-    public void OnAbilityPressed(InputAction.CallbackContext context)
-    {
-        if (context.started)
-            _useAbilityHeld = true;
-        else if (context.canceled)
-            _useAbilityHeld = false;
-    }
+    //public void OnAbilityPressed(InputAction.CallbackContext context)
+    //{
+        //if (context.started)
+            //_useAbilityHeld = true;
+        //else if (context.canceled)
+          //  _useAbilityHeld = false;
+    //}
 
     
     public void GetMousePosition(InputAction.CallbackContext context)
@@ -107,12 +107,12 @@ public class PlayerAttacks : MonoBehaviour
     private void Update()
     {
         // Check abilities (Highest Priority).
-        if (_useAbilityHeld && CanUseAbility())
-        {
-            UseAbility();
-        }
+        //if (_useAbilityHeld && CanUseAbility())
+        //{
+        //    UseAbility();
+        //}
         // Check if the secondary attack button is held (Medium Priority).
-        else if (_secondaryAttackHeld)
+        if (_secondaryAttackHeld)
         {
             AttemptAttack(_secondaryWeapon);
         }
@@ -154,20 +154,20 @@ public class PlayerAttacks : MonoBehaviour
     }
 
 
-    private bool CanUseAbility() => Time.time >= _abilityCooldownTime;
-    private void UseAbility()
-    {
-        Debug.Log("Used Ability: " + _currentAbility.name);
-        _abilityCooldownTime = Time.time + _currentAbility.GetCooldownTime();
-    }
-
-
-    //private void OnDrawGizmos()
+    //private bool CanUseAbility() => Time.time >= _abilityCooldownTime;
+    //private void UseAbility()
     //{
-    //    if (_primaryWeapon.Weapon != null && _attackToDebug < _primaryWeapon.Weapon.Attacks.Length)
-    //        _primaryWeapon.Weapon.Attacks[_attackToDebug].DrawGizmos(this.transform);
-
-    //    else if (_secondaryWeapon.Weapon != null && _attackToDebug < _secondaryWeapon.Weapon.Attacks.Length)
-    //        _secondaryWeapon.Weapon.Attacks[_attackToDebug].DrawGizmos(this.transform);
+      //  Debug.Log("Used Ability: " + _currentAbility.name);
+      //  _abilityCooldownTime = Time.time + _currentAbility.GetCooldownTime();
     //}
+
+
+    // Remove and replace with the version on the 'Animations' branch.
+    private void OnDrawGizmos()
+    {
+        if (_primaryWeaponProperty != null)
+            _primaryWeaponProperty.DrawGizmos(this.transform);
+        if (_secondaryWeaponProperty != null)
+            _secondaryWeaponProperty.DrawGizmos(this.transform);
+    }
 }
