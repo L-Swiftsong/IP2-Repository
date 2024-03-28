@@ -8,6 +8,9 @@ using UnityEngine.UIElements;
 
 public class Projectile : MonoBehaviour
 {
+    [SerializeField] private EntityFaction _faction;
+
+
     [Header("Projectile Movement")]
     [SerializeField] protected float Speed;
     public float ProjectileSpeed => Speed;
@@ -27,7 +30,17 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float _detectionOffset; 
     
     [SerializeField] protected LayerMask HitMask;
-    [SerializeField] protected Factions IgnoredFactions;
+    [SerializeField] private Factions _ignoredFactions;
+    protected Factions IgnoredFactions
+    {
+        get => _ignoredFactions;
+        set
+        {
+            _ignoredFactions = value;
+            if (_faction != null)
+                _faction.SetFaction(value);
+        }
+    }
     
     private List<Transform> _ignoredTransforms;
 
@@ -53,6 +66,8 @@ public class Projectile : MonoBehaviour
 
         // Set allied factions.
         this.IgnoredFactions = ignoredFactions;
+        if (_faction != null)
+            _faction.SetFaction(IgnoredFactions);
 
 
         // Initialize the contact filter.
