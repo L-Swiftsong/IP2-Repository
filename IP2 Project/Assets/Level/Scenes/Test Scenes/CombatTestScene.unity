@@ -131,6 +131,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1732378579}
     m_Modifications:
+    - target: {fileID: 2051473795482390033, guid: 860622394b8dba14882e815b68f0a418, type: 3}
+      propertyPath: _useSecondaryVision
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4962686353195108554, guid: 860622394b8dba14882e815b68f0a418, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1081,18 +1085,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 728810112589049453, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
-      propertyPath: _primaryWeapon._weapon
+    - target: {fileID: 5083970067064985043, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
+      propertyPath: ability
       value: 
-      objectReference: {fileID: 11400000, guid: 01ece5847bf07be4ea69247f6114148b, type: 2}
-    - target: {fileID: 728810112589049453, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
-      propertyPath: _primaryWeapon._drawGizmos
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 728810112589049453, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
-      propertyPath: _primaryWeapon._attackToDebug
-      value: 0
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 53ce92ff01e4da04f9e4ed9aad9371a5, type: 2}
     - target: {fileID: 8067092537380572294, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2396,7 +2392,6 @@ Transform:
   - {fileID: 502937563}
   - {fileID: 140525674}
   - {fileID: 161662514}
-  - {fileID: 1399533499231604333}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1753540285
@@ -2621,6 +2616,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1626497147069183547, guid: 592ac2c32a9367145a139d9ea8ec9015, type: 3}
+      propertyPath: _maxHealth
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3386883184919223497, guid: 592ac2c32a9367145a139d9ea8ec9015, type: 3}
+      propertyPath: _attackingState._weapons.Array.data[0].MaxRange
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3386883184919223497, guid: 592ac2c32a9367145a139d9ea8ec9015, type: 3}
+      propertyPath: _attackingState._weapons.Array.data[1].MaxRange
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3386883184919223497, guid: 592ac2c32a9367145a139d9ea8ec9015, type: 3}
+      propertyPath: _attackingState._weapons.Array.data[2].MaxRange
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3386883184919223497, guid: 592ac2c32a9367145a139d9ea8ec9015, type: 3}
+      propertyPath: _attackingState._weapons.Array.data[3].MaxRange
+      value: 10.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3491665419625061155, guid: 592ac2c32a9367145a139d9ea8ec9015, type: 3}
+      propertyPath: _useSecondaryVision
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5814596208546428339, guid: 592ac2c32a9367145a139d9ea8ec9015, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7
@@ -2664,6 +2683,10 @@ PrefabInstance:
     - target: {fileID: 8854345591092351046, guid: 592ac2c32a9367145a139d9ea8ec9015, type: 3}
       propertyPath: m_Name
       value: Jiro
+      objectReference: {fileID: 0}
+    - target: {fileID: 8854345591092351046, guid: 592ac2c32a9367145a139d9ea8ec9015, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

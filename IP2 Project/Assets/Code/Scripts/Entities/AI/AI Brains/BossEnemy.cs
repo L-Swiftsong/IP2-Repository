@@ -132,6 +132,11 @@ public class BossEnemy : MonoBehaviour, IEntityBrain
 
     private void Update()
     {
+#if UNITY_EDITOR
+        if (_player == null && PlayerManager.IsInitialised)
+                _player = PlayerManager.Instance.Player.transform;
+#endif
+
         if (!_processLogic)
             return;
 
