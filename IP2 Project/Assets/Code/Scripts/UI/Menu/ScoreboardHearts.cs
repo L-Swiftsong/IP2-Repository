@@ -5,45 +5,62 @@ using UnityEngine;
 
 public class ScoreboardHearts : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer[] spriteRenderer;
+    [SerializeField] private Image[] hearts;
+    [SerializeField] private Image[] crosses;
     [SerializeField] private Sprite redHeart;
     [SerializeField] private Sprite greenHeart;
+    [SerializeField] private Sprite blueCross;
+    [SerializeField] private Sprite yellowCross;
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(spriteSwap());
+        StartCoroutine(heartSwap());
+        StartCoroutine(crossSwap());
     }
 
     // Update is called once per frame
-    
-    IEnumerator spriteSwap()
+
+    IEnumerator heartSwap()
     {
-        for (int i = 0; i == 3; i++)
+        while (true)
         {
-            if (spriteRenderer[0] == redHeart)
+            foreach (Image heartImage in hearts)
             {
-                spriteRenderer[0].sprite = greenHeart;
-            }
-            else if(spriteRenderer[1] == redHeart)
-            {
-                spriteRenderer[1].sprite = greenHeart;
-            }
-            else if (spriteRenderer[2] == redHeart)
-            {
-                spriteRenderer[2].sprite = greenHeart;
-            }
-            if (i == 3)
-            {
-                foreach (SpriteRenderer heartSprite in spriteRenderer)
+                if (heartImage.sprite == redHeart)
                 {
-                    heartSprite.sprite = redHeart;
+                    heartImage.sprite = greenHeart;
                 }
+                else
+                {
+                    heartImage.sprite = redHeart;
+                }
+
+                yield return new WaitForSeconds(2);
+            }
+
+            
+        }     
+
+    }
+
+    IEnumerator crossSwap()
+    {
+        while (true)
+        {
+            foreach (Image crossImage in crosses)
+            {
+                if (crossImage.sprite == blueCross)
+                {
+                    crossImage.sprite = yellowCross;
+                }
+                else
+                {
+                    crossImage.sprite = blueCross;
+                }
+
+                yield return new WaitForSeconds(1);
             }
         }
-
-        yield return new WaitForSeconds(2);
-
-       
     }
 }
