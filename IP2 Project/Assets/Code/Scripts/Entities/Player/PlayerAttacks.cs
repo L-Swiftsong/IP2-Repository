@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -57,10 +58,7 @@ public class PlayerAttacks : MonoBehaviour
 
 
     [Header("Animations")]
-    [SerializeField] private WeaponAnimator _weaponAnimator;
-
-  
-
+    public UnityEvent<WeaponAnimationValues> OnAttackStarted;
 
 
     public void OnPrimaryAttack(InputAction.CallbackContext context)
@@ -138,8 +136,7 @@ public class PlayerAttacks : MonoBehaviour
         int previousAttackIndex = _primaryWeaponProperty.WeaponAttackIndex;
         if (weapon.MakeAttack(_mousePosition, throwToTarget: _throwToMouse))
         {
-            Debug.Log(previousAttackIndex);
-            _weaponAnimator.StartAttack(_primaryWeaponProperty == weapon ? 0 : 1, previousAttackIndex, _primaryWeaponProperty.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
+            OnAttackStarted?.Invoke(new WeaponAnimationValues(_primaryWeapon == weapon ? 0 : 1, previousAttackIndex, _primaryWeaponProperty.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime()));
         }
     }
 

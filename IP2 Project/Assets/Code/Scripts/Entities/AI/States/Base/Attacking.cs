@@ -70,7 +70,7 @@ namespace States.Base
 
             int previousAttackIndex = _weaponWrapper.WeaponAttackIndex;
             if (AttemptAttack(targetPos))
-                _weaponAnimator.StartAttack(0, previousAttackIndex, _weaponWrapper.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
+                _weaponAnimator.StartAttack(new WeaponAnimationValues(0, previousAttackIndex, _weaponWrapper.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime()));
 
 
             // Cache the target's current position for next frame.

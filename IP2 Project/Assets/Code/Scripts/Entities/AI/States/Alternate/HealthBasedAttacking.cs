@@ -129,7 +129,7 @@ namespace States.Alternative
                     int previousAttackIndex = _weapons[i].WeaponWrapper.WeaponAttackIndex;
                     if (AttemptAttack(_weapons[i], targetPos))
                     {
-                        _weaponAnimator.StartAttack(i, previousAttackIndex, _weapons[i].WeaponWrapper.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime()); // Animations (Temp).
+                        _weaponAnimator.StartAttack(new WeaponAnimationValues(i, previousAttackIndex, _weapons[i].WeaponWrapper.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime())); // Animations (Temp).
                         break;
                     }
                 }

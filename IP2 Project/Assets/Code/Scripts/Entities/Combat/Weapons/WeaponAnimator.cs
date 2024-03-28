@@ -56,20 +56,20 @@ public class WeaponAnimator : MonoBehaviour
     }
 
 
-    public void StartAttack(int weaponIndex, int comboIndex, float showDuration)
+    public void StartAttack(WeaponAnimationValues values)
     {
         // Set this weapon as active if it is not already.
-        SetActiveWeapon(weaponIndex, showDuration);
+        SetActiveWeapon(values.WeaponIndex, values.ShowDuration);
 
         // Play the attack animation (If the weaponInstance has an animator).
-        if (_weaponInstances[weaponIndex].TryGetComponent<Animator>(out Animator weaponAnim))
+        if (_weaponInstances[values.WeaponIndex].TryGetComponent<Animator>(out Animator weaponAnim))
         {
             weaponAnim.SetBool("FacingRight", _isFacingRight);
-            weaponAnim.SetInteger("ComboIndex", comboIndex);
+            weaponAnim.SetInteger("ComboIndex", values.AttackIndex);
             weaponAnim.SetTrigger("Attack");
         }
         else
-            Debug.Log(string.Format("Weapon {0} does not have an animator", weaponIndex));
+            Debug.Log(string.Format("Weapon {0} does not have an animator", values.WeaponIndex));
     }
 
 
@@ -144,5 +144,21 @@ public class WeaponAnimator : MonoBehaviour
         // If this weapon should become the shown weapon, then make it so.
         if (makeShownWeapon || _weaponInstances.Length == 1)
             SetActiveWeapon(index);
+    }
+}
+
+public struct WeaponAnimationValues
+{
+    public int WeaponIndex { get; }
+    public int AttackIndex { get; }
+
+    public float ShowDuration { get; }
+
+
+    public WeaponAnimationValues(int weaponIndex, int attackIndex, float showDuration)
+    {
+        this.WeaponIndex = weaponIndex;
+        this.AttackIndex = attackIndex;
+        this.ShowDuration = showDuration;
     }
 }

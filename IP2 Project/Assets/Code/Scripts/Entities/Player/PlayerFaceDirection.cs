@@ -9,7 +9,10 @@ public class PlayerFaceDirection : MonoBehaviour
     [SerializeField] private PlayerInput _playerInput;
     private Camera _playerCam;
 
+    [Space(5)]
+    [SerializeField] private Transform _rotationPivot;
     [SerializeField] private float _rotationSpeed;
+
     private Vector2? _mouseScreenPosition;
     private Vector2 _targetDirection;
 
@@ -62,6 +65,6 @@ public class PlayerFaceDirection : MonoBehaviour
 
 
         // Rotate to face the target direction.
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(Vector3.forward, _targetDirection), _rotationSpeed * Time.deltaTime);
+        _rotationPivot.rotation = Quaternion.RotateTowards(_rotationPivot.rotation, Quaternion.LookRotation(Vector3.forward, _targetDirection), _rotationSpeed * Time.deltaTime);
     }
 }
