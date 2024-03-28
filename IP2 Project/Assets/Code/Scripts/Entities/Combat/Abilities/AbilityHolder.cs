@@ -12,6 +12,7 @@ public class AbilityHolder : MonoBehaviour
     public float activeTime;
     [SerializeField]private float time = 0;
     DecptiveScreen clones;
+    [ReadOnly]public int numberOfUses;
     public enum AbilityState
     {
         ready,
@@ -52,7 +53,18 @@ public class AbilityHolder : MonoBehaviour
                     ability.Activate(gameObject, transform);
                     state = AbilityState.active;
                     activeTime = ability.activeTime;
-                    
+                    numberOfUses += 1;
+                    if(ability.name == "DeceptiveScreen")
+                    {
+                        if ((int)gameObject.GetComponent<PlayerCombo>()._currentComboProperty == 0)
+                        {
+                            gameObject.GetComponent<PlayerCombo>().score += 300;
+                        }
+                        if ((int)gameObject.GetComponent<PlayerCombo>()._currentComboProperty > 0)
+                        {
+                            gameObject.GetComponent<PlayerCombo>().score += 300 * (int)gameObject.GetComponent<PlayerCombo>()._currentComboProperty;
+                        }
+                    }
                 }
             break;
             case AbilityState.active:
@@ -120,10 +132,18 @@ public class AbilityHolder : MonoBehaviour
                     {   
                         
                         health.TakeDamage();
+
+                        if ((int)gameObject.GetComponent<PlayerCombo>()._currentComboProperty == 0)
+                        {
+                            gameObject.GetComponent<PlayerCombo>().score += 100;
+                        }
+                        if ((int)gameObject.GetComponent<PlayerCombo>()._currentComboProperty > 0)
+                        {
+                            gameObject.GetComponent<PlayerCombo>().score += 100 * (int)gameObject.GetComponent<PlayerCombo>()._currentComboProperty;
+                        }
                         
-                        
-                       
-                        
+
+
                     }
                 }
             }
@@ -155,6 +175,15 @@ public class AbilityHolder : MonoBehaviour
 
                             health.TakeDamage();
                             time = 0;
+
+                            if ((int)gameObject.GetComponent<PlayerCombo>()._currentComboProperty == 0)
+                            {
+                                gameObject.GetComponent<PlayerCombo>().score += 100;
+                            }
+                            if ((int)gameObject.GetComponent<PlayerCombo>()._currentComboProperty > 0)
+                            {
+                                gameObject.GetComponent<PlayerCombo>().score += 100 * (int)gameObject.GetComponent<PlayerCombo>()._currentComboProperty;
+                            }
 
                         }
                     }

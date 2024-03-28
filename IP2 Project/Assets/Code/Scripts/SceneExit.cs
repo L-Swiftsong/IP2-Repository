@@ -7,7 +7,8 @@ public class SceneExit : MonoBehaviour
 {
     [SerializeField] private SceneTransitionSO _transition;
     [SerializeField] private LayerMask _playerLayer = 1 << 3;
-
+    public GameObject GetCanvas;
+    public GameObject Player;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -16,5 +17,17 @@ public class SceneExit : MonoBehaviour
             return;
 
         GameManager.Instance.CommenceTransition(_transition);
+
+        GetCanvas = GameObject.Find("Player Score");
+        GetCanvas.GetComponent<PlayerScore>().score = 0;
+        GetCanvas.GetComponent<PlayerScore>().Timer = 0;
+
+        Player = GameObject.Find("Player");
+        Player.GetComponent<PlayerCombo>().score = 0;
+        Player.GetComponent<AbilityHolder>().numberOfUses = 0;
+        Player.GetComponent<PlayerCombo>()._currentComboProperty = 0;
+
+
+
     }
 }

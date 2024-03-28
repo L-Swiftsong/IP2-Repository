@@ -13,7 +13,8 @@ public class PlayerCombo : MonoBehaviour
     [Header("Combo Values")]
     [SerializeField] private float _maxCombo;
     [SerializeField, ReadOnly] private float _currentCombo;
-    private float _currentComboProperty
+    public int score;
+    public float _currentComboProperty
     {
         get => _currentCombo;
         set
@@ -51,11 +52,13 @@ public class PlayerCombo : MonoBehaviour
         // Ensure that the deadEntity is one valid to increment (It has a Entity Faction).
         if (deadEntity.GetComponent<EntityFaction>() == null)
             return;
-        
 
+        if (deadEntity.GetComponent<EntityFaction>().IsAlly(Factions.Player))
+            return;
 
         // Increment the combo.
         _currentComboProperty += 1f;
+        score += 100 * (int)_currentComboProperty;
     }
     private IEnumerator ResetCombo()
     {
