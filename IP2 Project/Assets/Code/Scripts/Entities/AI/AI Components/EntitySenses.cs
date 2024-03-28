@@ -18,7 +18,7 @@ public class EntitySenses : MonoBehaviour
     [SerializeField] private float _visionRadius = 7.5f;
     [SerializeField] private float _visionAngle = 225f;
 
-    [SerializeField] private LayerMask _visibleLayers = 1 << 3 | 1 << 8; // Default Value: Player, Entity.
+    [SerializeField] private LayerMask _visibleLayers = 1 << 3 | 1 << 8 | 1 << 9; // Default Value: Player, Entity, Clone.
     [SerializeField] private LayerMask _obstructionLayers = 1 << 6; // Default Value: Level.
 
 

@@ -19,6 +19,8 @@ public class MeleeAttack : Attack
     [SerializeField] private LayerMask _environmentMask = 1 << 6;
 
 
+    public override float GetDuration() => _attackDuration;
+
 
     public override void MakeAttack(Transform attackingTransform) => attackingTransform.GetComponent<MonoBehaviour>().StartCoroutine(ProcessAttack(attackingTransform, attackingTransform.up));
     public override void MakeAttack(Transform attackingTransform, Vector2 targetPos)

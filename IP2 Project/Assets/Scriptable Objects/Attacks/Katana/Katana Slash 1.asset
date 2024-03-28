@@ -16,9 +16,10 @@ MonoBehaviour:
   CanHitAllies: 0
   HitMask:
     serializedVersion: 2
-    m_Bits: 393
+    m_Bits: 905
   WindupTime: 0.1
   RecoveryTime: 0.33
+  CooldownTime: 0
   DealsDamage: 1
   _extents: {x: 1.5, y: 1.75}
   _offset: {x: 0, y: 1.3}

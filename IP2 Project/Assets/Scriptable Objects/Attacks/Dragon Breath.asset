@@ -17,6 +17,6 @@ MonoBehaviour:
   activeTime: 5
   HitMask:
     serializedVersion: 2
-    m_Bits: 329
+    m_Bits: 841
   CanHitSelf: 0
   CanHitAllies: 0
