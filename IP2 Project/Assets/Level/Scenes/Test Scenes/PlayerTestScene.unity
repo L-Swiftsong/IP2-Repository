@@ -499,7 +499,7 @@ MonoBehaviour:
   m_Priority: 1
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_Follow: {fileID: 1881473326}
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
@@ -951,8 +951,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.32834995, y: 0.3254, z: 0}
-    m_Extent: {x: 3.14285, y: 4.1918, z: 0}
+    m_Center: {x: -0.33035004, y: 0.32819998, z: 0}
+    m_Extent: {x: 3.1417499, y: 4.1897, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -3342,21 +3342,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 9144251323198861198, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
   m_PrefabInstance: {fileID: 1934235977}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1881473307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1881473306}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac33a8e9dd6a03742816161cad4d3e06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerAnim: {fileID: 1881473308}
-  _playerController: {fileID: 1881473315}
-  rotationPivot: {fileID: 55882749}
 --- !u!95 &1881473308 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 534977304094177471, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
@@ -3373,6 +3358,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 915ce742a732019438b68b854685f01b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1881473316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881473306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac33a8e9dd6a03742816161cad4d3e06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAnim: {fileID: 1881473308}
+  _playerController: {fileID: 1881473315}
+  rotationPivot: {fileID: 55882749}
+--- !u!4 &1881473326 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8067092537380572294, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
+  m_PrefabInstance: {fileID: 1934235977}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1914026781
 GameObject:
   m_ObjectHideFlags: 0
@@ -3569,7 +3574,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 9144251323198861198, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1881473307}
+      addedObject: {fileID: 1881473316}
   m_SourcePrefab: {fileID: 100100000, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
 --- !u!1 &2009098793
 GameObject:

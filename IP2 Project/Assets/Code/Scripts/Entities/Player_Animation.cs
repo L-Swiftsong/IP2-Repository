@@ -27,6 +27,32 @@ public class Player_Animation : MonoBehaviour
 
         playerAnim.SetFloat("XInput", direction.x);
         playerAnim.SetFloat("YInput", direction.y);
+
+        // Look up
+        if (rotationPivot.transform.rotation.eulerAngles.z > -0.5f && rotationPivot.transform.rotation.z < 0.5f)
+        {
+            playerAnim.SetFloat("YInput", 1);
+        }
+
+        // Look right
+        if (rotationPivot.transform.rotation.eulerAngles.z > -0.7f && rotationPivot.transform.rotation.z < -0.5f)
+        {
+            playerAnim.SetFloat("XInput", 1);
+        }
+
+        // Look down
+        if (rotationPivot.transform.rotation.eulerAngles.z > 0.3f && rotationPivot.transform.rotation.z < 0.7f)
+        {
+            playerAnim.SetFloat("YInput", -1);
+        }
+
+        // Look left
+        if (rotationPivot.transform.rotation.eulerAngles.z > 0.5f && rotationPivot.transform.rotation.z < -0.5f)
+        {
+            playerAnim.SetFloat("XInput", -1);
+        }
+
+        Debug.Log(rotationPivot.transform.rotation.z);
     }
 
     /*public void OnMovementInput(InputAction.CallbackContext context)
