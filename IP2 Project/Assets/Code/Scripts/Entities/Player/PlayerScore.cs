@@ -12,11 +12,16 @@ public class PlayerScore : MonoBehaviour
     public GameObject Player;
     [ReadOnly] public string Grade;
     [ReadOnly] public float Timer;
+    [ReadOnly] public int finalScore;
+    [ReadOnly] public float finalTime;
+    [ReadOnly] public string finalGrade;
+    [ReadOnly] public int finalNOU;
 
     [Header("Parameters For an S")]
     public float TimeForS;
     public int ScoreForS;
     public int AbilityUsesForS;
+    
 
     [Header("Parameters For an A")]
     public float TimeForA;

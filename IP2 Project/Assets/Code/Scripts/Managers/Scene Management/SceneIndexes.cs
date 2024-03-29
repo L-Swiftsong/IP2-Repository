@@ -6,5 +6,6 @@ public enum SceneIndexes
     TUTORIAL_SCENE = 3,
     FIRST_LEVEL = 4,
     SECOND_LEVEL = 5,
-    THIRD_LEVEL = 6
+    THIRD_LEVEL = 6,
+    SCOREBOARD = 7
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tutorial Exit (To First Level)
   m_EditorClassIdentifier: 
   _scenesToUnload: 03000000
-  _scenesToLoad: 04000000
+  _scenesToLoad: 0400000007000000
   _newActiveScene: 4
   _useCustomEntrancePos: 1
   _entrancePosition: {x: -54, y: -67}
