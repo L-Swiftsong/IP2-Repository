@@ -26,19 +26,24 @@ public class SceneExit : MonoBehaviour
         GetCanvas = GameObject.Find("Player Score");
 
 
-
+        GetCanvas.GetComponent<PlayerScore>().score += GetCanvas.GetComponent<PlayerScore>().speedScore;
         GetCanvas.GetComponent<PlayerScore>().finalScore = GetCanvas.GetComponent<PlayerScore>().score;
         GetCanvas.GetComponent<PlayerScore>().finalTime = GetCanvas.GetComponent<PlayerScore>().Timer;
         GetCanvas.GetComponent<PlayerScore>().finalGrade = GetCanvas.GetComponent<PlayerScore>().Grade;
+        GetCanvas.GetComponent<PlayerScore>().finalSpeedScore = GetCanvas.GetComponent<PlayerScore>().speedScore;
+
+        GetCanvas.GetComponent<PlayerScore>().speedScore = 0;
         GetCanvas.GetComponent<PlayerScore>().score = 0;
         GetCanvas.GetComponent<PlayerScore>().Timer = 0;
 
         Player = GameObject.Find("Player");
+
+        GetCanvas.GetComponent<PlayerScore>().finalKills = Player.GetComponent<PlayerCombo>().kills;
         GetCanvas.GetComponent<PlayerScore>().finalNOU = Player.GetComponent<AbilityHolder>().numberOfUses;
         Player.GetComponent<PlayerCombo>().score = 0;
         Player.GetComponent<AbilityHolder>().numberOfUses = 0;
         Player.GetComponent<PlayerCombo>()._currentComboProperty = 0;
-
+        Player.GetComponent<PlayerCombo>().kills = 0;
 
 
     }

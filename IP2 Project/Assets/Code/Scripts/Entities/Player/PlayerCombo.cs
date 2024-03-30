@@ -14,6 +14,7 @@ public class PlayerCombo : MonoBehaviour
     [SerializeField] private float _maxCombo;
     [SerializeField, ReadOnly] private float _currentCombo;
     public int score;
+    public int kills;
     public float _currentComboProperty
     {
         get => _currentCombo;
@@ -59,6 +60,7 @@ public class PlayerCombo : MonoBehaviour
         // Increment the combo.
         _currentComboProperty += 1f;
         score += 100 * (int)_currentComboProperty;
+        kills += 1;
     }
     private IEnumerator ResetCombo()
     {
