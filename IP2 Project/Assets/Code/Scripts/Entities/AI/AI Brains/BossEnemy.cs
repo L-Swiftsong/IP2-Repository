@@ -35,7 +35,6 @@ public class BossEnemy : MonoBehaviour, IEntityBrain
 
     [Header("References")]
     [SerializeField] private Transform _rotationPivot;
-    [SerializeField] private WeaponAnimator _weaponAnimator;
     private EntitySenses _entitySenses;
     private EntityMovement _movementScript;
     private HealthComponent _healthComponent;
@@ -58,7 +57,7 @@ public class BossEnemy : MonoBehaviour, IEntityBrain
 
 
         // Initialise States that need Initialisation.
-        _attackingState.InitialiseValues(this, _rotationPivot, _movementScript, _healthComponent, _weaponAnimator, () => _currentTarget.position);
+        _attackingState.InitialiseValues(this, _rotationPivot, _movementScript, _healthComponent, () => _currentTarget.position);
 
 
         #region Root FSM Setup

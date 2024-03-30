@@ -19,7 +19,6 @@ namespace States.Alternative
         private Func<Vector2> _targetPos;
         private EntityMovement _movementScript;
         private HealthComponent _healthScript;
-        private WeaponAnimator _weaponAnimator;
 
 
         [System.Serializable]
@@ -63,18 +62,22 @@ namespace States.Alternative
         [SerializeField] private BaseSteeringBehaviour[] _movementBehaviours;
 
 
+        [Header("Animation")]
+        public UnityEngine.Events.UnityEvent<WeaponAnimationValues> OnAttackStarted; // Should subscribe to WeaponAnimator.StartAttack & EntityAnimation.PlayAttackAnimation.
+        public UnityEngine.Events.UnityEvent<Weapon, int> OnWeaponChanged; // Should Subscribe to WeaponAnimator.OnWeaponChanged.
+
+
         [Header("Debug")]
         [SerializeField, ReadOnly] private string _currentWeapon;
 
 
 
-        public void InitialiseValues(MonoBehaviour parentScript, Transform rotationPivot, EntityMovement movementScript, HealthComponent healthScript, WeaponAnimator weaponAnimator, Func<Vector2> target)
+        public void InitialiseValues(MonoBehaviour parentScript, Transform rotationPivot, EntityMovement movementScript, HealthComponent healthScript, Func<Vector2> target)
         {
             this._monoScript = parentScript;
             this._rotationPivot = rotationPivot;
             this._movementScript = movementScript;
             this._healthScript = healthScript;
-            this._weaponAnimator = weaponAnimator;
             this._targetPos = target;
 
             
@@ -92,7 +95,7 @@ namespace States.Alternative
             _weapons[index].Init(linkedScript);
 
             // Notify the WeaponAnimator of the weapon's existence.
-            _weaponAnimator?.OnWeaponChanged(_weapons[index].WeaponWrapper.Weapon, index);
+            OnWeaponChanged?.Invoke(_weapons[index].WeaponWrapper.Weapon, index);
         }
         private IEnumerator WaitOneFrameThenTryEnableWeapons()
         {
@@ -133,7 +136,8 @@ namespace States.Alternative
                     int previousAttackIndex = _weapons[i].WeaponWrapper.WeaponAttackIndex;
                     if (AttemptAttack(_weapons[i], targetPos))
                     {
-                        _weaponAnimator.StartAttack(new WeaponAnimationValues(i, previousAttackIndex, _weapons[i].WeaponWrapper.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime())); // Animations (Temp).
+                        WeaponAnimationValues animationValues = new WeaponAnimationValues(i, previousAttackIndex, _weapons[i].WeaponWrapper.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
+                        OnAttackStarted?.Invoke(animationValues);
                         break;
                     }
                 }

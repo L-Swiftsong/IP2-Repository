@@ -397,6 +397,9 @@ MonoBehaviour:
     _stunThreshold: 1
     _stunResistance: 30
     _stunDuration: 0.5
+    OnEnteredStun:
+      m_PersistentCalls:
+        m_Calls: []
   _deadState:
     _objectToDestroy: {fileID: 6700026156527167870}
     _destroyDelay: 1
@@ -424,7 +427,6 @@ MonoBehaviour:
     _weapons:
     - {fileID: 11400000, guid: 4da8a1addff0d134fb8cc7f2ded51159, type: 2}
     - {fileID: 11400000, guid: cce453e3b50ea69409cf68ba58508d0f, type: 2}
-    _weaponAnimator: {fileID: 4912055493512119558}
     _simultaniousWeaponUsage: 0
     _weaponSwitchTickRate: 1
     _weaponSwitchChance: 0.5
@@ -437,6 +439,36 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 7095d4cea1ee19d4597e688bbfa3ed6d, type: 2}
     - {fileID: 11400000, guid: e82d7d8c309b0c844a2614a1d9e02f64, type: 2}
     - {fileID: 11400000, guid: 68a733db89b58e74f8985e2db1a8a135, type: 2}
+    OnAttackStarted:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4912055493512119558}
+          m_TargetAssemblyTypeName: WeaponAnimator, Assembly-CSharp
+          m_MethodName: StartAttack
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnWeaponChanged:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4912055493512119558}
+          m_TargetAssemblyTypeName: WeaponAnimator, Assembly-CSharp
+          m_MethodName: OnWeaponChanged
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     _weaponToDisplay: 0
     _attackToDispay: 0
   _drawGizmos: 0
@@ -489,6 +521,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementSpeed: 3
   _acceleration: 15
+  OnMovementInput:
+    m_PersistentCalls:
+      m_Calls: []
   _rotationPivot: {fileID: 3062955884109518247}
   _rotationSpeed: 270
 --- !u!114 &2730451818543882398

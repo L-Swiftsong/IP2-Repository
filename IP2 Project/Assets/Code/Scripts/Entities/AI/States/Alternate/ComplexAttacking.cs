@@ -23,8 +23,6 @@ namespace States.Alternative
         [SerializeField] private Weapon[] _weapons;
         private WeaponWrapper[] _weaponWrappers;
 
-        [SerializeField] private WeaponAnimator _weaponAnimator;
-
 
         [Space(5)]
         [SerializeField] private bool _simultaniousWeaponUsage = false;
@@ -49,6 +47,11 @@ namespace States.Alternative
         [Header("Keep Distance")]
         [SerializeField] private BaseSteeringBehaviour[] _movementBehaviours;
         public bool ShouldStopAttacking() => Vector2.Distance(_movementScript.transform.position, _targetPos()) > _maxAttackRange;
+
+
+        [Header("Animation")]
+        public UnityEngine.Events.UnityEvent<WeaponAnimationValues> OnAttackStarted; // Should subscribe to WeaponAnimator.StartAttack & EntityAnimation.PlayAttackAnimation.
+        public UnityEngine.Events.UnityEvent<Weapon, int> OnWeaponChanged; // Should Subscribe to WeaponAnimator.OnWeaponChanged.
 
 
         [Header("Debug")]
@@ -96,14 +99,20 @@ namespace States.Alternative
                 {
                     int previousAttackIndex = _weaponWrappers[i].WeaponAttackIndex;
                     if (AttemptAttack(_weaponWrappers[i], targetPos))
-                        _weaponAnimator.StartAttack(new WeaponAnimationValues(i, previousAttackIndex, _weaponWrappers[i].Weapon.Attacks[previousAttackIndex].GetTotalAttackTime())); // Animations (Temp).
+                    {
+                        WeaponAnimationValues animationValues = new WeaponAnimationValues(i, previousAttackIndex, _weaponWrappers[i].Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
+                        OnAttackStarted?.Invoke(animationValues);
+                    }
                 }
             }
             else
             {
                 int previousAttackIndex = _weaponWrappers[_currentWeaponIndex].WeaponAttackIndex;
                 if (AttemptAttack(_weaponWrappers[_currentWeaponIndex], targetPos))
-                    _weaponAnimator.StartAttack(new WeaponAnimationValues(_currentWeaponIndex, previousAttackIndex, _weaponWrappers[_currentWeaponIndex].Weapon.Attacks[previousAttackIndex].GetTotalAttackTime()));
+                {
+                    WeaponAnimationValues animationValues = new WeaponAnimationValues(_currentWeaponIndex, previousAttackIndex, _weaponWrappers[_currentWeaponIndex].Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
+                    OnAttackStarted?.Invoke(animationValues);
+                }
             }
 
             // Cache the target's current position for next frame.
@@ -179,7 +188,7 @@ namespace States.Alternative
         private void SetWeaponWrapper(Weapon newWeapon, int index)
         {
             _weaponWrappers[index] = new WeaponWrapper(newWeapon, _movementScript);
-            _weaponAnimator?.OnWeaponChanged(newWeapon, index);
+            OnWeaponChanged?.Invoke(newWeapon, index);
         }
 
 

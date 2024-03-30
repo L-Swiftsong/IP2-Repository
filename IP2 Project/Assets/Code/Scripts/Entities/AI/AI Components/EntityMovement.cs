@@ -13,6 +13,9 @@ public class EntityMovement : MonoBehaviour, IMoveable
     [SerializeField] private float _movementSpeed = 3f;
     [SerializeField] private float _acceleration = 15f;
 
+    public UnityEngine.Events.UnityEvent<Vector2> OnMovementInput;
+
+
     [Header("Rotation")]
     [SerializeField] private Transform _rotationPivot;
     [SerializeField] private float _rotationSpeed = 270f;
@@ -31,6 +34,7 @@ public class EntityMovement : MonoBehaviour, IMoveable
 
         // Move the rigidbody's velocity vector towards our desired velocity.
         _rb2D.velocity = Vector2.MoveTowards(_rb2D.velocity, targetDirection * _movementSpeed, _acceleration * Time.deltaTime);
+        OnMovementInput?.Invoke(_rb2D.velocity);
 
 
         // Rotate using our desired method.

@@ -28,11 +28,9 @@ namespace States.Base
             set
             {
                 _weaponWrapper = value;
-                _weaponAnimator?.OnWeaponChanged(value.Weapon, 0);
+                OnWeaponChanged?.Invoke(value.Weapon, 0);
             }
         }
-
-        [SerializeField] private WeaponAnimator _weaponAnimator;
 
 
         [Space(5)]
@@ -48,6 +46,11 @@ namespace States.Base
         [Header("Keep Distance")]
         [SerializeField] private BaseSteeringBehaviour[] _movementBehaviours;
         public bool ShouldStopAttacking() => Vector2.Distance(_movementScript.transform.position, _targetPos()) > _maxAttackRange;
+
+
+        [Header("Animation")]
+        public UnityEngine.Events.UnityEvent<WeaponAnimationValues> OnAttackStarted; // Should subscribe to WeaponAnimator.StartAttack & EntityAnimation.PlayAttackAnimation.
+        public UnityEngine.Events.UnityEvent<Weapon, int> OnWeaponChanged; // Should Subscribe to WeaponAnimator.OnWeaponChanged.
 
 
         [Header("Debug")]
@@ -74,8 +77,10 @@ namespace States.Base
 
             int previousAttackIndex = _weaponWrapper.WeaponAttackIndex;
             if (AttemptAttack(targetPos))
-                _weaponAnimator.StartAttack(new WeaponAnimationValues(0, previousAttackIndex, _weaponWrapper.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime()));
-
+            {
+                WeaponAnimationValues animationValues = new WeaponAnimationValues(0, previousAttackIndex, _weaponWrapper.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
+                OnAttackStarted?.Invoke(animationValues);
+            }
 
             // Cache the target's current position for next frame.
             _previousTargetPosition = targetPos;
