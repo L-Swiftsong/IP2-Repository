@@ -23,13 +23,17 @@ public class AoEAttack : Attack
     [SerializeField] private float _throwSpeed;
 
 
-    public override void MakeAttack(Transform attackingTransform) => ProcessAttack(attackingTransform, attackingTransform.up, _defaultThrowDistance);
-    public override void MakeAttack(Transform attackingTransform, Vector2 targetPos)
+    public override void MakeAttack(AttackReferences references)
     {
-        float throwDistance = Vector2.Distance(attackingTransform.position, targetPos);
-        Vector2 throwDirection = (targetPos - (Vector2)attackingTransform.position).normalized;
+        float throwDistance = _defaultThrowDistance;
+        Vector2 throwDirection = references.AttackingTransform.up;
+        if (references.TargetPos.HasValue)
+        {
+            throwDistance = Vector2.Distance(references.AttackingTransform.position, references.TargetPos.Value);
+            throwDirection = (references.TargetPos.Value - (Vector2)references.AttackingTransform.position).normalized;
+        }
 
-        ProcessAttack(attackingTransform, throwDirection, throwDistance);
+        ProcessAttack(references.AttackingTransform, throwDirection, throwDistance);
     }
 
 
@@ -39,12 +43,16 @@ public class AoEAttack : Attack
 
         
         // Calculate ignored values.
-        Transform ignoredTransform = !CanHitSelf ? attackingTransform : null;
+        Transform ignoredTransform = null;
+        if (!CanHitSelf && attackingTransform.TryGetComponentThroughParents<Collider2D>(out Collider2D firstCollider))
+            ignoredTransform = firstCollider.transform;
+
         Factions ignoredFactions = Factions.Unaligned;
         if (!CanHitAllies && attackingTransform.TryGetComponentThroughParents<EntityFaction>(out EntityFaction entityFaction))
             ignoredFactions = entityFaction.Faction;
 
 
+        // Create the projectile.
         ExplosiveProjectile projectile = Instantiate<GameObject>(_explosivePrefab.gameObject, attackingTransform.position, Quaternion.LookRotation(Vector3.forward, attackDirection)).GetComponent<ExplosiveProjectile>();
         projectile.Init(
             ignoreTransform: ignoredTransform,

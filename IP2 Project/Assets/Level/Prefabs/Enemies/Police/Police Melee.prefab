@@ -25,13 +25,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 686716667939246280}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4846342842228467783}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!114 &2452483782767681560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,8 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _subscribeToPlayer: 0
   _rotationPivot: {fileID: 4846342842228467783}
-  _facingRightLowerThreshold: 90
-  _facingRightUpperThreshold: 270
+  _facingRightLowerThreshold: 0
+  _facingRightUpperThreshold: 180
   _weaponParent: {fileID: 255969483444856837}
 --- !u!1 &904519665323493299
 GameObject:
@@ -246,14 +246,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2634591995313095727}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 255969483444856837}
   m_Father: {fileID: 4473579474728243441}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3313820275809070282
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,6 +394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentStatePath: 
+  _rotationPivot: {fileID: 4846342842228467783}
   _stunnedState:
     _stunThreshold: 1
     _stunResistance: 45
@@ -452,7 +453,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentTarget: {fileID: 0}
+  _secondaryTarget: {fileID: 0}
   _thisFaction: {fileID: 8629172655899487370}
+  _rotationPivot: {fileID: 4846342842228467783}
   _visionRadius: 10
   _visionAngle: 225
   _visibleLayers:
@@ -461,6 +464,12 @@ MonoBehaviour:
   _obstructionLayers:
     serializedVersion: 2
     m_Bits: 64
+  _useSecondaryVision: 0
+  _secondaryVisionRadius: 4
+  _secondaryVisionAngle: 90
+  _secondaryTargetLayers:
+    serializedVersion: 2
+    m_Bits: 128
   _drawGizmos: 0
   _visionGizmosColour: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1467883248659496073
@@ -477,6 +486,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementSpeed: 3
   _acceleration: 15
+  _rotationPivot: {fileID: 4846342842228467783}
   _rotationSpeed: 270
 --- !u!114 &4143916863509612273
 MonoBehaviour:
@@ -554,7 +564,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &1074110169446510505
 MonoBehaviour:
   m_ObjectHideFlags: 0

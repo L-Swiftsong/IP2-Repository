@@ -13,6 +13,8 @@ namespace States.Base
         public override string Name { get => "Attacking"; }
 
 
+        private MonoBehaviour _monoScript;
+        private Transform _rotationPivot;
         private Func<Vector2> _targetPos;
         private EntityMovement _movementScript;
 
@@ -52,8 +54,10 @@ namespace States.Base
         [SerializeField] private int _attackToDispay;
 
 
-        public void InitialiseValues(EntityMovement movementScript, Func<Vector2> target)
+        public void InitialiseValues(MonoBehaviour monoScript, Transform rotationPivot, EntityMovement movementScript, Func<Vector2> target)
         {
+            this._monoScript = monoScript;
+            this._rotationPivot = rotationPivot;
             this._movementScript = movementScript;
             this._targetPos = target;
 
@@ -107,7 +111,7 @@ namespace States.Base
 
             // If we are within range to attack, and our cooldown has elapsed, then make the attack.
             if (distanceToTarget < _maxAttackRange)
-                _weaponWrapperProperty.MakeAttack(estimatedTargetPos, true);
+                _weaponWrapperProperty.MakeAttack(_rotationPivot, _monoScript, estimatedTargetPos, true);
 
             return true;
         }

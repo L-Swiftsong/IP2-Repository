@@ -14,6 +14,8 @@ namespace States.Alternative
         public override string Name { get => "Attacking"; }
 
 
+        private MonoBehaviour _monoScript;
+        private Transform _rotationPivot;
         private Func<Vector2> _targetPos;
         private EntityMovement _movementScript;
         private HealthComponent _healthScript;
@@ -66,8 +68,10 @@ namespace States.Alternative
 
 
 
-        public void InitialiseValues(MonoBehaviour parentScript, EntityMovement movementScript, HealthComponent healthScript, WeaponAnimator weaponAnimator, Func<Vector2> target)
+        public void InitialiseValues(MonoBehaviour parentScript, Transform rotationPivot, EntityMovement movementScript, HealthComponent healthScript, WeaponAnimator weaponAnimator, Func<Vector2> target)
         {
+            this._monoScript = parentScript;
+            this._rotationPivot = rotationPivot;
             this._movementScript = movementScript;
             this._healthScript = healthScript;
             this._weaponAnimator = weaponAnimator;
@@ -77,10 +81,10 @@ namespace States.Alternative
             // Setup the Weapon Wrappers.
             for (int i = 0; i < _weapons.Length; i++)
                 SetupWeaponWrapper(i, parentScript);
-            
+
 
             // Enable weapons after 1 frame (Prevents issues with HealthComponent's Start calling after this Init & healthPercentage being 0).
-            parentScript.StartCoroutine(WaitOneFrameThenTryEnableWeapons());
+            _monoScript.StartCoroutine(WaitOneFrameThenTryEnableWeapons());
         }
         private void SetupWeaponWrapper(int index, MonoBehaviour linkedScript)
         {
@@ -188,7 +192,7 @@ namespace States.Alternative
             // If we are within range to attack, and our cooldown has elapsed, then make the attack.
             if (distanceToTarget < weaponThreshold.MaxRange)
             {
-                if (weaponWrapper.MakeAttack(estimatedTargetPos, true))
+                if (weaponWrapper.MakeAttack(_rotationPivot, _monoScript, estimatedTargetPos, true))
                     return true;
             }
             

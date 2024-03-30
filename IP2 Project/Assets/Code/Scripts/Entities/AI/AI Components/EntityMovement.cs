@@ -9,8 +9,12 @@ public class EntityMovement : MonoBehaviour, IMoveable
     private ContextMerger _ctxMerger;
 
     
+    [Header("Movement")]
     [SerializeField] private float _movementSpeed = 3f;
     [SerializeField] private float _acceleration = 15f;
+
+    [Header("Rotation")]
+    [SerializeField] private Transform _rotationPivot;
     [SerializeField] private float _rotationSpeed = 270f;
 
     private void Start()
@@ -30,7 +34,7 @@ public class EntityMovement : MonoBehaviour, IMoveable
 
 
         // Rotate using our desired method.
-        Quaternion targetRot = transform.rotation;
+        Quaternion targetRot = _rotationPivot.rotation;
         switch(rotationType)
         {
             case RotationType.VelocityDirection:
@@ -41,9 +45,9 @@ public class EntityMovement : MonoBehaviour, IMoveable
                 targetRot = Quaternion.LookRotation(Vector3.forward, targetDir);
                 break;
         };
-        
+
         // Commence rotation.
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, _rotationSpeed * Time.deltaTime);
+        _rotationPivot.rotation = Quaternion.RotateTowards(_rotationPivot.rotation, targetRot, _rotationSpeed * Time.deltaTime);
     }
 }
 

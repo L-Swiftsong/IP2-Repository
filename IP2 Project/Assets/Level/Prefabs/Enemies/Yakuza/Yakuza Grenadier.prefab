@@ -280,14 +280,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4197471085299014842}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1812623906409358601}
   m_Father: {fileID: 9104618259781657928}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7471673864842939757
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,6 +344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentStatePath: 
+  _rotationPivot: {fileID: 8136843100001711717}
   _stunnedState:
     _stunThreshold: 1
     _stunResistance: 0
@@ -403,7 +404,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentTarget: {fileID: 0}
+  _secondaryTarget: {fileID: 0}
   _thisFaction: {fileID: 5089129242526682135}
+  _rotationPivot: {fileID: 8136843100001711717}
   _visionRadius: 10
   _visionAngle: 225
   _visibleLayers:
@@ -412,6 +415,12 @@ MonoBehaviour:
   _obstructionLayers:
     serializedVersion: 2
     m_Bits: 64
+  _useSecondaryVision: 0
+  _secondaryVisionRadius: 4
+  _secondaryVisionAngle: 90
+  _secondaryTargetLayers:
+    serializedVersion: 2
+    m_Bits: 128
   _drawGizmos: 0
   _visionGizmosColour: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &4028336450465363451
@@ -428,6 +437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementSpeed: 3
   _acceleration: 15
+  _rotationPivot: {fileID: 8136843100001711717}
   _rotationSpeed: 270
 --- !u!114 &4149359468510524868
 MonoBehaviour:
@@ -505,7 +515,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &9064384603405691359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -612,13 +622,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8143751797276665034}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8136843100001711717}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!114 &461592587729823153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -633,6 +643,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _subscribeToPlayer: 0
   _rotationPivot: {fileID: 8136843100001711717}
-  _facingRightLowerThreshold: 90
-  _facingRightUpperThreshold: 270
+  _facingRightLowerThreshold: 0
+  _facingRightUpperThreshold: 180
   _weaponParent: {fileID: 1812623906409358601}
