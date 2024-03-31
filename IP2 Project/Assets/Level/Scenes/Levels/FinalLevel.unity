@@ -694,6 +694,7 @@ GameObject:
   - component: {fileID: 545240612}
   - component: {fileID: 545240611}
   - component: {fileID: 545240610}
+  - component: {fileID: 545240613}
   m_Layer: 0
   m_Name: Player Follow Camera
   m_TagString: Untagged
@@ -768,6 +769,19 @@ Transform:
   - {fileID: 191052687}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &545240613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545240609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 511c326cf11e3da4b8ca4d9a7b4d89ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shakeDecreaseRate: 5
 --- !u!1 &553725195
 GameObject:
   m_ObjectHideFlags: 0

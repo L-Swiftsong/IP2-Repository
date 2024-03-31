@@ -344,6 +344,7 @@ GameObject:
   - component: {fileID: 5555563548327533289}
   - component: {fileID: 8073621126214152092}
   - component: {fileID: 4866106999794271248}
+  - component: {fileID: 7119014914514843497}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -825,6 +826,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 7119014914514843497}
+        m_TargetAssemblyTypeName: PlayerCameraManager, Assembly-CSharp
+        m_MethodName: RequestShake
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 2
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _iFrameDuration: 0.25
   _iFrameEndTime: 0
   OnDeath:
@@ -901,3 +914,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entityAnimation: {fileID: 2574428737251350393}
+--- !u!114 &7119014914514843497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9144251323198861198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acc907424d693c54088f20b0ba8015c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

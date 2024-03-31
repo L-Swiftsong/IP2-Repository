@@ -2087,6 +2087,7 @@ GameObject:
   - component: {fileID: 494746410}
   - component: {fileID: 494746409}
   - component: {fileID: 494746411}
+  - component: {fileID: 494746412}
   m_Layer: 0
   m_Name: Player Follow Camera
   m_TagString: Untagged
@@ -2161,6 +2162,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b3c14b7db8f60c49bad1a54a2e662f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &494746412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494746408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 511c326cf11e3da4b8ca4d9a7b4d89ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shakeDecreaseRate: 5
 --- !u!1 &508721482
 GameObject:
   m_ObjectHideFlags: 0
@@ -5858,6 +5872,8 @@ MonoBehaviour:
   _playerLayer:
     serializedVersion: 2
     m_Bits: 8
+  GetCanvas: {fileID: 0}
+  Player: {fileID: 0}
 --- !u!61 &1441598762
 BoxCollider2D:
   m_ObjectHideFlags: 0
