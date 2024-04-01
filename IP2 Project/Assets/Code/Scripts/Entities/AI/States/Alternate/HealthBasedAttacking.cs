@@ -14,10 +14,11 @@ namespace States.Alternative
         public override string Name { get => "Attacking"; }
 
 
+        private MonoBehaviour _monoScript;
+        private Transform _rotationPivot;
         private Func<Vector2> _targetPos;
         private EntityMovement _movementScript;
         private HealthComponent _healthScript;
-        private WeaponAnimator _weaponAnimator;
 
 
         [System.Serializable]
@@ -61,26 +62,32 @@ namespace States.Alternative
         [SerializeField] private BaseSteeringBehaviour[] _movementBehaviours;
 
 
+        [Header("Animation")]
+        public UnityEngine.Events.UnityEvent<WeaponAnimationValues> OnAttackStarted; // Should subscribe to WeaponAnimator.StartAttack & EntityAnimation.PlayAttackAnimation.
+        public UnityEngine.Events.UnityEvent<Weapon, int> OnWeaponChanged; // Should Subscribe to WeaponAnimator.OnWeaponChanged.
+
+
         [Header("Debug")]
         [SerializeField, ReadOnly] private string _currentWeapon;
 
 
 
-        public void InitialiseValues(MonoBehaviour parentScript, EntityMovement movementScript, HealthComponent healthScript, WeaponAnimator weaponAnimator, Func<Vector2> target)
+        public void InitialiseValues(MonoBehaviour parentScript, Transform rotationPivot, EntityMovement movementScript, HealthComponent healthScript, Func<Vector2> target)
         {
+            this._monoScript = parentScript;
+            this._rotationPivot = rotationPivot;
             this._movementScript = movementScript;
             this._healthScript = healthScript;
-            this._weaponAnimator = weaponAnimator;
             this._targetPos = target;
 
             
             // Setup the Weapon Wrappers.
             for (int i = 0; i < _weapons.Length; i++)
                 SetupWeaponWrapper(i, parentScript);
-            
+
 
             // Enable weapons after 1 frame (Prevents issues with HealthComponent's Start calling after this Init & healthPercentage being 0).
-            parentScript.StartCoroutine(WaitOneFrameThenTryEnableWeapons());
+            _monoScript.StartCoroutine(WaitOneFrameThenTryEnableWeapons());
         }
         private void SetupWeaponWrapper(int index, MonoBehaviour linkedScript)
         {
@@ -88,7 +95,7 @@ namespace States.Alternative
             _weapons[index].Init(linkedScript);
 
             // Notify the WeaponAnimator of the weapon's existence.
-            _weaponAnimator?.OnWeaponChanged(_weapons[index].WeaponWrapper.Weapon, index);
+            OnWeaponChanged?.Invoke(_weapons[index].WeaponWrapper.Weapon, index);
         }
         private IEnumerator WaitOneFrameThenTryEnableWeapons()
         {
@@ -129,7 +136,8 @@ namespace States.Alternative
                     int previousAttackIndex = _weapons[i].WeaponWrapper.WeaponAttackIndex;
                     if (AttemptAttack(_weapons[i], targetPos))
                     {
-                        _weaponAnimator.StartAttack(i, previousAttackIndex, _weapons[i].WeaponWrapper.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime()); // Animations (Temp).
+                        WeaponAnimationValues animationValues = new WeaponAnimationValues(i, previousAttackIndex, _weapons[i].WeaponWrapper.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
+                        OnAttackStarted?.Invoke(animationValues);
                         break;
                     }
                 }
@@ -188,7 +196,7 @@ namespace States.Alternative
             // If we are within range to attack, and our cooldown has elapsed, then make the attack.
             if (distanceToTarget < weaponThreshold.MaxRange)
             {
-                if (weaponWrapper.MakeAttack(estimatedTargetPos, true))
+                if (weaponWrapper.MakeAttack(_rotationPivot, _monoScript, estimatedTargetPos, true))
                     return true;
             }
             

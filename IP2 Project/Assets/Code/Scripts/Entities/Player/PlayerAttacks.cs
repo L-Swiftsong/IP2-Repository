@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 
 public class PlayerAttacks : MonoBehaviour
 {
+    [SerializeField] private Transform _rotationPivot;
+
+    
     [Header("Primary Attacks")]
     [SerializeField] private WeaponWrapper _primaryWeapon;
     private WeaponWrapper _primaryWeaponProperty
@@ -44,11 +47,6 @@ public class PlayerAttacks : MonoBehaviour
     public static System.Action<Weapon> OnSecondaryWeaponChanged; // Called when the primaryWeapon is assigned.
 
 
-    //[Header("Abilities")]
-    //[SerializeField] private Ability _currentAbility; // Temp?
-    //private bool _useAbilityHeld; // Temp?
-    //private float _abilityCooldownTime; // Temp.
-
 
     [Header("AoE Test")]
     [SerializeField] private bool _throwToMouse;
@@ -57,10 +55,7 @@ public class PlayerAttacks : MonoBehaviour
 
 
     [Header("Animations")]
-    [SerializeField] private WeaponAnimator _weaponAnimator;
-
-  
-
+    public UnityEvent<WeaponAnimationValues> OnAttackStarted;
 
 
     public void OnPrimaryAttack(InputAction.CallbackContext context)
@@ -77,13 +72,6 @@ public class PlayerAttacks : MonoBehaviour
         else if (context.canceled)
             _secondaryAttackHeld = false;
     }
-    //public void OnAbilityPressed(InputAction.CallbackContext context)
-    //{
-        //if (context.started)
-            //_useAbilityHeld = true;
-        //else if (context.canceled)
-          //  _useAbilityHeld = false;
-    //}
 
     
     public void GetMousePosition(InputAction.CallbackContext context)
@@ -106,11 +94,6 @@ public class PlayerAttacks : MonoBehaviour
     }
     private void Update()
     {
-        // Check abilities (Highest Priority).
-        //if (_useAbilityHeld && CanUseAbility())
-        //{
-        //    UseAbility();
-        //}
         // Check if the secondary attack button is held (Medium Priority).
         if (_secondaryAttackHeld)
         {
@@ -136,10 +119,9 @@ public class PlayerAttacks : MonoBehaviour
     private void AttemptAttack(WeaponWrapper weapon)
     {
         int previousAttackIndex = _primaryWeaponProperty.WeaponAttackIndex;
-        if (weapon.MakeAttack(_mousePosition, throwToTarget: _throwToMouse))
+        if (weapon.MakeAttack(_rotationPivot, this, _mousePosition, throwToTarget: _throwToMouse))
         {
-            Debug.Log(previousAttackIndex);
-            _weaponAnimator.StartAttack(_primaryWeaponProperty == weapon ? 0 : 1, previousAttackIndex, _primaryWeaponProperty.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
+            OnAttackStarted?.Invoke(new WeaponAnimationValues(_primaryWeapon == weapon ? 0 : 1, previousAttackIndex, _primaryWeaponProperty.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime()));
         }
     }
 
@@ -166,8 +148,8 @@ public class PlayerAttacks : MonoBehaviour
     private void OnDrawGizmos()
     {
         if (_primaryWeaponProperty != null)
-            _primaryWeaponProperty.DrawGizmos(this.transform);
+            _primaryWeaponProperty.DrawGizmos(_rotationPivot);
         if (_secondaryWeaponProperty != null)
-            _secondaryWeaponProperty.DrawGizmos(this.transform);
+            _secondaryWeaponProperty.DrawGizmos(_rotationPivot);
     }
 }

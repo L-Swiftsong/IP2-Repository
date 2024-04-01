@@ -19,12 +19,13 @@ public class RangedAttack : Attack
         [SerializeField] private bool _individualAccuracy;
 
     
-    public override void MakeAttack(Transform attackingTransform) => ProcessAttack(attackingTransform, attackingTransform.up);
-    public override void MakeAttack(Transform attackingTransform, Vector2 targetPos)
+    public override void MakeAttack(AttackReferences references)
     {
-        Vector2 targetDirection = (targetPos - (Vector2)attackingTransform.position).normalized;
-        
-        ProcessAttack(attackingTransform, targetDirection);
+        // Calculate the AttackDirection.
+        Vector2 attackDirection = references.TargetPos.HasValue ? (references.TargetPos.Value - (Vector2)references.AttackingTransform.position).normalized : references.AttackingTransform.up;
+
+        // Handle the Attacking Logic.
+        ProcessAttack(references.AttackingTransform, attackDirection);
     }
 
     public void ProcessAttack(Transform attackingTransform, Vector2 attackDirection)
@@ -32,9 +33,15 @@ public class RangedAttack : Attack
         // Cache values.
         float minAngle = -_angleBetweenProjectiles * ((_projectileCount - 1) / 2f);
 
+        // Find ignoredFactions.
         Factions ignoredFactions = Factions.Unaligned;
-        if (!CanHitAllies && attackingTransform.TryGetComponent<EntityFaction>(out EntityFaction entityFaction))
+        if (!CanHitAllies && attackingTransform.TryGetComponentThroughParents<EntityFaction>(out EntityFaction entityFaction))
             ignoredFactions = entityFaction.Faction;
+
+        // Find the first transform of the target that has a collider2D.
+        Transform ignoredTransform = null;
+        if (CanHitSelf == false && attackingTransform.TryGetComponentThroughParents<Collider2D>(out Collider2D firstCollider))
+            ignoredTransform = firstCollider.transform;
 
 
         float sharedAccuracyDeviation = Random.Range(-_projectileAccuracy, _projectileAccuracy);
@@ -49,7 +56,7 @@ public class RangedAttack : Attack
             Vector2 firingDirection = (Quaternion.Euler(0f, 0f, firingAngle) * attackDirection).normalized;
 
             // Create the projectile.
-            CreateProjectile(attackingTransform, firingDirection, !CanHitSelf ? attackingTransform : null, ignoredFactions);
+            CreateProjectile(attackingTransform, firingDirection, ignoredTransform, ignoredFactions);
         }
     }
     private void CreateProjectile(Transform originTransform, Vector2 upDir, Transform ignoredTransform, Factions ignoredFactions)

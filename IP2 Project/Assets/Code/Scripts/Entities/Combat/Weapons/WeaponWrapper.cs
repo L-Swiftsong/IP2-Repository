@@ -92,7 +92,7 @@ public class WeaponWrapper
         this._usesRemaining = _weapon.UsesBeforeRecharge;
     }
 
-    public bool MakeAttack(Vector2? targetPos = null, bool throwToTarget = false)
+    public bool MakeAttack(Transform attackerTransform, MonoBehaviour monoScript, Vector2? targetPos = null, bool throwToTarget = false)
     {
         // Ensure this wrapper has been set up.
         if (_linkedScript == null)
@@ -106,10 +106,10 @@ public class WeaponWrapper
 
 
         // We can attack.
-        _linkedScript.StartCoroutine(TriggerAttack(targetPos, throwToTarget));
+        _linkedScript.StartCoroutine(TriggerAttack(attackerTransform, monoScript, targetPos, throwToTarget));
         return true;
     }
-    private IEnumerator TriggerAttack(Vector2? targetPos, bool throwToTarget)
+    private IEnumerator TriggerAttack(Transform attackerTransform, MonoBehaviour monoScript, Vector2? targetPos, bool throwToTarget)
     {
         Attack attack = _weapon.Attacks[_weaponAttackIndexProperty];
         _attackCompleteTime = Time.time + attack.GetWindupTime() + attack.GetDuration();
@@ -119,21 +119,26 @@ public class WeaponWrapper
         // Windup.
         yield return new WaitForSeconds(attack.GetWindupTime());
         Debug.Log("Make Attack");
-        
-        // Make the attack.
+
+        // Get references for the attack.
+        AttackReferences attackReferences;
         switch (attack)
         {
             case AoEAttack:
                 if (targetPos.HasValue && throwToTarget)
-                    attack.MakeAttack(_linkedScript.transform, targetPos.Value);
+                    attackReferences = new AttackReferences(attackerTransform, monoScript, targetPos.Value);
                 else
-                    attack.MakeAttack(_linkedScript.transform);
+                    attackReferences = new AttackReferences(attackerTransform, monoScript);
 
                 break;
             default:
-                attack.MakeAttack(_linkedScript.transform);
+                attackReferences = new AttackReferences(attackerTransform, monoScript);
                 break;
         }
+
+        // Make the attack.
+        attack.MakeAttack(attackReferences);
+
 
         // Set variables for futher tasks.
         IncrementAttackIndex();

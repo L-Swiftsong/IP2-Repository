@@ -22,12 +22,13 @@ public class MeleeAttack : Attack
     public override float GetDuration() => _attackDuration;
 
 
-    public override void MakeAttack(Transform attackingTransform) => attackingTransform.GetComponent<MonoBehaviour>().StartCoroutine(ProcessAttack(attackingTransform, attackingTransform.up));
-    public override void MakeAttack(Transform attackingTransform, Vector2 targetPos)
+    public override void MakeAttack(AttackReferences references)
     {
-        Vector2 attackDirection = (targetPos - (Vector2)attackingTransform.position).normalized;
-
-        attackingTransform.GetComponent<MonoBehaviour>().StartCoroutine(ProcessAttack(attackingTransform, attackDirection));
+        // Calculate the AttackDirection.
+        Vector2 attackDirection = references.TargetPos.HasValue ? (references.TargetPos.Value - (Vector2)references.AttackingTransform.position).normalized : references.AttackingTransform.up;
+        
+        // Handle the Attacking Logic.
+        references.MonoScript.StartCoroutine(ProcessAttack(references.AttackingTransform, attackDirection));
     }
 
 
@@ -35,13 +36,13 @@ public class MeleeAttack : Attack
     {
         // Calculate ally factions.
         Factions allyFactions = Factions.Unaligned;
-        if (!CanHitAllies && attackingTransform.TryGetComponent<EntityFaction>(out EntityFaction entityFaction))
+        if (!CanHitAllies && attackingTransform.TryGetComponentThroughParents<EntityFaction>(out EntityFaction entityFaction))
             allyFactions = entityFaction.Faction;
 
         // Create a list that will be used for our already hit targets.
         List<Transform> hitTargets = new List<Transform>();
-        if (CanHitSelf == false)
-            hitTargets.Add(attackingTransform);
+        if (CanHitSelf == false && attackingTransform.TryGetComponentThroughParents<Collider2D>(out Collider2D firstCollider))
+            hitTargets.Add(firstCollider.transform);
 
         float durationRemaining = _attackDuration;
         do

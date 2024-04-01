@@ -13,6 +13,8 @@ namespace States.Base
         public override string Name { get => "Attacking"; }
 
 
+        private MonoBehaviour _monoScript;
+        private Transform _rotationPivot;
         private Func<Vector2> _targetPos;
         private EntityMovement _movementScript;
 
@@ -26,11 +28,9 @@ namespace States.Base
             set
             {
                 _weaponWrapper = value;
-                _weaponAnimator?.OnWeaponChanged(value.Weapon, 0);
+                OnWeaponChanged?.Invoke(value.Weapon, 0);
             }
         }
-
-        [SerializeField] private WeaponAnimator _weaponAnimator;
 
 
         [Space(5)]
@@ -48,12 +48,19 @@ namespace States.Base
         public bool ShouldStopAttacking() => Vector2.Distance(_movementScript.transform.position, _targetPos()) > _maxAttackRange;
 
 
+        [Header("Animation")]
+        public UnityEngine.Events.UnityEvent<WeaponAnimationValues> OnAttackStarted; // Should subscribe to WeaponAnimator.StartAttack & EntityAnimation.PlayAttackAnimation.
+        public UnityEngine.Events.UnityEvent<Weapon, int> OnWeaponChanged; // Should Subscribe to WeaponAnimator.OnWeaponChanged.
+
+
         [Header("Debug")]
         [SerializeField] private int _attackToDispay;
 
 
-        public void InitialiseValues(EntityMovement movementScript, Func<Vector2> target)
+        public void InitialiseValues(MonoBehaviour monoScript, Transform rotationPivot, EntityMovement movementScript, Func<Vector2> target)
         {
+            this._monoScript = monoScript;
+            this._rotationPivot = rotationPivot;
             this._movementScript = movementScript;
             this._targetPos = target;
 
@@ -70,8 +77,10 @@ namespace States.Base
 
             int previousAttackIndex = _weaponWrapper.WeaponAttackIndex;
             if (AttemptAttack(targetPos))
-                _weaponAnimator.StartAttack(0, previousAttackIndex, _weaponWrapper.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
-
+            {
+                WeaponAnimationValues animationValues = new WeaponAnimationValues(0, previousAttackIndex, _weaponWrapper.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
+                OnAttackStarted?.Invoke(animationValues);
+            }
 
             // Cache the target's current position for next frame.
             _previousTargetPosition = targetPos;
@@ -107,7 +116,7 @@ namespace States.Base
 
             // If we are within range to attack, and our cooldown has elapsed, then make the attack.
             if (distanceToTarget < _maxAttackRange)
-                _weaponWrapperProperty.MakeAttack(estimatedTargetPos, true);
+                _weaponWrapperProperty.MakeAttack(_rotationPivot, _monoScript, estimatedTargetPos, true);
 
             return true;
         }

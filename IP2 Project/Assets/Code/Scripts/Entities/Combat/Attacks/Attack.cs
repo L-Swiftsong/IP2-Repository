@@ -30,9 +30,25 @@ public abstract class Attack : ScriptableObject
 
 
 
-    public abstract void MakeAttack(Transform attackingTransform);
-    public abstract void MakeAttack(Transform attackingTransform, Vector2 targetPos);
+    public abstract void MakeAttack(AttackReferences attackReferences);
+
 
     public abstract Vector2? CalculateInterceptionPosition(Vector2 startPos, Vector2 targetPos, Vector2 targetVelocity);
     public abstract void DrawGizmos(Transform gizmosOrigin);
+}
+
+public struct AttackReferences
+{
+    public Transform AttackingTransform;
+    public MonoBehaviour MonoScript;
+
+    public Vector2? TargetPos;
+
+
+    public AttackReferences(Transform attackingTransform, MonoBehaviour monoScript, Vector2? targetPos = null)
+    {
+        this.AttackingTransform = attackingTransform;
+        this.MonoScript = monoScript;
+        this.TargetPos = targetPos;
+    }
 }
