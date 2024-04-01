@@ -17,7 +17,14 @@ public class CameraShake : MonoBehaviour
     [SerializeField] private float _shakeDecreaseRate = 5f;
 
     private CinemachineBasicMultiChannelPerlin _cinemachineNoise;
-    private void Awake() => _cinemachineNoise = GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+    private void Awake()
+    {
+        _cinemachineNoise = GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+        if (_cinemachineNoise == null)
+            Debug.LogError("ERROR: The Cinemachine Camera: '" + this.name + "' does not have a BasicMultiChannelPerlin Noise set");
+    }
+
 
     #region Event Subscription
     private void OnEnable()
