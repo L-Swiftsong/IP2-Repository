@@ -37,6 +37,9 @@ public class WeaponWrapper
     private float _rechargeTimeRemaining = 0f;
 
 
+    private Coroutine _triggerAttackCoroutine;
+
+
     [Header("Debug")]
     [SerializeField] private bool _drawGizmos;
     [SerializeField] private int _attackToDebug;
@@ -106,9 +109,16 @@ public class WeaponWrapper
 
 
         // We can attack.
-        _linkedScript.StartCoroutine(TriggerAttack(attackerTransform, monoScript, targetPos, throwToTarget));
+        _triggerAttackCoroutine = _linkedScript.StartCoroutine(TriggerAttack(attackerTransform, monoScript, targetPos, throwToTarget));
         return true;
     }
+    public void CancelAttack()
+    {
+        if (_triggerAttackCoroutine != null)
+            _linkedScript.StopCoroutine(_triggerAttackCoroutine);
+    }
+
+
     private IEnumerator TriggerAttack(Transform attackerTransform, MonoBehaviour monoScript, Vector2? targetPos, bool throwToTarget)
     {
         Attack attack = _weapon.Attacks[_weaponAttackIndexProperty];

@@ -63,8 +63,12 @@ namespace States.Alternative
 
 
         [Header("Animation")]
-        public UnityEngine.Events.UnityEvent<WeaponAnimationValues> OnAttackStarted; // Should subscribe to WeaponAnimator.StartAttack & EntityAnimation.PlayAttackAnimation.
-        public UnityEngine.Events.UnityEvent<Weapon, int> OnWeaponChanged; // Should Subscribe to WeaponAnimator.OnWeaponChanged.
+        [Tooltip("Called when an attack is started. By default should subscribe to WeaponAnimator.StartAttack & EntityAnimation.PlayAttackAnimation")]
+            public UnityEngine.Events.UnityEvent<WeaponAnimationValues> OnAttackStarted;
+        [Tooltip("Called when the state is exited. By default should subscribe to WeaponAnimator.CancelAttack")]
+            public UnityEngine.Events.UnityEvent OnAttackCancelled;
+        [Tooltip("Called when a weapon is changed. By default should Subscribe to WeaponAnimator.OnWeaponChanged")]
+            public UnityEngine.Events.UnityEvent<Weapon, int> OnWeaponChanged;
 
 
         [Header("Debug")]
@@ -156,7 +160,17 @@ namespace States.Alternative
             // Unsubscribe from HealthComponent.
             _healthScript.OnHealingReceived.RemoveListener(OnHealthChanged);
             _healthScript.OnDamageTaken.RemoveListener(OnHealthChanged);
+
+            // Cancel the current attack.
+            OnAttackCancelled?.Invoke();
+            for (int i = 0; i < _weapons.Length; i++)
+            {
+                _weapons[i].WeaponWrapper.CancelAttack();
+            }
         }
+        // Only allow exits if NONE of the weaponWrappers are currently attacking.
+        protected override bool CanExit() => _weapons.Any(t => t.WeaponWrapper.CanAttack()) == false;
+
 
 
         private bool AttemptAttack(WeaponThreshold weaponThreshold, Vector2 targetPos)

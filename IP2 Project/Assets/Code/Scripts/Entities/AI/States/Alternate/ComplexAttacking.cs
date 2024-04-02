@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using HFSM;
+using System.Linq;
 
 
 namespace States.Alternative
@@ -21,7 +22,7 @@ namespace States.Alternative
 
         [Header("Attacks")]
         [SerializeField] private Weapon[] _weapons;
-        private WeaponWrapper[] _weaponWrappers;
+        private List<WeaponWrapper> _weaponWrappers;
 
 
         [Space(5)]
@@ -50,8 +51,12 @@ namespace States.Alternative
 
 
         [Header("Animation")]
-        public UnityEngine.Events.UnityEvent<WeaponAnimationValues> OnAttackStarted; // Should subscribe to WeaponAnimator.StartAttack & EntityAnimation.PlayAttackAnimation.
-        public UnityEngine.Events.UnityEvent<Weapon, int> OnWeaponChanged; // Should Subscribe to WeaponAnimator.OnWeaponChanged.
+        [Tooltip("Called when an attack is started. By default should subscribe to WeaponAnimator.StartAttack & EntityAnimation.PlayAttackAnimation")]
+        public UnityEngine.Events.UnityEvent<WeaponAnimationValues> OnAttackStarted;
+        [Tooltip("Called when the state is exited. By default should subscribe to WeaponAnimator.CancelAttack")]
+            public UnityEngine.Events.UnityEvent OnAttackCancelled;
+        [Tooltip("Called when a weapon is changed. By default should Subscribe to WeaponAnimator.OnWeaponChanged")]
+            public UnityEngine.Events.UnityEvent<Weapon, int> OnWeaponChanged;
 
 
         [Header("Debug")]
@@ -67,7 +72,7 @@ namespace States.Alternative
             this._targetPos = target;
 
             // Setup the Weapon Wrappers.
-            _weaponWrappers = new WeaponWrapper[_weapons.Length];
+            _weaponWrappers = new List<WeaponWrapper>(_weapons.Length);
             for (int i = 0; i < _weapons.Length; i++)
             {
                 SetWeaponWrapper(_weapons[i], i);
@@ -160,14 +165,14 @@ namespace States.Alternative
         private IEnumerator SwapWeapons()
         {
             float randomChance;
-            while(!_simultaniousWeaponUsage && _weaponWrappers.Length > 1)
+            while(!_simultaniousWeaponUsage && _weaponWrappers.Count > 1)
             {
                 // Roll to see if we should swap the current weapon.
                 randomChance = UnityEngine.Random.Range(0f, 1f);
                 if (_weaponSwitchChance > randomChance)
                 {
                     // Calculate the new value for the weapon index, ensuring it is not the same as the current.
-                    int randomValue = UnityEngine.Random.Range(0, _weaponWrappers.Length - 1);
+                    int randomValue = UnityEngine.Random.Range(0, _weaponWrappers.Count - 1);
                     _currentWeaponIndex = randomValue < _currentWeaponIndex ? randomValue : randomValue + 1;
                 }
 
@@ -182,7 +187,16 @@ namespace States.Alternative
             // Stop the swap weapons coroutine.
             if (_swapWeaponsCoroutine != null)
                 _movementScript.StopCoroutine(_swapWeaponsCoroutine);
+
+            // Cancel the current attack.
+            OnAttackCancelled?.Invoke();
+            for (int i = 0; i < _weaponWrappers.Count; i++)
+            {
+                _weaponWrappers[i].CancelAttack();
+            }
         }
+        // Only allow exits if NONE of the weaponWrappers are currently attacking.
+        protected override bool CanExit() => _weaponWrappers.Any(t => t.CanAttack()) == false;
 
 
         private void SetWeaponWrapper(Weapon newWeapon, int index)
