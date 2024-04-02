@@ -38,6 +38,7 @@ public class WeaponWrapper
 
 
     private Coroutine _triggerAttackCoroutine;
+    private Coroutine _currentAttackCoroutine;
 
 
     [Header("Debug")]
@@ -114,8 +115,13 @@ public class WeaponWrapper
     }
     public void CancelAttack()
     {
+        // Cancel the triggerAttack coroutine.
         if (_triggerAttackCoroutine != null)
             _linkedScript.StopCoroutine(_triggerAttackCoroutine);
+
+        // Cancel the active attack coroutine.
+        if (_currentAttackCoroutine != null)
+            _linkedScript.StopCoroutine(_currentAttackCoroutine);
     }
 
 
@@ -146,8 +152,8 @@ public class WeaponWrapper
                 break;
         }
 
-        // Make the attack.
-        attack.MakeAttack(attackReferences);
+        // Make the attack, caching the returned coroutine for if we should cancel.
+        _currentAttackCoroutine = attack.MakeAttack(attackReferences);
 
 
         // Set variables for futher tasks.

@@ -30,7 +30,7 @@ public abstract class Attack : ScriptableObject
 
 
 
-    public abstract void MakeAttack(AttackReferences attackReferences);
+    public abstract Coroutine MakeAttack(AttackReferences attackReferences);
 
 
     public abstract Vector2? CalculateInterceptionPosition(Vector2 startPos, Vector2 targetPos, Vector2 targetVelocity);

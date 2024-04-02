@@ -22,13 +22,13 @@ public class MeleeAttack : Attack
     public override float GetDuration() => _attackDuration;
 
 
-    public override void MakeAttack(AttackReferences references)
+    public override Coroutine MakeAttack(AttackReferences references)
     {
         // Calculate the AttackDirection.
         Vector2 attackDirection = references.TargetPos.HasValue ? (references.TargetPos.Value - (Vector2)references.AttackingTransform.position).normalized : references.AttackingTransform.up;
         
         // Handle the Attacking Logic.
-        references.MonoScript.StartCoroutine(ProcessAttack(references.AttackingTransform, attackDirection));
+        return references.MonoScript.StartCoroutine(ProcessAttack(references.AttackingTransform, attackDirection));
     }
 
 

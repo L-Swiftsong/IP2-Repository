@@ -19,16 +19,16 @@ public class RangedAttack : Attack
         [SerializeField] private bool _individualAccuracy;
 
     
-    public override void MakeAttack(AttackReferences references)
+    public override Coroutine MakeAttack(AttackReferences references)
     {
         // Calculate the AttackDirection.
         Vector2 attackDirection = references.TargetPos.HasValue ? (references.TargetPos.Value - (Vector2)references.AttackingTransform.position).normalized : references.AttackingTransform.up;
 
         // Handle the Attacking Logic.
-        ProcessAttack(references.AttackingTransform, attackDirection);
+        return references.MonoScript.StartCoroutine(ProcessAttack(references.AttackingTransform, attackDirection));
     }
 
-    public void ProcessAttack(Transform attackingTransform, Vector2 attackDirection)
+    public IEnumerator ProcessAttack(Transform attackingTransform, Vector2 attackDirection)
     {
         // Cache values.
         float minAngle = -_angleBetweenProjectiles * ((_projectileCount - 1) / 2f);
@@ -58,6 +58,10 @@ public class RangedAttack : Attack
             // Create the projectile.
             CreateProjectile(attackingTransform, firingDirection, ignoredTransform, ignoredFactions);
         }
+
+
+        // Return using yield break to allow for this to be made a coroutine.
+        yield break;
     }
     private void CreateProjectile(Transform originTransform, Vector2 upDir, Transform ignoredTransform, Factions ignoredFactions)
     {

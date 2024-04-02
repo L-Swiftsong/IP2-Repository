@@ -23,7 +23,7 @@ public class AoEAttack : Attack
     [SerializeField] private float _throwSpeed;
 
 
-    public override void MakeAttack(AttackReferences references)
+    public override Coroutine MakeAttack(AttackReferences references)
     {
         float throwDistance = _defaultThrowDistance;
         Vector2 throwDirection = references.AttackingTransform.up;
@@ -33,11 +33,11 @@ public class AoEAttack : Attack
             throwDirection = (references.TargetPos.Value - (Vector2)references.AttackingTransform.position).normalized;
         }
 
-        ProcessAttack(references.AttackingTransform, throwDirection, throwDistance);
+        return references.MonoScript.StartCoroutine(ProcessAttack(references.AttackingTransform, throwDirection, throwDistance));
     }
 
 
-    private void ProcessAttack(Transform attackingTransform, Vector2 attackDirection, float throwDistance)
+    private IEnumerator ProcessAttack(Transform attackingTransform, Vector2 attackDirection, float throwDistance)
     {
         Vector2? targetPosition = throwDistance > 0f ? (Vector2)attackingTransform.position + (attackDirection * throwDistance) : null;
 
@@ -67,6 +67,10 @@ public class AoEAttack : Attack
             ignoredFactions: ignoredFactions,
             earlyExplosionReducesSize: _earlyExplosionReducesSize
             );
+
+
+        // Return using yield break to allow for this to be made a coroutine.
+        yield break;
     }
 
 
