@@ -103,9 +103,6 @@ public class AoEAttack : Attack
         // Calculate and output the interception position.
         float timeToInterception = distanceToEstimatedPosition / _throwSpeed;
         return targetPos + targetVelocity * timeToInterception;
-
-
-        //return targetPos + targetVelocity * _aoeDelay;
     }
 
 

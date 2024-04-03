@@ -17,11 +17,11 @@ public class CheckForAbility : MonoBehaviour
     {
         AbilityHolder abilityHolder = Player.GetComponent<AbilityHolder>();
 
-        if (abilityHolder.activeTime > 0 && abilityHolder.ability.name == "TigerRush" && gameObject.GetComponent<EntityFaction>().Faction.IsAlly(Factions.Yakuza))
+        if (abilityHolder.IsActive && abilityHolder.Ability.name == "TigerRush" && gameObject.GetComponent<EntityFaction>().Faction.IsAlly(Factions.Yakuza))
         {
             gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
         }
-        if (abilityHolder.activeTime <= 0 && abilityHolder.ability.name == "TigerRush" && gameObject.GetComponent<EntityFaction>().Faction.IsAlly(Factions.Yakuza))
+        if (!abilityHolder.IsActive && abilityHolder.Ability.name == "TigerRush" && gameObject.GetComponent<EntityFaction>().Faction.IsAlly(Factions.Yakuza))
         {
             gameObject.GetComponent<CircleCollider2D>().isTrigger = false;
         }

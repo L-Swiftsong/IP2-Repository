@@ -63,7 +63,7 @@ public class PlayerWeaponUI : MonoBehaviour
     }
     private void SwapPrimaryUI(Weapon newWeapon)
     {
-        if (_primaryWeaponImage != null && newWeapon.WeaponSprite != null)
+        if (_primaryWeaponImage != null)
             _primaryWeaponImage.sprite = newWeapon.WeaponSprite;
     }
 

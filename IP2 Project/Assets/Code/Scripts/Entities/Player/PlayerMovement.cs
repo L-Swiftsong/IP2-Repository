@@ -119,12 +119,12 @@ public class PlayerMovement : MonoBehaviour, IMoveable
         if (_isDashing || _preventInput)
             return;
       
-        if (_abilityHolder.activeTime <= 0 && _abilityHolder.ability.name == "TigerRush")
+        if (!_abilityHolder.IsActive && _abilityHolder.Ability.name == "TigerRush")
         {
             _rb2D.velocity = _movementInput * _moveSpeed;
         }
 
-        if(_abilityHolder.ability.name != "TigerRush")
+        if(_abilityHolder.Ability.name != "TigerRush")
         {
             _rb2D.velocity = _movementInput * _moveSpeed;
         }
