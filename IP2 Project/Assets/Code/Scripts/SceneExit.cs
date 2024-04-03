@@ -38,12 +38,14 @@ public class SceneExit : MonoBehaviour
 
         Player = GameObject.Find("Player");
 
+        GetCanvas.GetComponent<PlayerScore>().HighestScoreAchieved = Player.GetComponent<PlayerCombo>().HighestCombo;
         GetCanvas.GetComponent<PlayerScore>().finalKills = Player.GetComponent<PlayerCombo>().kills;
         GetCanvas.GetComponent<PlayerScore>().finalNOU = Player.GetComponent<AbilityHolder>().numberOfUses;
         Player.GetComponent<PlayerCombo>().score = 0;
         Player.GetComponent<AbilityHolder>().numberOfUses = 0;
         Player.GetComponent<PlayerCombo>()._currentComboProperty = 0;
         Player.GetComponent<PlayerCombo>().kills = 0;
+        Player.GetComponent<PlayerCombo>().HighestCombo = 0;
 
 
     }

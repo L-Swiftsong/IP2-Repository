@@ -19,6 +19,7 @@ public class PlayerScore : MonoBehaviour
     [ReadOnly] public int finalNOU;
     [ReadOnly] public int finalKills;
     [ReadOnly] public int finalSpeedScore;
+    [ReadOnly] public int HighestScoreAchieved;
 
     [Header("Parameters For an S")]
     public float TimeForS;

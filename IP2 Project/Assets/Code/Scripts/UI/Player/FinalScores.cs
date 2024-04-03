@@ -11,14 +11,14 @@ public class FinalScores : MonoBehaviour
     public TMP_Text Timer;
     public TMP_Text Grade;
     public TMP_Text Ability_Uses;
-    public TMP_Text Kills;
+    public TMP_Text Combo;
     public TMP_Text Speed;
 
     int scoreTicker;
     int speedTicker;
     float timeElapsed;
     float AbilityTicker;
-    float killTicker;
+    float comboTicker;
     float timeTickup;
 
     [SerializeField]private int scoreTimer;
@@ -33,12 +33,12 @@ public class FinalScores : MonoBehaviour
         speedTicker = 0;
         timeElapsed = 0;
         AbilityTicker = 0;
-        killTicker = 0;
+        comboTicker = 0;
         timeTickup = 0;
         GameObject Player = GameObject.Find("Player Score");
 
         Speed.text = "0";
-        Kills.text = "0";
+        Combo.text = "0";
         Score.text = "0";
         Grade.text = Player.GetComponent<PlayerScore>().finalGrade;
         Timer.text = "0";
@@ -60,10 +60,10 @@ public class FinalScores : MonoBehaviour
                 Ability_Uses.text = AbilityTicker.ToString();
             }
 
-            if (killTicker < Player.GetComponent<PlayerScore>().finalKills)
+            if (comboTicker < Player.GetComponent<PlayerScore>().HighestScoreAchieved)
             {
-                killTicker += 1;
-                Kills.text = killTicker.ToString();
+                comboTicker += 1;
+                Combo.text = comboTicker.ToString();
             }
 
             timeElapsed = 0;
@@ -74,9 +74,9 @@ public class FinalScores : MonoBehaviour
             Ability_Uses.text = Player.GetComponent<PlayerScore>().finalNOU.ToString();
         }
 
-        if (killTicker >= Player.GetComponent<PlayerScore>().finalKills)
+        if (comboTicker >= Player.GetComponent<PlayerScore>().HighestScoreAchieved)
         {
-            Kills.text = Player.GetComponent<PlayerScore>().finalKills.ToString();
+            Combo.text = Player.GetComponent<PlayerScore>().HighestScoreAchieved.ToString();
         }
 
 

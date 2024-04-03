@@ -641,7 +641,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Kills
+  m_text: Combo
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fb250a0c965e05f4d8f6b5b5c3b8e9ad, type: 2}
   m_sharedMaterial: {fileID: -4009779504772125780, guid: fb250a0c965e05f4d8f6b5b5c3b8e9ad, type: 2}
@@ -1777,7 +1777,7 @@ MonoBehaviour:
   Timer: {fileID: 292014903}
   Grade: {fileID: 116074953}
   Ability_Uses: {fileID: 802296089}
-  Kills: {fileID: 661444176}
+  Combo: {fileID: 661444176}
   Speed: {fileID: 763202886}
   scoreTimer: 10
   timer: 0
