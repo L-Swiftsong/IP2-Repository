@@ -4,14 +4,17 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IMoveable
 {
     [Header("Movement")]
     [SerializeField] private float _moveSpeed;
     [SerializeField] private Rigidbody2D _rb2D;
     [SerializeField] private Transform _rotationPivot;
     private Vector2 _movementInput;
-    
+
+    private bool _preventInput = false;
+    private Coroutine _enableMovementCoroutine;
+
 
     public static System.Action<float> OnStaminaChanged; // <float staminaPercentage>
     public static System.Action<float, float> OnStaminaValuesChanged; // <float maxStamina, float dashCost>
@@ -53,7 +56,10 @@ public class PlayerMovement : MonoBehaviour
 
     [Tooltip("How long after the player dashes until their stamina starts regenerating")]
         [SerializeField] private float _dashRechargeDelay = 1f;
-    private float staminaRegenerationDelayRemaining;
+
+
+    [Header("References")]
+    private AbilityHolder _abilityHolder;
 
 
     [Header("Debug")]
@@ -73,6 +79,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        // References.
+        _abilityHolder = GetComponent<AbilityHolder>();
+
+        // Allow input.
+        _preventInput = false;
+
+        // Stamina.
         _stamina = _maxStamina;
         OnStaminaValuesChanged?.Invoke(_maxStamina, _dashCost);
     }
@@ -103,18 +116,37 @@ public class PlayerMovement : MonoBehaviour
     void Move()
     {
         // Don't process movement if we are dashing.
-        if (_isDashing)
+        if (_isDashing || _preventInput)
             return;
       
-        if (gameObject.GetComponent<AbilityHolder>().activeTime <= 0 && gameObject.GetComponent<AbilityHolder>().ability.name == "TigerRush")
+        if (_abilityHolder.activeTime <= 0 && _abilityHolder.ability.name == "TigerRush")
         {
             _rb2D.velocity = _movementInput * _moveSpeed;
         }
 
-        if(gameObject.GetComponent<AbilityHolder>().ability.name != "TigerRush")
+        if(_abilityHolder.ability.name != "TigerRush")
         {
             _rb2D.velocity = _movementInput * _moveSpeed;
         }
+    }
+
+    public void ApplyKnockback(Vector2 force, float duration, ForceMode2D forceMode)
+    {
+        // Disable input.
+        _preventInput = true;
+
+        // Apply Knockback.
+        _rb2D.AddForce(force, forceMode);
+
+        // Re-enable movement after the duration has elapsed.
+        if (_enableMovementCoroutine != null)
+            StopCoroutine(_enableMovementCoroutine);
+        _enableMovementCoroutine = StartCoroutine(EnableMovement(duration));
+    }
+    private IEnumerator EnableMovement(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        _preventInput = false;
     }
 
 

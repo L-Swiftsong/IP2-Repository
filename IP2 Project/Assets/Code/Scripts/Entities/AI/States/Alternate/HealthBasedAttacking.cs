@@ -129,7 +129,6 @@ namespace States.Alternative
 
             // Determine if we can attack.
             _canAttack = _weapons.Where(t => t.IsActive).All(t => t.WeaponWrapper.IsAttacking() == false);
-            Debug.Log(_weapons[0].WeaponWrapper.IsAttacking());
 
             if (_canAttack)
             {

@@ -75,13 +75,17 @@ public class RangedAttack : Attack
     }
 
 
-    private void OnHit(Transform hitTransform)
+    private void OnHit(Transform hitTransform, Vector2 hitDirection)
     {
         Debug.Log(this.name + " was used to hit: " + hitTransform.name);
 
         // Deal damage.
         if (DealsDamage && hitTransform.TryGetComponent<HealthComponent>(out HealthComponent healthComponent))
             healthComponent.TakeDamage();
+
+        // Try to apply Knockback to the hit Entity.
+        Vector2 force = hitDirection * KnockbackStrength;
+        hitTransform.TryApplyForce(force, ForceMode2D.Impulse);
     }
 
 

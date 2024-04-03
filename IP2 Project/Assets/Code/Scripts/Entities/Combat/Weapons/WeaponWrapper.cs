@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [System.Serializable]
 public class WeaponWrapper
@@ -130,11 +131,9 @@ public class WeaponWrapper
         Attack attack = _weapon.Attacks[_weaponAttackIndexProperty];
         _attackCompleteTime = Time.time + attack.GetWindupTime() + attack.GetDuration();
         _nextReadyTime = Time.time + attack.GetTotalTimeTillNextReady();
-        Debug.Log("Start Attack");
 
         // Windup.
         yield return new WaitForSeconds(attack.GetWindupTime());
-        Debug.Log("Make Attack");
 
         // Get references for the attack.
         AttackReferences attackReferences;
@@ -154,6 +153,11 @@ public class WeaponWrapper
 
         // Make the attack, caching the returned coroutine for if we should cancel.
         _currentAttackCoroutine = attack.MakeAttack(attackReferences);
+
+
+        // Apply Kickback Force.
+        Vector2 force = -attackerTransform.up * attack.GetKickbackStrength();
+        attackerTransform.TryApplyForce(force, ForceMode2D.Impulse);
 
 
         // Set variables for futher tasks.

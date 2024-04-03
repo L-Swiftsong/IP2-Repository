@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class ComponentExtensions
 {
-    public static bool TryGetComponentThroughParents<T>(this Component thisComponent, out T outputComponent) where T : Component
+    public static bool TryGetComponentThroughParents<T>(this Component thisComponent, out T outputComponent) where T : class
     {
         // Assign the output component so that we can return false if we don't find it.
         outputComponent = null;
@@ -24,7 +24,7 @@ public static class ComponentExtensions
         // We didn't find the component, so return false.
         return false;
     }
-    public static bool TryGetComponentThroughParents<T>(this Component thisComponent, out T outputComponent, int maxSearches) where T : Component
+    public static bool TryGetComponentThroughParents<T>(this Component thisComponent, out T outputComponent, int maxSearches) where T : class
     {
         // Assign the output component so that we can return false if we don't find it.
         outputComponent = null;
@@ -44,6 +44,26 @@ public static class ComponentExtensions
         }
 
         // We didn't find the component, so return false.
+        return false;
+    }
+
+
+    public static bool TryApplyForce(this Component thisComponent, Vector2 force, ForceMode2D forceMode)
+    {
+        // Search for an IMoveable.
+        if (thisComponent.TryGetComponentThroughParents(out IMoveable movementScript))
+        {
+            movementScript.ApplyKnockback(force, 0.1f, forceMode);
+            return true;
+        }
+        // Else, Search for a Rigidbody2D.
+        else if (thisComponent.TryGetComponentThroughParents(out Rigidbody2D rb2D))
+        {
+            rb2D.AddForce(force, forceMode);
+            return true;
+        }
+        
+        // We couldn't find a method to apply a force, return false.
         return false;
     }
 }

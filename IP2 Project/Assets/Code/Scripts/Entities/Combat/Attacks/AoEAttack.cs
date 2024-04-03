@@ -15,6 +15,7 @@ public class AoEAttack : Attack
     [SerializeField] private bool _explodeOnCollision;
     [SerializeField] private bool _showExplosionRadius;
     [SerializeField] private bool _earlyExplosionReducesSize;
+    [SerializeField] private float _explosionForce = 0f;
 
     [Space(5)]
     [SerializeField] private GameObject _explosivePrefab;
@@ -108,15 +109,22 @@ public class AoEAttack : Attack
     }
 
 
-    private void OnProjectileHit(Transform hitTransform)
+    private void OnProjectileHit(Transform hitTransform, Vector2 hitDirection)
     {
         Debug.Log(this.name + " was used to hit: " + hitTransform.name);
 
         // Deal damage.
         if (DealsDamage && hitTransform.TryGetComponent<HealthComponent>(out HealthComponent healthComponent))
             healthComponent.TakeDamage();
+
+        // Knockback Entities with Rigidbodies.
+        if (hitTransform.TryGetComponentThroughParents<Rigidbody2D>(out Rigidbody2D rb2D))
+        {
+            Vector2 force = hitDirection * KnockbackStrength;
+            rb2D.AddForce(force, ForceMode2D.Impulse);
+        }
     }
-    private void OnExplosionHit(Transform[] hitTransforms)
+    private void OnExplosionHit(Transform[] hitTransforms, Vector2 origin)
     {
         // Loop through each hit transform.
         foreach (Transform hitTransform in hitTransforms)
@@ -126,6 +134,10 @@ public class AoEAttack : Attack
             // Deal damage.
             if (_explosionDealsDamage && hitTransform.TryGetComponent<HealthComponent>(out HealthComponent healthComponent))
                 healthComponent.TakeDamage();
+
+            // Try to apply Knockback to hit Entities.
+            Vector2 force = ((Vector2)hitTransform.position - origin).normalized * _explosionForce;
+            hitTransform.TryApplyForce(force, ForceMode2D.Impulse);
         }
     }
 
