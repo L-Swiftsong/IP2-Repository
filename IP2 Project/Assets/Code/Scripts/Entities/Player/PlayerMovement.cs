@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour, IMoveable
     [SerializeField] private Transform _rotationPivot;
     private Vector2 _movementInput;
 
+    [SerializeField] private AudioSource walking;
+
     private bool _preventInput = false;
     private Coroutine _enableMovementCoroutine;
 
@@ -68,8 +70,20 @@ public class PlayerMovement : MonoBehaviour, IMoveable
 
 
 
-    public void OnMovementInput(InputAction.CallbackContext context) => _movementInput = context.ReadValue<Vector2>().normalized;
-    
+    public void OnMovementInput(InputAction.CallbackContext context)
+    {
+        _movementInput = context.ReadValue<Vector2>().normalized;
+
+        if(context.started)
+        {
+            walking.Play();
+        }
+        else
+        {
+            walking.Stop();
+        }
+
+    }
     public void OnDashPressed(InputAction.CallbackContext context)
     {
         if (context.performed)
