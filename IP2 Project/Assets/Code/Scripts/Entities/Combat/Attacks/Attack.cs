@@ -17,11 +17,15 @@ public abstract class Attack : ScriptableObject
 
     [Space(5)]
     [SerializeField] protected bool DealsDamage = true;
+    [SerializeField] protected float KnockbackStrength = 0f;
+    [SerializeField] protected float KickbackStrength = 0f;
 
 
     public float GetWindupTime() => WindupTime;
     public float GetRecoveryTime() => RecoveryTime;
     public float GetCooldownTime() => CooldownTime;
+    public float GetKickbackStrength() => KickbackStrength;
+
 
     public virtual float GetDuration() => 0f;
 
@@ -30,7 +34,7 @@ public abstract class Attack : ScriptableObject
 
 
 
-    public abstract void MakeAttack(AttackReferences attackReferences);
+    public abstract Coroutine MakeAttack(AttackReferences attackReferences);
 
 
     public abstract Vector2? CalculateInterceptionPosition(Vector2 startPos, Vector2 targetPos, Vector2 targetVelocity);

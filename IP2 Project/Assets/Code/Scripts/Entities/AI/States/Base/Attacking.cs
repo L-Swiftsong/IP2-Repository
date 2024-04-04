@@ -49,8 +49,12 @@ namespace States.Base
 
 
         [Header("Animation")]
-        public UnityEngine.Events.UnityEvent<WeaponAnimationValues> OnAttackStarted; // Should subscribe to WeaponAnimator.StartAttack & EntityAnimation.PlayAttackAnimation.
-        public UnityEngine.Events.UnityEvent<Weapon, int> OnWeaponChanged; // Should Subscribe to WeaponAnimator.OnWeaponChanged.
+        [Tooltip("Called when an attack is started. By default should subscribe to WeaponAnimator.StartAttack & EntityAnimation.PlayAttackAnimation")]
+            public UnityEngine.Events.UnityEvent<WeaponAnimationValues> OnAttackStarted;
+        [Tooltip("Called when the state is exited. By default should subscribe to WeaponAnimator.CancelAttack")]
+            public UnityEngine.Events.UnityEvent OnAttackCancelled;
+        [Tooltip("Called when a weapon is changed. By default should Subscribe to WeaponAnimator.OnWeaponChanged")]
+            public UnityEngine.Events.UnityEvent<Weapon, int> OnWeaponChanged;
 
 
         [Header("Debug")]
@@ -120,6 +124,20 @@ namespace States.Base
 
             return true;
         }
+
+
+        public override void OnExit()
+        {
+            base.OnExit();
+
+            // Cancel the current attack.
+            _weaponWrapper.CancelAttack();
+            OnAttackCancelled?.Invoke();
+        }
+        // Only allow exits if we aren't currently attacking.
+        protected override bool CanExit() => _weaponWrapper.IsAttacking() == false;
+        
+
 
 
         public void DrawGizmos(Transform gizmosOrigin, bool drawBehaviours = false)

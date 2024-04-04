@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class WeaponAnimator : MonoBehaviour
 {
@@ -71,11 +72,20 @@ public class WeaponAnimator : MonoBehaviour
         else
             Debug.Log(string.Format("Weapon {0} does not have an animator", values.WeaponIndex));
     }
+    public void CancelAttack()
+    {
+        // Stop any already running ShowOriginalAfterDuration coroutines.
+        if (_showOriginalWeaponCoroutine != null)
+            StopCoroutine(_showOriginalWeaponCoroutine);
+
+        // Show the original weapon.
+        ShowWeapon(_shownIndex);
+    }
 
 
     private void SetActiveWeapon(int index, float duration = -1f)
     {
-        // Stop any already running HideAfterDuration coroutines.
+        // Stop any already running ShowOriginalAfterDuration coroutines.
         if (_showOriginalWeaponCoroutine != null)
             StopCoroutine(_showOriginalWeaponCoroutine);
 
@@ -112,6 +122,7 @@ public class WeaponAnimator : MonoBehaviour
     }
 
 
+    #region On Weapon Changed
     public void OnPrimaryChanged(Weapon newWeapon) => OnWeaponChanged(newWeapon, 0, true);
     public void OnSecondaryChanged(Weapon newWeapon) => OnWeaponChanged(newWeapon, 1);
     public void OnWeaponChanged(Weapon newWeapon, int index)
@@ -145,6 +156,7 @@ public class WeaponAnimator : MonoBehaviour
         if (makeShownWeapon || _weaponInstances.Length == 1)
             SetActiveWeapon(index);
     }
+    #endregion
 }
 
 public struct WeaponAnimationValues

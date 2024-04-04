@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [System.Serializable]
 public class WeaponWrapper
@@ -35,6 +36,10 @@ public class WeaponWrapper
     private int _usesRemaining; // How many uses of this weapon are remaining before we need to wait for a recharge.
     private Coroutine _rechargeUsesCoroutine;
     private float _rechargeTimeRemaining = 0f;
+
+
+    private Coroutine _triggerAttackCoroutine;
+    private Coroutine _currentAttackCoroutine;
 
 
     [Header("Debug")]
@@ -106,19 +111,29 @@ public class WeaponWrapper
 
 
         // We can attack.
-        _linkedScript.StartCoroutine(TriggerAttack(attackerTransform, monoScript, targetPos, throwToTarget));
+        _triggerAttackCoroutine = _linkedScript.StartCoroutine(TriggerAttack(attackerTransform, monoScript, targetPos, throwToTarget));
         return true;
     }
+    public void CancelAttack()
+    {
+        // Cancel the triggerAttack coroutine.
+        if (_triggerAttackCoroutine != null)
+            _linkedScript.StopCoroutine(_triggerAttackCoroutine);
+
+        // Cancel the active attack coroutine.
+        if (_currentAttackCoroutine != null)
+            _linkedScript.StopCoroutine(_currentAttackCoroutine);
+    }
+
+
     private IEnumerator TriggerAttack(Transform attackerTransform, MonoBehaviour monoScript, Vector2? targetPos, bool throwToTarget)
     {
         Attack attack = _weapon.Attacks[_weaponAttackIndexProperty];
         _attackCompleteTime = Time.time + attack.GetWindupTime() + attack.GetDuration();
         _nextReadyTime = Time.time + attack.GetTotalTimeTillNextReady();
-        Debug.Log("Start Attack");
 
         // Windup.
         yield return new WaitForSeconds(attack.GetWindupTime());
-        Debug.Log("Make Attack");
 
         // Get references for the attack.
         AttackReferences attackReferences;
@@ -136,8 +151,13 @@ public class WeaponWrapper
                 break;
         }
 
-        // Make the attack.
-        attack.MakeAttack(attackReferences);
+        // Make the attack, caching the returned coroutine for if we should cancel.
+        _currentAttackCoroutine = attack.MakeAttack(attackReferences);
+
+
+        // Apply Kickback Force.
+        Vector2 force = -attackerTransform.up * attack.GetKickbackStrength();
+        attackerTransform.TryApplyForce(force, ForceMode2D.Impulse);
 
 
         // Set variables for futher tasks.

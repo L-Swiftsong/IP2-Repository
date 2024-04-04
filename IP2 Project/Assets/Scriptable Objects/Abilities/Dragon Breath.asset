@@ -15,6 +15,7 @@ MonoBehaviour:
   name: DragonBreath
   cooldownTime: 5
   activeTime: 5
+  AbilitySprite: {fileID: 0}
   HitMask:
     serializedVersion: 2
     m_Bits: 841

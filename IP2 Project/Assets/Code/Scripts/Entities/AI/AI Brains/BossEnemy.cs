@@ -23,6 +23,7 @@ public class BossEnemy : MonoBehaviour, IEntityBrain
 
     [Header("Targeting")]
     private Transform _player;
+    /// <summary> Returns the current target of the entitySenses if it exists, otherwise it returns the referenced player transform.</summary>
     private Transform _currentTarget => _entitySenses.CurrentTarget != null ? _entitySenses.CurrentTarget : _player;
 
 
@@ -42,7 +43,7 @@ public class BossEnemy : MonoBehaviour, IEntityBrain
 
     private void Awake()
     {
-        // Targeting.
+        // (Targeting) Get the player's transform.
         if (PlayerManager.IsInitialised)
             _player = PlayerManager.Instance.Player.transform;
 
@@ -74,7 +75,8 @@ public class BossEnemy : MonoBehaviour, IEntityBrain
         // Any > Dead
         _rootFSM.AddAnyTriggerTransition(
             to: _deadState,
-            trigger: ref OnDied);
+            trigger: ref OnDied,
+            forceInstantly: true);
 
 
         // Idle > Attacking
@@ -88,7 +90,8 @@ public class BossEnemy : MonoBehaviour, IEntityBrain
         _rootFSM.AddTriggerTransition(
             from: _attackingState,
             to: _stunnedState,
-            trigger: ref OnStunned);
+            trigger: ref OnStunned,
+            forceInstantly: true);
 
         _rootFSM.AddTransition(
             from: _stunnedState,
@@ -133,6 +136,7 @@ public class BossEnemy : MonoBehaviour, IEntityBrain
     private void Update()
     {
 #if UNITY_EDITOR
+        // (Editor Only) (Targeting) If we haven't found the player yet, attempt to get them again.
         if (_player == null && PlayerManager.IsInitialised)
                 _player = PlayerManager.Instance.Player.transform;
 #endif

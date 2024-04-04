@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(ContextMerger))]
-public class EntityMovement : MonoBehaviour, IMoveable
+public class EntityMovement : MonoBehaviour
 {
     private Rigidbody2D _rb2D;
     private ContextMerger _ctxMerger;
