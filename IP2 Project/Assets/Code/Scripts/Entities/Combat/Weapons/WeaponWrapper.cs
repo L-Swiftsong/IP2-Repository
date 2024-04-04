@@ -97,7 +97,7 @@ public class WeaponWrapper
         this._usesRemaining = _weapon.UsesBeforeRecharge;
     }
 
-    public bool MakeAttack(Transform attackerTransform, MonoBehaviour monoScript, Vector2? targetPos = null, bool throwToTarget = false)
+    public bool MakeAttack(Transform attackerTransform, Vector2? targetPos = null, bool throwToTarget = false)
     {
         // Ensure this wrapper has been set up.
         if (_linkedScript == null)
@@ -111,7 +111,7 @@ public class WeaponWrapper
 
 
         // We can attack.
-        _triggerAttackCoroutine = _linkedScript.StartCoroutine(TriggerAttack(attackerTransform, monoScript, targetPos, throwToTarget));
+        _triggerAttackCoroutine = _linkedScript.StartCoroutine(TriggerAttack(attackerTransform, targetPos, throwToTarget));
         return true;
     }
     public void CancelAttack()
@@ -126,7 +126,7 @@ public class WeaponWrapper
     }
 
 
-    private IEnumerator TriggerAttack(Transform attackerTransform, MonoBehaviour monoScript, Vector2? targetPos, bool throwToTarget)
+    private IEnumerator TriggerAttack(Transform attackerTransform, Vector2? targetPos, bool throwToTarget)
     {
         Attack attack = _weapon.Attacks[_weaponAttackIndexProperty];
         _attackCompleteTime = Time.time + attack.GetWindupTime() + attack.GetDuration();
@@ -141,13 +141,13 @@ public class WeaponWrapper
         {
             case AoEAttack:
                 if (targetPos.HasValue && throwToTarget)
-                    attackReferences = new AttackReferences(attackerTransform, monoScript, targetPos.Value);
+                    attackReferences = new AttackReferences(attackerTransform, _linkedScript, targetPos.Value);
                 else
-                    attackReferences = new AttackReferences(attackerTransform, monoScript);
+                    attackReferences = new AttackReferences(attackerTransform, _linkedScript);
 
                 break;
             default:
-                attackReferences = new AttackReferences(attackerTransform, monoScript);
+                attackReferences = new AttackReferences(attackerTransform, _linkedScript);
                 break;
         }
 

@@ -156,7 +156,7 @@ namespace States.Alternative
             // If we are within range to attack, and our cooldown has elapsed, then make the attack.
             if (distanceToTarget < _maxAttackRange)
             {
-                weaponWrapper.MakeAttack(_rotationPivot, _monoScript, estimatedTargetPos, true);
+                weaponWrapper.MakeAttack(_rotationPivot, estimatedTargetPos, true);
             }
 
 
@@ -201,7 +201,7 @@ namespace States.Alternative
 
         private void SetWeaponWrapper(Weapon newWeapon, int index)
         {
-            _weaponWrappers[index] = new WeaponWrapper(newWeapon, _movementScript);
+            _weaponWrappers[index] = new WeaponWrapper(newWeapon, _monoScript);
             OnWeaponChanged?.Invoke(newWeapon, index);
         }
 

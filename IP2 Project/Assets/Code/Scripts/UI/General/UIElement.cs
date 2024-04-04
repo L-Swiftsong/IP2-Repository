@@ -11,7 +11,7 @@ public class UIElement : MonoBehaviour
     [SerializeField] private List<Image> _primaryRenderers;
     [SerializeField] private List<Image> _secondaryRenderers;
     
-    private void Awake()
+    private void Start()
     {
 #if UNITY_EDITOR
         if (Application.isPlaying)

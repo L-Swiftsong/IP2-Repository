@@ -68,7 +68,7 @@ namespace States.Base
             this._movementScript = movementScript;
             this._targetPos = target;
 
-            _weaponWrapperProperty = new WeaponWrapper(_weapon, movementScript);
+            _weaponWrapperProperty = new WeaponWrapper(_weapon, monoScript);
         }
 
 
@@ -120,7 +120,7 @@ namespace States.Base
 
             // If we are within range to attack, and our cooldown has elapsed, then make the attack.
             if (distanceToTarget < _maxAttackRange)
-                _weaponWrapperProperty.MakeAttack(_rotationPivot, _monoScript, estimatedTargetPos, true);
+                _weaponWrapperProperty.MakeAttack(_rotationPivot, estimatedTargetPos, true);
 
             return true;
         }

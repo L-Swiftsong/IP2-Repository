@@ -87,16 +87,16 @@ namespace States.Alternative
             
             // Setup the Weapon Wrappers.
             for (int i = 0; i < _weapons.Length; i++)
-                SetupWeaponWrapper(i, parentScript);
+                SetupWeaponWrapper(i);
 
 
             // Enable weapons after 1 frame (Prevents issues with HealthComponent's Start calling after this Init & healthPercentage being 0).
             _monoScript.StartCoroutine(WaitOneFrameThenTryEnableWeapons());
         }
-        private void SetupWeaponWrapper(int index, MonoBehaviour linkedScript)
+        private void SetupWeaponWrapper(int index)
         {
             // Setup the WeaponWrapper.
-            _weapons[index].Init(linkedScript);
+            _weapons[index].Init(_monoScript);
 
             // Notify the WeaponAnimator of the weapon's existence.
             OnWeaponChanged?.Invoke(_weapons[index].WeaponWrapper.Weapon, index);
@@ -209,7 +209,7 @@ namespace States.Alternative
             // If we are within range to attack, and our cooldown has elapsed, then make the attack.
             if (distanceToTarget < weaponThreshold.MaxRange)
             {
-                if (weaponWrapper.MakeAttack(_rotationPivot, _monoScript, estimatedTargetPos, true))
+                if (weaponWrapper.MakeAttack(_rotationPivot, estimatedTargetPos, true))
                     return true;
             }
             
