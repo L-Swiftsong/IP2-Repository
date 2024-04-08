@@ -719,7 +719,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Walking_Down_0
+      name: Player_Walking_Down_00
       rect:
         serializedVersion: 2
         x: 0
@@ -740,7 +740,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Walking_Down_1
+      name: Player_Walking_Down_01
       rect:
         serializedVersion: 2
         x: 192
@@ -761,7 +761,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Walking_Down_2
+      name: Player_Walking_Down_02
       rect:
         serializedVersion: 2
         x: 384
@@ -782,7 +782,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Walking_Down_3
+      name: Player_Walking_Down_03
       rect:
         serializedVersion: 2
         x: 576
@@ -803,7 +803,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Walking_Down_4
+      name: Player_Walking_Down_04
       rect:
         serializedVersion: 2
         x: 768
@@ -824,7 +824,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Walking_Down_5
+      name: Player_Walking_Down_05
       rect:
         serializedVersion: 2
         x: 960
@@ -1263,12 +1263,12 @@ TextureImporter:
       Player_Idle_Left: 2111228636
       Player_Idle_Right: -2021064193
       Player_Idle_Up: 1065731396
-      Player_Walking_Down_0: 1017489903
-      Player_Walking_Down_1: -297265567
-      Player_Walking_Down_2: -1447112685
-      Player_Walking_Down_3: 1154442408
-      Player_Walking_Down_4: 1544613697
-      Player_Walking_Down_5: -1090348967
+      Player_Walking_Down_00: 1017489903
+      Player_Walking_Down_01: -297265567
+      Player_Walking_Down_02: -1447112685
+      Player_Walking_Down_03: 1154442408
+      Player_Walking_Down_04: 1544613697
+      Player_Walking_Down_05: -1090348967
       Player_Walking_Left_00: 1098880273
       Player_Walking_Left_01: -1046165514
       Player_Walking_Left_02: -1962452938
