@@ -48,12 +48,12 @@ public static class ComponentExtensions
     }
 
 
-    public static bool TryApplyForce(this Component thisComponent, Vector2 force, ForceMode2D forceMode)
+    public static bool TryApplyForce(this Component thisComponent, Vector2 force, float duration = 0.1f, ForceMode2D forceMode = ForceMode2D.Impulse)
     {
         // Search for an IMoveable.
         if (thisComponent.TryGetComponentThroughParents(out IMoveable movementScript))
         {
-            movementScript.ApplyKnockback(force, 0.1f, forceMode);
+            movementScript.ApplyKnockback(force, duration, forceMode);
             return true;
         }
         // Else, Search for a Rigidbody2D.

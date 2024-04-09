@@ -85,7 +85,7 @@ public class RangedAttack : Attack
 
         // Try to apply Knockback to the hit Entity.
         Vector2 force = hitDirection * KnockbackStrength;
-        hitTransform.TryApplyForce(force, ForceMode2D.Impulse);
+        hitTransform.TryApplyForce(force);
     }
 
 

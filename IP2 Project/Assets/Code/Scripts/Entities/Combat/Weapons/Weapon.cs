@@ -9,6 +9,12 @@ public class Weapon : ScriptableObject
     [Tooltip("How long after the previous attack before the combo resets to the initial attack.")]
         public float ComboResetTime;
 
+
+    [Space(5)]
+    [Tooltip("Should this weapon allow its attacker to move while attacking?")]
+        public bool AllowMovement = true;
+
+
     [Space(5)]
     public Sprite WeaponSprite;
     public GameObject WeaponPrefab;
