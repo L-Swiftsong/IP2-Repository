@@ -20,27 +20,34 @@ public class EntityAnimator : MonoBehaviour
 
     [Header("Rotation")]
     [SerializeField] private Transform _rotationPivot;
+    [SerializeField] private bool _facePivotDirection = true;
     private Vector2 _movementInput;
     private const int ANGLE_COUNT = 4;
 
 
-    public void PlayAnimation(AnimationType animationType) => _anim.SetTrigger(animationType.ToString());
+    public void PlayAnimation(AnimationType animationType)
+    {
+        // Prevent us from setting the "Walking" trigger while transitioning into the Walking state (Was causing us to get stuck).
+        if (animationType == AnimationType.Walking && _anim.GetCurrentAnimatorStateInfo(0).IsName(animationType.ToString()))
+            return;
+        
+        _anim.SetTrigger(animationType.ToString());
+    }
+
     public void StopAnimation(AnimationType animationType) => _anim.SetTrigger(string.Format("Stop{0}", animationType.ToString()));
 
 
     private void Update()
     {
         // Set the value of the Animator's Rotation Variable.
-        _anim.SetFloat(ANIMATOR_ROTATION_VARIABLE, GetRotationForAnimator());
-
-        // (Bugfix) If the animation is the walking animation, BUT we have no movement input, set the animation to the idle animation.
-        if (_movementInput == Vector2.zero && _anim.GetCurrentAnimatorStateInfo(0).IsName("Walking"))
-            PlayAnimation(AnimationType.Idle);
+        if (_movementInput != Vector2.zero || _facePivotDirection)
+            _anim.SetFloat(ANIMATOR_ROTATION_VARIABLE, GetRotationForAnimator());
     }
 
 
     #region Animation Shortcuts
     public void PlayAttackAnimation() => PlayAnimation(AnimationType.Attacking);
+    
 
     public void PlayDashingAnimation() => PlayAnimation(AnimationType.Dashing);
     public void StopDashingAnimation() => StopAnimation(AnimationType.Dashing);
@@ -76,6 +83,11 @@ public class EntityAnimator : MonoBehaviour
     private int GetRotationForAnimator()
     {
         float currentRotation = GetCurrentRotation();
+
+        // If the current rotation is 360, then treat it as 0.
+        if (Mathf.Approximately(currentRotation, 360f))
+            currentRotation = 0f;
+
         currentRotation /= 360f; // E.g. 'currentRotation/360f = 0.75' and '0.75 * ANGLE_COUNT = 3' when currentRotation = 270* and ANGLE_COUNT = 4
         float maxValue = 1f - (1f / ANGLE_COUNT);
         return currentRotation <= maxValue ? RoundTowardsOdd(currentRotation * ANGLE_COUNT) : ANGLE_COUNT - 1;

@@ -6,11 +6,15 @@ using UnityEngine.InputSystem;
 public class PlayerAnimationLinker : MonoBehaviour
 {
     [SerializeField] private EntityAnimator _entityAnimation;
+    private Vector2 _movementInput;
 
     public void OnMovementInput(InputAction.CallbackContext context)
     {
-        Vector2 input = context.ReadValue<Vector2>();
-        _entityAnimation.PlayMovementAnimation(input);
-        _entityAnimation.SetMovementInputValue(input);
+        if (context.canceled)
+            _movementInput = Vector2.zero;
+        else
+            _movementInput = context.ReadValue<Vector2>();
     }
+
+    private void Update() => _entityAnimation.PlayMovementAnimation(_movementInput);
 }

@@ -65,9 +65,9 @@ public class WeaponAnimator : MonoBehaviour
         // Play the attack animation (If the weaponInstance has an animator).
         if (_weaponInstances[values.WeaponIndex].TryGetComponent<Animator>(out Animator weaponAnim))
         {
-            weaponAnim.SetBool("FacingRight", _isFacingRight);
-            weaponAnim.SetInteger("ComboIndex", values.AttackIndex);
-            weaponAnim.SetTrigger("Attack");
+            weaponAnim.CrossFade(
+                stateName: string.Format("Attack{0}_{1}", values.AttackIndex + 1, _isFacingRight ? "Right" : "Left"),
+                normalizedTransitionDuration: 0.1f);
         }
         else
             Debug.Log(string.Format("Weapon {0} does not have an animator", values.WeaponIndex));
