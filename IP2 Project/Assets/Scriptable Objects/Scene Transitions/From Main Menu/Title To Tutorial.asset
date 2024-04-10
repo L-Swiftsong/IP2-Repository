@@ -15,4 +15,4 @@ MonoBehaviour:
   _loadPlayerScene: 1
   _sceneToLoad: 3
   _useCustomEntrancePos: 1
-  _entrancePosition: {x: 0, y: 0}
+  _entrancePosition: {x: -4.5, y: 0}
