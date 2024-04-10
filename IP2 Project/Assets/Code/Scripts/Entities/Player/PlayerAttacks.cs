@@ -127,7 +127,7 @@ public class PlayerAttacks : MonoBehaviour
             return;
         
         int previousAttackIndex = _primaryWeaponProperty.WeaponAttackIndex;
-        if (weapon.MakeAttack(_rotationPivot, _mousePosition, throwToTarget: _throwToMouse, recoveryCompleteDelegate: OnEnableInput))
+        if (weapon.MakeAttack(_rotationPivot, _mousePosition, throwToTarget: _throwToMouse, recoveryCompleteAction: () => OnEnableInput?.Invoke()))
         {
             OnAttackStarted?.Invoke(new WeaponAnimationValues(_primaryWeapon == weapon ? 0 : 1, previousAttackIndex, _primaryWeaponProperty.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime()));
 

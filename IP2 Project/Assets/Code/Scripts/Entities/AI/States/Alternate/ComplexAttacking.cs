@@ -47,6 +47,7 @@ namespace States.Alternative
 
         [Header("Keep Distance")]
         [SerializeField] private BaseSteeringBehaviour[] _movementBehaviours;
+        private bool _canMove;
         public bool ShouldStopAttacking() => Vector2.Distance(_movementScript.transform.position, _targetPos()) > _maxAttackRange;
 
 
@@ -83,6 +84,9 @@ namespace States.Alternative
         public override void OnEnter()
         {
             base.OnEnter();
+
+            // Ensure that we can always move when we start attacking.
+            _canMove = true;
 
 
             if (_swapWeaponsCoroutine != null)
@@ -123,8 +127,12 @@ namespace States.Alternative
             // Cache the target's current position for next frame.
             _previousTargetPosition = targetPos;
 
-            // Move & rotate towards the target with our behaviours set.
-            _movementScript.CalculateMovement(targetPos, _movementBehaviours, RotationType.TargetDirection);
+
+            if (_canMove)
+            {
+                // Move & rotate towards the target with our behaviours set.
+                _movementScript.CalculateMovement(targetPos, _movementBehaviours, RotationType.TargetDirection);
+            }
         }
 
         private bool AttemptAttack(WeaponWrapper weaponWrapper, Vector2 targetPos)
@@ -156,9 +164,11 @@ namespace States.Alternative
             // If we are within range to attack, and our cooldown has elapsed, then make the attack.
             if (distanceToTarget < _maxAttackRange)
             {
-                weaponWrapper.MakeAttack(_rotationPivot, estimatedTargetPos, true);
+                if (!weaponWrapper.Weapon.AllowMovement)
+                    _canMove = false;
+                
+                weaponWrapper.MakeAttack(_rotationPivot, estimatedTargetPos, true, recoveryCompleteAction: () => _canMove = true);
             }
-
 
             return true;
         }

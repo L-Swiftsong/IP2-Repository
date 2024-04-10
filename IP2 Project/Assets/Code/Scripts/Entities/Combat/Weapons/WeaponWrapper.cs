@@ -97,7 +97,7 @@ public class WeaponWrapper
         this._usesRemaining = _weapon.UsesBeforeRecharge;
     }
 
-    public bool MakeAttack(Transform attackerTransform, Vector2? targetPos = null, bool throwToTarget = false, UnityEngine.Events.UnityEvent recoveryCompleteDelegate = null)
+    public bool MakeAttack(Transform attackerTransform, Vector2? targetPos = null, bool throwToTarget = false, System.Action recoveryCompleteAction = null)
     {
         // Ensure this wrapper has been set up.
         if (_linkedScript == null)
@@ -111,7 +111,7 @@ public class WeaponWrapper
 
 
         // We can attack.
-        _triggerAttackCoroutine = _linkedScript.StartCoroutine(TriggerAttack(attackerTransform, targetPos, throwToTarget, recoveryCompleteDelegate));
+        _triggerAttackCoroutine = _linkedScript.StartCoroutine(TriggerAttack(attackerTransform, targetPos, throwToTarget, recoveryCompleteAction));
         return true;
     }
     public void CancelAttack()
@@ -126,7 +126,7 @@ public class WeaponWrapper
     }
 
 
-    private IEnumerator TriggerAttack(Transform attackerTransform, Vector2? targetPos, bool throwToTarget, UnityEngine.Events.UnityEvent recoveryCompleteDelegate)
+    private IEnumerator TriggerAttack(Transform attackerTransform, Vector2? targetPos, bool throwToTarget, System.Action recoveryCompleteAction)
     {
         Attack attack = _weapon.Attacks[_weaponAttackIndexProperty];
         _attackCompleteTime = Time.time + attack.GetWindupTime() + attack.GetDuration();
@@ -172,8 +172,8 @@ public class WeaponWrapper
 
         yield return new WaitForSeconds(0.05f + Time.deltaTime);
 
-        if (recoveryCompleteDelegate != null && !Weapon.AllowMovement)
-            recoveryCompleteDelegate?.Invoke();
+        if (recoveryCompleteAction != null && !Weapon.AllowMovement)
+            recoveryCompleteAction?.Invoke();
     }
 
 
