@@ -9,6 +9,7 @@ public class PlayerAttacks : MonoBehaviour
 {
     [SerializeField] private Transform _rotationPivot;
     [SerializeField] private AudioSource Slice;
+    [SerializeField] private AudioSource Throw;
     private GameObject AudioSource;
 
     
@@ -87,6 +88,8 @@ public class PlayerAttacks : MonoBehaviour
         else if (context.canceled)
             _secondaryAttackHeld = false;
 
+        if (_secondaryAttackHeld && _secondaryWeaponProperty.RechargeTimeRemaining <= 0)
+            Throw.Play();
 
     }
 
@@ -114,6 +117,12 @@ public class PlayerAttacks : MonoBehaviour
         AudioSource = AudioSource.transform.GetChild(0).gameObject;
         AudioSource = AudioSource.transform.GetChild(1).gameObject;
         Slice = AudioSource.GetComponent<AudioSource>();
+
+        AudioSource = GameObject.Find("Player Canvas");
+        AudioSource = AudioSource.transform.GetChild(0).gameObject;
+        AudioSource = AudioSource.transform.GetChild(2).gameObject;
+        Throw = AudioSource.GetComponent<AudioSource>();
+
     }
     private void Update()
     {
