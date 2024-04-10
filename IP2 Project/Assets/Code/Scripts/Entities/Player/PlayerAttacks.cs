@@ -74,7 +74,11 @@ public class PlayerAttacks : MonoBehaviour
            
         }
 
-        if (_primaryAttackHeld)
+        if(_primaryWeaponProperty.RechargeTimeRemaining > 0)
+        {
+            Slice.loop = false;
+        }
+        if (_primaryAttackHeld && _primaryWeaponProperty.RechargeTimeRemaining <=0)
         {
             Slice.loop = true;
             Slice.Play();
