@@ -17,7 +17,7 @@ MonoBehaviour:
   HitMask:
     serializedVersion: 2
     m_Bits: 905
-  WindupTime: 0.1
+  WindupTime: 0.2
   RecoveryTime: 0.33
   CooldownTime: 0
   DealsDamage: 1
