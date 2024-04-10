@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 public class PlayerAttacks : MonoBehaviour
 {
     [SerializeField] private Transform _rotationPivot;
+    [SerializeField] private AudioSource Slice;
+    private GameObject AudioSource;
 
     
     [Header("Primary Attacks")]
@@ -64,6 +66,19 @@ public class PlayerAttacks : MonoBehaviour
             _primaryAttackHeld = true;
         else if (context.canceled)
             _primaryAttackHeld = false;
+
+        if (!_primaryAttackHeld)
+        {
+            Slice.loop = false;
+           
+        }
+
+        if (_primaryAttackHeld)
+        {
+            Slice.loop = true;
+            Slice.Play();
+        }
+
     }
     public void OnSecondaryAttack(InputAction.CallbackContext context)
     {
@@ -71,6 +86,8 @@ public class PlayerAttacks : MonoBehaviour
             _secondaryAttackHeld = true;
         else if (context.canceled)
             _secondaryAttackHeld = false;
+
+
     }
 
     
@@ -91,6 +108,12 @@ public class PlayerAttacks : MonoBehaviour
 
         _primaryWeaponProperty = new WeaponWrapper(_primaryWeaponProperty.Weapon, this);
         _secondaryWeaponProperty = new WeaponWrapper(_secondaryWeaponProperty.Weapon, this);
+
+
+        AudioSource = GameObject.Find("Player Canvas");
+        AudioSource = AudioSource.transform.GetChild(0).gameObject;
+        AudioSource = AudioSource.transform.GetChild(1).gameObject;
+        Slice = AudioSource.GetComponent<AudioSource>();
     }
     private void Update()
     {
@@ -114,6 +137,8 @@ public class PlayerAttacks : MonoBehaviour
         // (Secondary Weapon)
         OnSecondaryRecoveryTimeChanged?.Invoke(_secondaryWeaponProperty.RecoveryTimePercentage); // Recovery Event (Time between attacks).
         OnSecondaryUseRechargeTimeChanged?.Invoke(_secondaryWeaponProperty.RechargePercentage); // Recharge Event (Uses Remaining).
+
+       
     }
 
     private void AttemptAttack(WeaponWrapper weapon)
@@ -123,6 +148,7 @@ public class PlayerAttacks : MonoBehaviour
         {
             OnAttackStarted?.Invoke(new WeaponAnimationValues(_primaryWeapon == weapon ? 0 : 1, previousAttackIndex, _primaryWeaponProperty.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime()));
         }
+
     }
 
     public void EquipWeapon(Weapon newWeapon, bool replacePrimary = true)

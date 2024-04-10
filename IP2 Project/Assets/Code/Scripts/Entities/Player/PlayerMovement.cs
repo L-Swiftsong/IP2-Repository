@@ -12,7 +12,10 @@ public class PlayerMovement : MonoBehaviour, IMoveable
     [SerializeField] private Transform _rotationPivot;
     private Vector2 _movementInput;
 
+    private GameObject Audio2;
+    private GameObject Audio;
     [SerializeField] private AudioSource walking;
+    [SerializeField] private AudioSource dashing;
 
     private bool _preventInput = false;
     private Coroutine _enableMovementCoroutine;
@@ -70,29 +73,34 @@ public class PlayerMovement : MonoBehaviour, IMoveable
 
 
 
-    public void OnMovementInput(InputAction.CallbackContext context)
+    public void OnMovementInput(InputAction.CallbackContext context) => _movementInput = context.ReadValue<Vector2>().normalized;
+    
+    public void MovementSoundEffect (InputAction.CallbackContext context)
     {
-        _movementInput = context.ReadValue<Vector2>().normalized;
-
         if(context.started)
         {
             walking.Play();
         }
-        else
+        if(context.canceled)
         {
             walking.Stop();
         }
-
     }
     public void OnDashPressed(InputAction.CallbackContext context)
     {
         if (context.performed)
+        {
+            
             AttemptDash();
+        }
+            
     }
 
 
     private void Start()
     {
+        
+
         // References.
         _abilityHolder = GetComponent<AbilityHolder>();
 
@@ -102,10 +110,22 @@ public class PlayerMovement : MonoBehaviour, IMoveable
         // Stamina.
         _stamina = _maxStamina;
         OnStaminaValuesChanged?.Invoke(_maxStamina, _dashCost);
+
+
+        Audio = GameObject.Find("Player Canvas");
+        Audio = Audio.transform.GetChild(0).gameObject;
+        walking = Audio.GetComponent<AudioSource>();
+
+        Audio2 = GameObject.Find("Player Canvas");
+        Audio2 = Audio2.transform.GetChild(0).gameObject;
+        Audio2 = Audio2.transform.GetChild(0).gameObject;
+        dashing = Audio2.GetComponent<AudioSource>();
     }
 
     void Update()
     {
+
+
         // If we are currently dashing, handle dashing stuff.
         if (_isDashing)
         {
@@ -122,7 +142,12 @@ public class PlayerMovement : MonoBehaviour, IMoveable
         }
         // If we aren't dashing & our cooldown time hasn't elapsed, decrement the cooldown time remaining.
         else if (dashCooldownRemaining > 0f)
+        {
             dashCooldownRemaining -= Time.deltaTime;
+        }
+            
+
+       
     }
     void FixedUpdate() => Move();
 
@@ -172,6 +197,7 @@ public class PlayerMovement : MonoBehaviour, IMoveable
 
         // Start Dashing.
         StartDashing();
+        dashing.Play();
     }
     private void StartDashing()
     {

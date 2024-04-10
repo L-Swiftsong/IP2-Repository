@@ -3391,6 +3391,22 @@ PrefabInstance:
       propertyPath: m_RebindOverlay
       value: 
       objectReference: {fileID: 1958200085}
+    - target: {fileID: 820643918170841214, guid: af81539a128fa844a965940ccf7928ba, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 820643918170841214, guid: af81539a128fa844a965940ccf7928ba, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 820643918170841214, guid: af81539a128fa844a965940ccf7928ba, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 820643918170841214, guid: af81539a128fa844a965940ccf7928ba, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1317920067280153869, guid: af81539a128fa844a965940ccf7928ba, type: 3}
       propertyPath: m_RebindText
       value: 
@@ -3595,6 +3611,22 @@ PrefabInstance:
       propertyPath: m_RebindOverlay
       value: 
       objectReference: {fileID: 1958200085}
+    - target: {fileID: 6135858726941371885, guid: af81539a128fa844a965940ccf7928ba, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6135858726941371885, guid: af81539a128fa844a965940ccf7928ba, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6135858726941371885, guid: af81539a128fa844a965940ccf7928ba, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6135858726941371885, guid: af81539a128fa844a965940ccf7928ba, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6597346941019129210, guid: af81539a128fa844a965940ccf7928ba, type: 3}
       propertyPath: m_RebindText
       value: 
@@ -3603,6 +3635,38 @@ PrefabInstance:
       propertyPath: m_RebindOverlay
       value: 
       objectReference: {fileID: 1958200085}
+    - target: {fileID: 7328053741502570236, guid: af81539a128fa844a965940ccf7928ba, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7328053741502570236, guid: af81539a128fa844a965940ccf7928ba, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7328053741502570236, guid: af81539a128fa844a965940ccf7928ba, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7328053741502570236, guid: af81539a128fa844a965940ccf7928ba, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7522566117396473180, guid: af81539a128fa844a965940ccf7928ba, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7522566117396473180, guid: af81539a128fa844a965940ccf7928ba, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7522566117396473180, guid: af81539a128fa844a965940ccf7928ba, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7522566117396473180, guid: af81539a128fa844a965940ccf7928ba, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7905228511576857429, guid: af81539a128fa844a965940ccf7928ba, type: 3}
       propertyPath: m_RebindText
       value: 

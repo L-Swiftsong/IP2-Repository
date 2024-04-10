@@ -421,6 +421,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2928679218508242623}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: MovementSoundEffect
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: df91454b-5fe6-400a-9fe8-f71fa83f635f
     m_ActionName: Default/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
@@ -673,6 +685,7 @@ MonoBehaviour:
   _moveSpeed: 5
   _rb2D: {fileID: 9067624589833551237}
   _rotationPivot: {fileID: 5725950586333644357}
+  walking: {fileID: 0}
   _dashSpeed: 30
   _dashDistance: 6
   dashCooldown: 0.25
