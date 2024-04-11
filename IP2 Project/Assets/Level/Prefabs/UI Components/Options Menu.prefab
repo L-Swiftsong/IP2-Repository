@@ -8763,31 +8763,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3309490745305435381}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3900722434491118505}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &5952730487036501612
 GameObject:
   m_ObjectHideFlags: 0
@@ -14992,7 +14968,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1581578701217821870, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
-      value: LB
+      value: L2
       objectReference: {fileID: 0}
     - target: {fileID: 1581578701217821870, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_fontColor32.rgba
@@ -15700,7 +15676,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1581578701217821870, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
-      value: LT
+      value: L1
       objectReference: {fileID: 0}
     - target: {fileID: 1581578701217821870, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_fontColor32.rgba
@@ -15838,7 +15814,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1581578701217821870, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
-      value: RT
+      value: R2
       objectReference: {fileID: 0}
     - target: {fileID: 1581578701217821870, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_fontColor32.rgba
@@ -15964,7 +15940,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1581578701217821870, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
-      value: RB
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1581578701217821870, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_fontColor32.rgba

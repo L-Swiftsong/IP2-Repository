@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
@@ -20,6 +21,13 @@ public class TitleScreen : MonoBehaviour
     [SerializeField] private GameObject _initialScreenGO;
     [SerializeField] private GameObject _mainMenuGO;
     [SerializeField] private GameObject _tutorialModalGO;
+    [SerializeField] private GameObject _optionsMenuGO;
+
+
+    [Header("Selection References")]
+    [SerializeField] private GameObject _mainMenuFirst;
+    [SerializeField] private GameObject _tutorialModalFirst;
+    [SerializeField] private GameObject _optionsMenuFirst;
 
 
     private void Start()
@@ -77,22 +85,50 @@ public class TitleScreen : MonoBehaviour
         // Ensure that the title text ends in the end position.
         _titleText.anchoredPosition = new Vector2(cachedAnchoredX, _endOffset);
 
-        // Show the Main Menu.
+        // Show the Main Menu & set the current selection target.
         _mainMenuGO.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(_mainMenuFirst);
     }
 
 
     public void ShowTutorialModal()
     {
+        // Hide the Main Menu.
         _mainMenuGO.SetActive(false);
+
+        // Show the Tutorial modal & Select the first button.
         _tutorialModalGO.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(_tutorialModalFirst);
     }
     public void HideTutorialModal()
     {
-        _mainMenuGO.SetActive(true);
+        // Hide the Tutorial modal.
         _tutorialModalGO.SetActive(false);
+
+        // Show the Main Menu & Select the first button.
+        _mainMenuGO.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(_mainMenuFirst);
     }
 
+
+    public void ShowOptionsMenu()
+    {
+        // Hide the Main Menu.
+        _mainMenuGO.SetActive(false);
+
+        // Show the Options Menu & Select the first button.
+        _optionsMenuGO.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(_optionsMenuFirst);
+    }
+    public void HideOptionsMenu()
+    {
+        // Hide the Options Menu.
+        _optionsMenuGO.SetActive(false);
+
+        // Show the Main Menu & Select the first button.
+        _mainMenuGO.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(_mainMenuFirst);
+    }
 
 
     public void StartTutorial() => GameManager.Instance.LoadTutorialSceneFromMenu();
