@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace IP2_Scripts
 {
@@ -25,6 +26,11 @@ namespace IP2_Scripts
         [SerializeField] private Color _selectedColor = Color.red;
 
 
+        [Header("Input System Variables")]
+        [SerializeField] private bool _useInputSwitching;
+        [SerializeField] private InputActionReference _selectNextTabAction;
+        [SerializeField] private InputActionReference _selectPreviousTabAction;
+
 
         private void Awake() => InitialiseTabs();
         private void OnEnable()
@@ -35,7 +41,34 @@ namespace IP2_Scripts
             // Otherwise, ensure that the selected tab is selected.
             else
                 OnTabSelected(_selectedTab);
+
+
+            Debug.Log("Enabled");
+            if (_selectNextTabAction != null)
+                _selectNextTabAction.action.performed += OnSelectNextTabPressed;
+            if (_selectPreviousTabAction != null)
+                _selectPreviousTabAction.action.performed += OnSelectPreviousTabPressed;
         }
+        private void OnDisable()
+        {
+            if (_selectNextTabAction != null)
+                _selectNextTabAction.action.performed -= OnSelectNextTabPressed;
+            if (_selectPreviousTabAction != null)
+                _selectPreviousTabAction.action.performed -= OnSelectPreviousTabPressed;
+        }
+        #region Input
+        private void OnSelectNextTabPressed(InputAction.CallbackContext context)
+        {
+            if (context.performed && _useInputSwitching)
+                SelectNextTab();
+        }
+        private void OnSelectPreviousTabPressed(InputAction.CallbackContext context)
+        {
+            if (context.performed && _useInputSwitching)
+                SelectPreviousTab();
+        }
+        #endregion
+
 
         private void InitialiseTabs()
         {
@@ -71,7 +104,15 @@ namespace IP2_Scripts
             // Select this tab.
             foreach (TabButton tab in _tabButtons)
             {
-                tab.GetAssociatedSection().SetActive(tab == button);
+                if (tab == button)
+                {
+                    tab.GetAssociatedSection().SetActive(true);
+                    EventSystem.current.SetSelectedGameObject(tab.GetFirstSelectedItem());
+                }
+                else
+                {
+                    tab.GetAssociatedSection().SetActive(false);
+                }
             }
         }
 
@@ -92,6 +133,27 @@ namespace IP2_Scripts
                 button.SetBackgroundSprite(sprite);
             else
                 button.SetBackgroundColor(colour);
+        }
+
+
+
+        private void SelectNextTab()
+        {
+            int selectedIndex = _tabButtons.FindIndex(t => t == _selectedTab);
+
+            if (selectedIndex < _tabButtons.Count - 1)
+                OnTabSelected(_tabButtons[selectedIndex + 1]);
+            else
+                OnTabSelected(_tabButtons[0]);
+        }
+        private void SelectPreviousTab()
+        {
+            int selectedIndex = _tabButtons.FindIndex(t => t == _selectedTab);
+
+            if (selectedIndex > 0)
+                OnTabSelected(_tabButtons[selectedIndex - 1]);
+            else
+                OnTabSelected(_tabButtons[_tabButtons.Count - 1]);
         }
     }
 }
