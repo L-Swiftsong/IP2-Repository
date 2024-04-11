@@ -30,7 +30,7 @@ public class HealthComponent : MonoBehaviour
                 OnHealingReceived?.Invoke(new HealthChangedValues(_currentHealthProperty, value));
         }
     }
-    private int _currentHealthProperty
+    public int _currentHealthProperty
     {
         get => _currentHealth;
         set

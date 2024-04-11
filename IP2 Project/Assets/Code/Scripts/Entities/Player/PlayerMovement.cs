@@ -90,6 +90,8 @@ public class PlayerMovement : MonoBehaviour, IMoveable
         // Stamina.
         _stamina = _maxStamina;
         OnStaminaValuesChanged?.Invoke(_maxStamina, _dashCost);
+
+        gameObject.GetComponent<PlayerController>().respawn = GameObject.Find("Respawn");
     }
 
     void Update()
