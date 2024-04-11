@@ -202,6 +202,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _anim: {fileID: 5395547717084078016}
   _rotationPivot: {fileID: 885724994905786606}
+  _facePivotDirection: 1
 --- !u!1 &5767130681184777734
 GameObject:
   m_ObjectHideFlags: 0
