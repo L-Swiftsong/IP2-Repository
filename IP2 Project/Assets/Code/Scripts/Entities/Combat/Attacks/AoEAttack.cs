@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[CreateAssetMenu(menuName = "Attacks/AoE Attack", fileName = "New AoE Attack")]
+[CreateAssetMenu(menuName = "Attacks/AoE Attack", fileName = "New AoE Attack", order = 3)]
 public class AoEAttack : Attack
 {
     [Header("AoE Variables")]
@@ -15,36 +15,46 @@ public class AoEAttack : Attack
     [SerializeField] private bool _explodeOnCollision;
     [SerializeField] private bool _showExplosionRadius;
     [SerializeField] private bool _earlyExplosionReducesSize;
+    [SerializeField] private float _explosionForce = 0f;
 
     [Space(5)]
     [SerializeField] private GameObject _explosivePrefab;
-    [SerializeField] private float _defaultThrowDistance;
+    [Tooltip("The default distance for the explosive to be thrown. Leave 0 for the projectile to not stop early")]
+        [SerializeField] private float _defaultThrowDistance = 0f;
     [SerializeField] private float _throwSpeed;
 
 
-    public override void MakeAttack(Transform attackingTransform) => ProcessAttack(attackingTransform, attackingTransform.up, _defaultThrowDistance);
-    public override void MakeAttack(Transform attackingTransform, Vector2 targetPos)
+    public override Coroutine MakeAttack(AttackReferences references)
     {
-        float throwDistance = Vector2.Distance(attackingTransform.position, targetPos);
-        Vector2 throwDirection = (targetPos - (Vector2)attackingTransform.position).normalized;
+        float throwDistance = _defaultThrowDistance;
+        Vector2 throwDirection = references.AttackingTransform.up;
+        if (references.TargetPos.HasValue)
+        {
+            throwDistance = Vector2.Distance(references.AttackingTransform.position, references.TargetPos.Value);
+            throwDirection = (references.TargetPos.Value - (Vector2)references.AttackingTransform.position).normalized;
+        }
 
-        ProcessAttack(attackingTransform, throwDirection, throwDistance);
+        return references.MonoScript.StartCoroutine(ProcessAttack(references.AttackingTransform, throwDirection, throwDistance));
     }
 
 
-    private void ProcessAttack(Transform attackingTransform, Vector2 attackDirection, float throwDistance)
+    private IEnumerator ProcessAttack(Transform attackingTransform, Vector2 attackDirection, float throwDistance)
     {
-        Vector2 targetPosition = (Vector2)attackingTransform.position + (attackDirection * throwDistance);
+        Vector2? targetPosition = throwDistance > 0f ? (Vector2)attackingTransform.position + (attackDirection * throwDistance) : null;
 
         
         // Calculate ignored values.
-        Transform ignoredTransform = !CanHitSelf ? attackingTransform : null;
+        Transform ignoredTransform = null;
+        if (!CanHitSelf && attackingTransform.TryGetComponentThroughParents<Collider2D>(out Collider2D firstCollider))
+            ignoredTransform = firstCollider.transform;
+
         Factions ignoredFactions = Factions.Unaligned;
         if (!CanHitAllies && attackingTransform.TryGetComponentThroughParents<EntityFaction>(out EntityFaction entityFaction))
             ignoredFactions = entityFaction.Faction;
 
 
-        ExplosiveProjectile projectile = Instantiate<GameObject>(_explosivePrefab.gameObject, attackingTransform.position, Quaternion.identity).GetComponent<ExplosiveProjectile>();
+        // Create the projectile.
+        ExplosiveProjectile projectile = Instantiate<GameObject>(_explosivePrefab.gameObject, attackingTransform.position, Quaternion.LookRotation(Vector3.forward, attackDirection)).GetComponent<ExplosiveProjectile>();
         projectile.Init(
             ignoreTransform: ignoredTransform,
             callback: OnProjectileHit,
@@ -58,6 +68,10 @@ public class AoEAttack : Attack
             ignoredFactions: ignoredFactions,
             earlyExplosionReducesSize: _earlyExplosionReducesSize
             );
+
+
+        // Return using yield break to allow for this to be made a coroutine.
+        yield break;
     }
 
 
@@ -89,21 +103,25 @@ public class AoEAttack : Attack
         // Calculate and output the interception position.
         float timeToInterception = distanceToEstimatedPosition / _throwSpeed;
         return targetPos + targetVelocity * timeToInterception;
-
-
-        //return targetPos + targetVelocity * _aoeDelay;
     }
 
 
-    private void OnProjectileHit(Transform hitTransform)
+    private void OnProjectileHit(Transform hitTransform, Vector2 hitDirection)
     {
         Debug.Log(this.name + " was used to hit: " + hitTransform.name);
 
         // Deal damage.
         if (DealsDamage && hitTransform.TryGetComponent<HealthComponent>(out HealthComponent healthComponent))
             healthComponent.TakeDamage();
+
+        // Knockback Entities with Rigidbodies.
+        if (hitTransform.TryGetComponentThroughParents<Rigidbody2D>(out Rigidbody2D rb2D))
+        {
+            Vector2 force = hitDirection * KnockbackStrength;
+            rb2D.AddForce(force, ForceMode2D.Impulse);
+        }
     }
-    private void OnExplosionHit(Transform[] hitTransforms)
+    private void OnExplosionHit(Transform[] hitTransforms, Vector2 origin)
     {
         // Loop through each hit transform.
         foreach (Transform hitTransform in hitTransforms)
@@ -113,6 +131,10 @@ public class AoEAttack : Attack
             // Deal damage.
             if (_explosionDealsDamage && hitTransform.TryGetComponent<HealthComponent>(out HealthComponent healthComponent))
                 healthComponent.TakeDamage();
+
+            // Try to apply Knockback to hit Entities.
+            Vector2 force = ((Vector2)hitTransform.position - origin).normalized * _explosionForce;
+            hitTransform.TryApplyForce(force);
         }
     }
 

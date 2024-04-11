@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e1239ec5c5f3d844a22e5107560bc9a, type: 3}
+  m_Name: Jiro Kunai Throw
+  m_EditorClassIdentifier: 
+  CanHitSelf: 0
+  CanHitAllies: 0
+  HitMask:
+    serializedVersion: 2
+    m_Bits: 841
+  WindupTime: 0
+  RecoveryTime: 0.3
+  CooldownTime: 1
+  DealsDamage: 1
+  _projectilePrefab: {fileID: 4263343964843693753, guid: 8a96101d4684c784b941a2a7dac93453, type: 3}
+  _projectileCount: 3
+  _angleBetweenProjectiles: 10
+  _projectileAccuracy: 0
+  _individualAccuracy: 0

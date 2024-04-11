@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 
 public class PlayerAttacks : MonoBehaviour
 {
+    [SerializeField] private Transform _rotationPivot;
+
+    
     [Header("Primary Attacks")]
     [SerializeField] private WeaponWrapper _primaryWeapon;
     private WeaponWrapper _primaryWeaponProperty
@@ -44,11 +47,6 @@ public class PlayerAttacks : MonoBehaviour
     public static System.Action<Weapon> OnSecondaryWeaponChanged; // Called when the primaryWeapon is assigned.
 
 
-    [Header("Abilities")]
-    [SerializeField] private Ability _currentAbility; // Temp?
-    private bool _useAbilityHeld; // Temp?
-    private float _abilityCooldownTime; // Temp.
-
 
     [Header("AoE Test")]
     [SerializeField] private bool _throwToMouse;
@@ -56,11 +54,12 @@ public class PlayerAttacks : MonoBehaviour
     private Vector2 _mousePosition;
 
 
-    [Header("Animations")]
-    [SerializeField] private WeaponAnimator _weaponAnimator;
-
-  
-
+    [Header("Unity Events")]
+    public UnityEvent<WeaponAnimationValues> OnAttackStarted; // WeaponAnimator.StartAttack & EntityAnimator.PlayAttackAnimation.
+    [Space(20)]
+    
+    public UnityEvent OnPreventInput;
+    public UnityEvent OnEnableInput;
 
 
     public void OnPrimaryAttack(InputAction.CallbackContext context)
@@ -76,13 +75,6 @@ public class PlayerAttacks : MonoBehaviour
             _secondaryAttackHeld = true;
         else if (context.canceled)
             _secondaryAttackHeld = false;
-    }
-    public void OnAbilityPressed(InputAction.CallbackContext context)
-    {
-        if (context.started)
-            _useAbilityHeld = true;
-        else if (context.canceled)
-            _useAbilityHeld = false;
     }
 
     
@@ -106,13 +98,8 @@ public class PlayerAttacks : MonoBehaviour
     }
     private void Update()
     {
-        // Check abilities (Highest Priority).
-        if (_useAbilityHeld && CanUseAbility())
-        {
-            UseAbility();
-        }
         // Check if the secondary attack button is held (Medium Priority).
-        else if (_secondaryAttackHeld)
+        if (_secondaryAttackHeld)
         {
             AttemptAttack(_secondaryWeapon);
         }
@@ -135,11 +122,17 @@ public class PlayerAttacks : MonoBehaviour
 
     private void AttemptAttack(WeaponWrapper weapon)
     {
+        // Prevent attacking if we are already attacking with a weapon.
+        if (_primaryWeapon.IsAttacking() || _secondaryWeapon.IsAttacking())
+            return;
+        
         int previousAttackIndex = _primaryWeaponProperty.WeaponAttackIndex;
-        if (weapon.MakeAttack(_mousePosition, throwToTarget: _throwToMouse))
+        if (weapon.MakeAttack(_rotationPivot, _mousePosition, throwToTarget: _throwToMouse, recoveryCompleteAction: () => OnEnableInput?.Invoke()))
         {
-            Debug.Log(previousAttackIndex);
-            _weaponAnimator.StartAttack(_primaryWeaponProperty == weapon ? 0 : 1, previousAttackIndex, _primaryWeaponProperty.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
+            OnAttackStarted?.Invoke(new WeaponAnimationValues(_primaryWeapon == weapon ? 0 : 1, previousAttackIndex, _primaryWeaponProperty.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime()));
+
+            if (!weapon.Weapon.AllowMovement)
+                OnPreventInput?.Invoke();
         }
     }
 
@@ -154,20 +147,13 @@ public class PlayerAttacks : MonoBehaviour
     }
 
 
-    private bool CanUseAbility() => Time.time >= _abilityCooldownTime;
-    private void UseAbility()
+
+    // Remove and replace with the version on the 'Animations' branch.
+    private void OnDrawGizmos()
     {
-        Debug.Log("Used Ability: " + _currentAbility.name);
-        _abilityCooldownTime = Time.time + _currentAbility.GetCooldownTime();
+        if (_primaryWeaponProperty != null)
+            _primaryWeaponProperty.DrawGizmos(_rotationPivot);
+        if (_secondaryWeaponProperty != null)
+            _secondaryWeaponProperty.DrawGizmos(_rotationPivot);
     }
-
-
-    //private void OnDrawGizmos()
-    //{
-    //    if (_primaryWeapon.Weapon != null && _attackToDebug < _primaryWeapon.Weapon.Attacks.Length)
-    //        _primaryWeapon.Weapon.Attacks[_attackToDebug].DrawGizmos(this.transform);
-
-    //    else if (_secondaryWeapon.Weapon != null && _attackToDebug < _secondaryWeapon.Weapon.Attacks.Length)
-    //        _secondaryWeapon.Weapon.Attacks[_attackToDebug].DrawGizmos(this.transform);
-    //}
 }

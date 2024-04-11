@@ -10,17 +10,25 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
 {
     [SerializeField, ReadOnly] private string _currentStatePath;
     private StateMachine _rootFSM;
+    private bool _processLogic = true;
 
     [SerializeField, ReadOnly] private Vector2? _investigatePosition;
+    /// <summary> Returns a valid Vector2 position, trying the entitySenses's CurrentTarget, then this brain's InvestigatePosition, and finally returning its own position if all else fails.</summary>
+    private Vector2 _currentTargetPosition
+        => _entitySenses.CurrentTarget != null ? _entitySenses.CurrentTarget.position
+        : _investigatePosition.HasValue ? _investigatePosition.Value
+        : transform.position;
 
 
+    [Space(5)]
+    [SerializeField] private Transform _rotationPivot;
     private EntitySenses _entitySenses;
     private EntityMovement _movementScript;
     private HealthComponent _healthComponent;
+    private AbilityHolder abilityHolder;
 
     private Action OnStunned;
     private Action OnDied;
-
 
 
 
@@ -47,18 +55,19 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
     [SerializeField] private bool _drawCBSBehaviourGizmos;
 
     [SerializeField] private bool _drawInvestigatePosition;
-    
+
     [Space(5)]
     [SerializeField] private bool _drawAttackingStateGizmos;
-    
 
 
 
-    private void Awake()
+
+    public void Awake()
     {
         _entitySenses = GetComponent<EntitySenses>();
         _movementScript = GetComponent<EntityMovement>();
         _healthComponent = GetComponent<HealthComponent>();
+        abilityHolder = gameObject.GetComponent<AbilityHolder>();
 
         #region Setup FSM
         // Create the Root FSM.
@@ -69,8 +78,8 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
         _patrolState.InitialiseValues(_movementScript);
         _investigateState.InitialiseValues(_movementScript, () => _investigatePosition.Value);
 
-        _chaseState.InitialiseValues(_movementScript, () => _entitySenses.CurrentTarget.position);
-        _attackingState.InitialiseValues(_movementScript, () => _entitySenses.CurrentTarget.position);
+        _chaseState.InitialiseValues(_movementScript, () => _currentTargetPosition);
+        _attackingState.InitialiseValues(this, _rotationPivot, _movementScript, () => _currentTargetPosition);
 
 
         #region Root FSM Setup
@@ -87,7 +96,8 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
         // Any > Dead
         _rootFSM.AddAnyTriggerTransition(
             to: _deadState,
-            trigger: ref OnDied);
+            trigger: ref OnDied,
+            forceInstantly: true);
 
 
         // Unaware > Combat & Vice-Versa
@@ -101,11 +111,13 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
         _rootFSM.AddTriggerTransition(
             from: _unawareFSM,
             to: _stunnedState,
-            trigger: ref OnStunned);
+            trigger: ref OnStunned,
+            forceInstantly: true);
         _rootFSM.AddTriggerTransition(
             from: _combatFSM,
             to: _stunnedState,
-            trigger: ref OnStunned);
+            trigger: ref OnStunned,
+            forceInstantly: true);
 
         _rootFSM.AddTransition(
             from: _stunnedState,
@@ -172,20 +184,31 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
     }
 
 
+    #region Event Subscription
     private void OnEnable()
     {
-        _healthComponent.OnHealthChanged.AddListener(HealthChanged);
+        _healthComponent.OnDamageTaken.AddListener(DamageTaken);
         _healthComponent.OnDeath.AddListener(Dead);
+
+        GameManager.OnHaultLogic += () => _processLogic = false;
+        GameManager.OnResumeLogic += () => _processLogic = true;
     }
     private void OnDisable()
     {
-        _healthComponent.OnHealthChanged.RemoveListener(HealthChanged);
+        _healthComponent.OnDamageTaken.RemoveListener(DamageTaken);
         _healthComponent.OnDeath.RemoveListener(Dead);
+
+        GameManager.OnHaultLogic -= () => _processLogic = false;
+        GameManager.OnResumeLogic -= () => _processLogic = true;
     }
+    #endregion
 
 
     private void Update()
     {
+        if (!_processLogic)
+            return;
+        
         // Notify the Root State Machine to run OnLogic.
         _rootFSM.OnTick();
 
@@ -198,16 +221,21 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
         // Debug Stuff.
         _currentStatePath = _rootFSM.GetActiveHierarchyPath();
     }
-    private void FixedUpdate() => _rootFSM.OnFixedTick(); // Notify the Root State Machine to run OnFixedLogic.
+    private void FixedUpdate()
+    {
+        if (!_processLogic)
+            return;
+
+        _rootFSM.OnFixedTick(); // Notify the Root State Machine to run OnFixedLogic.
+    }
 
 
-    private void HealthChanged(HealthChangedValues changedValues)
+    private void DamageTaken(HealthChangedValues changedValues)
     {
         // Calculate the damage taken.
         float damageTaken = changedValues.OldHealth - changedValues.NewHealth;
-        Debug.Log("Stunned: " + damageTaken);
 
-        // If the damage taken is greater than or equal to the stunned state's stun threshold, then be stunned.
+        // If the damage taken is greater than or equal to the stunned state's stun threshold, and we don't resist it, then trigger the stun.
         if (damageTaken >= _stunnedState.StunThreshold && _stunnedState.HasResistedStun() == false)
             OnStunned?.Invoke();
     }

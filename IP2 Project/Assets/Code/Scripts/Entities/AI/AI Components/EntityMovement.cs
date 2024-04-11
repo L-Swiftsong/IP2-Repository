@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(ContextMerger))]
-public class EntityMovement : MonoBehaviour, IMoveable
+public class EntityMovement : MonoBehaviour
 {
     private Rigidbody2D _rb2D;
     private ContextMerger _ctxMerger;
 
     
+    [Header("Movement")]
     [SerializeField] private float _movementSpeed = 3f;
     [SerializeField] private float _acceleration = 15f;
+
+    public UnityEngine.Events.UnityEvent<Vector2> OnMovementInput;
+
+
+    [Header("Rotation")]
+    [SerializeField] private Transform _rotationPivot;
     [SerializeField] private float _rotationSpeed = 270f;
 
     private void Start()
@@ -27,10 +34,11 @@ public class EntityMovement : MonoBehaviour, IMoveable
 
         // Move the rigidbody's velocity vector towards our desired velocity.
         _rb2D.velocity = Vector2.MoveTowards(_rb2D.velocity, targetDirection * _movementSpeed, _acceleration * Time.deltaTime);
+        OnMovementInput?.Invoke(_rb2D.velocity);
 
 
         // Rotate using our desired method.
-        Quaternion targetRot = transform.rotation;
+        Quaternion targetRot = _rotationPivot.rotation;
         switch(rotationType)
         {
             case RotationType.VelocityDirection:
@@ -41,9 +49,9 @@ public class EntityMovement : MonoBehaviour, IMoveable
                 targetRot = Quaternion.LookRotation(Vector3.forward, targetDir);
                 break;
         };
-        
+
         // Commence rotation.
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, _rotationSpeed * Time.deltaTime);
+        _rotationPivot.rotation = Quaternion.RotateTowards(_rotationPivot.rotation, targetRot, _rotationSpeed * Time.deltaTime);
     }
 }
 

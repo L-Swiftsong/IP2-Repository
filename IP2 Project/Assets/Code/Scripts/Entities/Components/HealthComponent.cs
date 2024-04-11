@@ -8,7 +8,7 @@ public class HealthComponent : MonoBehaviour
     [Header("Health")]
     [SerializeField] private int _maxHealth = 1;
     [SerializeField, ReadOnly] private int _currentHealth;
-    private int _maxHealthProperty
+    public int _maxHealthProperty
     {
         get => _maxHealth;
         set
@@ -25,9 +25,9 @@ public class HealthComponent : MonoBehaviour
             // If current health is less than the new max, and our max has increased, increase our current health by the same amount.
             else if (healthChange > 0)
                 _currentHealthProperty += healthChange;
-            // Otherwise, call the OnHealthChanged event.
+            // Otherwise, call the OnHealingRecieved event to notify things such as UI without triggering negatives.
             else
-                OnHealthChanged?.Invoke(new HealthChangedValues(_currentHealthProperty, value));
+                OnHealingReceived?.Invoke(new HealthChangedValues(_currentHealthProperty, value));
         }
     }
     private int _currentHealthProperty
@@ -36,11 +36,15 @@ public class HealthComponent : MonoBehaviour
         set
         {
             // Health Changed Event.
-            OnHealthChanged?.Invoke(new HealthChangedValues(_currentHealthProperty, value, _maxHealth));
-            
+            HealthChangedValues healthChangedValues = new HealthChangedValues(_currentHealthProperty, value, _maxHealth);
+            if (_currentHealthProperty > value)
+                OnDamageTaken?.Invoke(healthChangedValues); // Old Health > New Health = Damage Taken.
+            else
+                OnHealingReceived?.Invoke(healthChangedValues); // Old Health < New Health = Healing Recieved. 
+
+
             // Clamp values between 0 & max.
             _currentHealth = Mathf.Clamp(value, 0, _maxHealthProperty);
-            Debug.Log(this.name + " New Health: " + _currentHealth);
 
             // If the health is 0, trigger the death event.
             if (_currentHealth <= 0 && !_isDead)
@@ -50,22 +54,23 @@ public class HealthComponent : MonoBehaviour
 
     
 
-    public UnityEvent<HealthChangedValues> OnHealthChanged;
+    public UnityEvent<HealthChangedValues> OnHealingReceived;
+    public UnityEvent<HealthChangedValues> OnDamageTaken;
 
 
     [Header("Invulnerability Frames")]
     [SerializeField] private float _iFrameDuration = 0f;
-    private float _iFrameEndTime;
+    [SerializeField, ReadOnly] private float _iFrameEndTime;
 
 
     [Header("Death")]
     public UnityEvent OnDeath;
-    public static System.Action<Transform> OnDead;
+    public static System.Action<Transform> OnDead; // Transform = this.
     private bool _isDead = false;
 
 
 
-    private void Start()
+    public void Start()
     {
         _currentHealthProperty = _maxHealthProperty;
         _iFrameEndTime = 0f;
@@ -98,6 +103,11 @@ public class HealthComponent : MonoBehaviour
 
 
     #region Healing
+#if UNITY_EDITOR
+    [ContextMenu(itemName: "Heal")]
+    private void RecieveHealing() => RecieveHealing(1);
+#endif
+
     public void RecieveHealing(int healing = 1) => _currentHealthProperty += healing;
     #endregion
 
@@ -112,6 +122,9 @@ public class HealthComponent : MonoBehaviour
         OnDead?.Invoke(this.transform);
     }
     #endregion
+
+
+    public float GetHealthPercentage() => (float)_currentHealthProperty / (float)_maxHealthProperty;
 }
 
 public struct HealthChangedValues

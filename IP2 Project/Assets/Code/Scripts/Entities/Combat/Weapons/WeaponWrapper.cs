@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [System.Serializable]
 public class WeaponWrapper
@@ -10,8 +11,25 @@ public class WeaponWrapper
 
     [SerializeField] private Weapon _weapon;
     private int _weaponAttackIndex = 0; // An index for referencing what part of the combo we are in.
+    private int _weaponAttackIndexProperty
+    {
+        get => _weaponAttackIndex;
+        set
+        {
+            // Constraint the value
+            if (value >= _weapon.Attacks.Length)
+                value = 0;
+            else if (value < 0)
+                value = _weapon.Attacks.Length - 1;
+
+            // Set the index.
+            _weaponAttackIndex = value;
+        }
+    }
+
     private Coroutine _resetComboCoroutine;
 
+    private float _attackCompleteTime = 0f; // The time when the current attack will be complete.
     private float _nextReadyTime = 0f; // The time when this weapon can be used again.
 
 
@@ -20,9 +38,18 @@ public class WeaponWrapper
     private float _rechargeTimeRemaining = 0f;
 
 
+    private Coroutine _triggerAttackCoroutine;
+    private Coroutine _currentAttackCoroutine;
+
+
+    [Header("Debug")]
+    [SerializeField] private bool _drawGizmos;
+    [SerializeField] private int _attackToDebug;
+
+
     #region Accessors.
     public Weapon Weapon => _weapon;
-    public int WeaponAttackIndex => _weaponAttackIndex;
+    public int WeaponAttackIndex => _weaponAttackIndexProperty;
     public int UsesRemaining => _usesRemaining;
     public float RechargeTimeRemaining => _rechargeTimeRemaining;
     public float RechargePercentage
@@ -65,12 +92,12 @@ public class WeaponWrapper
         this._linkedScript = linkedScript;
 
         // Set Initial Values.
-        this._weaponAttackIndex = 0;
+        this._weaponAttackIndexProperty = 0;
         this._nextReadyTime = 0f;
         this._usesRemaining = _weapon.UsesBeforeRecharge;
     }
 
-    public bool MakeAttack(Vector2? targetPos = null, bool throwToTarget = false)
+    public bool MakeAttack(Transform attackerTransform, Vector2? targetPos = null, bool throwToTarget = false, System.Action recoveryCompleteAction = null)
     {
         // Ensure this wrapper has been set up.
         if (_linkedScript == null)
@@ -84,46 +111,82 @@ public class WeaponWrapper
 
 
         // We can attack.
-        _linkedScript.StartCoroutine(TriggerAttack(targetPos, throwToTarget));
+        _triggerAttackCoroutine = _linkedScript.StartCoroutine(TriggerAttack(attackerTransform, targetPos, throwToTarget, recoveryCompleteAction));
         return true;
     }
-    private IEnumerator TriggerAttack(Vector2? targetPos, bool throwToTarget)
+    public void CancelAttack()
     {
-        Attack attack = _weapon.Attacks[_weaponAttackIndex];
-        _nextReadyTime = Time.time + attack.GetTotalAttackTime();
-        Debug.Log("Start Attack");
+        // Cancel the triggerAttack coroutine.
+        if (_triggerAttackCoroutine != null)
+            _linkedScript.StopCoroutine(_triggerAttackCoroutine);
+
+        // Cancel the active attack coroutine.
+        if (_currentAttackCoroutine != null)
+            _linkedScript.StopCoroutine(_currentAttackCoroutine);
+    }
+
+
+    private IEnumerator TriggerAttack(Transform attackerTransform, Vector2? targetPos, bool throwToTarget, System.Action recoveryCompleteAction)
+    {
+        Attack attack = _weapon.Attacks[_weaponAttackIndexProperty];
+        _attackCompleteTime = Time.time + attack.GetWindupTime() + attack.GetDuration();
+        _nextReadyTime = Time.time + attack.GetTotalTimeTillNextReady();
+
+        // Stop the reset combo coroutine, if it exists.
+        if (_resetComboCoroutine != null)
+            _linkedScript.StopCoroutine(_resetComboCoroutine);
+
+        // Apply Kickback Force.
+        Vector2 force = -attackerTransform.up * attack.GetKickbackStrength();
+        attackerTransform.TryApplyForce(force, attack.GetWindupTime(), ForceMode2D.Impulse);
 
         // Windup.
         yield return new WaitForSeconds(attack.GetWindupTime());
-        Debug.Log("Make Attack");
-        
-        // Make the attack.
+
+        // Get references for the attack.
+        AttackReferences attackReferences;
         switch (attack)
         {
             case AoEAttack:
                 if (targetPos.HasValue && throwToTarget)
-                    attack.MakeAttack(_linkedScript.transform, targetPos.Value);
+                    attackReferences = new AttackReferences(attackerTransform, _linkedScript, targetPos.Value);
                 else
-                    attack.MakeAttack(_linkedScript.transform);
+                    attackReferences = new AttackReferences(attackerTransform, _linkedScript);
 
                 break;
             default:
-                attack.MakeAttack(_linkedScript.transform);
+                attackReferences = new AttackReferences(attackerTransform, _linkedScript);
                 break;
         }
 
-        // Set variables for futher tasks.
+        // Make the attack, caching the returned coroutine for if we should cancel.
+        _currentAttackCoroutine = attack.MakeAttack(attackReferences);
+
+        // Recovery.
+        yield return new WaitForSeconds(Mathf.Max(attack.GetRecoveryTime() - 0.05f, 0f));
+
+        // Set variables for futher attacks.
         IncrementAttackIndex();
         DecrementWeaponUses();
+
+
+        yield return new WaitForSeconds(0.05f + Time.deltaTime);
+
+        if (recoveryCompleteAction != null && !Weapon.AllowMovement)
+            recoveryCompleteAction?.Invoke();
     }
 
 
+    public bool IsAttacking() => Time.time < _attackCompleteTime;
     public bool CanAttack()
     {
         // Ensure we can attack pt1 (Ready Time).
         if (Time.time < _nextReadyTime)
             return false;
-        // Ensure we can attack pt2 (Uses Remaining).
+        // Ensure we can attack pt2 (Are not currently attacking).
+        if (IsAttacking())
+            return false;
+        // Ensure we can attack pt3 (Uses Remaining).
         if (!_weapon.IgnoreUses && _usesRemaining <= 0)
             return false;
 
@@ -132,10 +195,7 @@ public class WeaponWrapper
     private void IncrementAttackIndex()
     {
         // Increment the attack index
-        if (_weaponAttackIndex < _weapon.Attacks.Length - 1)
-            _weaponAttackIndex++;
-        else
-            _weaponAttackIndex = 0;
+        _weaponAttackIndexProperty++;
 
         // Reset Combo Coroutine.
         if (_resetComboCoroutine != null)
@@ -179,5 +239,18 @@ public class WeaponWrapper
         
         // Reset the uses.
         _usesRemaining = _weapon.UsesBeforeRecharge;
+    }
+
+
+    public void DrawGizmos(Transform gizmosOrigin)
+    {
+        if (!_drawGizmos)
+            return;
+
+        if (_weapon != null)
+        {
+            _attackToDebug = Mathf.Clamp(_attackToDebug, 0, _weapon.Attacks.Length - 1);
+            _weapon.Attacks[_attackToDebug].DrawGizmos(gizmosOrigin);
+        }
     }
 }

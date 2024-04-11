@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dc7a647c32d63e48bbc0744c6ea2443, type: 3}
+  m_Name: Jiro's Blade
+  m_EditorClassIdentifier: 
+  Attacks:
+  - {fileID: 11400000, guid: 9bb7b77568263a541b8d0104df73d315, type: 2}
+  ComboResetTime: 0
+  WeaponSprite: {fileID: -48879266, guid: 2bcd335051284764fa71716ffcba2144, type: 3}
+  WeaponPrefab: {fileID: 9138060507205573344, guid: 98e5385597672624690bdbaa5e44c296, type: 3}
+  IgnoreUses: 1
+  TickUseOnFirstAttackOnly: 0
+  RechargeOnlyWhenOut: 0
+  UsesBeforeRecharge: 0
+  TimeToRecharge: 0
+  Combomultiplier: 0

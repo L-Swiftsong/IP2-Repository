@@ -8,6 +8,9 @@ using UnityEngine.UIElements;
 
 public class Projectile : MonoBehaviour
 {
+    [SerializeField] private EntityFaction _faction;
+
+
     [Header("Projectile Movement")]
     [SerializeField] protected float Speed;
     public float ProjectileSpeed => Speed;
@@ -27,11 +30,22 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float _detectionOffset; 
     
     [SerializeField] protected LayerMask HitMask;
-    [SerializeField] protected Factions IgnoredFactions;
+    [SerializeField] private Factions _ignoredFactions;
+    protected Factions IgnoredFactions
+    {
+        get => _ignoredFactions;
+        set
+        {
+            _ignoredFactions = value;
+            if (_faction != null)
+                _faction.SetFaction(value);
+        }
+    }
     
     private List<Transform> _ignoredTransforms;
 
-    private Action<Transform> _callback;
+    private Action<Transform, Vector2> _callback;
+    private Vector2 _previousPosition;
 
 
     [Header("Reflection")]
@@ -46,13 +60,16 @@ public class Projectile : MonoBehaviour
     /// <param name="callback"></param>
     /// <param name="targetLayers"></param>
     /// <param name="ignoredFactions"></param>
-    public void Init(Transform ignoreTransform, Action<Transform> callback, Transform targetTransform = null, Vector2? targetPosition = null, LayerMask? targetLayers = null, Factions ignoredFactions = Factions.Unaligned)
+    public void Init(Transform ignoreTransform, Action<Transform, Vector2> callback, Transform targetTransform = null, Vector2? targetPosition = null, LayerMask? targetLayers = null, Factions ignoredFactions = Factions.Unaligned)
     {
         // Set the callback.
         this._callback = callback;
+        _previousPosition = transform.position;
 
         // Set allied factions.
         this.IgnoredFactions = ignoredFactions;
+        if (_faction != null)
+            _faction.SetFaction(IgnoredFactions);
 
 
         // Initialize the contact filter.
@@ -78,6 +95,10 @@ public class Projectile : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Cache this position for the next frame.
+        _previousPosition = transform.position;
+
+
         // Decrement _stopOrientationDelay.
         if (_stopOrientationDelay > 0)
             _stopOrientationDelay -= Time.deltaTime;
@@ -100,7 +121,7 @@ public class Projectile : MonoBehaviour
         
         // Move in our up direction.
         transform.position += transform.up * Speed * Time.fixedDeltaTime;
-        
+
         // Destroy the projectile if the lifetime has elapsed.
         if (Time.time > _destroyTime)
             Destroy(this.gameObject);
@@ -129,7 +150,28 @@ public class Projectile : MonoBehaviour
         if (reflectInFacingDirection)
             newUp = reflectionTransform.up;
         else
-            newUp = Vector2.Reflect(transform.up, reflectionTransform.up);
+        {
+            // Set the reflection direction (In the case that we don't get the normal of the reflection transform.
+            Vector2 reflectionDirection = reflectionTransform.up;
+
+
+            // Calculate values for the linecast to find the normal of the reflectionTransform.
+            Vector2 lineOrigin = transform.position - (transform.up * 2f * Time.deltaTime);
+            ContactFilter2D filter = new ContactFilter2D();
+            filter.layerMask = reflectionTransform.gameObject.layer;
+
+            // Find the normal of the reflection transform.
+            RaycastHit2D[] outHits = new RaycastHit2D[10];
+            if (Physics2D.Linecast(lineOrigin, reflectionTransform.position, filter, outHits) > 0)
+            {
+                // If one of the hit objects is the reflectionTransform, use its normal as the reflection direction.
+                Vector2 normal = outHits.First(t => t.transform == reflectionTransform).normal;
+                reflectionDirection = normal != Vector2.zero ? normal : reflectionDirection;
+            }
+
+            // Reflect along the reflection direction.
+            newUp = Vector2.Reflect(transform.up, reflectionDirection);
+        }
 
         // Set the new up.
         transform.up = newUp;
@@ -182,6 +224,6 @@ public class Projectile : MonoBehaviour
     }
 
 
-    protected void HitObject(Transform hitTransform) => _callback?.Invoke(hitTransform);
+    protected void HitObject(Transform hitTransform) => _callback?.Invoke(hitTransform, ((Vector2)transform.position - _previousPosition).normalized);
     protected virtual void DestroyProjectile() => Destroy(this.gameObject);
 }

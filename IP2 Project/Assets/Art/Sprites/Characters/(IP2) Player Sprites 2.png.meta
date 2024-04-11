@@ -1,0 +1,1912 @@
+fileFormatVersion: 2
+guid: 2d5a80e0a65577b4a876f623a00a79c5
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 120
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_0
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 1259
+        width: 128
+        height: 198
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc6cb2665ac03ff4782f132d7b3a8f6c
+      internalID: 1713579176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_1
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 1261
+        width: 128
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09ad4635a0992d548ad5a5da1d609c2e
+      internalID: 1302759715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_2
+      rect:
+        serializedVersion: 2
+        x: 588
+        y: 1253
+        width: 128
+        height: 197
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21c06866f3f1e5f4d8f7fd1a5a400a6c
+      internalID: -1034839415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_3
+      rect:
+        serializedVersion: 2
+        x: 743
+        y: 1259
+        width: 129
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59096e4aadb0b2047b833e73242ec3ce
+      internalID: -741555622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_4
+      rect:
+        serializedVersion: 2
+        x: 908
+        y: 1254
+        width: 129
+        height: 197
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a933320aa3a9584e85fd24ba9126b2e
+      internalID: 318480296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_5
+      rect:
+        serializedVersion: 2
+        x: 1072
+        y: 1261
+        width: 128
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7cf0ba1ce8f7f014fb200067ea131c5f
+      internalID: 1715173624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_6
+      rect:
+        serializedVersion: 2
+        x: 1229
+        y: 1256
+        width: 129
+        height: 197
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6db57872b19245345aad6f05889fb129
+      internalID: 520808540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_7
+      rect:
+        serializedVersion: 2
+        x: 1390
+        y: 1260
+        width: 130
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ccc7545c49147b4089ca37172c1a4a0
+      internalID: 2123880097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_Walking_Up_00
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 1000
+        width: 127
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef4ff4bb1b35b8d4abb4e2dc5dafff8c
+      internalID: -1105083832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_Walking_Up_01
+      rect:
+        serializedVersion: 2
+        x: 427
+        y: 1000
+        width: 127
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a21e304e37ff43243a0ba45fa525d270
+      internalID: -821374852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_Walking_Up_02
+      rect:
+        serializedVersion: 2
+        x: 599
+        y: 1000
+        width: 127
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a2e0613ada89ea4abde926765c2e5d8
+      internalID: -1754233782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_Walking_Up_03
+      rect:
+        serializedVersion: 2
+        x: 758
+        y: 1000
+        width: 127
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2b02fef17ed1b342b390ba6904104e1
+      internalID: 2040403644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_Walking_Up_04
+      rect:
+        serializedVersion: 2
+        x: 914
+        y: 1000
+        width: 127
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43260ffbdc7634f418e7c9455c8a0190
+      internalID: 1229372289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_Walking_Up_05
+      rect:
+        serializedVersion: 2
+        x: 1079
+        y: 1000
+        width: 127
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eabe6093da378904e9eb4bbc82f20cb6
+      internalID: 2086095109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_Walking_Up_06
+      rect:
+        serializedVersion: 2
+        x: 1227
+        y: 1000
+        width: 127
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6a324ef87b28de429ab981bfda8eb80
+      internalID: 2015236203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_Walking_Up_07
+      rect:
+        serializedVersion: 2
+        x: 1395
+        y: 1000
+        width: 127
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7489e4db38421484b8ecca4e2c7ade57
+      internalID: -149177899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_16
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 747
+        width: 196
+        height: 230
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf34e016ee7043c44b2bed6070c322eb
+      internalID: -1382863086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_17
+      rect:
+        serializedVersion: 2
+        x: 562
+        y: 721
+        width: 177
+        height: 244
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f567792246e31894ea5fb865518dc554
+      internalID: -617802700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_23
+      rect:
+        serializedVersion: 2
+        x: 1355
+        y: 734
+        width: 142
+        height: 192
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49f6698aabddee64ea3eb539e2e86ee6
+      internalID: -272010554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_20
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 730
+        width: 142
+        height: 192
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87fb45ac4571ee943a3b6e94829bc51f
+      internalID: -1507659301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_21
+      rect:
+        serializedVersion: 2
+        x: 1063
+        y: 728
+        width: 142
+        height: 192
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3fb12851646fe24a9fa8488033855ea
+      internalID: -1651990841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_22
+      rect:
+        serializedVersion: 2
+        x: 1211
+        y: 728
+        width: 142
+        height: 192
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5021ab975fc9334cabfdc1be2a9fd32
+      internalID: -1275215143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_24
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 728
+        width: 142
+        height: 192
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad4b236a6d36dc142a28a3431d1e13c8
+      internalID: 1291665039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_25
+      rect:
+        serializedVersion: 2
+        x: 1644
+        y: 730
+        width: 142
+        height: 192
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 902fb38a39da2ea498279ed31d608cc2
+      internalID: 1231731242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_26
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 779
+        width: 8
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ed1ad6470b3248479254e5e1e5fa7d3
+      internalID: 440812356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_27
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 486
+        width: 148
+        height: 202
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 866bb590fdfbfa1468f74af9221d6821
+      internalID: -2050855829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_28
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 461
+        width: 152
+        height: 230
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08624d17c5ecba94a945ac86f22e41c0
+      internalID: 241480465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_29
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 485
+        width: 146
+        height: 202
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52a0320639d3658429a0cd34db9a97d7
+      internalID: 685602885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_30
+      rect:
+        serializedVersion: 2
+        x: 572
+        y: 483
+        width: 141
+        height: 202
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04e180d37f6f6564bb1da29ca2de3ed3
+      internalID: 1204342170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_31
+      rect:
+        serializedVersion: 2
+        x: 743
+        y: 482
+        width: 129
+        height: 202
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e6d453896b2c2d449c39a036e9e13ad
+      internalID: -643290298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_32
+      rect:
+        serializedVersion: 2
+        x: 897
+        y: 487
+        width: 129
+        height: 202
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1ccf2696ad1a4b41993235e4ed9a811
+      internalID: -1594829803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_33
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 490
+        width: 137
+        height: 202
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91338d2153fa92e47a0aea61f4f40dc8
+      internalID: 1660886884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_34
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 496
+        width: 147
+        height: 201
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4318e3f27bbb050448166e674cc296a5
+      internalID: 241972755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_35
+      rect:
+        serializedVersion: 2
+        x: 1369
+        y: 492
+        width: 155
+        height: 202
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3bda53cc321754044abe036cbb8aa0ce
+      internalID: 1190759227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_36
+      rect:
+        serializedVersion: 2
+        x: 1535
+        y: 492
+        width: 155
+        height: 202
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 844f501e6cf8dfe40944ea0f81826cb1
+      internalID: 368368470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_37
+      rect:
+        serializedVersion: 2
+        x: 1710
+        y: 488
+        width: 148
+        height: 202
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f4fb1f5e1c07964584bf3550f009c55
+      internalID: 1028206781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_38
+      rect:
+        serializedVersion: 2
+        x: 1883
+        y: 495
+        width: 142
+        height: 194
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a99787afb8c88404fb74c5b35b936705
+      internalID: -1511715897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_47
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 270
+        width: 113
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08c57d0dc10a34c4d8207982e3384e0d
+      internalID: -1516414893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_48
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 278
+        width: 109
+        height: 173
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 239b525b19a44f146867f5dcc994aa5a
+      internalID: 789093529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_49
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 270
+        width: 99
+        height: 176
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a393f10aa63e724f985e33ebf3a9ee1
+      internalID: -162521749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_50
+      rect:
+        serializedVersion: 2
+        x: 423
+        y: 277
+        width: 83
+        height: 172
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4643d4e2b36b8147b82246b26429ddc
+      internalID: 1848920399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_51
+      rect:
+        serializedVersion: 2
+        x: 531
+        y: 268
+        width: 83
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63df72e7e86758e43812cb20852c27df
+      internalID: -1830972529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_52
+      rect:
+        serializedVersion: 2
+        x: 652
+        y: 275
+        width: 83
+        height: 175
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f519ed532c297c44bfd4d98602adc79
+      internalID: -98921119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_53
+      rect:
+        serializedVersion: 2
+        x: 764
+        y: 271
+        width: 84
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6788c9399961a0a48a370948103778ae
+      internalID: -554044810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_54
+      rect:
+        serializedVersion: 2
+        x: 869
+        y: 275
+        width: 83
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8e6b2b75df06c240b2bbce7e73f288a
+      internalID: -711734616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_55
+      rect:
+        serializedVersion: 2
+        x: 966
+        y: 274
+        width: 79
+        height: 173
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54527dcd220073647a06aa3872100582
+      internalID: -437410745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_57
+      rect:
+        serializedVersion: 2
+        x: 1067
+        y: 272
+        width: 79
+        height: 175
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe41b0994c425cb44a20203eaa310d00
+      internalID: -183374663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_58
+      rect:
+        serializedVersion: 2
+        x: 1168
+        y: 268
+        width: 79
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 244f1acb9b98f094c85f8b522b1e1bc8
+      internalID: -1720188867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_59
+      rect:
+        serializedVersion: 2
+        x: 1268
+        y: 265
+        width: 72
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef194334c5713fe4ba3653deb6156b6a
+      internalID: -2100090898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_60
+      rect:
+        serializedVersion: 2
+        x: 1352
+        y: 267
+        width: 72
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15c26e68fd611d24597ad76779fdf469
+      internalID: -1240135532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_61
+      rect:
+        serializedVersion: 2
+        x: 1448
+        y: 266
+        width: 71
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bd7980d57320994b9af14183a05a765
+      internalID: 53899116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_62
+      rect:
+        serializedVersion: 2
+        x: 1542
+        y: 264
+        width: 73
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00c32c6c2bb2dd84bbaf5036354b515e
+      internalID: 857552686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_63
+      rect:
+        serializedVersion: 2
+        x: 1632
+        y: 252
+        width: 72
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce64b112b2f559c4eaad1d5ac6f75de5
+      internalID: -884633619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_64
+      rect:
+        serializedVersion: 2
+        x: 1727
+        y: 246
+        width: 72
+        height: 194
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0b906a774ca6354aae39cb35a3bbeea
+      internalID: -417306354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_65
+      rect:
+        serializedVersion: 2
+        x: 1819
+        y: 256
+        width: 86
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb7f5ce4414791d4ba557e2b203526f8
+      internalID: 1256683125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_66
+      rect:
+        serializedVersion: 2
+        x: 1924
+        y: 256
+        width: 98
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b121fb19574f134418715ce8c335154d
+      internalID: -876784517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_69
+      rect:
+        serializedVersion: 2
+        x: 1425
+        y: 269
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f9e9957033d7204b8d4979ce9add71d
+      internalID: 1245578276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_70
+      rect:
+        serializedVersion: 2
+        x: 1923
+        y: 270
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9178b1d180d78794fb8118ce539c26ba
+      internalID: 376777579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_78
+      rect:
+        serializedVersion: 2
+        x: 1291
+        y: 245
+        width: 23
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82da508eeee2b314fbb3166b5995bcb6
+      internalID: -2127483448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_79
+      rect:
+        serializedVersion: 2
+        x: 1419
+        y: 240
+        width: 23
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b9e9f79987eceb47b8f475c948f6fa2
+      internalID: -1795122818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_80
+      rect:
+        serializedVersion: 2
+        x: 1550
+        y: 243
+        width: 24
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40e98bcf99b3fad478e6bea695b6762d
+      internalID: -1598042321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_81
+      rect:
+        serializedVersion: 2
+        x: 1681
+        y: 249
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a99dad5c2c18f14b8b108932ea692f6
+      internalID: 341613897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_82
+      rect:
+        serializedVersion: 2
+        x: 1801
+        y: 243
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd366a8e77bf5c342b9bbfaec6d96d8f
+      internalID: -1860035746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_83
+      rect:
+        serializedVersion: 2
+        x: 1931
+        y: 242
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de0d6dbd29c35cc44956ac540e1e087d
+      internalID: 2137293999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_84
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 45
+        width: 110
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 327b3f65ebcf8d84f8f85ce01b7e6968
+      internalID: -1958040557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_87
+      rect:
+        serializedVersion: 2
+        x: 1915
+        y: 245
+        width: 5
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97d92980834da53418c1e46354df6871
+      internalID: 1246035677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_88
+      rect:
+        serializedVersion: 2
+        x: 116
+        y: 48
+        width: 135
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0df5af654ce4c145a8cc1a0619c353b
+      internalID: -790116048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_89
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 47
+        width: 131
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84e3e5d44be31064eb9b8d37d8356420
+      internalID: -213180633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_90
+      rect:
+        serializedVersion: 2
+        x: 629
+        y: 45
+        width: 110
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b5fb77f45bc5384db1dddae1e56e343
+      internalID: -1591019170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_91
+      rect:
+        serializedVersion: 2
+        x: 749
+        y: 48
+        width: 113
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d45d2580db8417a4e8bf9c528393800a
+      internalID: -2146127622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_92
+      rect:
+        serializedVersion: 2
+        x: 870
+        y: 52
+        width: 116
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1868fa92392d2e547aeffd5ba4902a33
+      internalID: -708760089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_94
+      rect:
+        serializedVersion: 2
+        x: 992
+        y: 53
+        width: 115
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e6ce18b017f16b4fbbeec1d311546ca
+      internalID: 1434377808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_96
+      rect:
+        serializedVersion: 2
+        x: 1118
+        y: 52
+        width: 112
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e9da20598b6f0546857ef22454f0a8c
+      internalID: -1843201290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_98
+      rect:
+        serializedVersion: 2
+        x: 1249
+        y: 51
+        width: 113
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b9fc51af663d824787abe3448bc986b
+      internalID: -593127062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_99
+      rect:
+        serializedVersion: 2
+        x: 1376
+        y: 47
+        width: 107
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e06d018fb788a6f4aabd69ec307b7c75
+      internalID: -447130140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_100
+      rect:
+        serializedVersion: 2
+        x: 1507
+        y: 50
+        width: 107
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 092535704e2471546bbcfedfd07507ff
+      internalID: -103842713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_101
+      rect:
+        serializedVersion: 2
+        x: 1617
+        y: 54
+        width: 127
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70deab345355c4f47922a787c7aa6a15
+      internalID: 1254796145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_102
+      rect:
+        serializedVersion: 2
+        x: 1743
+        y: 47
+        width: 267
+        height: 184
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a0f1f60919910f4f8f47b99b924fcf9
+      internalID: 804802028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_104
+      rect:
+        serializedVersion: 2
+        x: 1485
+        y: 158
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ce7055b725f4504895dd2abe4aaaf2f
+      internalID: 1275982637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: (IP2) Player Sprites 2_56
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 45
+        width: 110
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98410e4cc88e1c043b1a8461bf7cc981
+      internalID: 184178789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      (IP2) Player Sprites 2_0: 1713579176
+      (IP2) Player Sprites 2_1: 1302759715
+      (IP2) Player Sprites 2_100: -103842713
+      (IP2) Player Sprites 2_101: 1254796145
+      (IP2) Player Sprites 2_102: 804802028
+      (IP2) Player Sprites 2_103: 1049252506
+      (IP2) Player Sprites 2_104: 1275982637
+      (IP2) Player Sprites 2_105: 1160895554
+      (IP2) Player Sprites 2_16: -1382863086
+      (IP2) Player Sprites 2_17: -617802700
+      (IP2) Player Sprites 2_18: 655203938
+      (IP2) Player Sprites 2_2: -1034839415
+      (IP2) Player Sprites 2_20: -1507659301
+      (IP2) Player Sprites 2_21: -1651990841
+      (IP2) Player Sprites 2_22: -1275215143
+      (IP2) Player Sprites 2_23: -272010554
+      (IP2) Player Sprites 2_24: 1291665039
+      (IP2) Player Sprites 2_25: 1231731242
+      (IP2) Player Sprites 2_26: 440812356
+      (IP2) Player Sprites 2_27: -2050855829
+      (IP2) Player Sprites 2_28: 241480465
+      (IP2) Player Sprites 2_29: 685602885
+      (IP2) Player Sprites 2_3: -741555622
+      (IP2) Player Sprites 2_30: 1204342170
+      (IP2) Player Sprites 2_31: -643290298
+      (IP2) Player Sprites 2_32: -1594829803
+      (IP2) Player Sprites 2_33: 1660886884
+      (IP2) Player Sprites 2_34: 241972755
+      (IP2) Player Sprites 2_35: 1190759227
+      (IP2) Player Sprites 2_36: 368368470
+      (IP2) Player Sprites 2_37: 1028206781
+      (IP2) Player Sprites 2_38: -1511715897
+      (IP2) Player Sprites 2_39: 892235503
+      (IP2) Player Sprites 2_4: 318480296
+      (IP2) Player Sprites 2_40: -833277215
+      (IP2) Player Sprites 2_41: -1462963503
+      (IP2) Player Sprites 2_42: 529451042
+      (IP2) Player Sprites 2_43: 392405842
+      (IP2) Player Sprites 2_44: -2081867480
+      (IP2) Player Sprites 2_45: -1197401277
+      (IP2) Player Sprites 2_46: -865515765
+      (IP2) Player Sprites 2_47: -1516414893
+      (IP2) Player Sprites 2_48: 789093529
+      (IP2) Player Sprites 2_49: -162521749
+      (IP2) Player Sprites 2_5: 1715173624
+      (IP2) Player Sprites 2_50: 1848920399
+      (IP2) Player Sprites 2_51: -1830972529
+      (IP2) Player Sprites 2_52: -98921119
+      (IP2) Player Sprites 2_53: -554044810
+      (IP2) Player Sprites 2_54: -711734616
+      (IP2) Player Sprites 2_55: -437410745
+      (IP2) Player Sprites 2_56: 184178789
+      (IP2) Player Sprites 2_57: -183374663
+      (IP2) Player Sprites 2_58: -1720188867
+      (IP2) Player Sprites 2_59: -2100090898
+      (IP2) Player Sprites 2_6: 520808540
+      (IP2) Player Sprites 2_60: -1240135532
+      (IP2) Player Sprites 2_61: 53899116
+      (IP2) Player Sprites 2_62: 857552686
+      (IP2) Player Sprites 2_63: -884633619
+      (IP2) Player Sprites 2_64: -417306354
+      (IP2) Player Sprites 2_65: 1256683125
+      (IP2) Player Sprites 2_66: -876784517
+      (IP2) Player Sprites 2_67: -1482905188
+      (IP2) Player Sprites 2_68: 717929143
+      (IP2) Player Sprites 2_69: 1245578276
+      (IP2) Player Sprites 2_7: 2123880097
+      (IP2) Player Sprites 2_70: 376777579
+      (IP2) Player Sprites 2_71: -2146518968
+      (IP2) Player Sprites 2_72: 1818665614
+      (IP2) Player Sprites 2_73: 305025700
+      (IP2) Player Sprites 2_74: -44986391
+      (IP2) Player Sprites 2_75: 1716339210
+      (IP2) Player Sprites 2_76: -1974225223
+      (IP2) Player Sprites 2_77: 2120119151
+      (IP2) Player Sprites 2_78: -2127483448
+      (IP2) Player Sprites 2_79: -1795122818
+      (IP2) Player Sprites 2_80: -1598042321
+      (IP2) Player Sprites 2_81: 341613897
+      (IP2) Player Sprites 2_82: -1860035746
+      (IP2) Player Sprites 2_83: 2137293999
+      (IP2) Player Sprites 2_84: -1958040557
+      (IP2) Player Sprites 2_85: 477019458
+      (IP2) Player Sprites 2_86: 1720541887
+      (IP2) Player Sprites 2_87: 1246035677
+      (IP2) Player Sprites 2_88: -790116048
+      (IP2) Player Sprites 2_89: -213180633
+      (IP2) Player Sprites 2_90: -1591019170
+      (IP2) Player Sprites 2_91: -2146127622
+      (IP2) Player Sprites 2_92: -708760089
+      (IP2) Player Sprites 2_93: -1675637062
+      (IP2) Player Sprites 2_94: 1434377808
+      (IP2) Player Sprites 2_95: 6299667
+      (IP2) Player Sprites 2_96: -1843201290
+      (IP2) Player Sprites 2_97: 731993248
+      (IP2) Player Sprites 2_98: -593127062
+      (IP2) Player Sprites 2_99: -447130140
+      Player_Walking_Up_00: -1105083832
+      Player_Walking_Up_01: -821374852
+      Player_Walking_Up_02: -1754233782
+      Player_Walking_Up_03: 2040403644
+      Player_Walking_Up_04: 1229372289
+      Player_Walking_Up_05: 2086095109
+      Player_Walking_Up_06: 2015236203
+      Player_Walking_Up_07: -149177899
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

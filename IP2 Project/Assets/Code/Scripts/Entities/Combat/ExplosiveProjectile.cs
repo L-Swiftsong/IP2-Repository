@@ -25,13 +25,21 @@ public class ExplosiveProjectile : Projectile
     private AoERadiusViewer _radiusViewerInstance;
 
 
+    [Header("Explosion Effect")]
+    [SerializeField] private GameObject _explosionEffect;
+    [SerializeField] private float _explosionEffectLifetime;
+
+
     [Header("Environmental Collisions")]
-    [SerializeField] private LayerMask _environmentMask;
+    [SerializeField] private LayerMask _environmentMask = 1 << 6;
     [SerializeField] private bool _reflectOnEnvironmentCollision;
     [SerializeField] private float _environmentReflectionMultiplier;
 
+    // Explosion Collisions.
+    private Transform _explosionIgnoredTransform;
 
-    private Action<Transform[]> _explosionCallback;
+
+    private Action<Transform[], Vector2> _explosionCallback;
 
 
     /// <summary>
@@ -49,7 +57,7 @@ public class ExplosiveProjectile : Projectile
     /// <param name="targetLayers"></param>
     /// <param name="ignoredFactions"></param>
     /// <param name="earlyExplosionReducesSize"></param>
-    public void Init(Transform ignoreTransform, Action<Transform> callback, float explosionDelay, bool explodeOnCollision, float explosionRadius, bool showRadius, Action<Transform[]> explosionCallback, Transform targetTransform = null, Vector2? targetPosition = null, LayerMask? targetLayers = null, Factions ignoredFactions = Factions.Unaligned, bool earlyExplosionReducesSize = false)
+    public void Init(Transform ignoreTransform, Action<Transform, Vector2> callback, float explosionDelay, bool explodeOnCollision, float explosionRadius, bool showRadius, Action<Transform[], Vector2> explosionCallback, Transform targetTransform = null, Vector2? targetPosition = null, LayerMask? targetLayers = null, Factions ignoredFactions = Factions.Unaligned, bool earlyExplosionReducesSize = false)
     {
         // Trigger the base Init().
         base.Init(
@@ -69,6 +77,8 @@ public class ExplosiveProjectile : Projectile
         this._earlyExplosionReducesSize = earlyExplosionReducesSize;
         _creationTime = Time.time;
 
+        this._explosionIgnoredTransform = ignoreTransform;
+
 
         // Set the explosion callback.
         this._explosionCallback = explosionCallback;
@@ -80,7 +90,7 @@ public class ExplosiveProjectile : Projectile
             _radiusViewerInstance = Instantiate<GameObject>(_radiusViewerPrefab, transform).GetComponent<AoERadiusViewer>();
             _radiusViewerInstance.Init(_explosionRadius, _explosiveDelay);
         }
-        
+
 
         // Trigger the Automatic Explosion (Replace with a float that ticks down if we want to be able to reset the timer).
         Invoke(nameof(Explode), _explosiveDelay);
@@ -131,26 +141,38 @@ public class ExplosiveProjectile : Projectile
     {
         // Calculate the radius to be used for the explosion.
         float radiusLerp = _earlyExplosionReducesSize ? (Time.time - _creationTime) / _explosiveDelay : 1f;
-        float radius = Mathf.Lerp(radiusLerp, 0f, _explosionRadius);
-        
+        float radius = Mathf.Lerp(a: 0f, b: _explosionRadius, t: radiusLerp);
         
         // Get all valid (Unique) transforms within the explosion radius.
         HashSet<Transform> validTargets = new HashSet<Transform>();
         foreach (Collider2D collider in Physics2D.OverlapCircleAll(transform.position, radius, HitMask))
         {
+            // Ignore the IgnoreTransform.
+            if (collider.transform == _explosionIgnoredTransform)
+                continue;
+            
             // Ignore factions allied with one of the IgnoredFactions.
             if (collider.TryGetComponentThroughParents<EntityFaction>(out EntityFaction entityFaction))
                 if (entityFaction.IsAlly(IgnoredFactions))
-                    return;
+                    continue;
 
+            // Ensure that we don't hit entities that are obstructed.
+            if (Physics2D.Linecast(transform.position, collider.transform.position, _environmentMask))
+                continue;
 
-            // Explosion Callback.
+            // Mark as valid for the _explosionCallback.
             validTargets.Add(collider.transform);
         }
 
 
         // Trigger the explosion callback.
-        _explosionCallback?.Invoke(validTargets.ToArray());
+        _explosionCallback?.Invoke(validTargets.ToArray(), transform.position);
+
+        if (_explosionEffect != null)
+        {
+            // Create the explosion effect & destroy it after '_explosionEffectLifetime' seconds.
+            Destroy(Instantiate<GameObject>(_explosionEffect, transform.position, Quaternion.identity), _explosionEffectLifetime);
+        }
 
         // Destroy this projectile.
         DestroyProjectile();

@@ -10,9 +10,13 @@ public class EternallyAwareEnemy : MonoBehaviour, IEntityBrain
 {
     [SerializeField, ReadOnly] private string _currentStatePath;
     private StateMachine _rootFSM;
+    private bool _processLogic = true;
 
-
+    [Space(5)]
     [SerializeField] private Position _targetPosition;
+
+    [Space(5)]
+    [SerializeField] private Transform _rotationPivot;
     private EntityMovement _movementScript;
     private HealthComponent _healthComponent;
 
@@ -48,7 +52,7 @@ public class EternallyAwareEnemy : MonoBehaviour, IEntityBrain
 
         // Initialise States that need Initialisation.
         _chaseState.InitialiseValues(_movementScript, () => _targetPosition.Value);
-        _attackingState.InitialiseValues(_movementScript, () => _targetPosition.Value);
+        _attackingState.InitialiseValues(this, _rotationPivot, _movementScript, () => _targetPosition.Value);
 
 
         #region Root FSM Setup
@@ -105,20 +109,31 @@ public class EternallyAwareEnemy : MonoBehaviour, IEntityBrain
     }
 
 
+    #region Event Subscription
     private void OnEnable()
     {
-        _healthComponent.OnHealthChanged.AddListener(HealthChanged);
+        _healthComponent.OnDamageTaken.AddListener(DamageTaken);
         _healthComponent.OnDeath.AddListener(Dead);
+
+        GameManager.OnHaultLogic += () => _processLogic = false;
+        GameManager.OnResumeLogic += () => _processLogic = true;
     }
     private void OnDisable()
     {
-        _healthComponent.OnHealthChanged.RemoveListener(HealthChanged);
+        _healthComponent.OnDamageTaken.RemoveListener(DamageTaken);
         _healthComponent.OnDeath.RemoveListener(Dead);
+
+        GameManager.OnHaultLogic += () => _processLogic = false;
+        GameManager.OnResumeLogic += () => _processLogic = true;
     }
+    #endregion
 
 
     private void Update()
     {
+        if (!_processLogic)
+            return;
+        
         // Notify the Root State Machine to run OnLogic.
         _rootFSM.OnTick();
 
@@ -126,16 +141,21 @@ public class EternallyAwareEnemy : MonoBehaviour, IEntityBrain
         // Debug Stuff.
         _currentStatePath = _rootFSM.GetActiveHierarchyPath();
     }
-    private void FixedUpdate() => _rootFSM.OnFixedTick(); // Notify the Root State Machine to run OnFixedLogic.
+    private void FixedUpdate()
+    {
+        if (!_processLogic)
+            return;
 
+        // Notify the Root State Machine to run OnFixedLogic.
+        _rootFSM.OnFixedTick(); 
+    }
 
-    private void HealthChanged(HealthChangedValues changedValues)
+    private void DamageTaken(HealthChangedValues changedValues)
     {
         // Calculate the damage taken.
         float damageTaken = changedValues.OldHealth - changedValues.NewHealth;
-        Debug.Log("Stunned: " + damageTaken);
 
-        // If the damage taken is greater than or equal to the stunned state's stun threshold, then be stunned.
+        // If the damage taken is greater than or equal to the stunned state's stun threshold, and we don't resist it, then trigger the stun.
         if (damageTaken >= _stunnedState.StunThreshold)
             OnStunned?.Invoke();
     }

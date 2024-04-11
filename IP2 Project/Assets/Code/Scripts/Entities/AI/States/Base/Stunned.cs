@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using HFSM;
+using UnityEngine.Events;
 
 namespace States.Base
 {
@@ -26,7 +27,15 @@ namespace States.Base
         public bool HasStunCompleted => Time.time >= _stunCompleteTime;
 
 
-        public override void OnEnter() => _stunCompleteTime = Time.time + _stunDuration;
+        public UnityEvent OnEnteredStun;
+
+
+        public override void OnEnter()
+        {
+            _stunCompleteTime = Time.time + _stunDuration;
+            OnEnteredStun?.Invoke();
+        }
+
 
         /// <returns> True if we have resisted the stun, or false if we have not.</returns>
         public bool HasResistedStun()

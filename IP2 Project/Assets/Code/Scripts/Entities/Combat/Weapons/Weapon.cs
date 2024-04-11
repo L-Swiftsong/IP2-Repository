@@ -2,12 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Player/New Weapon")]
+[CreateAssetMenu(menuName = "Attacks/New Weapon", order = 0)]
 public class Weapon : ScriptableObject
 {
     public Attack[] Attacks;
     [Tooltip("How long after the previous attack before the combo resets to the initial attack.")]
         public float ComboResetTime;
+
+
+    [Space(5)]
+    [Tooltip("Should this weapon allow its attacker to move while attacking?")]
+        public bool AllowMovement = true;
+
 
     [Space(5)]
     public Sprite WeaponSprite;

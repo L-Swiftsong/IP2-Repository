@@ -13,6 +13,8 @@ namespace States.Base
         public override string Name { get => "Attacking"; }
 
 
+        private MonoBehaviour _monoScript;
+        private Transform _rotationPivot;
         private Func<Vector2> _targetPos;
         private EntityMovement _movementScript;
 
@@ -26,11 +28,9 @@ namespace States.Base
             set
             {
                 _weaponWrapper = value;
-                _weaponAnimator?.OnWeaponChanged(value.Weapon, 0);
+                OnWeaponChanged?.Invoke(value.Weapon, 0);
             }
         }
-
-        [SerializeField] private WeaponAnimator _weaponAnimator;
 
 
         [Space(5)]
@@ -45,22 +45,41 @@ namespace States.Base
 
         [Header("Keep Distance")]
         [SerializeField] private BaseSteeringBehaviour[] _movementBehaviours;
+        private bool _canMove;
         public bool ShouldStopAttacking() => Vector2.Distance(_movementScript.transform.position, _targetPos()) > _maxAttackRange;
+
+
+        [Header("Animation")]
+        [Tooltip("Called when an attack is started. By default should subscribe to WeaponAnimator.StartAttack & EntityAnimation.PlayAttackAnimation")]
+            public UnityEngine.Events.UnityEvent<WeaponAnimationValues> OnAttackStarted;
+        [Tooltip("Called when the state is exited. By default should subscribe to WeaponAnimator.CancelAttack")]
+            public UnityEngine.Events.UnityEvent OnAttackCancelled;
+        [Tooltip("Called when a weapon is changed. By default should Subscribe to WeaponAnimator.OnWeaponChanged")]
+            public UnityEngine.Events.UnityEvent<Weapon, int> OnWeaponChanged;
 
 
         [Header("Debug")]
         [SerializeField] private int _attackToDispay;
 
 
-        public void InitialiseValues(EntityMovement movementScript, Func<Vector2> target)
+        public void InitialiseValues(MonoBehaviour monoScript, Transform rotationPivot, EntityMovement movementScript, Func<Vector2> target)
         {
+            this._monoScript = monoScript;
+            this._rotationPivot = rotationPivot;
             this._movementScript = movementScript;
             this._targetPos = target;
 
-            _weaponWrapperProperty = new WeaponWrapper(_weapon, movementScript);
+            _weaponWrapperProperty = new WeaponWrapper(_weapon, monoScript);
         }
 
 
+        public override void OnEnter()
+        {
+            base.OnEnter();
+
+            // Ensure that we can always move when we start attacking.
+            _canMove = true;
+        }
         public override void OnFixedLogic()
         {
             base.OnFixedLogic();
@@ -70,14 +89,19 @@ namespace States.Base
 
             int previousAttackIndex = _weaponWrapper.WeaponAttackIndex;
             if (AttemptAttack(targetPos))
-                _weaponAnimator.StartAttack(0, previousAttackIndex, _weaponWrapper.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
-
+            {
+                WeaponAnimationValues animationValues = new WeaponAnimationValues(0, previousAttackIndex, _weaponWrapper.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
+                OnAttackStarted?.Invoke(animationValues);
+            }
 
             // Cache the target's current position for next frame.
             _previousTargetPosition = targetPos;
 
-            // Move & rotate towards the target with our behaviours set.
-            _movementScript.CalculateMovement(targetPos, _movementBehaviours, RotationType.TargetDirection);
+            if (_canMove)
+            {
+                // Move & rotate towards the target with our behaviours set.
+                _movementScript.CalculateMovement(targetPos, _movementBehaviours, RotationType.TargetDirection);
+            }
         }
         private bool AttemptAttack(Vector2 targetPos)
         {
@@ -107,10 +131,29 @@ namespace States.Base
 
             // If we are within range to attack, and our cooldown has elapsed, then make the attack.
             if (distanceToTarget < _maxAttackRange)
-                _weaponWrapperProperty.MakeAttack(estimatedTargetPos, true);
+            {
+                if (!_weaponWrapperProperty.Weapon.AllowMovement)
+                    _canMove = false;
+
+                _weaponWrapperProperty.MakeAttack(_rotationPivot, estimatedTargetPos, true, recoveryCompleteAction: () => _canMove = true);
+            }
 
             return true;
         }
+
+
+        public override void OnExit()
+        {
+            base.OnExit();
+
+            // Cancel the current attack.
+            _weaponWrapper.CancelAttack();
+            OnAttackCancelled?.Invoke();
+        }
+        // Only allow exits if we aren't currently attacking.
+        protected override bool CanExit() => _weaponWrapper.IsAttacking() == false;
+        
+
 
 
         public void DrawGizmos(Transform gizmosOrigin, bool drawBehaviours = false)
