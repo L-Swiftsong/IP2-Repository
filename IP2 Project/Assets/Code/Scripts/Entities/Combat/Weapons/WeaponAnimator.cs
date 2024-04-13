@@ -125,11 +125,7 @@ public class WeaponAnimator : MonoBehaviour
     #region On Weapon Changed
     public void OnPrimaryChanged(Weapon newWeapon) => OnWeaponChanged(newWeapon, 0, true);
     public void OnSecondaryChanged(Weapon newWeapon) => OnWeaponChanged(newWeapon, 1);
-    public void OnWeaponChanged(Weapon newWeapon, int index)
-    {
-        Debug.Log(newWeapon.name);
-        OnWeaponChanged(newWeapon, index, false);
-    }
+    public void OnWeaponChanged(Weapon newWeapon, int index) => OnWeaponChanged(newWeapon, index, false);
     public void OnWeaponChanged(Weapon newWeapon, int index, bool makeShownWeapon)
     {
         // Ensure weaponInstances has been initialised.

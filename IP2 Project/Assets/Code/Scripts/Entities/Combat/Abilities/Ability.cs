@@ -5,12 +5,13 @@ using UnityEngine;
 public class Ability : ScriptableObject
 {
     public new string name;
+    public Sprite AbilitySprite;
+    public string Description;
+
+
+    [Space(5)]
     public float cooldownTime;
     public float activeTime;
-
-    
-    [Space(5)]
-    public Sprite AbilitySprite;
 
 
     [Space(5)]

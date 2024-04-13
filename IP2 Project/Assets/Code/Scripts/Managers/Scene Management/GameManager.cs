@@ -200,6 +200,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = previousDeltaTime;
 
         // Allow the player to interact?
+        ResumeLogic();
     }
 
 

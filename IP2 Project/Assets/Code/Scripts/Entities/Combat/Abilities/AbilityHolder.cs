@@ -134,6 +134,10 @@ public class AbilityHolder : MonoBehaviour
     }
 
 
+    public void SetAbility(Ability newAbility) => _ability = newAbility;
+    
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (Ability.name == "TigerRush" && _activeTime > 0)

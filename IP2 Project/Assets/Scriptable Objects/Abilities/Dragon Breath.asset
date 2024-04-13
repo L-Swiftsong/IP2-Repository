@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Dragon Breath
   m_EditorClassIdentifier: 
   name: DragonBreath
+  AbilitySprite: {fileID: 0}
+  Description: Create a damaging aura around yourself
   cooldownTime: 5
   activeTime: 5
-  AbilitySprite: {fileID: 0}
   HitMask:
     serializedVersion: 2
     m_Bits: 841
