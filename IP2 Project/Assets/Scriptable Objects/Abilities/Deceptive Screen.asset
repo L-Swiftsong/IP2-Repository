@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Deceptive Screen
   m_EditorClassIdentifier: 
   name: DeceptiveScreen
+  AbilitySprite: {fileID: -2413806693520163455, guid: 179c7b438452c7f46819374a9039d293, type: 3}
+  Description: Summon clones to confuse your enemies
   cooldownTime: 4
   activeTime: 3
   HitMask:
