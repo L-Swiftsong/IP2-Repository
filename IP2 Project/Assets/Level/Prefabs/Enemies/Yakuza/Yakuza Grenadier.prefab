@@ -802,7 +802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87d2b6c4438b47e4bb95e9d2c20ab25b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spriteRenderer: {fileID: 0}
+  _spriteRenderer: {fileID: 3979225582322170807}
   _flashDuration: 0.1
   _defaultColour: {r: 1, g: 1, b: 1, a: 1}
   _flashColour: {r: 1, g: 0, b: 0, a: 1}
