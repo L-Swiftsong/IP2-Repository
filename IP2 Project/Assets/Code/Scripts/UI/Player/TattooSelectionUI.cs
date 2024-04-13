@@ -26,7 +26,7 @@ public class TattooSelectionUI : MonoBehaviour
 
         // Wait until the loading screen had been disabled.
         bool logicEnabled = false;
-        GameManager.OnResumeLogic += () => logicEnabled = true;
+        GameManager.OnScenesLoaded += () => logicEnabled = true;
         yield return new WaitUntil(() => logicEnabled == true);
 
         // Show the screen.
