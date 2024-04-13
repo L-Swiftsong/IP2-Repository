@@ -182,10 +182,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5767130681184777734, guid: 860622394b8dba14882e815b68f0a418, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 860622394b8dba14882e815b68f0a418, type: 3}
 --- !u!4 &140525674 stripped
 Transform:
@@ -247,10 +244,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8285081131067819033, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4e279badac576047bc341f3c4cb5341, type: 3}
 --- !u!4 &161662514 stripped
 Transform:
@@ -1103,6 +1097,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 728810112589049453, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
+      propertyPath: _secondaryWeapon._weapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 957461238b332b641a845fb881175d4d, type: 2}
     - target: {fileID: 728810112589049453, guid: 1e31a787f1eb6c943a723445325bb66f, type: 3}
       propertyPath: OnEnableInput.m_PersistentCalls.m_Calls.Array.size
       value: 2

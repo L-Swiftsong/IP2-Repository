@@ -117,7 +117,6 @@ public class RangedAttack : Attack
 
         // Calculate and output the interception position.
         float timeToInterception = distanceToEstimatedPosition / projectileSpeed;
-        Debug.Log(targetVelocity);
         return targetPos + targetVelocity * timeToInterception;
     }
     public override void DrawGizmos(Transform gizmosOrigin)
