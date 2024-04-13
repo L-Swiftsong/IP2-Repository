@@ -14,6 +14,7 @@ public class respawnScript : MonoBehaviour
 
         player.GetComponent<PlayerController>().respawn = gameObject;
 
+        
 
     }
 

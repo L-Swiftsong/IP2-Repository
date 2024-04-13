@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
         gameObject.transform.position = respawn.transform.position;
 
         gameObject.GetComponent<HealthComponent>()._currentHealthProperty = gameObject.GetComponent<HealthComponent>()._maxHealthProperty;
+
+        gameObject.GetComponent<HealthComponent>().Start();
     }
 
 

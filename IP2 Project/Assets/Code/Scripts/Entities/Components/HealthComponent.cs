@@ -74,6 +74,7 @@ public class HealthComponent : MonoBehaviour
     {
         _currentHealthProperty = _maxHealthProperty;
         _iFrameEndTime = 0f;
+        _isDead = false;
     }
 
 
@@ -113,7 +114,7 @@ public class HealthComponent : MonoBehaviour
 
 
     #region Death
-    private void Die()
+    public void Die()
     {
         _isDead = true;
         Debug.Log(this.name + " has died");
