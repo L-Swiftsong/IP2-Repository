@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class RespawnUI : MonoBehaviour
 {
     [SerializeField] private GameObject _respawnPanel;
+    [SerializeField] private GameObject _firstSelectedButton;
 
+    [Space(5)]
     [SerializeField] private CanvasGroup _panelGroup;
     [SerializeField] private float _fadeDuration;
 
@@ -20,6 +22,9 @@ public class RespawnUI : MonoBehaviour
     {
         // Show the UI Panel.
         _respawnPanel.SetActive(true);
+
+        // Select the first button.
+        EventSystem.current.SetSelectedGameObject(_firstSelectedButton);
 
         // Fade in the UI over time.
         StartCoroutine(FadeInUI(1f / _fadeDuration));

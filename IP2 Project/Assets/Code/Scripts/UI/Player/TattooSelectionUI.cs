@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class TattooSelectionUI : MonoBehaviour
 {
     [SerializeField] private GameObject _tattooSelectionRoot;
     [SerializeField] private List<TattooSelectionOption> _tattooSelectionButtons;
+
+    [SerializeField] private GameObject _firstButton;
 
 
 
@@ -28,10 +32,16 @@ public class TattooSelectionUI : MonoBehaviour
         bool logicEnabled = false;
         GameManager.OnScenesLoaded += () => logicEnabled = true;
         yield return new WaitUntil(() => logicEnabled == true);
+        GameManager.OnScenesLoaded -= () => logicEnabled = true;
+        
 
         // Show the screen.
         ShowScreen();
         waitingToShow = false;
+
+
+        // Select the first button.
+        EventSystem.current.SetSelectedGameObject(_firstButton);
     }
 
     public void ShowScreen()

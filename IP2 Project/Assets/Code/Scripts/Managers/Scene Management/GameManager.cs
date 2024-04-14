@@ -72,6 +72,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _loadingCompletedGO;
 
 
+    [Header("Loading Screen Continuing")]
+    [SerializeField] private InputActionReference _finishLoadingAction;
+
+    [SerializeField] private GameObject _anyTextGO;
+    [SerializeField] private GameObject _mnkTextGO;
+    [SerializeField] private GameObject _gamepadTextGO;
+
+
     [Header("Game Pausing")]
     public static Action OnHaultLogic;
     public static Action OnResumeLogic;
@@ -187,28 +195,23 @@ public class GameManager : MonoBehaviour
             _playerSpawnPoint = playerSpawnPosition.Value;
         }
 
-        // Wait a half second to allow for initialisation of scripts.
-        yield return new WaitForSecondsRealtime(0.5f);
-
+        // Notify listeners that the scene has loaded.
         OnScenesLoaded?.Invoke();
 
         // Show the loading completed text.
         _loadingBar.SetValues(100f);
-        _loadingProgressGO.SetActive(false);
-        _loadingCompletedGO.SetActive(true);
 
-        // Wait until the user presses a button to continue (Currently Any, but we could set it to specific buttons via a new InputActionMap).
-        bool shouldContinue = false;
-        InputSystem.onAnyButtonPress.CallOnce(ctrl => shouldContinue = true);
-        yield return new WaitUntil(() => shouldContinue);
+        // Wait a half second to allow for initialisation of scripts.
+        yield return new WaitForSecondsRealtime(0.5f);
 
         // Hide the loading screen.
         _loadingScreen.SetActive(false);
 
+
         // Revert the timeScale.
         Time.timeScale = previousDeltaTime;
 
-        // Allow the player to interact?
+        // Allow the player to interact.
         ResumeLogic();
     }
 

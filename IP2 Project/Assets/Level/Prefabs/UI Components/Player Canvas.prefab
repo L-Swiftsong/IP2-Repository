@@ -1555,9 +1555,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.86, g: 0.86, b: 0.86, a: 1}
+    m_PressedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
+    m_SelectedColor: {r: 0.59, g: 0.59, b: 0.59, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -2547,6 +2547,9 @@ MonoBehaviour:
   _tattooSelectionRoot: {fileID: 908899441544100117}
   _tattooSelectionButtons:
   - {fileID: 6942565168147359287}
+  - {fileID: 8842320878090015273}
+  - {fileID: 1502227922352569648}
+  _firstButton: {fileID: 4089007532241737564}
 --- !u!1 &4172729943167691477
 GameObject:
   m_ObjectHideFlags: 0
@@ -5399,9 +5402,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.86, g: 0.86, b: 0.86, a: 1}
+    m_PressedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
+    m_SelectedColor: {r: 0.59, g: 0.59, b: 0.59, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -5532,9 +5535,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.86, g: 0.86, b: 0.86, a: 1}
+    m_PressedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
+    m_SelectedColor: {r: 0.59, g: 0.59, b: 0.59, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -5895,7 +5898,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7951151177280014953}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5921,6 +5924,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _respawnPanel: {fileID: 7090764728801672116}
+  _firstSelectedButton: {fileID: 7663444424007839696}
   _panelGroup: {fileID: 8137471018506251571}
   _fadeDuration: 1.5
 --- !u!1 &8269309394892022372
@@ -6261,6 +6265,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3978895738472203911, guid: 41a0b4f866683a343881ddb8caebc5ce, type: 3}
   m_PrefabInstance: {fileID: 2335573265922276066}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8842320878090015273 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6548133251786041547, guid: 41a0b4f866683a343881ddb8caebc5ce, type: 3}
+  m_PrefabInstance: {fileID: 2335573265922276066}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1438a04fa020daf4c91dbf8b378056c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4217434422016544508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6369,6 +6384,11 @@ PrefabInstance:
 --- !u!224 &986489343704991867 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3978895738472203911, guid: 41a0b4f866683a343881ddb8caebc5ce, type: 3}
+  m_PrefabInstance: {fileID: 4217434422016544508}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4089007532241737564 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 159953570008357280, guid: 41a0b4f866683a343881ddb8caebc5ce, type: 3}
   m_PrefabInstance: {fileID: 4217434422016544508}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &6942565168147359287 stripped
@@ -6835,6 +6855,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41a0b4f866683a343881ddb8caebc5ce, type: 3}
+--- !u!114 &1502227922352569648 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6548133251786041547, guid: 41a0b4f866683a343881ddb8caebc5ce, type: 3}
+  m_PrefabInstance: {fileID: 5622559595829270011}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1438a04fa020daf4c91dbf8b378056c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8732682805738050428 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3978895738472203911, guid: 41a0b4f866683a343881ddb8caebc5ce, type: 3}
