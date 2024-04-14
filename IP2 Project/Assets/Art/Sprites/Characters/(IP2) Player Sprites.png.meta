@@ -1222,6 +1222,90 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Player_Dead_South_Temp
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1308
+        width: 192
+        height: 192
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3451d8c898857184c8177bf0e11a4c5a
+      internalID: -1605138868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_Dead_East_Temp
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 1308
+        width: 192
+        height: 192
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 965def76992b4df4abc9fe6b97781893
+      internalID: -1158192297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_Dead_West_Temp
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 1308
+        width: 192
+        height: 192
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09e538be6a0fc4346a5605c35f6383a6
+      internalID: 1577700109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_Dead_South_Tem
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 1308
+        width: 192
+        height: 192
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c54ea9f1245146f409971ee1b2117f2e
+      internalID: -2105916955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1233,6 +1317,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      (IP2) Player Sprites_0: 1292053572
       (IP2) Player Sprites_53: -1108749128
       (IP2) Player Sprites_54: -700222547
       (IP2) Player Sprites_55: -395202913
@@ -1259,37 +1344,41 @@ TextureImporter:
       Player_Dashing_Right_08: 891457453
       Player_Dashing_Right_09: -1823878110
       Player_Dashing_Right_10: -577283465
+      Player_Dead_East_Temp: 1577700109
+      Player_Dead_South_Tem: -2105916955
+      Player_Dead_South_Temp: -1605138868
+      Player_Dead_West_Temp: 1065731396
       Player_Idle_Down: -668929195
       Player_Idle_Left: 2111228636
       Player_Idle_Right: -2021064193
-      Player_Idle_Up: 1065731396
-      Player_Walking_Down_00: 1017489903
-      Player_Walking_Down_01: -297265567
-      Player_Walking_Down_02: -1447112685
-      Player_Walking_Down_03: 1154442408
-      Player_Walking_Down_04: 1544613697
-      Player_Walking_Down_05: -1090348967
-      Player_Walking_Left_00: 1098880273
-      Player_Walking_Left_01: -1046165514
-      Player_Walking_Left_02: -1962452938
-      Player_Walking_Left_03: -2036945974
-      Player_Walking_Left_04: 393733807
-      Player_Walking_Left_05: 1172343039
-      Player_Walking_Left_06: 1978683530
-      Player_Walking_Left_07: 1152176825
-      Player_Walking_Left_08: 223583402
-      Player_Walking_Left_09: -550815500
-      Player_Walking_Left_10: -719067713
-      Player_Walking_Right_0: 129564771
-      Player_Walking_Right_1: -1237278819
-      Player_Walking_Right_2: 267262137
-      Player_Walking_Right_3: -627785794
-      Player_Walking_Right_4: 1559786845
-      Player_Walking_Right_5: -1847905620
-      Player_Walking_Right_6: 1371735744
-      Player_Walking_Right_7: -740366750
-      Player_Walking_Right_8: -797804549
-      Player_Walking_Right_9: -320444302
+      Player_Idle_Up: 1017489903
+      Player_Walking_Down_00: -297265567
+      Player_Walking_Down_01: -1447112685
+      Player_Walking_Down_02: 1154442408
+      Player_Walking_Down_03: 1544613697
+      Player_Walking_Down_04: -1090348967
+      Player_Walking_Down_05: 1098880273
+      Player_Walking_Left_00: -1046165514
+      Player_Walking_Left_01: -1962452938
+      Player_Walking_Left_02: -2036945974
+      Player_Walking_Left_03: 393733807
+      Player_Walking_Left_04: 1172343039
+      Player_Walking_Left_05: 1978683530
+      Player_Walking_Left_06: 1152176825
+      Player_Walking_Left_07: 223583402
+      Player_Walking_Left_08: -550815500
+      Player_Walking_Left_09: -719067713
+      Player_Walking_Left_10: 129564771
+      Player_Walking_Right_0: -1237278819
+      Player_Walking_Right_1: 267262137
+      Player_Walking_Right_2: -627785794
+      Player_Walking_Right_3: 1559786845
+      Player_Walking_Right_4: -1847905620
+      Player_Walking_Right_5: 1371735744
+      Player_Walking_Right_6: -740366750
+      Player_Walking_Right_7: -797804549
+      Player_Walking_Right_8: -320444302
+      Player_Walking_Right_9: -1158192297
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

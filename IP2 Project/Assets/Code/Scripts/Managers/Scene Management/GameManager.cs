@@ -287,6 +287,7 @@ public class GameManager : MonoBehaviour
     {
         // Revoke Player Control.
         PlayerManager.Instance.RevokePlayerControl();
+        Debug.Log("Logic Paused");
 
         // Tell things like enemies to stop.
         OnHaultLogic?.Invoke();
@@ -295,6 +296,8 @@ public class GameManager : MonoBehaviour
     {
         // Regain Player Control.
         PlayerManager.Instance.RegainPlayerControl();
+
+        Debug.Log("Logic Resumed");
 
         // Tell things like entities to resume.
         OnResumeLogic?.Invoke();

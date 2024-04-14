@@ -6,7 +6,7 @@ public class CheckForAbility : MonoBehaviour
 {
     void Update()
     {
-        if (!PlayerManager.IsInitialised)
+        if (!PlayerManager.IsInitialised || PlayerManager.Instance.Player == null)
             return;
 
         if (PlayerManager.Instance.Player.TryGetComponent<AbilityHolder>(out AbilityHolder abilityHolder))

@@ -346,6 +346,7 @@ GameObject:
   - component: {fileID: 8073621126214152092}
   - component: {fileID: 4866106999794271248}
   - component: {fileID: 7119014914514843497}
+  - component: {fileID: 2356224150298785576}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -592,6 +593,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: eec279c9-1547-4920-86ba-5a6dec3f083c
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3f8d25d1-f7b6-4e1d-af82-5ad4d20e0647
+    m_ActionName: UI/SelectNextTab[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 20f9b9f9-d0b7-4571-baa0-49802d8d273b
+    m_ActionName: UI/SelectPreviousTab[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d4d01e33-17ae-4ede-a827-53ae19521d42
+    m_ActionName: UI/Back[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -920,9 +933,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5346638156322135009}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: Respawn
+      - m_Target: {fileID: 2356224150298785576}
+        m_TargetAssemblyTypeName: PlayerRespawning, Assembly-CSharp
+        m_MethodName: OnPlayerDied
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1003,3 +1016,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acc907424d693c54088f20b0ba8015c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2356224150298785576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9144251323198861198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f01ea6234aed79e4b810c6b18c6a5a35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _anim: {fileID: 2574428737251350393}
+  _playerRoot: {fileID: 9144251323198861198}

@@ -13,7 +13,4 @@ public class PlayerController : MonoBehaviour
         _playerInput = GetComponent<PlayerInput>();
         _playerInput.camera = GameManager.MainCamera;
     }
-
-
-    public void Respawn() => GameManager.Instance.RespawnPlayer();
 }
