@@ -4,26 +4,21 @@ using UnityEngine;
 
 public class CheckForAbility : MonoBehaviour
 {
-    private GameObject Player;
-
-    private void Start()
-    {
-        if (PlayerManager.IsInitialised)
-            Player = PlayerManager.Instance.Player;
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        AbilityHolder abilityHolder = Player.GetComponent<AbilityHolder>();
+        if (!PlayerManager.IsInitialised || PlayerManager.Instance.Player == null)
+            return;
 
-        if (abilityHolder.IsActive && abilityHolder.Ability.name == "TigerRush" && gameObject.GetComponent<EntityFaction>().Faction.IsAlly(Factions.Yakuza))
+        if (PlayerManager.Instance.Player.TryGetComponent<AbilityHolder>(out AbilityHolder abilityHolder))
         {
-            gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
-        }
-        if (!abilityHolder.IsActive && abilityHolder.Ability.name == "TigerRush" && gameObject.GetComponent<EntityFaction>().Faction.IsAlly(Factions.Yakuza))
-        {
-            gameObject.GetComponent<CircleCollider2D>().isTrigger = false;
+            if (abilityHolder.IsActive && abilityHolder.Ability.name == "TigerRush" && gameObject.GetComponent<EntityFaction>().Faction.IsAlly(Factions.Yakuza))
+            {
+                gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
+            }
+            if (!abilityHolder.IsActive && abilityHolder.Ability.name == "TigerRush" && gameObject.GetComponent<EntityFaction>().Faction.IsAlly(Factions.Yakuza))
+            {
+                gameObject.GetComponent<CircleCollider2D>().isTrigger = false;
+            }
         }
     }
 }

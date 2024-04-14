@@ -70,7 +70,7 @@ public class HealthComponent : MonoBehaviour
 
 
 
-    public void Start()
+    private void Start()
     {
         _currentHealthProperty = _maxHealthProperty;
         _iFrameEndTime = 0f;

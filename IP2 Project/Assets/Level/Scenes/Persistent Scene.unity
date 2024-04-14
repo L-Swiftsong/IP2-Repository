@@ -1862,6 +1862,7 @@ MonoBehaviour:
   _loadingText: {fileID: 348226126}
   _loadingProgressGO: {fileID: 2046547336}
   _loadingCompletedGO: {fileID: 140700589}
+  _reloadExternalScenesOnRespawn: 1
 --- !u!1 &1799772335
 GameObject:
   m_ObjectHideFlags: 0

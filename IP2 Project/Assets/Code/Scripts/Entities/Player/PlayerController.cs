@@ -12,19 +12,5 @@ public class PlayerController : MonoBehaviour
     {
         _playerInput = GetComponent<PlayerInput>();
         _playerInput.camera = GameManager.MainCamera;
-
     }
-
-
-    public void Respawn()
-    {
-
-        gameObject.transform.position = respawn.transform.position;
-
-        gameObject.GetComponent<HealthComponent>()._currentHealthProperty = gameObject.GetComponent<HealthComponent>()._maxHealthProperty;
-
-        gameObject.GetComponent<HealthComponent>().Start();
-    }
-
-
 }

@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
     [Header("Scene Loading")]
     [SerializeField] private GameObject _loadingScreen;
     private int _activeSceneBuildIndex;
+    public static Action OnScenesLoaded;
 
     [Space(5)]
     [SerializeField] private ProgressBar _loadingBar;
@@ -74,6 +75,11 @@ public class GameManager : MonoBehaviour
     [Header("Game Pausing")]
     public static Action OnHaultLogic;
     public static Action OnResumeLogic;
+
+
+    [Header("Scene Reloading (Respawning)")]
+    [SerializeField] private bool _reloadExternalScenesOnRespawn = true;
+    private Vector2 _playerSpawnPoint = Vector2.zero;
 
 
     private List<AsyncOperation> _scenesLoading = new List<AsyncOperation>();
@@ -178,10 +184,13 @@ public class GameManager : MonoBehaviour
         if (PlayerManager.IsInitialised && playerSpawnPosition.HasValue)
         {
             PlayerManager.Instance.SetPlayerPosition(playerSpawnPosition.Value);
+            _playerSpawnPoint = playerSpawnPosition.Value;
         }
 
         // Wait a half second to allow for initialisation of scripts.
         yield return new WaitForSecondsRealtime(0.5f);
+
+        OnScenesLoaded?.Invoke();
 
         // Show the loading completed text.
         _loadingBar.SetValues(100f);
@@ -230,11 +239,55 @@ public class GameManager : MonoBehaviour
     #endregion
 
 
+    #region Scene Reloading/Player Respawning
+    public void RespawnPlayer()
+    {
+        if (_reloadExternalScenesOnRespawn)
+        {
+            ReloadActiveScenes();
+        }
+        else
+        {
+            // Reload the player's scene.
+            LoadScenesAsync(
+                scenesToUnload: new SceneIndexes[] { SceneIndexes.PLAYER_SCENE },
+                scenesToLoad: new SceneIndexes[] { SceneIndexes.PLAYER_SCENE },
+                playerSpawnPosition: _playerSpawnPoint);
+        }
+    }
+    private void ReloadActiveScenes()
+    {
+        // Get the scenes that should be reloaded.
+        List<SceneIndexes> openScenes = new List<SceneIndexes>();
+        int activeScene = 0;
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            // Don't add the persistentScene to the openScenes.
+            int buildIndex = SceneManager.GetSceneAt(i).buildIndex;
+            if (buildIndex != (int)SceneIndexes.PERSISTENT_SCENE)
+            {
+                if (buildIndex != (int)SceneIndexes.PLAYER_SCENE)
+                    activeScene = buildIndex;
+                
+                openScenes.Add((SceneIndexes)buildIndex);
+            }
+        }
+
+        // Reload the scenes.
+        LoadScenesAsync(
+            scenesToUnload: openScenes.ToArray(),
+            scenesToLoad: openScenes.ToArray(),
+            newActiveScene: (SceneIndexes)activeScene,
+            playerSpawnPosition: _playerSpawnPoint);
+    }
+    #endregion
+
 
     public void PauseLogic()
     {
         // Revoke Player Control.
         PlayerManager.Instance.RevokePlayerControl();
+        Debug.Log("Logic Paused");
 
         // Tell things like enemies to stop.
         OnHaultLogic?.Invoke();
@@ -243,6 +296,8 @@ public class GameManager : MonoBehaviour
     {
         // Regain Player Control.
         PlayerManager.Instance.RegainPlayerControl();
+
+        Debug.Log("Logic Resumed");
 
         // Tell things like entities to resume.
         OnResumeLogic?.Invoke();
