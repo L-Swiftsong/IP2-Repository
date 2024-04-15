@@ -9504,8 +9504,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.00789994, y: -1.7479999, z: 0}
-    m_Extent: {x: 1.9993999, y: 3.248, z: 0}
+    m_Center: {x: -0.0072000623, y: -1.7475499, z: 0}
+    m_Extent: {x: 1.9990001, y: 3.2526498, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -9756,8 +9756,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.4293499, y: -0.5689001, z: 0}
-    m_Extent: {x: 10.63305, y: 10.2044, z: 0}
+    m_Center: {x: 0.43064976, y: -0.57515, z: 0}
+    m_Extent: {x: 10.64225, y: 10.205151, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -12791,6 +12791,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3db9937f06a31d149a128ce8a9385cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vinyl: {fileID: 0}
+  artist: 'AIM TO HEAD - '
+  songName: Poison
+  text: {fileID: 0}
 --- !u!1001 &1348890254
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15451,8 +15455,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.42850018, y: -0.5770502, z: 0}
-    m_Extent: {x: 10.6349, y: 10.20185, z: 0}
+    m_Center: {x: 0.43700027, y: -0.5791497, z: 0}
+    m_Extent: {x: 10.6398, y: 10.20155, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -17345,8 +17349,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.43564987, y: -0.58080006, z: 0}
-    m_Extent: {x: 10.63375, y: 10.1986, z: 0}
+    m_Center: {x: 0.43100023, y: -0.5692997, z: 0}
+    m_Extent: {x: 10.6308, y: 10.2051, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0

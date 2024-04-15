@@ -857,6 +857,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3db9937f06a31d149a128ce8a9385cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vinyl: {fileID: 0}
+  artist: 'AIM TO HEAD - '
+  songName: Mortem
+  text: {fileID: 0}
 --- !u!1001 &182765686
 PrefabInstance:
   m_ObjectHideFlags: 0

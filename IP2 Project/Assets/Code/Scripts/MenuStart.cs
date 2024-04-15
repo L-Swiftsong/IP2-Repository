@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class LevelStart : MonoBehaviour
+public class Menu : MonoBehaviour
 {
     public GameObject vinyl;
 
@@ -15,9 +15,6 @@ public class LevelStart : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        vinyl = GameObject.Find("Player Canvas");
-
-        vinyl = vinyl.transform.GetChild(0).gameObject;
 
         vinyl.SetActive(true);
 
