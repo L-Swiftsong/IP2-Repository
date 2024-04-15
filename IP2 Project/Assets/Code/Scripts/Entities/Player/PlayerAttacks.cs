@@ -8,11 +8,8 @@ using UnityEngine.InputSystem;
 public class PlayerAttacks : MonoBehaviour
 {
     [SerializeField] private Transform _rotationPivot;
-    [SerializeField] private AudioSource Slice;
-    [SerializeField] private AudioSource Throw;
-    private GameObject AudioSource;
 
-    
+
     [Header("Primary Attacks")]
     [SerializeField] private WeaponWrapper _primaryWeapon;
     private WeaponWrapper _primaryWeaponProperty
@@ -25,13 +22,13 @@ public class PlayerAttacks : MonoBehaviour
         }
     }
     private bool _primaryAttackHeld;
-    
+
     public static System.Action<float> OnPrimaryRecoveryTimeChanged; // Called every frame while the weapon's RechargePercentage is below 1.
     public static System.Action<float> OnPrimaryUseRechargeTimeChanged; // Called every frame while the weapon is recharging its uses.
     public static System.Action<Weapon> OnPrimaryWeaponChanged; // Called when the primaryWeapon is assigned.
 
 
-    
+
     [Header("Secondary Attacks")]
     [SerializeField] private WeaponWrapper _secondaryWeapon;
     private WeaponWrapper _secondaryWeaponProperty
@@ -68,23 +65,11 @@ public class PlayerAttacks : MonoBehaviour
         else if (context.canceled)
             _primaryAttackHeld = false;
 
-        if (!_primaryAttackHeld)
-        {
-            Slice.loop = false;
-           
-        }
-
-        if(_primaryWeaponProperty.RechargeTimeRemaining > 0)
-        {
-            Slice.loop = false;
-        }
-        if (_primaryAttackHeld && _primaryWeaponProperty.RechargeTimeRemaining <=0)
-        {
-            Slice.loop = true;
-            Slice.Play();
-        }
-
     }
+
+    
+
+    
     public void OnSecondaryAttack(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -92,8 +77,7 @@ public class PlayerAttacks : MonoBehaviour
         else if (context.canceled)
             _secondaryAttackHeld = false;
 
-        if (_secondaryAttackHeld && _secondaryWeaponProperty.RechargeTimeRemaining <= 0)
-            Throw.Play();
+       
 
     }
 
@@ -117,15 +101,7 @@ public class PlayerAttacks : MonoBehaviour
         _secondaryWeaponProperty = new WeaponWrapper(_secondaryWeaponProperty.Weapon, this);
 
 
-        AudioSource = GameObject.Find("Player Canvas");
-        AudioSource = AudioSource.transform.GetChild(0).gameObject;
-        AudioSource = AudioSource.transform.GetChild(1).gameObject;
-        Slice = AudioSource.GetComponent<AudioSource>();
-
-        AudioSource = GameObject.Find("Player Canvas");
-        AudioSource = AudioSource.transform.GetChild(0).gameObject;
-        AudioSource = AudioSource.transform.GetChild(2).gameObject;
-        Throw = AudioSource.GetComponent<AudioSource>();
+     
 
     }
     private void Update()
