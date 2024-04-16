@@ -55,7 +55,11 @@ public class EntityAnimator : MonoBehaviour
     public void PlayMovementAnimation(Vector2 movementInput) => PlayAnimation(movementInput == Vector2.zero ? AnimationType.Idle : AnimationType.Walking);
 
     public void PlayStunnedAnimation() => PlayAnimation(AnimationType.Stunned);
-    public void PlayDeadAnimation() => PlayAnimation(AnimationType.Dead);
+    public void PlayDeadAnimation()
+    {
+        PlayAnimation(AnimationType.Dead);
+        Destroy(this);
+    }
     #endregion
 
 
