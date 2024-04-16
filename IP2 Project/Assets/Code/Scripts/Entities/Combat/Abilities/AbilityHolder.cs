@@ -4,7 +4,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class AbilityHolder : MonoBehaviour
+
 {
+
+    public AudioSource source;
+    public AudioClip tigerRush;
+    public AudioClip Dragonbreath;
+    public AudioClip deceptiveMirror;
+
     private bool _isPressed = false;
 
     [SerializeField] private Ability _ability;
@@ -48,6 +55,23 @@ public class AbilityHolder : MonoBehaviour
     {
         if (context.started)
         {
+            
+
+            if (Ability.name == "DragonBreath" && _cooldownTime <= 0)
+            {
+                source.PlayOneShot(Dragonbreath);
+            }
+
+            if (Ability.name == "DeceptiveScreen" && _cooldownTime <= 0)
+            {
+                source.PlayOneShot(deceptiveMirror);
+            }
+
+            if (Ability.name == "TigerRush" && _cooldownTime <= 0)
+            {
+                source.PlayOneShot(tigerRush);
+            }
+            
             _isPressed = true;
         }
         else if(context.canceled)

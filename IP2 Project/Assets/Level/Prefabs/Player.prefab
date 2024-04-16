@@ -755,8 +755,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotationPivot: {fileID: 5725950586333644357}
-  Slice: {fileID: 0}
-  Throw: {fileID: 0}
   _primaryWeapon:
     _weapon: {fileID: 11400000, guid: 01ece5847bf07be4ea69247f6114148b, type: 2}
     _drawGizmos: 0
@@ -817,6 +815,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 472f27744a4eb7a4fa21ab9bc1af167d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  source: {fileID: 4382233279691976648}
+  tigerRush: {fileID: 8300000, guid: 905a9a09239e7604fbfc846bd5e7635d, type: 3}
+  Dragonbreath: {fileID: 8300000, guid: c78635380c51e94489e12a7ad7646cba, type: 3}
+  deceptiveMirror: {fileID: 8300000, guid: f804a8715d930054094f2156021e98aa, type: 3}
   _ability: {fileID: 11400000, guid: 53ce92ff01e4da04f9e4ed9aad9371a5, type: 2}
   time: 0
   numberOfUses: 0
