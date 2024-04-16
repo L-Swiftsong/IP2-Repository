@@ -219,7 +219,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6647928844290681481
 Transform:
   m_ObjectHideFlags: 0
@@ -363,15 +363,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -840405081, guid: 52f2401c9dd4f674f82113a0926b6e8d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.015625, y: 2.343979}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &8860995098101656941
@@ -409,6 +409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _anim: {fileID: 8860995098101656941}
   _rotationPivot: {fileID: 7451676387289629704}
+  _facePivotDirection: 1
 --- !u!1 &5194575937816007215
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,7 +475,7 @@ GameObject:
   - component: {fileID: 8796008788107505601}
   - component: {fileID: 4404463750317488775}
   - component: {fileID: 1747122566801166550}
-  - component: {fileID: 468286724462064641}
+  - component: {fileID: 1467700878728658891}
   - component: {fileID: 1800612034018732787}
   - component: {fileID: 2485112261531564957}
   m_Layer: 8
@@ -764,6 +765,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 416584549987225256}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8796008788107505601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -822,8 +835,8 @@ MonoBehaviour:
   _drawCombinedMaps: 0
   _interestColour: {r: 0, g: 1, b: 0, a: 1}
   _dangerColour: {r: 1, g: 0, b: 0, a: 1}
---- !u!58 &468286724462064641
-CircleCollider2D:
+--- !u!70 &1467700878728658891
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -855,8 +868,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
+  m_Size: {x: 0.75, y: 2}
+  m_Direction: 0
 --- !u!114 &1800612034018732787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -869,7 +882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87d2b6c4438b47e4bb95e9d2c20ab25b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spriteRenderer: {fileID: 494270359094957585}
+  _spriteRenderer: {fileID: 4405830071187815659}
   _flashDuration: 0.1
   _defaultColour: {r: 1, g: 1, b: 1, a: 1}
   _flashColour: {r: 1, g: 0, b: 0, a: 1}
