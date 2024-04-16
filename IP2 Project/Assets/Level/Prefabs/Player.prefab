@@ -605,6 +605,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: d4d01e33-17ae-4ede-a827-53ae19521d42
     m_ActionName: UI/Back[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d2bd1f8c-5f2d-4c1e-a127-8e15c16a448f
+    m_ActionName: UI/Continue[/Mouse/leftButton,/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -945,6 +949,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4425986093263550713}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1382203755656598338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1029,4 +1045,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _anim: {fileID: 2574428737251350393}
-  _playerRoot: {fileID: 9144251323198861198}
+  _playerCollider: {fileID: 0}

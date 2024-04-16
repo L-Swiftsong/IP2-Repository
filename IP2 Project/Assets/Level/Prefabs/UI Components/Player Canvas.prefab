@@ -6062,7 +6062,12 @@ MonoBehaviour:
   _respawnPanel: {fileID: 7090764728801672116}
   _firstSelectedButton: {fileID: 7663444424007839696}
   _panelGroup: {fileID: 8137471018506251571}
-  _fadeDuration: 1.5
+  _fadeDuration: 2
+  _buttons:
+  - {fileID: 7663444424007839696}
+  - {fileID: 2203973548080619984}
+  - {fileID: 7603941364028234744}
+  _delayBetweenButtonsShowing: 0.5
 --- !u!1 &8269309394892022372
 GameObject:
   m_ObjectHideFlags: 0
@@ -6274,7 +6279,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8554358452311460883}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
   m_Name: 
@@ -6393,6 +6398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popUpTime: 10
+  actualTime: 0
   text: {fileID: 3978654737180847951}
 --- !u!1001 &2335573265922276066
 PrefabInstance:

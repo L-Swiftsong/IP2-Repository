@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,6 +13,10 @@ public class RespawnUI : MonoBehaviour
     [SerializeField] private CanvasGroup _panelGroup;
     [SerializeField] private float _fadeDuration;
 
+    [Space(5)]
+    [SerializeField] private List<GameObject> _buttons;
+    [SerializeField] private float _delayBetweenButtonsShowing;
+
 
     private void Awake() => _respawnPanel.SetActive(false);
     private void OnEnable() => PlayerRespawning.OnRespawnReady += OpenRespawnUI;
@@ -20,6 +25,10 @@ public class RespawnUI : MonoBehaviour
 
     public void OpenRespawnUI()
     {
+        // Ensure all buttons are hidden.
+        for (int i = 0; i < _buttons.Count; i++)
+            _buttons[i].SetActive(false);
+        
         // Show the UI Panel.
         _respawnPanel.SetActive(true);
 
@@ -43,6 +52,22 @@ public class RespawnUI : MonoBehaviour
 
         // Ensure we end completely opaque.
         _panelGroup.alpha = 1;
+
+        StartCoroutine(ShowButtons());
+    }
+    private IEnumerator ShowButtons()
+    {
+        yield return new WaitForSeconds(_delayBetweenButtonsShowing);
+
+        int totalCount = _buttons.Count;
+        int iteration = 0;
+        while(iteration < totalCount)
+        {
+            _buttons[iteration].SetActive(true);
+            iteration++;
+            
+            yield return new WaitForSeconds(_delayBetweenButtonsShowing);
+        }
     }
 
 
