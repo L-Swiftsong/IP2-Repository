@@ -12,11 +12,10 @@ public class PlayerMovement : MonoBehaviour, IMoveable
     private Vector2 _movementInput;
 
 
-    [Header("Audio");
-    [SerializeField] private AudioSource walking;
-    [SerializeField] private AudioSource dashing;
-    private GameObject Audio2;
-    private GameObject Audio;
+    [Header("Audio")]
+    [SerializeField] private AudioSource _walkingSource;
+    [SerializeField] private AudioClip _dashingAudio;
+
 
     // Input Prevention.
     private int _sourcesPreventingInput = 0;
@@ -81,11 +80,11 @@ public class PlayerMovement : MonoBehaviour, IMoveable
     {
         if(context.started)
         {
-            walking.Play();
+            _walkingSource.Play();
         }
-        if(context.canceled)
+        else if(context.canceled)
         {
-            walking.Stop();
+            _walkingSource.Stop();
         }
     }
     public void OnDashPressed(InputAction.CallbackContext context)
@@ -112,14 +111,14 @@ public class PlayerMovement : MonoBehaviour, IMoveable
 
 
         // Audio.
-        Audio = GameObject.Find("Player Canvas");
+        /*Audio = GameObject.Find("Player Canvas");
         Audio = Audio.transform.GetChild(0).gameObject;
-        walking = Audio.GetComponent<AudioSource>();
+        _walking = Audio.GetComponent<AudioSource>();
 
         Audio2 = GameObject.Find("Player Canvas");
         Audio2 = Audio2.transform.GetChild(0).gameObject;
         Audio2 = Audio2.transform.GetChild(0).gameObject;
-        dashing = Audio2.GetComponent<AudioSource>();
+        _dashing = Audio2.GetComponent<AudioSource>();*/
     }
 
     void Update()
@@ -240,7 +239,6 @@ public class PlayerMovement : MonoBehaviour, IMoveable
 
         // Start Dashing.
         StartDashing();
-        dashing.Play();
     }
     private void StartDashing()
     {
@@ -250,8 +248,14 @@ public class PlayerMovement : MonoBehaviour, IMoveable
         _dashDurationRemaining = _dashDistance / _dashSpeed; // From physics: 't = d/v'.
         _isDashing = true;
 
+
         // Notify subscribed scripts.
         OnDashStarted?.Invoke();
+
+
+        // Play the Dashing Audio.
+        _walkingSource.PlayOneShot(_dashingAudio);
+
 
         // Update Stamina.
         _stamina -= _dashCost;

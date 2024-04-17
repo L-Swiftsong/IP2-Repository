@@ -4,13 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class AbilityHolder : MonoBehaviour
-
 {
-
-    public AudioSource source;
-    public AudioClip tigerRush;
-    public AudioClip Dragonbreath;
-    public AudioClip deceptiveMirror;
+    [SerializeField] private AudioSource _audioSource;
 
     private bool _isPressed = false;
 
@@ -30,7 +25,6 @@ public class AbilityHolder : MonoBehaviour
     private float _activeTime;
     
     [SerializeField] private float time = 0;
-    DecptiveScreen clones;
     [ReadOnly]public int numberOfUses;
 
     public enum AbilityState
@@ -42,8 +36,9 @@ public class AbilityHolder : MonoBehaviour
     private AbilityState state = AbilityState.Ready;
 
 
-    // Accessors.
+#region Accessors
     public bool IsActive => _activeTime > 0f;
+    #endregion
 
 
     public static System.Action<float> OnAbilityDurationRemainingChanged; // Called every frame while the ability is active.
@@ -58,22 +53,9 @@ public class AbilityHolder : MonoBehaviour
     {
         if (context.started)
         {
-            
-
-            if (Ability.name == "DragonBreath" && _cooldownTime <= 0)
-            {
-                source.PlayOneShot(Dragonbreath);
-            }
-
-            if (Ability.name == "DeceptiveScreen" && _cooldownTime <= 0)
-            {
-                source.PlayOneShot(deceptiveMirror);
-            }
-
-            if (Ability.name == "TigerRush" && _cooldownTime <= 0)
-            {
-                source.PlayOneShot(tigerRush);
-            }
+            // Play the ability's audio clip, if it has one.
+            if (Ability.AbilityAudio != null)
+                _audioSource.PlayOneShot(Ability.AbilityAudio);
             
             _isPressed = true;
         }

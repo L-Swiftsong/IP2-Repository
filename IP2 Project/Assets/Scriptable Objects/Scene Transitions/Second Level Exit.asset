@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46b26005c4e3bea4ca6581c401e4df86, type: 3}
+  m_Name: Second Level Exit
+  m_EditorClassIdentifier: 
+  _scenesToUnload: 05000000
+  _scenesToLoad: 06000000
+  _newActiveScene: 6
+  _useCustomEntrancePos: 1
+  _entrancePosition: {x: 7.81, y: -56.72}

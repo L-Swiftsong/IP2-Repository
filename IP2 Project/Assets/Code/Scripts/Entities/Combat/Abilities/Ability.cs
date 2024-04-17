@@ -16,6 +16,7 @@ public class Ability : ScriptableObject
 
     [Space(5)]
     public UIAnimation AbilityAnimation;
+    public AudioClip AbilityAudio;
 
 
     [Space(5)]
