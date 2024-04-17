@@ -367,7 +367,7 @@ MonoBehaviour:
   OnMovementInput:
     m_PersistentCalls:
       m_Calls: []
-  _rotationPivot: {fileID: 0}
+  _rotationPivot: {fileID: 885724994905786606}
   _rotationSpeed: 270
 --- !u!114 &8841466412980378394
 MonoBehaviour:
