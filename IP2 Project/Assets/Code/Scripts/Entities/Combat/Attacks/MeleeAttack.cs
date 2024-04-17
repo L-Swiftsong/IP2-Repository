@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 
 [CreateAssetMenu(menuName = "Attacks/Melee Attack", fileName = "New Melee Attack", order = 1)]
@@ -13,7 +14,6 @@ public class MeleeAttack : Attack
 
     [Space(5)]
     [SerializeField] private bool _reflectProjectiles = false;
-    [SerializeField] private float _knockbackStrength = 0f;
 
     [Space(5)]
     [SerializeField] private LayerMask _environmentMask = 1 << 6;
@@ -22,12 +22,13 @@ public class MeleeAttack : Attack
     public override float GetDuration() => _attackDuration;
 
 
-    public override void MakeAttack(Transform attackingTransform) => attackingTransform.GetComponent<MonoBehaviour>().StartCoroutine(ProcessAttack(attackingTransform, attackingTransform.up));
-    public override void MakeAttack(Transform attackingTransform, Vector2 targetPos)
+    public override Coroutine MakeAttack(AttackReferences references)
     {
-        Vector2 attackDirection = (targetPos - (Vector2)attackingTransform.position).normalized;
-
-        attackingTransform.GetComponent<MonoBehaviour>().StartCoroutine(ProcessAttack(attackingTransform, attackDirection));
+        // Calculate the AttackDirection.
+        Vector2 attackDirection = references.TargetPos.HasValue ? (references.TargetPos.Value - (Vector2)references.AttackingTransform.position).normalized : references.AttackingTransform.up;
+        
+        // Handle the Attacking Logic.
+        return references.MonoScript.StartCoroutine(ProcessAttack(references.AttackingTransform, attackDirection));
     }
 
 
@@ -35,13 +36,13 @@ public class MeleeAttack : Attack
     {
         // Calculate ally factions.
         Factions allyFactions = Factions.Unaligned;
-        if (!CanHitAllies && attackingTransform.TryGetComponent<EntityFaction>(out EntityFaction entityFaction))
+        if (!CanHitAllies && attackingTransform.TryGetComponentThroughParents<EntityFaction>(out EntityFaction entityFaction))
             allyFactions = entityFaction.Faction;
 
         // Create a list that will be used for our already hit targets.
         List<Transform> hitTargets = new List<Transform>();
-        if (CanHitSelf == false)
-            hitTargets.Add(attackingTransform);
+        if (CanHitSelf == false && attackingTransform.TryGetComponentThroughParents<Collider2D>(out Collider2D firstCollider))
+            hitTargets.Add(firstCollider.transform);
 
         float durationRemaining = _attackDuration;
         do
@@ -84,12 +85,9 @@ public class MeleeAttack : Attack
                     projectile.Reflect(attackingTransform);
 
 
-                // Knockback Entities with Rigidbodies.
-                if (targetTransform.TryGetComponentThroughParents<Rigidbody2D>(out Rigidbody2D rb2D))
-                {
-                    Vector2 force = ((Vector2)targetTransform.position - attackOrigin).normalized * _knockbackStrength;
-                    rb2D.AddForce(force, ForceMode2D.Impulse);
-                }
+                // Try to apply knockback to the Entity.
+                Vector2 force = ((Vector2)targetTransform.position - attackOrigin).normalized * KnockbackStrength;
+                targetTransform.TryApplyForce(force);
 
                 // Add this transform to the list of already hit transforms.
                 hitTargets.Add(targetTransform);

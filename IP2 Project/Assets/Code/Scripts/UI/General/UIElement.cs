@@ -4,19 +4,22 @@ using UnityEngine;
 using UnityEngine.UI;
 
 #if UNITY_EDITOR
-[ExecuteInEditMode]
+[ExecuteAlways]
 #endif
 public class UIElement : MonoBehaviour
 {
     [SerializeField] private List<Image> _primaryRenderers;
     [SerializeField] private List<Image> _secondaryRenderers;
     
-    private void Awake()
+    private void Start()
     {
 #if UNITY_EDITOR
         if (Application.isPlaying)
+            UpdateUIColours();
+#else
+        UpdateUIColours();
 #endif
-        UpdateUIColours(UIManager.Instance.PrimaryColour, UIManager.Instance.SecondaryColour);
+
 
         // Subscribe to events.
         UIManager.OnUIColoursChanged += UpdateUIColours;
@@ -29,13 +32,13 @@ public class UIElement : MonoBehaviour
     {
         if (!Application.isPlaying && UIManager.Instance != null)
         {
-            UpdateUIColours(UIManager.Instance.PrimaryColour, UIManager.Instance.SecondaryColour);
+            UpdateUIColours();
         }
     }
 #endif
 
 
-    private void UpdateUIColours(Color newPrimary, Color newSecondary)
+    private void UpdateUIColours()
     {
         if (UIManager.Instance == null)
         {
@@ -43,6 +46,10 @@ public class UIElement : MonoBehaviour
             return;
         }
 
+        UpdateUIColours(UIManager.Instance.PrimaryColour, UIManager.Instance.SecondaryColour);
+    }
+    private void UpdateUIColours(Color newPrimary, Color newSecondary)
+    {
         // Update primary colours.
         foreach (Image renderer in _primaryRenderers)
             renderer.color = newPrimary;

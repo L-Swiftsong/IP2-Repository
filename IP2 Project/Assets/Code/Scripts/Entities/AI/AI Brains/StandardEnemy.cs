@@ -13,8 +13,15 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
     private bool _processLogic = true;
 
     [SerializeField, ReadOnly] private Vector2? _investigatePosition;
+    /// <summary> Returns a valid Vector2 position, trying the entitySenses's CurrentTarget, then this brain's InvestigatePosition, and finally returning its own position if all else fails.</summary>
+    private Vector2 _currentTargetPosition
+        => _entitySenses.CurrentTarget != null ? _entitySenses.CurrentTarget.position
+        : _investigatePosition.HasValue ? _investigatePosition.Value
+        : transform.position;
 
 
+    [Space(5)]
+    [SerializeField] private Transform _rotationPivot;
     private EntitySenses _entitySenses;
     private EntityMovement _movementScript;
     private HealthComponent _healthComponent;
@@ -22,7 +29,6 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
 
     private Action OnStunned;
     private Action OnDied;
-
 
 
 
@@ -72,8 +78,8 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
         _patrolState.InitialiseValues(_movementScript);
         _investigateState.InitialiseValues(_movementScript, () => _investigatePosition.Value);
 
-        _chaseState.InitialiseValues(_movementScript, () => _entitySenses.CurrentTarget.position);
-        _attackingState.InitialiseValues(_movementScript, () => _entitySenses.CurrentTarget.position);
+        _chaseState.InitialiseValues(_movementScript, () => _currentTargetPosition);
+        _attackingState.InitialiseValues(this, _rotationPivot, _movementScript, () => _currentTargetPosition);
 
 
         #region Root FSM Setup
@@ -90,7 +96,8 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
         // Any > Dead
         _rootFSM.AddAnyTriggerTransition(
             to: _deadState,
-            trigger: ref OnDied);
+            trigger: ref OnDied,
+            forceInstantly: true);
 
 
         // Unaware > Combat & Vice-Versa
@@ -104,11 +111,13 @@ public class StandardEnemy : MonoBehaviour, IEntityBrain
         _rootFSM.AddTriggerTransition(
             from: _unawareFSM,
             to: _stunnedState,
-            trigger: ref OnStunned);
+            trigger: ref OnStunned,
+            forceInstantly: true);
         _rootFSM.AddTriggerTransition(
             from: _combatFSM,
             to: _stunnedState,
-            trigger: ref OnStunned);
+            trigger: ref OnStunned,
+            forceInstantly: true);
 
         _rootFSM.AddTransition(
             from: _stunnedState,

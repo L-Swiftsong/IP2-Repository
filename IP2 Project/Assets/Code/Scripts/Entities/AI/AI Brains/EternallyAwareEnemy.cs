@@ -12,7 +12,11 @@ public class EternallyAwareEnemy : MonoBehaviour, IEntityBrain
     private StateMachine _rootFSM;
     private bool _processLogic = true;
 
+    [Space(5)]
     [SerializeField] private Position _targetPosition;
+
+    [Space(5)]
+    [SerializeField] private Transform _rotationPivot;
     private EntityMovement _movementScript;
     private HealthComponent _healthComponent;
 
@@ -48,7 +52,7 @@ public class EternallyAwareEnemy : MonoBehaviour, IEntityBrain
 
         // Initialise States that need Initialisation.
         _chaseState.InitialiseValues(_movementScript, () => _targetPosition.Value);
-        _attackingState.InitialiseValues(_movementScript, () => _targetPosition.Value);
+        _attackingState.InitialiseValues(this, _rotationPivot, _movementScript, () => _targetPosition.Value);
 
 
         #region Root FSM Setup

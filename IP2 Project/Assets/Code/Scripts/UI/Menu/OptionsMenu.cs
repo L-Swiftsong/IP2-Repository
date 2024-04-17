@@ -9,6 +9,8 @@ using TMPro;
 public class OptionsMenu : MonoBehaviour
 {
     [Header("General")]
+    public UnityEngine.Events.UnityEvent OnBackPressed;
+    [SerializeField] private UnityEngine.InputSystem.InputActionReference _backAction;
 
 
     [Header("Graphics")]
@@ -113,9 +115,26 @@ public class OptionsMenu : MonoBehaviour
         SetAoERadiusColourIndicator(false);
         #endregion
     }
+    private void OnEnable()
+    {
+        if (_backAction != null)
+            _backAction.action.performed += OnBackButtonPressed;
+    }
+    private void OnDisable()
+    {
+        if (_backAction != null)
+            _backAction.action.performed -= OnBackButtonPressed;
+    }
 
 
     #region General
+    private void OnBackButtonPressed(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            BackButtonPressed();
+    }
+
+    public void BackButtonPressed() => OnBackPressed?.Invoke();
     #endregion
 
 

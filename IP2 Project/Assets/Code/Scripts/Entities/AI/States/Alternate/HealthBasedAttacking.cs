@@ -14,10 +14,11 @@ namespace States.Alternative
         public override string Name { get => "Attacking"; }
 
 
+        private MonoBehaviour _monoScript;
+        private Transform _rotationPivot;
         private Func<Vector2> _targetPos;
         private EntityMovement _movementScript;
         private HealthComponent _healthScript;
-        private WeaponAnimator _weaponAnimator;
 
 
         [System.Serializable]
@@ -59,6 +60,16 @@ namespace States.Alternative
 
         [Header("Keep Distance")]
         [SerializeField] private BaseSteeringBehaviour[] _movementBehaviours;
+        private bool _canMove;
+
+
+        [Header("Animation")]
+        [Tooltip("Called when an attack is started. By default should subscribe to WeaponAnimator.StartAttack & EntityAnimation.PlayAttackAnimation")]
+            public UnityEngine.Events.UnityEvent<WeaponAnimationValues> OnAttackStarted;
+        [Tooltip("Called when the state is exited. By default should subscribe to WeaponAnimator.CancelAttack")]
+            public UnityEngine.Events.UnityEvent OnAttackCancelled;
+        [Tooltip("Called when a weapon is changed. By default should Subscribe to WeaponAnimator.OnWeaponChanged")]
+            public UnityEngine.Events.UnityEvent<Weapon, int> OnWeaponChanged;
 
 
         [Header("Debug")]
@@ -66,29 +77,30 @@ namespace States.Alternative
 
 
 
-        public void InitialiseValues(MonoBehaviour parentScript, EntityMovement movementScript, HealthComponent healthScript, WeaponAnimator weaponAnimator, Func<Vector2> target)
+        public void InitialiseValues(MonoBehaviour parentScript, Transform rotationPivot, EntityMovement movementScript, HealthComponent healthScript, Func<Vector2> target)
         {
+            this._monoScript = parentScript;
+            this._rotationPivot = rotationPivot;
             this._movementScript = movementScript;
             this._healthScript = healthScript;
-            this._weaponAnimator = weaponAnimator;
             this._targetPos = target;
 
             
             // Setup the Weapon Wrappers.
             for (int i = 0; i < _weapons.Length; i++)
-                SetupWeaponWrapper(i, parentScript);
-            
+                SetupWeaponWrapper(i);
+
 
             // Enable weapons after 1 frame (Prevents issues with HealthComponent's Start calling after this Init & healthPercentage being 0).
-            parentScript.StartCoroutine(WaitOneFrameThenTryEnableWeapons());
+            _monoScript.StartCoroutine(WaitOneFrameThenTryEnableWeapons());
         }
-        private void SetupWeaponWrapper(int index, MonoBehaviour linkedScript)
+        private void SetupWeaponWrapper(int index)
         {
             // Setup the WeaponWrapper.
-            _weapons[index].Init(linkedScript);
+            _weapons[index].Init(_monoScript);
 
             // Notify the WeaponAnimator of the weapon's existence.
-            _weaponAnimator?.OnWeaponChanged(_weapons[index].WeaponWrapper.Weapon, index);
+            OnWeaponChanged?.Invoke(_weapons[index].WeaponWrapper.Weapon, index);
         }
         private IEnumerator WaitOneFrameThenTryEnableWeapons()
         {
@@ -105,6 +117,9 @@ namespace States.Alternative
         {
             base.OnEnter();
 
+            // Ensure that we can always move when we start attacking.
+            _canMove = true;
+
             // Subscribe to the HealthComponent.
             _healthScript.OnHealingReceived.AddListener(OnHealthChanged);
             _healthScript.OnDamageTaken.AddListener(OnHealthChanged);
@@ -118,7 +133,6 @@ namespace States.Alternative
 
             // Determine if we can attack.
             _canAttack = _weapons.Where(t => t.IsActive).All(t => t.WeaponWrapper.IsAttacking() == false);
-            Debug.Log(_weapons[0].WeaponWrapper.IsAttacking());
 
             if (_canAttack)
             {
@@ -129,7 +143,8 @@ namespace States.Alternative
                     int previousAttackIndex = _weapons[i].WeaponWrapper.WeaponAttackIndex;
                     if (AttemptAttack(_weapons[i], targetPos))
                     {
-                        _weaponAnimator.StartAttack(i, previousAttackIndex, _weapons[i].WeaponWrapper.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime()); // Animations (Temp).
+                        WeaponAnimationValues animationValues = new WeaponAnimationValues(i, previousAttackIndex, _weapons[i].WeaponWrapper.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
+                        OnAttackStarted?.Invoke(animationValues);
                         break;
                     }
                 }
@@ -138,8 +153,11 @@ namespace States.Alternative
             // Cache the target's current position for next frame.
             _previousTargetPosition = targetPos;
 
-            // Move & rotate towards the target with our behaviours set.
-            _movementScript.CalculateMovement(targetPos, _movementBehaviours, RotationType.TargetDirection);
+            if (_canMove)
+            {
+                // Move & rotate towards the target with our behaviours set.
+                _movementScript.CalculateMovement(targetPos, _movementBehaviours, RotationType.TargetDirection);
+            }
         }
         public override void OnExit()
         {
@@ -148,7 +166,17 @@ namespace States.Alternative
             // Unsubscribe from HealthComponent.
             _healthScript.OnHealingReceived.RemoveListener(OnHealthChanged);
             _healthScript.OnDamageTaken.RemoveListener(OnHealthChanged);
+
+            // Cancel the current attack.
+            OnAttackCancelled?.Invoke();
+            for (int i = 0; i < _weapons.Length; i++)
+            {
+                _weapons[i].WeaponWrapper.CancelAttack();
+            }
         }
+        // Only allow exits if NONE of the weaponWrappers are currently attacking.
+        protected override bool CanExit() => _weapons.Any(t => t.WeaponWrapper.CanAttack()) == false;
+
 
 
         private bool AttemptAttack(WeaponThreshold weaponThreshold, Vector2 targetPos)
@@ -188,8 +216,13 @@ namespace States.Alternative
             // If we are within range to attack, and our cooldown has elapsed, then make the attack.
             if (distanceToTarget < weaponThreshold.MaxRange)
             {
-                if (weaponWrapper.MakeAttack(estimatedTargetPos, true))
+                if (weaponWrapper.MakeAttack(_rotationPivot, estimatedTargetPos, true, recoveryCompleteAction: () => _canMove = true))
+                {
+                    if (!weaponWrapper.Weapon.AllowMovement)
+                        _canMove = false;
+                    
                     return true;
+                }
             }
             
             // Either we were too far to attack, or the weaponWrapper's MakeAttack() failed, so return false to show that we didn't attack.

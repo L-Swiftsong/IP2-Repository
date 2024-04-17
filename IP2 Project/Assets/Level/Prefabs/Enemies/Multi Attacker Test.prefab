@@ -25,13 +25,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3071747570236855839}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3062955884109518247}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!114 &4912055493512119558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,8 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _subscribeToPlayer: 0
   _rotationPivot: {fileID: 3062955884109518247}
-  _facingRightLowerThreshold: 90
-  _facingRightUpperThreshold: 270
+  _facingRightLowerThreshold: 0
+  _facingRightUpperThreshold: 180
   _weaponParent: {fileID: 5762106859510685340}
 --- !u!1 &3993781234543512242
 GameObject:
@@ -73,14 +73,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3993781234543512242}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5762106859510685340}
   m_Father: {fileID: 8581888448041637613}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4246702232080647889
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,10 +392,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentStatePath: 
+  _rotationPivot: {fileID: 3062955884109518247}
   _stunnedState:
     _stunThreshold: 1
     _stunResistance: 30
     _stunDuration: 0.5
+    OnEnteredStun:
+      m_PersistentCalls:
+        m_Calls: []
   _deadState:
     _objectToDestroy: {fileID: 6700026156527167870}
     _destroyDelay: 1
@@ -423,7 +427,6 @@ MonoBehaviour:
     _weapons:
     - {fileID: 11400000, guid: 4da8a1addff0d134fb8cc7f2ded51159, type: 2}
     - {fileID: 11400000, guid: cce453e3b50ea69409cf68ba58508d0f, type: 2}
-    _weaponAnimator: {fileID: 4912055493512119558}
     _simultaniousWeaponUsage: 0
     _weaponSwitchTickRate: 1
     _weaponSwitchChance: 0.5
@@ -436,6 +439,51 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 7095d4cea1ee19d4597e688bbfa3ed6d, type: 2}
     - {fileID: 11400000, guid: e82d7d8c309b0c844a2614a1d9e02f64, type: 2}
     - {fileID: 11400000, guid: 68a733db89b58e74f8985e2db1a8a135, type: 2}
+    OnAttackStarted:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4912055493512119558}
+          m_TargetAssemblyTypeName: WeaponAnimator, Assembly-CSharp
+          m_MethodName: StartAttack
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnAttackCancelled:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4912055493512119558}
+          m_TargetAssemblyTypeName: WeaponAnimator, Assembly-CSharp
+          m_MethodName: CancelAttack
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnWeaponChanged:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4912055493512119558}
+          m_TargetAssemblyTypeName: WeaponAnimator, Assembly-CSharp
+          m_MethodName: OnWeaponChanged
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     _weaponToDisplay: 0
     _attackToDispay: 0
   _drawGizmos: 0
@@ -455,7 +503,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentTarget: {fileID: 0}
+  _secondaryTarget: {fileID: 0}
   _thisFaction: {fileID: 2376758087349318854}
+  _rotationPivot: {fileID: 3062955884109518247}
   _visionRadius: 10
   _visionAngle: 225
   _visibleLayers:
@@ -464,6 +514,12 @@ MonoBehaviour:
   _obstructionLayers:
     serializedVersion: 2
     m_Bits: 64
+  _useSecondaryVision: 0
+  _secondaryVisionRadius: 4
+  _secondaryVisionAngle: 90
+  _secondaryTargetLayers:
+    serializedVersion: 2
+    m_Bits: 128
   _drawGizmos: 0
   _visionGizmosColour: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &5882324734226242582
@@ -480,6 +536,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementSpeed: 3
   _acceleration: 15
+  OnMovementInput:
+    m_PersistentCalls:
+      m_Calls: []
+  _rotationPivot: {fileID: 3062955884109518247}
   _rotationSpeed: 270
 --- !u!114 &2730451818543882398
 MonoBehaviour:
@@ -514,6 +574,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _iFrameDuration: 0
+  _iFrameEndTime: 0
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -556,7 +617,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &5963502379354708811
 MonoBehaviour:
   m_ObjectHideFlags: 0

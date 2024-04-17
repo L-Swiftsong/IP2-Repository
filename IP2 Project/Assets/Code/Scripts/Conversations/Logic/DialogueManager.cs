@@ -54,12 +54,12 @@ public class DialogueManager : MonoBehaviour
 
 
         // Find the first dialogue to display on the left & the first on the right.
-        Dialogue firstLeft = _currentConversation.Conversation.First(t => t.DisplayOnLeft);
-        Dialogue firstRight = _currentConversation.Conversation.First(t => !t.DisplayOnLeft);
+        Dialogue? firstLeft = _currentConversation.Conversation.FirstOrDefault(t => t.DisplayOnLeft);
+        Dialogue? firstRight = _currentConversation.Conversation.FirstOrDefault(t => !t.DisplayOnLeft);
 
         _conversationUI.InitialiseConversation(
-            leftSprite: firstLeft.SpeakerSprite, leftName: firstLeft.SpeakerName,
-            rightSprite: firstRight.SpeakerSprite, rightName: firstRight.SpeakerName,
+            firstLeft: firstLeft,
+            firstRight: firstRight,
             firstIsLeft: _currentConversation.Conversation[0].DisplayOnLeft
         );
 

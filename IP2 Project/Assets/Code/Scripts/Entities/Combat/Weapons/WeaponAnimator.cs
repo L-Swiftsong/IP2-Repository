@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class WeaponAnimator : MonoBehaviour
 {
@@ -56,26 +57,35 @@ public class WeaponAnimator : MonoBehaviour
     }
 
 
-    public void StartAttack(int weaponIndex, int comboIndex, float showDuration)
+    public void StartAttack(WeaponAnimationValues values)
     {
         // Set this weapon as active if it is not already.
-        SetActiveWeapon(weaponIndex, showDuration);
+        SetActiveWeapon(values.WeaponIndex, values.ShowDuration);
 
         // Play the attack animation (If the weaponInstance has an animator).
-        if (_weaponInstances[weaponIndex].TryGetComponent<Animator>(out Animator weaponAnim))
+        if (_weaponInstances[values.WeaponIndex].TryGetComponent<Animator>(out Animator weaponAnim))
         {
-            weaponAnim.SetBool("FacingRight", _isFacingRight);
-            weaponAnim.SetInteger("ComboIndex", comboIndex);
-            weaponAnim.SetTrigger("Attack");
+            weaponAnim.CrossFade(
+                stateName: string.Format("Attack{0}_{1}", values.AttackIndex + 1, _isFacingRight ? "Right" : "Left"),
+                normalizedTransitionDuration: 0.1f);
         }
         else
-            Debug.Log(string.Format("Weapon {0} does not have an animator", weaponIndex));
+            Debug.Log(string.Format("Weapon {0} does not have an animator", values.WeaponIndex));
+    }
+    public void CancelAttack()
+    {
+        // Stop any already running ShowOriginalAfterDuration coroutines.
+        if (_showOriginalWeaponCoroutine != null)
+            StopCoroutine(_showOriginalWeaponCoroutine);
+
+        // Show the original weapon.
+        ShowWeapon(_shownIndex);
     }
 
 
     private void SetActiveWeapon(int index, float duration = -1f)
     {
-        // Stop any already running HideAfterDuration coroutines.
+        // Stop any already running ShowOriginalAfterDuration coroutines.
         if (_showOriginalWeaponCoroutine != null)
             StopCoroutine(_showOriginalWeaponCoroutine);
 
@@ -112,13 +122,10 @@ public class WeaponAnimator : MonoBehaviour
     }
 
 
+    #region On Weapon Changed
     public void OnPrimaryChanged(Weapon newWeapon) => OnWeaponChanged(newWeapon, 0, true);
     public void OnSecondaryChanged(Weapon newWeapon) => OnWeaponChanged(newWeapon, 1);
-    public void OnWeaponChanged(Weapon newWeapon, int index)
-    {
-        Debug.Log(newWeapon.name);
-        OnWeaponChanged(newWeapon, index, false);
-    }
+    public void OnWeaponChanged(Weapon newWeapon, int index) => OnWeaponChanged(newWeapon, index, false);
     public void OnWeaponChanged(Weapon newWeapon, int index, bool makeShownWeapon)
     {
         // Ensure weaponInstances has been initialised.
@@ -144,5 +151,22 @@ public class WeaponAnimator : MonoBehaviour
         // If this weapon should become the shown weapon, then make it so.
         if (makeShownWeapon || _weaponInstances.Length == 1)
             SetActiveWeapon(index);
+    }
+    #endregion
+}
+
+public struct WeaponAnimationValues
+{
+    public int WeaponIndex { get; }
+    public int AttackIndex { get; }
+
+    public float ShowDuration { get; }
+
+
+    public WeaponAnimationValues(int weaponIndex, int attackIndex, float showDuration)
+    {
+        this.WeaponIndex = weaponIndex;
+        this.AttackIndex = attackIndex;
+        this.ShowDuration = showDuration;
     }
 }

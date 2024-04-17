@@ -1,15 +1,22 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IMoveable
 {
     [Header("Movement")]
     [SerializeField] private float _moveSpeed;
     [SerializeField] private Rigidbody2D _rb2D;
+    [SerializeField] private Transform _rotationPivot;
     private Vector2 _movementInput;
-    
+
+
+    // Input Prevention.
+    private int _sourcesPreventingInput = 0;
+    private Coroutine _reduceInputPreventionCoroutine;
+    private Coroutine _reduceVelocityCoroutine;
+
 
     public static System.Action<float> OnStaminaChanged; // <float staminaPercentage>
     public static System.Action<float, float> OnStaminaValuesChanged; // <float maxStamina, float dashCost>
@@ -17,17 +24,17 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Dashing")]
     [Tooltip("How fast the player travels when they dash.")]
-        [SerializeField] private float _dashSpeed;
+    [SerializeField] private float _dashSpeed;
     [Tooltip("How far the player travels when they dash.")]
-        [SerializeField] private float _dashDistance;
+    [SerializeField] private float _dashDistance;
     private float _dashDurationRemaining;
 
     [Tooltip("How long the playuer needs to wait after their previous dash before they can dash again.")]
-        [SerializeField] private float dashCooldown = 0.25f;
+    [SerializeField] private float dashCooldown = 0.25f;
     private float dashCooldownRemaining;
 
     [Tooltip("How many times the player can dash if they started at full stamina.")]
-        [SerializeField] private int _dashCount;
+    [SerializeField] private int _dashCount;
     private float _dashCost
     {
         get => _maxStamina / (float)_dashCount;
@@ -35,19 +42,26 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _isDashing;
 
+    public UnityEvent OnDashStarted;
+    public UnityEvent OnDashCompleted;
+
+
 
     [Header("Dash Cost & Recharge")]
     [Tooltip("The player's maximum stamina (Used for Dashing).")]
-        [SerializeField] private float _maxStamina = 100f;
+    [SerializeField] private float _maxStamina = 100f;
     private float _stamina;
 
     [Tooltip("How much stamina the player regenerates in 1 second.")]
-       [SerializeField] private float _dashRechargeRate;
+    [SerializeField] private float _dashRechargeRate;
     private Coroutine dashRechargeCoroutine;
 
     [Tooltip("How long after the player dashes until their stamina starts regenerating")]
-        [SerializeField] private float _dashRechargeDelay = 1f;
-    private float staminaRegenerationDelayRemaining;
+    [SerializeField] private float _dashRechargeDelay = 1f;
+
+
+    [Header("References")]
+    private AbilityHolder _abilityHolder;
 
 
     [Header("Debug")]
@@ -57,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     public void OnMovementInput(InputAction.CallbackContext context) => _movementInput = context.ReadValue<Vector2>().normalized;
-    
+
     public void OnDashPressed(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -67,8 +81,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        // References.
+        _abilityHolder = GetComponent<AbilityHolder>();
+
+        // Allow input.
+        _sourcesPreventingInput = 0;
+
+        // Stamina.
         _stamina = _maxStamina;
         OnStaminaValuesChanged?.Invoke(_maxStamina, _dashCost);
+
+        gameObject.GetComponent<PlayerController>().respawn = GameObject.Find("Respawn");
     }
 
     void Update()
@@ -83,6 +106,7 @@ public class PlayerMovement : MonoBehaviour
             if (_dashDurationRemaining <= 0f)
             {
                 _isDashing = false;
+                OnDashCompleted?.Invoke();
                 dashCooldownRemaining = dashCooldown;
             }
         }
@@ -95,25 +119,87 @@ public class PlayerMovement : MonoBehaviour
 
     void Move()
     {
-
-        // Don't process movement if we are dashing.
-        if (_isDashing)
+        // Don't process movement if we are dashing or something is preventing our movement.
+        if (_isDashing || _sourcesPreventingInput > 0)
             return;
-      
-        if (gameObject.GetComponent<AbilityHolder>().activeTime <= 0 && gameObject.GetComponent<AbilityHolder>().ability.name == "TigerRush")
+
+        if (!_abilityHolder.IsActive && _abilityHolder.Ability.name == "TigerRush")
         {
             _rb2D.velocity = _movementInput * _moveSpeed;
         }
 
-        if(gameObject.GetComponent<AbilityHolder>().ability.name != "TigerRush")
+        if (_abilityHolder.Ability.name != "TigerRush")
         {
             _rb2D.velocity = _movementInput * _moveSpeed;
         }
-
-
-        // Move by setting the player's velocity.
-
     }
+
+    public void ApplyKnockback(Vector2 force, float duration, ForceMode2D forceMode = ForceMode2D.Impulse)
+    {
+        // Disable input.
+        RequestDisableMovement();
+
+        // Stop any active reduceVelocityCoroutines which would interfere with the knockback.
+        if (_reduceVelocityCoroutine != null)
+            StopCoroutine(_reduceVelocityCoroutine);
+
+        // Apply the knockback.
+        if (Vector2.Dot(_rb2D.velocity, force) < -0.5f)
+        {
+            // Disable previous movement.
+            _rb2D.velocity = Vector2.zero;
+        }
+        else
+        {
+            _rb2D.velocity = Vector2.zero;
+            // Apply Knockback.
+            _rb2D.AddForce(force, forceMode);
+        }
+
+
+        // Stop any other reduceInputPrevention coroutines currently in effect, and enable their movement again.
+        if (_reduceInputPreventionCoroutine != null)
+        {
+            StopCoroutine(_reduceInputPreventionCoroutine);
+            RequestEnableMovement();
+        }
+
+        // Re-enable movement after the duration has elapsed.
+        _reduceInputPreventionCoroutine = StartCoroutine(ReduceMovementPrevention(duration));
+    }
+    private IEnumerator ReduceMovementPrevention(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        RequestEnableMovement();
+
+        // Reduce knockback velocity towards 0 over time.
+        _reduceVelocityCoroutine = StartCoroutine(ReduceKnockbackVelocity());
+        _reduceInputPreventionCoroutine = null;
+    }
+    private IEnumerator ReduceKnockbackVelocity()
+    {
+        // Slow velocity (Rather than a direct set).
+        float t = 0;
+        while (true)
+        {
+            if (_sourcesPreventingInput == 0)
+                break;
+            if (_rb2D.velocity.magnitude < 0.1f)
+                break;
+
+            _rb2D.velocity = Vector2.Lerp(_rb2D.velocity, Vector2.zero, t);
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure velocity is 0.
+        _rb2D.velocity = Vector2.zero;
+    }
+
+
+    public void RequestDisableMovement() => _sourcesPreventingInput++;
+    public void RequestEnableMovement() => _sourcesPreventingInput = Mathf.Max(_sourcesPreventingInput - 1, 0);
+
 
 
     private void AttemptDash()
@@ -122,14 +208,19 @@ public class PlayerMovement : MonoBehaviour
         if (_isDashing || dashCooldownRemaining > 0 || _stamina < _dashCost)
             return;
 
-        
         // Start Dashing.
+        StartDashing();
+    }
+    private void StartDashing()
+    {
         Vector2 dashDirection = GetDashDirection();
         _rb2D.velocity = dashDirection * _dashSpeed;
 
         _dashDurationRemaining = _dashDistance / _dashSpeed; // From physics: 't = d/v'.
         _isDashing = true;
 
+        // Notify subscribed scripts.
+        OnDashStarted?.Invoke();
 
         // Update Stamina.
         _stamina -= _dashCost;
@@ -140,6 +231,8 @@ public class PlayerMovement : MonoBehaviour
             StopCoroutine(dashRechargeCoroutine);
         dashRechargeCoroutine = StartCoroutine(RechargeStamina());
     }
+
+
     private IEnumerator RechargeStamina()
     {
         // Don't start regenerating stamina for staminaRegenerationDelay seconds.
@@ -165,7 +258,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     // Used for TigerRush (To-Do: If we have time, find a better way).
-    public Vector2 GetDashDirection() => (_movementInput != Vector2.zero ? _movementInput : (Vector2)transform.up).normalized;
+    public Vector2 GetDashDirection() => (_movementInput != Vector2.zero ? _movementInput : (Vector2)_rotationPivot.up).normalized;
 
     private void OnDrawGizmosSelected()
     {

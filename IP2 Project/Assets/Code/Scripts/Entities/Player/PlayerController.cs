@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     private PlayerInput _playerInput;
+    [SerializeField] public GameObject respawn;
 
     private void Awake()
     {

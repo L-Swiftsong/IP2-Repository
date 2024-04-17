@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using HFSM;
+using System.Linq;
 
 
 namespace States.Alternative
@@ -13,15 +14,15 @@ namespace States.Alternative
         public override string Name { get => "Attacking"; }
 
 
+        private MonoBehaviour _monoScript;
+        private Transform _rotationPivot;
         private Func<Vector2> _targetPos;
         private EntityMovement _movementScript;
 
 
         [Header("Attacks")]
         [SerializeField] private Weapon[] _weapons;
-        private WeaponWrapper[] _weaponWrappers;
-
-        [SerializeField] private WeaponAnimator _weaponAnimator;
+        private List<WeaponWrapper> _weaponWrappers;
 
 
         [Space(5)]
@@ -46,7 +47,17 @@ namespace States.Alternative
 
         [Header("Keep Distance")]
         [SerializeField] private BaseSteeringBehaviour[] _movementBehaviours;
+        private bool _canMove;
         public bool ShouldStopAttacking() => Vector2.Distance(_movementScript.transform.position, _targetPos()) > _maxAttackRange;
+
+
+        [Header("Animation")]
+        [Tooltip("Called when an attack is started. By default should subscribe to WeaponAnimator.StartAttack & EntityAnimation.PlayAttackAnimation")]
+        public UnityEngine.Events.UnityEvent<WeaponAnimationValues> OnAttackStarted;
+        [Tooltip("Called when the state is exited. By default should subscribe to WeaponAnimator.CancelAttack")]
+            public UnityEngine.Events.UnityEvent OnAttackCancelled;
+        [Tooltip("Called when a weapon is changed. By default should Subscribe to WeaponAnimator.OnWeaponChanged")]
+            public UnityEngine.Events.UnityEvent<Weapon, int> OnWeaponChanged;
 
 
         [Header("Debug")]
@@ -54,13 +65,15 @@ namespace States.Alternative
         [SerializeField] private int _attackToDispay;
 
 
-        public void InitialiseValues(EntityMovement movementScript, Func<Vector2> target)
+        public void InitialiseValues(MonoBehaviour monoScript, Transform rotationPivot, EntityMovement movementScript, Func<Vector2> target)
         {
+            this._monoScript = monoScript;
+            this._rotationPivot = rotationPivot;
             this._movementScript = movementScript;
             this._targetPos = target;
 
             // Setup the Weapon Wrappers.
-            _weaponWrappers = new WeaponWrapper[_weapons.Length];
+            _weaponWrappers = new List<WeaponWrapper>(_weapons.Length);
             for (int i = 0; i < _weapons.Length; i++)
             {
                 SetWeaponWrapper(_weapons[i], i);
@@ -71,6 +84,9 @@ namespace States.Alternative
         public override void OnEnter()
         {
             base.OnEnter();
+
+            // Ensure that we can always move when we start attacking.
+            _canMove = true;
 
 
             if (_swapWeaponsCoroutine != null)
@@ -92,21 +108,31 @@ namespace States.Alternative
                 {
                     int previousAttackIndex = _weaponWrappers[i].WeaponAttackIndex;
                     if (AttemptAttack(_weaponWrappers[i], targetPos))
-                        _weaponAnimator.StartAttack(i, previousAttackIndex, _weaponWrappers[i].Weapon.Attacks[previousAttackIndex].GetTotalAttackTime()); // Animations (Temp).
+                    {
+                        WeaponAnimationValues animationValues = new WeaponAnimationValues(i, previousAttackIndex, _weaponWrappers[i].Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
+                        OnAttackStarted?.Invoke(animationValues);
+                    }
                 }
             }
             else
             {
                 int previousAttackIndex = _weaponWrappers[_currentWeaponIndex].WeaponAttackIndex;
                 if (AttemptAttack(_weaponWrappers[_currentWeaponIndex], targetPos))
-                    _weaponAnimator.StartAttack(_currentWeaponIndex, previousAttackIndex, _weaponWrappers[_currentWeaponIndex].Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
+                {
+                    WeaponAnimationValues animationValues = new WeaponAnimationValues(_currentWeaponIndex, previousAttackIndex, _weaponWrappers[_currentWeaponIndex].Weapon.Attacks[previousAttackIndex].GetTotalAttackTime());
+                    OnAttackStarted?.Invoke(animationValues);
+                }
             }
 
             // Cache the target's current position for next frame.
             _previousTargetPosition = targetPos;
 
-            // Move & rotate towards the target with our behaviours set.
-            _movementScript.CalculateMovement(targetPos, _movementBehaviours, RotationType.TargetDirection);
+
+            if (_canMove)
+            {
+                // Move & rotate towards the target with our behaviours set.
+                _movementScript.CalculateMovement(targetPos, _movementBehaviours, RotationType.TargetDirection);
+            }
         }
 
         private bool AttemptAttack(WeaponWrapper weaponWrapper, Vector2 targetPos)
@@ -138,23 +164,25 @@ namespace States.Alternative
             // If we are within range to attack, and our cooldown has elapsed, then make the attack.
             if (distanceToTarget < _maxAttackRange)
             {
-                weaponWrapper.MakeAttack(estimatedTargetPos, true);
+                if (!weaponWrapper.Weapon.AllowMovement)
+                    _canMove = false;
+                
+                weaponWrapper.MakeAttack(_rotationPivot, estimatedTargetPos, true, recoveryCompleteAction: () => _canMove = true);
             }
-
 
             return true;
         }
         private IEnumerator SwapWeapons()
         {
             float randomChance;
-            while(!_simultaniousWeaponUsage && _weaponWrappers.Length > 1)
+            while(!_simultaniousWeaponUsage && _weaponWrappers.Count > 1)
             {
                 // Roll to see if we should swap the current weapon.
                 randomChance = UnityEngine.Random.Range(0f, 1f);
                 if (_weaponSwitchChance > randomChance)
                 {
                     // Calculate the new value for the weapon index, ensuring it is not the same as the current.
-                    int randomValue = UnityEngine.Random.Range(0, _weaponWrappers.Length - 1);
+                    int randomValue = UnityEngine.Random.Range(0, _weaponWrappers.Count - 1);
                     _currentWeaponIndex = randomValue < _currentWeaponIndex ? randomValue : randomValue + 1;
                 }
 
@@ -169,13 +197,22 @@ namespace States.Alternative
             // Stop the swap weapons coroutine.
             if (_swapWeaponsCoroutine != null)
                 _movementScript.StopCoroutine(_swapWeaponsCoroutine);
+
+            // Cancel the current attack.
+            OnAttackCancelled?.Invoke();
+            for (int i = 0; i < _weaponWrappers.Count; i++)
+            {
+                _weaponWrappers[i].CancelAttack();
+            }
         }
+        // Only allow exits if NONE of the weaponWrappers are currently attacking.
+        protected override bool CanExit() => _weaponWrappers.Any(t => t.CanAttack()) == false;
 
 
         private void SetWeaponWrapper(Weapon newWeapon, int index)
         {
-            _weaponWrappers[index] = new WeaponWrapper(newWeapon, _movementScript);
-            _weaponAnimator?.OnWeaponChanged(newWeapon, index);
+            _weaponWrappers[index] = new WeaponWrapper(newWeapon, _monoScript);
+            OnWeaponChanged?.Invoke(newWeapon, index);
         }
 
 

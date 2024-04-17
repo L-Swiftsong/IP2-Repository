@@ -17,15 +17,16 @@ MonoBehaviour:
   HitMask:
     serializedVersion: 2
     m_Bits: 905
-  WindupTime: 0.1
+  WindupTime: 0.15
   RecoveryTime: 0.33
   CooldownTime: 0
   DealsDamage: 1
+  KnockbackStrength: 5
+  KickbackStrength: -2
   _extents: {x: 1.75, y: 1.75}
   _offset: {x: 0, y: 1.3}
   _attackDuration: 0.25
   _reflectProjectiles: 1
-  _knockbackStrength: 7.5
   _environmentMask:
     serializedVersion: 2
     m_Bits: 64

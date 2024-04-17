@@ -14,11 +14,17 @@ public class ConversationUI : MonoBehaviour
 
     
     [Header("Left")]
+    [SerializeField] private GameObject _leftSpeakerArea;
+    [Space(5)]
+
     [SerializeField] private TMP_Text _leftSpeakerName;
     [SerializeField] private Image _leftSpeakerImage;
     [SerializeField] private GameObject _leftSpeakerBlur;
 
     [Header("Right")]
+    [SerializeField] private GameObject _rightSpeakerArea;
+
+    [Space(5)]
     [SerializeField] private TMP_Text _rightSpeakerName;
     [SerializeField] private Image _rightSpeakerImage;
     [SerializeField] private GameObject _rightSpeakerBlur;
@@ -29,14 +35,28 @@ public class ConversationUI : MonoBehaviour
     [SerializeField] private int _mainBodyCharactersPerSecond;
 
 
-    public void InitialiseConversation(Sprite leftSprite, string leftName, Sprite rightSprite, string rightName, bool firstIsLeft)
+    public void InitialiseConversation(Dialogue? firstLeft, Dialogue? firstRight, bool firstIsLeft)
     {
         // Set the speaker names & sprites.
-        _leftSpeakerImage.sprite = leftSprite;
-        _rightSpeakerImage.sprite = rightSprite;
+        if (firstLeft.HasValue)
+        {
+            _leftSpeakerArea.SetActive(true);
 
-        _leftSpeakerName.text = leftName;
-        _rightSpeakerName.text = rightName;
+            _leftSpeakerImage.sprite = firstLeft.Value.SpeakerSprite;
+            _leftSpeakerName.text = firstLeft.Value.SpeakerName;
+        }
+        else
+            _leftSpeakerArea.SetActive(false);
+
+        if (firstRight.HasValue)
+        {
+            _rightSpeakerArea.SetActive(true);
+
+            _rightSpeakerImage.sprite = firstRight.Value.SpeakerSprite;
+            _rightSpeakerName.text = firstRight.Value.SpeakerName;
+        }
+        else
+            _rightSpeakerArea.SetActive(false);
 
 
         // Set the first to blur.
