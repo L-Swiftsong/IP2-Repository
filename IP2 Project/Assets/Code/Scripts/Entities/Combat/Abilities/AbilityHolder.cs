@@ -7,6 +7,8 @@ public class AbilityHolder : MonoBehaviour
 {
     private bool _isPressed = false;
 
+    private float dragonBreathInv;
+
     [SerializeField] private Ability _ability;
     public Ability Ability
     {
@@ -52,6 +54,7 @@ public class AbilityHolder : MonoBehaviour
         if (context.started)
         {
             _isPressed = true;
+            dragonBreathInv = gameObject.GetComponent<HealthComponent>()._currentHealthProperty;
         }
         else if(context.canceled)
         {
@@ -99,6 +102,11 @@ public class AbilityHolder : MonoBehaviour
                 if(_activeTime > 0)
                 {
                     _activeTime -= Time.deltaTime;
+
+                    if(Ability.name == "DragonBreath")
+                    {
+                        gameObject.GetComponent<HealthComponent>()._currentHealthProperty = ((int)dragonBreathInv);
+                    }
                 }
                 else
                 {
