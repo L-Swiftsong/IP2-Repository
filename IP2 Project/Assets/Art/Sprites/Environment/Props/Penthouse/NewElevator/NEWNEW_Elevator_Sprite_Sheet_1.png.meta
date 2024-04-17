@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 128
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,13 +113,13 @@ TextureImporter:
       name: NEWNEW_Elevator_Sprite_Sheet_1_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 666.6666
-        width: 500
-        height: 333.33334
+        x: 26
+        y: 691
+        width: 431
+        height: 288
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 26, y: 25, z: 43, w: 21}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -134,13 +134,13 @@ TextureImporter:
       name: NEWNEW_Elevator_Sprite_Sheet_1_1
       rect:
         serializedVersion: 2
-        x: 500
-        y: 666.6666
-        width: 500
-        height: 333.33334
+        x: 535
+        y: 691
+        width: 431
+        height: 288
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 35, y: 25, z: 34, w: 21}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -155,13 +155,13 @@ TextureImporter:
       name: NEWNEW_Elevator_Sprite_Sheet_1_2
       rect:
         serializedVersion: 2
-        x: 1000
-        y: 666.6666
-        width: 500
-        height: 333.33334
+        x: 1051
+        y: 692
+        width: 431
+        height: 287
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 51, y: 26, z: 18, w: 21}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -176,13 +176,13 @@ TextureImporter:
       name: NEWNEW_Elevator_Sprite_Sheet_1_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 333.66666
-        width: 500
-        height: 333.33334
+        x: 26
+        y: 352
+        width: 431
+        height: 288
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 26, y: 19, z: 43, w: 27}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -197,13 +197,13 @@ TextureImporter:
       name: NEWNEW_Elevator_Sprite_Sheet_1_4
       rect:
         serializedVersion: 2
-        x: 500
-        y: 334
-        width: 500
-        height: 333
+        x: 535
+        y: 352
+        width: 431
+        height: 288
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 35, y: 18, z: 34, w: 28}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -218,13 +218,13 @@ TextureImporter:
       name: NEWNEW_Elevator_Sprite_Sheet_1_5
       rect:
         serializedVersion: 2
-        x: 1000
-        y: 333.66666
-        width: 500
-        height: 333.33334
+        x: 1051
+        y: 352
+        width: 431
+        height: 288
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 51, y: 19, z: 18, w: 28}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -241,11 +241,11 @@ TextureImporter:
         serializedVersion: 2
         x: 25
         y: 17
-        width: 475
-        height: 317
+        width: 432
+        height: 288
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 43, w: 29}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -262,11 +262,11 @@ TextureImporter:
         serializedVersion: 2
         x: 535
         y: 17
-        width: 465
-        height: 317
+        width: 431
+        height: 288
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 34, w: 29}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -281,13 +281,13 @@ TextureImporter:
       name: NEWNEW_Elevator_Sprite_Sheet_1_8
       rect:
         serializedVersion: 2
-        x: 1000
+        x: 1051
         y: 17
-        width: 482
+        width: 431
         height: 288
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 51, y: 0, z: 0, w: 0}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
