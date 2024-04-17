@@ -140,7 +140,7 @@ public class AbilityHolder : MonoBehaviour
     }
 
 
-    public void SetAbility(Ability newAbility) => _ability = newAbility;
+    public void SetAbility(Ability newAbility) => Ability = newAbility;
     
 
 
