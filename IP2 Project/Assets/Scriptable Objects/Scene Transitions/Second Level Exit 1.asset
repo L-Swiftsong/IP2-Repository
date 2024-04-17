@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46b26005c4e3bea4ca6581c401e4df86, type: 3}
   m_Name: Second Level Exit 1
   m_EditorClassIdentifier: 
-  _scenesToUnload: 05000000
+  _scenesToUnload: 03000000
   _scenesToLoad: 0600000007000000
   _newActiveScene: 6
   _useCustomEntrancePos: 1

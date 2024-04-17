@@ -12,7 +12,15 @@ public class CanvasHandler : MonoBehaviour
         _canvas = GetComponent<Canvas>();
 
         _canvas.worldCamera = GameManager.MainCamera;
+        
+        
+    }
 
-        gameObject.transform.GetChild(11).gameObject.SetActive(false);
+    private void Start()
+    {
+        if (gameObject.name == "Player Canvas")
+        {
+            gameObject.transform.GetChild(11).gameObject.SetActive(false);
+        }
     }
 }

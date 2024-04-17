@@ -303,6 +303,10 @@ PrefabInstance:
       propertyPath: m_RenderMode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1412796501052850056, guid: da5dd9f7c277b034bae4fb18593e06bc, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1657877518613297143, guid: da5dd9f7c277b034bae4fb18593e06bc, type: 3}
       propertyPath: m_DefaultActionMap
       value: UI
