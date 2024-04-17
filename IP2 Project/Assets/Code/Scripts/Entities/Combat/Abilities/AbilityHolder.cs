@@ -158,7 +158,7 @@ public class AbilityHolder : MonoBehaviour
         {
             if (collision.TryGetComponent<EntityFaction>(out EntityFaction faction))
             {
-                if(faction.IsAlly(Factions.Yakuza))
+                if(!faction.IsAlly(Factions.Player))
                 {
                     if(collision.TryGetComponent<HealthComponent>(out HealthComponent health))
                     {   
@@ -185,7 +185,7 @@ public class AbilityHolder : MonoBehaviour
         {
             if (other.TryGetComponent<EntityFaction>(out EntityFaction faction))
             {
-                if (faction.IsAlly(Factions.Yakuza))
+                if (!faction.IsAlly(Factions.Player))
                 {
                     if (time >= 1)
                     {
