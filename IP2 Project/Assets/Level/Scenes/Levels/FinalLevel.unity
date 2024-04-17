@@ -1474,7 +1474,7 @@ Transform:
   m_GameObject: {fileID: 64254733}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -56.167572, y: 57.004654, z: 0}
+  m_LocalPosition: {x: -47.2, y: 117.4, z: 0}
   m_LocalScale: {x: 1, y: 0.8835938, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2890,6 +2890,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3db9937f06a31d149a128ce8a9385cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vinyl: {fileID: 0}
+  artist: 
+  songName: 
+  text: {fileID: 0}
 --- !u!1 &131054841
 GameObject:
   m_ObjectHideFlags: 0
@@ -16963,6 +16967,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b2d6c448-44fa-4331-b7eb-d8a1464cadc0
     m_ActionName: Player/Interact[/Keyboard/f]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3f8d25d1-f7b6-4e1d-af82-5ad4d20e0647
+    m_ActionName: UI/SelectNextTab[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 20f9b9f9-d0b7-4571-baa0-49802d8d273b
+    m_ActionName: UI/SelectPreviousTab[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d4d01e33-17ae-4ede-a827-53ae19521d42
+    m_ActionName: UI/Back[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d2bd1f8c-5f2d-4c1e-a127-8e15c16a448f
+    m_ActionName: UI/Continue[/Mouse/leftButton,/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
