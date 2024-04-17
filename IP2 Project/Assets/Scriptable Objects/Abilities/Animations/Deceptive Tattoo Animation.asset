@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e07926a98aafd84298ea0cce71b56ba, type: 3}
+  m_Name: Deceptive Tattoo Animation
+  m_EditorClassIdentifier: 
+  Animation:
+  - {fileID: -792522538, guid: 974178c6fc4b06d45a5cdf8e2a52f12d, type: 3}
+  - {fileID: -1006059006, guid: 974178c6fc4b06d45a5cdf8e2a52f12d, type: 3}
+  - {fileID: 1117932867, guid: 974178c6fc4b06d45a5cdf8e2a52f12d, type: 3}
+  - {fileID: -1479852973, guid: 974178c6fc4b06d45a5cdf8e2a52f12d, type: 3}
+  - {fileID: -2085128061, guid: 974178c6fc4b06d45a5cdf8e2a52f12d, type: 3}
+  - {fileID: 1176628609, guid: 974178c6fc4b06d45a5cdf8e2a52f12d, type: 3}
+  - {fileID: 1043747070, guid: 974178c6fc4b06d45a5cdf8e2a52f12d, type: 3}
+  - {fileID: -1645782084, guid: 974178c6fc4b06d45a5cdf8e2a52f12d, type: 3}
+  - {fileID: -376140005, guid: 974178c6fc4b06d45a5cdf8e2a52f12d, type: 3}
+  - {fileID: 1526640132, guid: b67df51684001394cac44ee5131c9157, type: 3}
+  - {fileID: 329846877, guid: b67df51684001394cac44ee5131c9157, type: 3}
+  - {fileID: -1375561467, guid: b67df51684001394cac44ee5131c9157, type: 3}
+  - {fileID: -1453817618, guid: b67df51684001394cac44ee5131c9157, type: 3}
+  - {fileID: 704976735, guid: b67df51684001394cac44ee5131c9157, type: 3}
+  - {fileID: 1462024210, guid: b67df51684001394cac44ee5131c9157, type: 3}
+  - {fileID: 1505131376, guid: b67df51684001394cac44ee5131c9157, type: 3}
+  - {fileID: 1489519606, guid: b67df51684001394cac44ee5131c9157, type: 3}
+  - {fileID: -2127010869, guid: b67df51684001394cac44ee5131c9157, type: 3}
+  FrameRate: 30
