@@ -87,7 +87,7 @@ public class MeleeAttack : Attack
 
                 // Try to apply knockback to the Entity.
                 Vector2 force = ((Vector2)targetTransform.position - attackOrigin).normalized * KnockbackStrength;
-                targetTransform.TryApplyForce(force, ForceMode2D.Impulse);
+                targetTransform.TryApplyForce(force);
 
                 // Add this transform to the list of already hit transforms.
                 hitTargets.Add(targetTransform);

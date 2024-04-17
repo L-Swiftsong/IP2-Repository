@@ -1,0 +1,964 @@
+fileFormatVersion: 2
+guid: 52f2401c9dd4f674f82113a0926b6e8d
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 128
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Jiro_Death_00
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 1175
+        width: 130
+        height: 230
+      alignment: 9
+      pivot: {x: 0.65, y: 0.49}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40a501a5464ef0f43b94a03bff43431c
+      internalID: -1421132488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Death_01
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 1175
+        width: 130
+        height: 230
+      alignment: 9
+      pivot: {x: 0.68, y: 0.48}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 572663cc059e32249bf9ccaba32a904d
+      internalID: -807007810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Death_02
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 1175
+        width: 130
+        height: 230
+      alignment: 9
+      pivot: {x: 0.68, y: 0.48}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: feb7de4b42ea1ab4280f7cac52fb1d83
+      internalID: 1328507808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Death_03
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 1175
+        width: 130
+        height: 230
+      alignment: 9
+      pivot: {x: 0.68, y: 0.47}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60c32bb054c718048a3173c7dda034d4
+      internalID: -1133184730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Death_04
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 1175
+        width: 130
+        height: 230
+      alignment: 9
+      pivot: {x: 0.69, y: 0.49}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b52e5e7ebc8951945a6bfa89b48f3625
+      internalID: -1681430746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Death_05
+      rect:
+        serializedVersion: 2
+        x: 705
+        y: 1175
+        width: 130
+        height: 230
+      alignment: 9
+      pivot: {x: 0.65, y: 0.47}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d3db1bb5b6d38048a6f5140f071556a
+      internalID: -17396038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Death_06
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 895
+        width: 130
+        height: 275
+      alignment: 9
+      pivot: {x: 0.54, y: 0.59}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a261cf783786784c8f01d98b94166af
+      internalID: 1996813282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Death_07
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 895
+        width: 130
+        height: 275
+      alignment: 9
+      pivot: {x: 0.55, y: 0.59}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c6479bd368343a48a25def66c87a8f2
+      internalID: -1199324886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Death_08
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 895
+        width: 110
+        height: 275
+      alignment: 9
+      pivot: {x: 0.65, y: 0.59}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c99c95fa8b7d4654f9dbf1114c58362e
+      internalID: 1934682203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Death_09
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 895
+        width: 130
+        height: 275
+      alignment: 9
+      pivot: {x: 0.5, y: 0.57}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6553a4a297c1dd64cb495719ce3cae67
+      internalID: 1757558135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Death_10
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 895
+        width: 125
+        height: 275
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 764232511e84c4a45b9465ae2e7cf967
+      internalID: 1431757977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Death_11
+      rect:
+        serializedVersion: 2
+        x: 688
+        y: 895
+        width: 130
+        height: 275
+      alignment: 9
+      pivot: {x: 0.5, y: 0.45}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30529439f85448b4f9c983a3c70d9591
+      internalID: 844076119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Death_12
+      rect:
+        serializedVersion: 2
+        x: 830
+        y: 895
+        width: 130
+        height: 275
+      alignment: 9
+      pivot: {x: 0.5, y: 0.45}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0520841cc1430c5418a483cadb362293
+      internalID: 965810500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Death_13
+      rect:
+        serializedVersion: 2
+        x: 980
+        y: 895
+        width: 130
+        height: 275
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32d0b70cfd2f9de46a3acf62eab009dc
+      internalID: -321826264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Death_14
+      rect:
+        serializedVersion: 2
+        x: 1109
+        y: 897
+        width: 150
+        height: 275
+      alignment: 9
+      pivot: {x: 0.55, y: 0.4}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fcdab9a04b513c546b5b8143d438da83
+      internalID: 539566996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Death_15
+      rect:
+        serializedVersion: 2
+        x: 1275
+        y: 895
+        width: 130
+        height: 275
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8bf9d103906a57e4f8ab23ad558f93c5
+      internalID: 216641727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Death_16
+      rect:
+        serializedVersion: 2
+        x: 1425
+        y: 895
+        width: 130
+        height: 275
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9a6d1c105931d94cbf43bc7edbc470e
+      internalID: -1635227228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_East_00
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 552
+        width: 130
+        height: 300
+      alignment: 9
+      pivot: {x: 0.4, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2fedfdeb49234e64daf22a238cf7bdd2
+      internalID: -840405081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_East_01
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 548
+        width: 138
+        height: 300
+      alignment: 9
+      pivot: {x: 0.44, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f85eacd34fec6545bf616fb4c6a9891
+      internalID: 44546750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_East_02
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 548
+        width: 128
+        height: 300
+      alignment: 9
+      pivot: {x: 0.39, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef84799eca6174f468b5e31c9972fc56
+      internalID: 1542750445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_East_03
+      rect:
+        serializedVersion: 2
+        x: 465
+        y: 549
+        width: 150
+        height: 300
+      alignment: 9
+      pivot: {x: 0.45, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5eea2ca807365845be78e1915f60afe
+      internalID: 656508092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_East_04
+      rect:
+        serializedVersion: 2
+        x: 630
+        y: 549
+        width: 137
+        height: 300
+      alignment: 9
+      pivot: {x: 0.375, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9534bbcb2e780a542815bda989e15f2f
+      internalID: 302436733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_East_05
+      rect:
+        serializedVersion: 2
+        x: 775
+        y: 546
+        width: 118
+        height: 300
+      alignment: 9
+      pivot: {x: 0.425, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac5f2fb49cd70514d9e782729aad3812
+      internalID: -1552515773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_East_06
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 550
+        width: 122
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc66621830f219942b1eb5abc7f11fc0
+      internalID: -101044116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_East_07
+      rect:
+        serializedVersion: 2
+        x: 1029
+        y: 541
+        width: 120
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7021f523a44a9c54997482899d1ed97d
+      internalID: 1290982829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_East_08
+      rect:
+        serializedVersion: 2
+        x: 1166
+        y: 546
+        width: 149
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8770912689321db47bd16b4de9949adb
+      internalID: 839144405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_East_09
+      rect:
+        serializedVersion: 2
+        x: 1331
+        y: 554
+        width: 157
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3147fefbc7494b54985a98ab0e29d744
+      internalID: 502315054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_West_00
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 230
+        width: 130
+        height: 300
+      alignment: 9
+      pivot: {x: 0.62, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a958b21fc720ed41a957a9e61581496
+      internalID: 582441478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_West_01
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 230
+        width: 129
+        height: 295
+      alignment: 9
+      pivot: {x: 0.6, y: 0.49}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a28c459fabc0168469f305d5035f0873
+      internalID: -2016335002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_West_02
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 224
+        width: 130
+        height: 298
+      alignment: 9
+      pivot: {x: 0.62, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bb4b2c371e5c944189be22afe9ea7ef
+      internalID: 24643441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_West_03
+      rect:
+        serializedVersion: 2
+        x: 454
+        y: 216
+        width: 135
+        height: 302
+      alignment: 9
+      pivot: {x: 0.64, y: 0.49}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 131f858403f9e4947af1d864a7c98cd6
+      internalID: -699424884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_West_04
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 213
+        width: 133
+        height: 296
+      alignment: 9
+      pivot: {x: 0.69, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c790f54bfebc3942a4834d68301257e
+      internalID: -1797254962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_West_05
+      rect:
+        serializedVersion: 2
+        x: 745
+        y: 210
+        width: 121
+        height: 300
+      alignment: 9
+      pivot: {x: 0.68, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95e97c933b2d442488513d46edfd6b99
+      internalID: 2073647328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_West_06
+      rect:
+        serializedVersion: 2
+        x: 891
+        y: 207
+        width: 120
+        height: 296
+      alignment: 9
+      pivot: {x: 0.71, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe2827b3c4e7b354ab545a3b8144a850
+      internalID: -1492217891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_West_07
+      rect:
+        serializedVersion: 2
+        x: 1032
+        y: 198
+        width: 139
+        height: 299
+      alignment: 9
+      pivot: {x: 0.57, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9df9216728f721847afc880e05b8257e
+      internalID: -1379160548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_West_08
+      rect:
+        serializedVersion: 2
+        x: 1197
+        y: 197
+        width: 135
+        height: 300
+      alignment: 9
+      pivot: {x: 0.56, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76f4d4b20344773498296a497b2ee039
+      internalID: 995415801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jiro_Walking_West_09
+      rect:
+        serializedVersion: 2
+        x: 1376
+        y: 196
+        width: 161
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 396300c7af8370442941b8a1905e8cdf
+      internalID: -577540106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      (IP2) Boss Sprites 1_0: 692205611
+      (IP2) Boss Sprites 1_1: 814355151
+      (IP2) Boss Sprites 1_10: -697691243
+      (IP2) Boss Sprites 1_11: 141839343
+      (IP2) Boss Sprites 1_12: -2084297181
+      (IP2) Boss Sprites 1_13: 1113291924
+      (IP2) Boss Sprites 1_14: 1664332537
+      (IP2) Boss Sprites 1_15: -1641284905
+      (IP2) Boss Sprites 1_16: -1801977101
+      (IP2) Boss Sprites 1_17: 1539507839
+      (IP2) Boss Sprites 1_18: 1404986605
+      (IP2) Boss Sprites 1_2: 597764756
+      (IP2) Boss Sprites 1_25: -588942406
+      (IP2) Boss Sprites 1_31: -1269185835
+      (IP2) Boss Sprites 1_32: -222765257
+      (IP2) Boss Sprites 1_33: -891964503
+      (IP2) Boss Sprites 1_34: -516420855
+      (IP2) Boss Sprites 1_35: 655768201
+      (IP2) Boss Sprites 1_36: -1273157343
+      (IP2) Boss Sprites 1_37: 1624062702
+      (IP2) Boss Sprites 1_38: 834050170
+      (IP2) Boss Sprites 1_43: 1634231644
+      (IP2) Boss Sprites 1_9: 1219423671
+      Jiro_Death_00: -1421132488
+      Jiro_Death_01: -807007810
+      Jiro_Death_02: 1328507808
+      Jiro_Death_03: -1133184730
+      Jiro_Death_04: -1681430746
+      Jiro_Death_05: -17396038
+      Jiro_Death_06: 1996813282
+      Jiro_Death_07: -1199324886
+      Jiro_Death_08: 1934682203
+      Jiro_Death_09: 1757558135
+      Jiro_Death_10: 1431757977
+      Jiro_Death_11: 844076119
+      Jiro_Death_12: 965810500
+      Jiro_Death_13: -321826264
+      Jiro_Death_14: 539566996
+      Jiro_Death_15: 216641727
+      Jiro_Death_16: -1635227228
+      Jiro_Walking_East_00: -840405081
+      Jiro_Walking_East_01: 44546750
+      Jiro_Walking_East_02: 1542750445
+      Jiro_Walking_East_03: 656508092
+      Jiro_Walking_East_04: 302436733
+      Jiro_Walking_East_05: -1552515773
+      Jiro_Walking_East_06: -101044116
+      Jiro_Walking_East_07: 1290982829
+      Jiro_Walking_East_08: 839144405
+      Jiro_Walking_East_09: 502315054
+      Jiro_Walking_West_00: 582441478
+      Jiro_Walking_West_01: -2016335002
+      Jiro_Walking_West_02: 24643441
+      Jiro_Walking_West_03: -699424884
+      Jiro_Walking_West_04: -1797254962
+      Jiro_Walking_West_05: 2073647328
+      Jiro_Walking_West_06: -1492217891
+      Jiro_Walking_West_07: -1379160548
+      Jiro_Walking_West_08: 995415801
+      Jiro_Walking_West_09: -577540106
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

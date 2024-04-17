@@ -50,6 +50,9 @@ public class AbilityHolder : MonoBehaviour
     public static System.Action<float> OnAbilityCooldownRemainingChanged; // Called every frame while the ability is recharging.
     public static System.Action<Ability> OnAbilityChanged; // Called when the ability is changed.
 
+    public static System.Action<Ability> OnAbilityActivated; // Called when the ability is activated.
+    public static System.Action<Ability> OnAbilityDeactivated; // Called when the ability ends.
+
 
     public void OnAbilityPressed(InputAction.CallbackContext context)
     {
@@ -93,6 +96,8 @@ public class AbilityHolder : MonoBehaviour
                 if(_isPressed == true)
                 {
                     Ability.Activate(gameObject, transform);
+                    OnAbilityActivated?.Invoke(Ability);
+
                     state = AbilityState.Active;
                     _activeTime = Ability.activeTime;
                     numberOfUses += 1;
@@ -121,6 +126,7 @@ public class AbilityHolder : MonoBehaviour
                 }
                 else
                 {
+                    OnAbilityDeactivated?.Invoke(Ability);
                     state = AbilityState.Cooldown;
                     _cooldownTime = Ability.cooldownTime;
                 }
@@ -156,6 +162,10 @@ public class AbilityHolder : MonoBehaviour
             transform.GetChild(1).GetComponent<SpriteRenderer>().color = new Color(183, 0, 0, 1);
         }
     }
+
+
+    public void SetAbility(Ability newAbility) => Ability = newAbility;
+    
 
 
     private void OnTriggerEnter2D(Collider2D collision)

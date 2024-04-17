@@ -54,8 +54,12 @@ public class PlayerAttacks : MonoBehaviour
     private Vector2 _mousePosition;
 
 
-    [Header("Animations")]
-    public UnityEvent<WeaponAnimationValues> OnAttackStarted;
+    [Header("Unity Events")]
+    public UnityEvent<WeaponAnimationValues> OnAttackStarted; // WeaponAnimator.StartAttack & EntityAnimator.PlayAttackAnimation.
+    [Space(20)]
+    
+    public UnityEvent OnPreventInput;
+    public UnityEvent OnEnableInput;
 
 
     public void OnPrimaryAttack(InputAction.CallbackContext context)
@@ -132,10 +136,17 @@ public class PlayerAttacks : MonoBehaviour
 
     private void AttemptAttack(WeaponWrapper weapon)
     {
+        // Prevent attacking if we are already attacking with a weapon.
+        if (_primaryWeapon.IsAttacking() || _secondaryWeapon.IsAttacking())
+            return;
+        
         int previousAttackIndex = _primaryWeaponProperty.WeaponAttackIndex;
-        if (weapon.MakeAttack(_rotationPivot, _mousePosition, throwToTarget: _throwToMouse))
+        if (weapon.MakeAttack(_rotationPivot, _mousePosition, throwToTarget: _throwToMouse, recoveryCompleteAction: () => OnEnableInput?.Invoke()))
         {
             OnAttackStarted?.Invoke(new WeaponAnimationValues(_primaryWeapon == weapon ? 0 : 1, previousAttackIndex, _primaryWeaponProperty.Weapon.Attacks[previousAttackIndex].GetTotalAttackTime()));
+
+            if (!weapon.Weapon.AllowMovement)
+                OnPreventInput?.Invoke();
         }
 
     }
@@ -150,13 +161,6 @@ public class PlayerAttacks : MonoBehaviour
             _secondaryWeaponProperty = newWrapper;
     }
 
-
-    //private bool CanUseAbility() => Time.time >= _abilityCooldownTime;
-    //private void UseAbility()
-    //{
-      //  Debug.Log("Used Ability: " + _currentAbility.name);
-      //  _abilityCooldownTime = Time.time + _currentAbility.GetCooldownTime();
-    //}
 
 
     // Remove and replace with the version on the 'Animations' branch.

@@ -8,23 +8,16 @@ public class PlayerFollowCameraInitialiser : MonoBehaviour
 {
     private ICinemachineCamera _camera;
     
-    private void Awake()
-    {
-        _camera = GetComponent<ICinemachineCamera>();
+    private void Awake() => _camera = GetComponent<ICinemachineCamera>();
+    private void OnEnable() => GameManager.OnScenesLoaded += TryInitialiseCamera;
+    private void OnDisable() => GameManager.OnScenesLoaded -= TryInitialiseCamera;
 
+
+    private void TryInitialiseCamera()
+    {
         if (PlayerManager.IsInitialised)
             InitialiseCamera();
     }
-
-
-    private void Update()
-    {
-        // If we haven't yet managed to set up the camera, try again.
-        if (PlayerManager.IsInitialised)
-            InitialiseCamera();
-    }
-
-
     private void InitialiseCamera()
     {
         // Set the initial position of the camera.
@@ -36,6 +29,6 @@ public class PlayerFollowCameraInitialiser : MonoBehaviour
         _camera.Follow = PlayerManager.Instance.Player.transform;
 
         // Destroy this script.
-        Destroy(this);
+        //Destroy(this);
     }
 }

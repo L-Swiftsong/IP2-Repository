@@ -134,7 +134,7 @@ public class AoEAttack : Attack
 
             // Try to apply Knockback to hit Entities.
             Vector2 force = ((Vector2)hitTransform.position - origin).normalized * _explosionForce;
-            hitTransform.TryApplyForce(force, ForceMode2D.Impulse);
+            hitTransform.TryApplyForce(force);
         }
     }
 

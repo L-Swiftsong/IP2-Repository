@@ -16,6 +16,7 @@ namespace IP2_Scripts
 
         [Space(5)]
         [SerializeField] private GameObject _associatedSection;
+        [SerializeField] private GameObject _firstSelectedItem;
 
 
 
@@ -44,5 +45,6 @@ namespace IP2_Scripts
         
 
         public GameObject GetAssociatedSection() => _associatedSection;
+        public GameObject GetFirstSelectedItem() => _firstSelectedItem;
     }
 }

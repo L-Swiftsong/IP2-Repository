@@ -60,6 +60,7 @@ namespace States.Alternative
 
         [Header("Keep Distance")]
         [SerializeField] private BaseSteeringBehaviour[] _movementBehaviours;
+        private bool _canMove;
 
 
         [Header("Animation")]
@@ -116,6 +117,9 @@ namespace States.Alternative
         {
             base.OnEnter();
 
+            // Ensure that we can always move when we start attacking.
+            _canMove = true;
+
             // Subscribe to the HealthComponent.
             _healthScript.OnHealingReceived.AddListener(OnHealthChanged);
             _healthScript.OnDamageTaken.AddListener(OnHealthChanged);
@@ -149,8 +153,11 @@ namespace States.Alternative
             // Cache the target's current position for next frame.
             _previousTargetPosition = targetPos;
 
-            // Move & rotate towards the target with our behaviours set.
-            _movementScript.CalculateMovement(targetPos, _movementBehaviours, RotationType.TargetDirection);
+            if (_canMove)
+            {
+                // Move & rotate towards the target with our behaviours set.
+                _movementScript.CalculateMovement(targetPos, _movementBehaviours, RotationType.TargetDirection);
+            }
         }
         public override void OnExit()
         {
@@ -209,8 +216,13 @@ namespace States.Alternative
             // If we are within range to attack, and our cooldown has elapsed, then make the attack.
             if (distanceToTarget < weaponThreshold.MaxRange)
             {
-                if (weaponWrapper.MakeAttack(_rotationPivot, estimatedTargetPos, true))
+                if (weaponWrapper.MakeAttack(_rotationPivot, estimatedTargetPos, true, recoveryCompleteAction: () => _canMove = true))
+                {
+                    if (!weaponWrapper.Weapon.AllowMovement)
+                        _canMove = false;
+                    
                     return true;
+                }
             }
             
             // Either we were too far to attack, or the weaponWrapper's MakeAttack() failed, so return false to show that we didn't attack.

@@ -30,7 +30,7 @@ public class HealthComponent : MonoBehaviour
                 OnHealingReceived?.Invoke(new HealthChangedValues(_currentHealthProperty, value));
         }
     }
-    private int _currentHealthProperty
+    public int _currentHealthProperty
     {
         get => _currentHealth;
         set
@@ -70,10 +70,11 @@ public class HealthComponent : MonoBehaviour
 
 
 
-    public void Start()
+    private void Start()
     {
         _currentHealthProperty = _maxHealthProperty;
         _iFrameEndTime = 0f;
+        _isDead = false;
     }
 
 
@@ -113,7 +114,7 @@ public class HealthComponent : MonoBehaviour
 
 
     #region Death
-    private void Die()
+    public void Die()
     {
         _isDead = true;
         Debug.Log(this.name + " has died");

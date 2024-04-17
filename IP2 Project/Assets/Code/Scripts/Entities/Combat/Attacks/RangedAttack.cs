@@ -85,7 +85,7 @@ public class RangedAttack : Attack
 
         // Try to apply Knockback to the hit Entity.
         Vector2 force = hitDirection * KnockbackStrength;
-        hitTransform.TryApplyForce(force, ForceMode2D.Impulse);
+        hitTransform.TryApplyForce(force);
     }
 
 
@@ -117,7 +117,6 @@ public class RangedAttack : Attack
 
         // Calculate and output the interception position.
         float timeToInterception = distanceToEstimatedPosition / projectileSpeed;
-        Debug.Log(targetVelocity);
         return targetPos + targetVelocity * timeToInterception;
     }
     public override void DrawGizmos(Transform gizmosOrigin)
