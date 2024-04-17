@@ -12,5 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e07926a98aafd84298ea0cce71b56ba, type: 3}
   m_Name: Tiger Rush Animation
   m_EditorClassIdentifier: 
-  Animation: []
-  FrameRate: 24
+  Animation:
+  - {fileID: 58121527, guid: 0ebed26a49aa22944bb81cec7a02f14e, type: 3}
+  - {fileID: -157531999, guid: 0ebed26a49aa22944bb81cec7a02f14e, type: 3}
+  - {fileID: 852315116, guid: 0ebed26a49aa22944bb81cec7a02f14e, type: 3}
+  - {fileID: 2136692084, guid: 0ebed26a49aa22944bb81cec7a02f14e, type: 3}
+  - {fileID: -403477076, guid: 0ebed26a49aa22944bb81cec7a02f14e, type: 3}
+  - {fileID: -156964427, guid: 0ebed26a49aa22944bb81cec7a02f14e, type: 3}
+  - {fileID: -1308899198, guid: 0ebed26a49aa22944bb81cec7a02f14e, type: 3}
+  - {fileID: -203537178, guid: 0ebed26a49aa22944bb81cec7a02f14e, type: 3}
+  - {fileID: 891320207, guid: 0ebed26a49aa22944bb81cec7a02f14e, type: 3}
+  - {fileID: -315022510, guid: 0ebed26a49aa22944bb81cec7a02f14e, type: 3}
+  - {fileID: -1166986557, guid: 0ebed26a49aa22944bb81cec7a02f14e, type: 3}
+  - {fileID: 1864164267, guid: 0ebed26a49aa22944bb81cec7a02f14e, type: 3}
+  - {fileID: -709929221, guid: 0ebed26a49aa22944bb81cec7a02f14e, type: 3}
+  - {fileID: 783235803, guid: 0ebed26a49aa22944bb81cec7a02f14e, type: 3}
+  - {fileID: -1604474435, guid: 0ebed26a49aa22944bb81cec7a02f14e, type: 3}
+  FrameRate: 48
