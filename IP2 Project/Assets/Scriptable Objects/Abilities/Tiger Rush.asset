@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Tiger Rush
   m_EditorClassIdentifier: 
   name: TigerRush
-  AbilitySprite: {fileID: 0}
+  AbilitySprite: {fileID: -1604474435, guid: 0ebed26a49aa22944bb81cec7a02f14e, type: 3}
   Description: Charge forwards through your enemies, damaging them
   cooldownTime: 2
-  activeTime: 0.3
+  activeTime: 0.35
+  AbilityAnimation: {fileID: 11400000, guid: 42f028afa5bd7ef4aaf761c8b8dc809b, type: 2}
   HitMask:
     serializedVersion: 2
     m_Bits: 841

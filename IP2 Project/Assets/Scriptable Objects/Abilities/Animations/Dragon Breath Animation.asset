@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e07926a98aafd84298ea0cce71b56ba, type: 3}
+  m_Name: Dragon Breath Animation
+  m_EditorClassIdentifier: 
+  Animation:
+  - {fileID: -182814967, guid: e68f03d9baa40fc42a5bb43e8e6d6040, type: 3}
+  - {fileID: -1421101951, guid: e68f03d9baa40fc42a5bb43e8e6d6040, type: 3}
+  - {fileID: 2083445004, guid: e68f03d9baa40fc42a5bb43e8e6d6040, type: 3}
+  - {fileID: -60657625, guid: e68f03d9baa40fc42a5bb43e8e6d6040, type: 3}
+  - {fileID: 311843320, guid: e68f03d9baa40fc42a5bb43e8e6d6040, type: 3}
+  - {fileID: 563291748, guid: e68f03d9baa40fc42a5bb43e8e6d6040, type: 3}
+  - {fileID: -1226369592, guid: e68f03d9baa40fc42a5bb43e8e6d6040, type: 3}
+  - {fileID: -1818701340, guid: e68f03d9baa40fc42a5bb43e8e6d6040, type: 3}
+  - {fileID: -343733413, guid: 49daab7df12601f419783202aa78eb73, type: 3}
+  - {fileID: 1888629782, guid: 49daab7df12601f419783202aa78eb73, type: 3}
+  - {fileID: -922128805, guid: 49daab7df12601f419783202aa78eb73, type: 3}
+  - {fileID: -1739802438, guid: 49daab7df12601f419783202aa78eb73, type: 3}
+  - {fileID: 1200142958, guid: 49daab7df12601f419783202aa78eb73, type: 3}
+  - {fileID: 670614741, guid: 49daab7df12601f419783202aa78eb73, type: 3}
+  - {fileID: -1887550599, guid: 49daab7df12601f419783202aa78eb73, type: 3}
+  - {fileID: -607325499, guid: 49daab7df12601f419783202aa78eb73, type: 3}
+  FrameRate: 24

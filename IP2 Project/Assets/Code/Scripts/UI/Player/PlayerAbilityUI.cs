@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class PlayerAbilityUI : MonoBehaviour
@@ -12,12 +13,19 @@ public class PlayerAbilityUI : MonoBehaviour
     [SerializeField] private Image _currentAbilityImage;
 
 
+    [Header("Animation")]
+    [SerializeField] private UIAnimator _uiAnimator;
+
+
     private void OnEnable()
     {
         // Subscribe to Events.
         AbilityHolder.OnAbilityDurationRemainingChanged += OnDurationChanged;
         AbilityHolder.OnAbilityCooldownRemainingChanged += OnCooldownChanged;
         AbilityHolder.OnAbilityChanged += SwapAbilityUI;
+
+        AbilityHolder.OnAbilityActivated += PlayAbilityAnimation;
+        AbilityHolder.OnAbilityDeactivated += PlayAbilityEndAnimation;
 
 
         // Hide the Cooldown Bar.
@@ -29,6 +37,9 @@ public class PlayerAbilityUI : MonoBehaviour
         AbilityHolder.OnAbilityDurationRemainingChanged -= OnDurationChanged;
         AbilityHolder.OnAbilityCooldownRemainingChanged -= OnCooldownChanged;
         AbilityHolder.OnAbilityChanged -= SwapAbilityUI;
+
+        AbilityHolder.OnAbilityActivated -= PlayAbilityAnimation;
+        AbilityHolder.OnAbilityDeactivated -= PlayAbilityEndAnimation;
     }
 
 
@@ -59,5 +70,20 @@ public class PlayerAbilityUI : MonoBehaviour
     {
         if (_currentAbilityImage.sprite == null || newAbility.AbilitySprite != null)
             _currentAbilityImage.sprite = newAbility.AbilitySprite;
+    }
+
+    private void PlayAbilityAnimation(Ability ability)
+    {
+        UIAnimation anim = ability.AbilityAnimation;
+
+        if (anim != null)
+            _uiAnimator.StartAnimation(anim.Animation, anim.FrameRate);
+    }
+    private void PlayAbilityEndAnimation(Ability ability)
+    {
+        UIAnimation anim = ability.AbilityAnimation;
+
+        if (anim != null)
+            _uiAnimator.StartReversedAnimation(anim.Animation, anim.FrameRate);
     }
 }
