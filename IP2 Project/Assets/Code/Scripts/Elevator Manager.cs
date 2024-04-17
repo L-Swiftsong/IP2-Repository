@@ -20,7 +20,7 @@ public class ElevatorManager : MonoBehaviour
         Player = GameObject.Find("Player");
         PlayerCanvas = GameObject.Find("Player Canvas");
 
-        elevatorUI = PlayerCanvas.transform.GetChild(7).gameObject;
+        elevatorUI = PlayerCanvas.transform.GetChild(11).gameObject;
 
     }
 

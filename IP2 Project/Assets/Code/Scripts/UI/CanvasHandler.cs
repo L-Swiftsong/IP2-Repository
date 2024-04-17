@@ -13,6 +13,6 @@ public class CanvasHandler : MonoBehaviour
 
         _canvas.worldCamera = GameManager.MainCamera;
 
-        gameObject.transform.GetChild(7).gameObject.SetActive(false);
+        gameObject.transform.GetChild(11).gameObject.SetActive(false);
     }
 }
