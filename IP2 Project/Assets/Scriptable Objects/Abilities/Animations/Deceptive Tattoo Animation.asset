@@ -31,4 +31,4 @@ MonoBehaviour:
   - {fileID: 1505131376, guid: b67df51684001394cac44ee5131c9157, type: 3}
   - {fileID: 1489519606, guid: b67df51684001394cac44ee5131c9157, type: 3}
   - {fileID: -2127010869, guid: b67df51684001394cac44ee5131c9157, type: 3}
-  FrameRate: 30
+  FrameRate: 24
