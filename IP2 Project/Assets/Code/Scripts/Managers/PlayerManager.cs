@@ -30,4 +30,9 @@ public class PlayerManager : MonoBehaviour
 
     public void RevokePlayerControl() => _playerInput.DeactivateInput();
     public void RegainPlayerControl() => _playerInput.ActivateInput();
+
+
+
+    [SerializeField] private GameObject _playerCanvas;
+    public GameObject PlayerCanvas => _playerCanvas;
 }

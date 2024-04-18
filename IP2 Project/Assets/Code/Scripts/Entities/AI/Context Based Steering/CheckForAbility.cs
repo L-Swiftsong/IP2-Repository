@@ -13,11 +13,11 @@ public class CheckForAbility : MonoBehaviour
         {
             if (abilityHolder.IsActive && abilityHolder.Ability.name == "TigerRush" && !gameObject.GetComponent<EntityFaction>().Faction.IsAlly(Factions.Player))
             {
-                gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
+                gameObject.GetComponent<Collider2D>().isTrigger = true;
             }
             if (!abilityHolder.IsActive && abilityHolder.Ability.name == "TigerRush" && !gameObject.GetComponent<EntityFaction>().Faction.IsAlly(Factions.Player))
             {
-                gameObject.GetComponent<CircleCollider2D>().isTrigger = false;
+                gameObject.GetComponent<Collider2D>().isTrigger = false;
             }
         }
     }
