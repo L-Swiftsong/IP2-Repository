@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Second Level Exit 1
   m_EditorClassIdentifier: 
   _scenesToUnload: 05000000
-  _scenesToLoad: 06000000
+  _scenesToLoad: 0600000007000000
   _newActiveScene: 6
   _useCustomEntrancePos: 1
   _entrancePosition: {x: -4.48, y: -26.09}

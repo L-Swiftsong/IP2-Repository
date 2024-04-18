@@ -20,8 +20,8 @@ MonoBehaviour:
   - SpeakerName: You
     SpeakerSprite: {fileID: 21300000, guid: 1b41710fca0b7b14bab242195cd7e846, type: 3}
     Text: I guess thats the point.
-    DisplayOnLeft: 0
+    DisplayOnLeft: 1
   - SpeakerName: You
     SpeakerSprite: {fileID: 21300000, guid: 1b41710fca0b7b14bab242195cd7e846, type: 3}
     Text: If I live this. Jiro will feel a chill down his spine.
-    DisplayOnLeft: 0
+    DisplayOnLeft: 1

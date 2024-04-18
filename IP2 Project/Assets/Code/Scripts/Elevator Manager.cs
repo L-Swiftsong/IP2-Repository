@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 
 public class ElevatorManager : MonoBehaviour
 {
@@ -8,9 +10,11 @@ public class ElevatorManager : MonoBehaviour
     public GameObject Elevator1;
     public GameObject Elevator2;
     public GameObject Elevator3;
+    public GameObject Elevator4;
 
     public GameObject elevatorUI;
     public GameObject PlayerCanvas;
+    public bool F;
 
 
     public GameObject Player;
@@ -20,7 +24,7 @@ public class ElevatorManager : MonoBehaviour
         Player = GameObject.Find("Player");
         PlayerCanvas = GameObject.Find("Player Canvas");
 
-        elevatorUI = PlayerCanvas.transform.GetChild(7).gameObject;
+        elevatorUI = PlayerCanvas.transform.GetChild(11).gameObject;
 
     }
 
@@ -29,26 +33,37 @@ public class ElevatorManager : MonoBehaviour
         Floor1();
         Floor2();
         Floor3();
+        Floor4();
+
+
+        Player = GameObject.Find("Player");
+        PlayerCanvas = GameObject.Find("Player Canvas");
+        elevatorUI = PlayerCanvas.transform.GetChild(11).gameObject;
     }
 
-    public void OnFPressed()
+    public void OnFPressed(InputAction.CallbackContext context)
     {
         if(Elevator1.GetComponent<EnterElevator>().Entered == true)
         {
-            elevatorUI.SetActive(true);
+            elevatorUI.gameObject.SetActive(true);
         }
 
-        if (Elevator2.GetComponent<EnterElevator>().Entered == true)
+        else if (Elevator2.GetComponent<EnterElevator>().Entered == true)
         {
-            elevatorUI.SetActive(true);
+            elevatorUI.gameObject.SetActive(true);
         }
 
-        if (Elevator3.GetComponent<EnterElevator>().Entered == true)
+        else if (Elevator3.GetComponent<EnterElevator>().Entered == true)
         {
-            elevatorUI.SetActive(true);
+            elevatorUI.gameObject.SetActive(true);
         }
 
-        
+        else if(Elevator4.GetComponent<EnterElevator>().Entered == true)
+        {
+            elevatorUI.gameObject.SetActive(true);
+        }
+
+        F = true;
 
     }
 
@@ -62,6 +77,7 @@ public class ElevatorManager : MonoBehaviour
             elevatorUI.GetComponent<ElevatorButtons>().button1Pressed = false;
 
         }
+        
     }
 
 
@@ -69,9 +85,14 @@ public class ElevatorManager : MonoBehaviour
     {
         if (elevatorUI.GetComponent<ElevatorButtons>().button2Pressed == true)
         {
-            Player.transform.position = Elevator2.transform.position;
+
+            if(Player.GetComponent<PlayerCombo>().kills >= 7)
+            {
+                Player.transform.position = Elevator2.transform.position;
+                
+                elevatorUI.GetComponent<ElevatorButtons>().button2Pressed = false;
+            }
             elevatorUI.SetActive(false);
-            elevatorUI.GetComponent<ElevatorButtons>().button2Pressed = false;
         }
     }
 
@@ -79,10 +100,31 @@ public class ElevatorManager : MonoBehaviour
     {
         if (elevatorUI.GetComponent<ElevatorButtons>().button3Pressed == true)
         {
-            Player.transform.position = Elevator3.transform.position;
+            if (Player.GetComponent<PlayerCombo>().kills >= 29)
+            {
+                Player.transform.position = Elevator3.transform.position;
+                
+                elevatorUI.GetComponent<ElevatorButtons>().button3Pressed = false;
+            }
             elevatorUI.SetActive(false);
-            elevatorUI.GetComponent<ElevatorButtons>().button3Pressed = false;
+
+
         }
+    }
+
+    public void Floor4()
+    {
+        if(elevatorUI.GetComponent<ElevatorButtons>().button4Pressed == true)
+        {
+            if (Player.GetComponent<PlayerCombo>().kills >= 35)
+            {
+                Player.transform.position = Elevator4.transform.position;
+                
+                elevatorUI.GetComponent<ElevatorButtons>().button4Pressed = false;
+            }
+                
+        }
+        elevatorUI.SetActive(false);
     }
 
 

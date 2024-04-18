@@ -17,7 +17,7 @@ MonoBehaviour:
     SpeakerSprite: {fileID: 0}
     Text: There's an individual armed with a blade in the hallway leading towards
       the canteen!
-    DisplayOnLeft: 1
+    DisplayOnLeft: 0
   - SpeakerName: Intercom
     SpeakerSprite: {fileID: 0}
     Text: All personnel initiate level 5 lock down procedures!

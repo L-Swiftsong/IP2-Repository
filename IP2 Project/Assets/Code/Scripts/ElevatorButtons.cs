@@ -10,11 +10,14 @@ public class ElevatorButtons : MonoBehaviour
 
     public bool button3Pressed;
 
+    public bool button4Pressed;
+
     private void Start()
     {
         button1Pressed = false;
         button2Pressed = false;
         button3Pressed = false;
+        button4Pressed = false;
     }
 
 
@@ -31,5 +34,10 @@ public class ElevatorButtons : MonoBehaviour
     public void Button3()
     {
         button3Pressed = true;
+    }
+
+    public void Button4()
+    {
+        button4Pressed = true;
     }
 }
