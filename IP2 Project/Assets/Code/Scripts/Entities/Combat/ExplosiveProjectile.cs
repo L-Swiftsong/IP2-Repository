@@ -14,6 +14,9 @@ public class ExplosiveProjectile : Projectile
         [SerializeField] private bool _explodeOnCollision;
     // For destroying a projectile when it takes damage, add a HealthComponent to the projectile, tying the OnDeath() UnityEvent to Explode().
 
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip audioClip;
+
 
     [Space(5)]
     [SerializeField] private float _explosionRadius;
@@ -139,6 +142,8 @@ public class ExplosiveProjectile : Projectile
 
     public void Explode()
     {
+
+        audioSource.PlayOneShot(audioClip);
         // Calculate the radius to be used for the explosion.
         float radiusLerp = _earlyExplosionReducesSize ? (Time.time - _creationTime) / _explosiveDelay : 1f;
         float radius = Mathf.Lerp(a: 0f, b: _explosionRadius, t: radiusLerp);

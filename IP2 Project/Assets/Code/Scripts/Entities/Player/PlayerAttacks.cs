@@ -9,7 +9,7 @@ public class PlayerAttacks : MonoBehaviour
 {
     [SerializeField] private Transform _rotationPivot;
 
-    
+
     [Header("Primary Attacks")]
     [SerializeField] private WeaponWrapper _primaryWeapon;
     private WeaponWrapper _primaryWeaponProperty
@@ -22,13 +22,13 @@ public class PlayerAttacks : MonoBehaviour
         }
     }
     private bool _primaryAttackHeld;
-    
+
     public static System.Action<float> OnPrimaryRecoveryTimeChanged; // Called every frame while the weapon's RechargePercentage is below 1.
     public static System.Action<float> OnPrimaryUseRechargeTimeChanged; // Called every frame while the weapon is recharging its uses.
     public static System.Action<Weapon> OnPrimaryWeaponChanged; // Called when the primaryWeapon is assigned.
 
 
-    
+
     [Header("Secondary Attacks")]
     [SerializeField] private WeaponWrapper _secondaryWeapon;
     private WeaponWrapper _secondaryWeaponProperty
@@ -68,13 +68,21 @@ public class PlayerAttacks : MonoBehaviour
             _primaryAttackHeld = true;
         else if (context.canceled)
             _primaryAttackHeld = false;
+
     }
+
+    
+
+    
     public void OnSecondaryAttack(InputAction.CallbackContext context)
     {
         if (context.started)
             _secondaryAttackHeld = true;
         else if (context.canceled)
             _secondaryAttackHeld = false;
+
+       
+
     }
 
     
@@ -95,6 +103,10 @@ public class PlayerAttacks : MonoBehaviour
 
         _primaryWeaponProperty = new WeaponWrapper(_primaryWeaponProperty.Weapon, this);
         _secondaryWeaponProperty = new WeaponWrapper(_secondaryWeaponProperty.Weapon, this);
+
+
+     
+
     }
     private void Update()
     {
@@ -118,6 +130,8 @@ public class PlayerAttacks : MonoBehaviour
         // (Secondary Weapon)
         OnSecondaryRecoveryTimeChanged?.Invoke(_secondaryWeaponProperty.RecoveryTimePercentage); // Recovery Event (Time between attacks).
         OnSecondaryUseRechargeTimeChanged?.Invoke(_secondaryWeaponProperty.RechargePercentage); // Recharge Event (Uses Remaining).
+
+       
     }
 
     private void AttemptAttack(WeaponWrapper weapon)
@@ -134,6 +148,7 @@ public class PlayerAttacks : MonoBehaviour
             if (!weapon.Weapon.AllowMovement)
                 OnPreventInput?.Invoke();
         }
+
     }
 
     public void EquipWeapon(Weapon newWeapon, bool replacePrimary = true)

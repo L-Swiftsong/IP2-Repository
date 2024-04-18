@@ -18,6 +18,7 @@ MonoBehaviour:
   cooldownTime: 2
   activeTime: 0.35
   AbilityAnimation: {fileID: 11400000, guid: 42f028afa5bd7ef4aaf761c8b8dc809b, type: 2}
+  AbilityAudio: {fileID: 8300000, guid: 905a9a09239e7604fbfc846bd5e7635d, type: 3}
   HitMask:
     serializedVersion: 2
     m_Bits: 841

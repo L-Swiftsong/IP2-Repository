@@ -12,6 +12,11 @@ public class PlayerMovement : MonoBehaviour, IMoveable
     private Vector2 _movementInput;
 
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource _walkingSource;
+    [SerializeField] private AudioClip _dashingAudio;
+
+
     // Input Prevention.
     private int _sourcesPreventingInput = 0;
     private Coroutine _reduceInputPreventionCoroutine;
@@ -71,11 +76,24 @@ public class PlayerMovement : MonoBehaviour, IMoveable
 
 
     public void OnMovementInput(InputAction.CallbackContext context) => _movementInput = context.ReadValue<Vector2>().normalized;
-
+    public void MovementSoundEffect (InputAction.CallbackContext context)
+    {
+        if(context.started)
+        {
+            _walkingSource.Play();
+        }
+        else if(context.canceled)
+        {
+            _walkingSource.Stop();
+        }
+    }
     public void OnDashPressed(InputAction.CallbackContext context)
     {
         if (context.performed)
+        {
             AttemptDash();
+        }
+            
     }
 
 
@@ -91,7 +109,16 @@ public class PlayerMovement : MonoBehaviour, IMoveable
         _stamina = _maxStamina;
         OnStaminaValuesChanged?.Invoke(_maxStamina, _dashCost);
 
-        gameObject.GetComponent<PlayerController>().respawn = GameObject.Find("Respawn");
+
+        // Audio.
+        /*Audio = GameObject.Find("Player Canvas");
+        Audio = Audio.transform.GetChild(0).gameObject;
+        _walking = Audio.GetComponent<AudioSource>();
+
+        Audio2 = GameObject.Find("Player Canvas");
+        Audio2 = Audio2.transform.GetChild(0).gameObject;
+        Audio2 = Audio2.transform.GetChild(0).gameObject;
+        _dashing = Audio2.GetComponent<AudioSource>();*/
     }
 
     void Update()
@@ -112,7 +139,9 @@ public class PlayerMovement : MonoBehaviour, IMoveable
         }
         // If we aren't dashing & our cooldown time hasn't elapsed, decrement the cooldown time remaining.
         else if (dashCooldownRemaining > 0f)
+        {
             dashCooldownRemaining -= Time.deltaTime;
+        }
     }
     void FixedUpdate() => Move();
 
@@ -219,8 +248,14 @@ public class PlayerMovement : MonoBehaviour, IMoveable
         _dashDurationRemaining = _dashDistance / _dashSpeed; // From physics: 't = d/v'.
         _isDashing = true;
 
+
         // Notify subscribed scripts.
         OnDashStarted?.Invoke();
+
+
+        // Play the Dashing Audio.
+        _walkingSource.PlayOneShot(_dashingAudio);
+
 
         // Update Stamina.
         _stamina -= _dashCost;
