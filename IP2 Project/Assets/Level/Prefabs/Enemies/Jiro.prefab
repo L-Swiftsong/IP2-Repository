@@ -651,7 +651,7 @@ MonoBehaviour:
           m_CallState: 2
   _deadState:
     _objectToDestroy: {fileID: 8854345591092351046}
-    _destroyDelay: 1
+    _destroyDelay: 1.2
   _rotationPivot: {fileID: 7451676387289629704}
 --- !u!114 &3491665419625061155
 MonoBehaviour:
