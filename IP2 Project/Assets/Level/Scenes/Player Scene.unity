@@ -307,6 +307,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1426976397993945395, guid: da5dd9f7c277b034bae4fb18593e06bc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1657877518613297143, guid: da5dd9f7c277b034bae4fb18593e06bc, type: 3}
       propertyPath: m_DefaultActionMap
       value: UI
@@ -739,6 +743,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8702569127984626660, guid: da5dd9f7c277b034bae4fb18593e06bc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8732682805738050428, guid: da5dd9f7c277b034bae4fb18593e06bc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -794,6 +802,10 @@ PrefabInstance:
     - target: {fileID: 8888790567331624397, guid: da5dd9f7c277b034bae4fb18593e06bc, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -300
+      objectReference: {fileID: 0}
+    - target: {fileID: 9021366895373311179, guid: da5dd9f7c277b034bae4fb18593e06bc, type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9177385869399226808, guid: da5dd9f7c277b034bae4fb18593e06bc, type: 3}
       propertyPath: m_IsActive

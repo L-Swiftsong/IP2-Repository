@@ -16,11 +16,5 @@ public class CanvasHandler : MonoBehaviour
         
     }
 
-    private void Start()
-    {
-        if (gameObject.name == "Player Canvas")
-        {
-            gameObject.transform.GetChild(11).gameObject.SetActive(false);
-        }
-    }
+
 }

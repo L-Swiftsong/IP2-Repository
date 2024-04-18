@@ -35,6 +35,9 @@ public class ElevatorManager : MonoBehaviour
         Floor3();
         Floor4();
 
+
+        Player = GameObject.Find("Player");
+        PlayerCanvas = GameObject.Find("Player Canvas");
         elevatorUI = PlayerCanvas.transform.GetChild(11).gameObject;
     }
 
@@ -42,22 +45,22 @@ public class ElevatorManager : MonoBehaviour
     {
         if(Elevator1.GetComponent<EnterElevator>().Entered == true)
         {
-            elevatorUI.SetActive(true);
+            elevatorUI.gameObject.SetActive(true);
         }
 
-        if (Elevator2.GetComponent<EnterElevator>().Entered == true)
+        else if (Elevator2.GetComponent<EnterElevator>().Entered == true)
         {
-            elevatorUI.SetActive(true);
+            elevatorUI.gameObject.SetActive(true);
         }
 
-        if (Elevator3.GetComponent<EnterElevator>().Entered == true)
+        else if (Elevator3.GetComponent<EnterElevator>().Entered == true)
         {
-            elevatorUI.SetActive(true);
+            elevatorUI.gameObject.SetActive(true);
         }
 
-        if (Elevator4.GetComponent<EnterElevator>().Entered == true)
+        else if(Elevator4.GetComponent<EnterElevator>().Entered == true)
         {
-            elevatorUI.SetActive(true);
+            elevatorUI.gameObject.SetActive(true);
         }
 
         F = true;

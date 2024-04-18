@@ -17,7 +17,11 @@ public class LevelStart : MonoBehaviour
     {
         vinyl = GameObject.Find("Player Canvas");
 
+        
+
         vinyl = vinyl.transform.GetChild(0).gameObject;
+
+        
 
         vinyl.SetActive(true);
 
