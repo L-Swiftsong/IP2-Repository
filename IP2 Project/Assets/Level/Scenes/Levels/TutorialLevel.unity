@@ -5969,7 +5969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0075be3488e314449acf6c46ec46f548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transition: {fileID: 11400000, guid: 6ab9f80984981f34096d8e00d25d6da4, type: 2}
+  _transition: {fileID: 11400000, guid: 4b45db25d27594b42af6b4fa5c898a02, type: 2}
   _playerLayer:
     serializedVersion: 2
     m_Bits: 8
