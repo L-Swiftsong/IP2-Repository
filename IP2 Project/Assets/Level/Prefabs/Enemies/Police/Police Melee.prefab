@@ -222,6 +222,7 @@ GameObject:
   - component: {fileID: 7567118121741837330}
   - component: {fileID: 870843967240892169}
   - component: {fileID: 6685284058866155288}
+  - component: {fileID: 1219751393224931826}
   m_Layer: 8
   m_Name: Police Melee
   m_TagString: Untagged
@@ -611,7 +612,7 @@ MonoBehaviour:
   _flashColour: {r: 1, g: 0, b: 0, a: 1}
 --- !u!82 &6685284058866155288
 AudioSource:
-  m_ObjectHideFlags: 0
+m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -705,3 +706,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  --- !u!114 &1219751393224931826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8942490611732623347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4274a16222c5540478869e3499337cf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

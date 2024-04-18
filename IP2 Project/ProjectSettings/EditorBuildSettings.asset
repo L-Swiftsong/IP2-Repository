@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Level/Scenes/Levels/FinalLevel.unity
     guid: 99727f8ecc73b034c987a5750f916046
+  - enabled: 1
+    path: Assets/Level/Scenes/Scoreboard.unity
+    guid: 374ad1109b7b4024cbd1edcf26edfb5a
   m_configObjects: {}

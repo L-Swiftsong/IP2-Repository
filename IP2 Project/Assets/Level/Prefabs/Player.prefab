@@ -1158,9 +1158,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b96925205d3b76c4c95f5ed4b92a408e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxCombo: 5
+  _maxCombo: 100
   _currentCombo: 0
   score: 0
+  kills: 0
+  HighestCombo: 0
   _comboResetTime: 3
   _comboResetTimeRemaining: 0
 --- !u!114 &4866106999794271248

@@ -173,6 +173,7 @@ GameObject:
   - component: {fileID: 3184100732318204510}
   - component: {fileID: 2696768561444602921}
   - component: {fileID: 4892732511657406338}
+  - component: {fileID: -8681818353232594028}
   m_Layer: 8
   m_Name: SAT Operative
   m_TagString: Untagged
@@ -656,6 +657,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-8681818353232594028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2428061829602553972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4274a16222c5540478869e3499337cf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7294017748387948977
 GameObject:
   m_ObjectHideFlags: 0

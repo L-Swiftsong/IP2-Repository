@@ -9,6 +9,8 @@ public class AbilityHolder : MonoBehaviour
 
     private bool _isPressed = false;
 
+    private float dragonBreathInv;
+
     [SerializeField] private Ability _ability;
     public Ability Ability
     {
@@ -58,6 +60,7 @@ public class AbilityHolder : MonoBehaviour
                 _audioSource.PlayOneShot(Ability.AbilityAudio);
             
             _isPressed = true;
+            dragonBreathInv = gameObject.GetComponent<HealthComponent>()._currentHealthProperty;
         }
         else if(context.canceled)
         {
@@ -105,6 +108,11 @@ public class AbilityHolder : MonoBehaviour
                 if(_activeTime > 0)
                 {
                     _activeTime -= Time.deltaTime;
+
+                    if(Ability.name == "DragonBreath")
+                    {
+                        gameObject.GetComponent<HealthComponent>()._currentHealthProperty = ((int)dragonBreathInv);
+                    }
                 }
                 else
                 {
@@ -156,7 +164,7 @@ public class AbilityHolder : MonoBehaviour
         {
             if (collision.TryGetComponent<EntityFaction>(out EntityFaction faction))
             {
-                if(faction.IsAlly(Factions.Yakuza))
+                if(!faction.IsAlly(Factions.Player))
                 {
                     if(collision.TryGetComponent<HealthComponent>(out HealthComponent health))
                     {   
@@ -183,7 +191,7 @@ public class AbilityHolder : MonoBehaviour
         {
             if (other.TryGetComponent<EntityFaction>(out EntityFaction faction))
             {
-                if (faction.IsAlly(Factions.Yakuza))
+                if (!faction.IsAlly(Factions.Player))
                 {
                     if (time >= 1)
                     {

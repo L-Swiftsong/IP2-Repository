@@ -98,7 +98,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8938444742628799798
 RectTransform:
   m_ObjectHideFlags: 0
@@ -331,7 +331,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentTarget: {fileID: 0}
+  _secondaryTarget: {fileID: 0}
   _thisFaction: {fileID: 8371762426789793612}
+  _rotationPivot: {fileID: 885724994905786606}
   _visionRadius: 10
   _visionAngle: 225
   _visibleLayers:
@@ -340,6 +342,12 @@ MonoBehaviour:
   _obstructionLayers:
     serializedVersion: 2
     m_Bits: 64
+  _useSecondaryVision: 0
+  _secondaryVisionRadius: 4
+  _secondaryVisionAngle: 90
+  _secondaryTargetLayers:
+    serializedVersion: 2
+    m_Bits: 128
   _drawGizmos: 1
   _visionGizmosColour: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &7235852170073016053
@@ -356,6 +364,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementSpeed: 3
   _acceleration: 15
+  OnMovementInput:
+    m_PersistentCalls:
+      m_Calls: []
+  _rotationPivot: {fileID: 885724994905786606}
   _rotationSpeed: 270
 --- !u!114 &8841466412980378394
 MonoBehaviour:
@@ -549,8 +561,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 1b41710fca0b7b14bab242195cd7e846, type: 3}
+  m_Color: {r: 0.4009434, g: 0.4915075, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
